@@ -335,8 +335,8 @@ export default function PriceSubmissionPage() {
 
         {/* Help Information */}
         <div className="lg:col-span-1">
-          <Card className="sticky top-8">
-            <CardHeader>
+          <Card className="border-0 shadow-sm sticky top-8">
+            <CardHeader className="pb-3 sm:pb-4">
               <CardTitle className="text-lg">Tips for Accurate Pricing</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 text-sm text-gray-600">

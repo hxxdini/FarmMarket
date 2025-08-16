@@ -287,18 +287,19 @@ export default function AdminMarketPricesPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Market Price Review</h1>
-        <p className="text-lg text-gray-600">
-          Review and moderate submitted market prices to ensure accuracy and quality
-        </p>
-      </div>
+    <div className="min-h-screen bg-gray-50">
+      <main className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-6 lg:py-8">
+        {/* Header */}
+        <div className="mb-4 sm:mb-6">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">Market Price Review</h1>
+          <p className="text-sm sm:text-base text-gray-600">
+            Review and moderate submitted market prices to ensure accuracy and quality
+          </p>
+        </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-        <Card>
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4 sm:mb-6">
+        <Card className="border-0 shadow-sm">
           <CardContent className="p-4">
             <div className="flex items-center space-x-2">
               <Package className="h-5 w-5 text-blue-600" />
@@ -310,7 +311,7 @@ export default function AdminMarketPricesPage() {
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="border-0 shadow-sm">
           <CardContent className="p-4">
             <div className="flex items-center space-x-2">
               <Clock className="h-5 w-5 text-yellow-600" />
@@ -322,7 +323,7 @@ export default function AdminMarketPricesPage() {
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="border-0 shadow-sm">
           <CardContent className="p-4">
             <div className="flex items-center space-x-2">
               <CheckCircle className="h-5 w-5 text-green-600" />
@@ -334,7 +335,7 @@ export default function AdminMarketPricesPage() {
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="border-0 shadow-sm">
           <CardContent className="p-4">
             <div className="flex items-center space-x-2">
               <XCircle className="h-5 w-5 text-red-600" />
@@ -346,7 +347,7 @@ export default function AdminMarketPricesPage() {
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="border-0 shadow-sm">
           <CardContent className="p-4">
             <div className="flex items-center space-x-2">
               <AlertTriangle className="h-5 w-5 text-gray-600" />
@@ -360,12 +361,9 @@ export default function AdminMarketPricesPage() {
       </div>
 
       {/* Filters */}
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle className="flex items-center">
-            <Filter className="h-5 w-5 mr-2" />
-            Filters & Search
-          </CardTitle>
+      <Card className="border-0 shadow-sm mb-4 sm:mb-6">
+        <CardHeader className="pb-3 sm:pb-4">
+          <CardTitle className="text-lg">Filters & Search</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -707,6 +705,7 @@ export default function AdminMarketPricesPage() {
           </>
         )}
       </div>
+      </main>
 
       {/* Review Dialog */}
       <Dialog open={reviewDialogOpen} onOpenChange={setReviewDialogOpen}>

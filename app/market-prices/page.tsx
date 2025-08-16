@@ -183,16 +183,17 @@ export default function MarketPricesPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Market Prices</h1>
-            <p className="text-lg text-gray-600">
-              Real-time market prices for agricultural products across different regions
-            </p>
-          </div>
+    <div className="min-h-screen bg-gray-50">
+      <main className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-6 lg:py-8">
+        {/* Header */}
+        <div className="mb-4 sm:mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+            <div className="mb-4 sm:mb-0">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">Market Prices</h1>
+              <p className="text-sm sm:text-base text-gray-600">
+                Real-time market prices for agricultural products across different regions
+              </p>
+            </div>
           
           {session && (
             <Button onClick={() => router.push('/market-prices/submit')} className="flex items-center">
@@ -203,8 +204,8 @@ export default function MarketPricesPage() {
         </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <Card>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4 sm:mb-6">
+          <Card className="border-0 shadow-sm">
             <CardContent className="p-4">
               <div className="flex items-center space-x-2">
                 <Package className="h-5 w-5 text-blue-600" />
@@ -216,7 +217,7 @@ export default function MarketPricesPage() {
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="border-0 shadow-sm">
             <CardContent className="p-4">
               <div className="flex items-center space-x-2">
                 <TrendingUp className="h-5 w-5 text-green-600" />
@@ -265,12 +266,9 @@ export default function MarketPricesPage() {
       </div>
 
       {/* Filters */}
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle className="flex items-center">
-            <Filter className="h-5 w-5 mr-2" />
-            Filters & Search
-          </CardTitle>
+      <Card className="border-0 shadow-sm mb-4 sm:mb-6">
+        <CardHeader className="pb-3 sm:pb-4">
+          <CardTitle className="text-lg">Filters & Search</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
@@ -394,7 +392,7 @@ export default function MarketPricesPage() {
             {/* Prices Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {prices.map((price) => (
-                <Card key={price.id} className="hover:shadow-lg transition-shadow">
+                <Card key={price.id} className="border-0 shadow-sm hover:shadow-md transition-shadow">
                   <CardHeader className="pb-3">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
