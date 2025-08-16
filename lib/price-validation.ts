@@ -72,8 +72,10 @@ export async function validateMarketPrice(
     })
 
     if (recentPrices.length === 0) {
-      result.warnings.push('No recent price data available for comparison')
-      result.confidence = 0.6
+      // No existing data - this is normal for new submissions
+      result.warnings.push('No recent price data available for comparison. This is normal for new submissions.')
+      result.confidence = 0.7
+      result.isValid = true
       return result
     }
 
@@ -144,6 +146,7 @@ export async function validateMarketPrice(
     // Provide more specific error information
     if (error instanceof Error) {
       if (error.message.includes('prisma')) {
+        console.error('Prisma error details:', error.message)
         result.warnings.push('Database connection issue. Please try again.')
       } else if (error.message.includes('timeout')) {
         result.warnings.push('Validation timeout. Please try again.')
