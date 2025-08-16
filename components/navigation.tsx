@@ -145,19 +145,22 @@ export function Navigation() {
     <div className="flex flex-col space-y-1 p-4">
       {/* Dashboard link for authenticated users */}
       {isAuthenticated && (
-        <Link
-          href={userRole === 'admin' || userRole === 'superadmin' ? '/admin' : '/dashboard'}
-          className="flex items-center space-x-3 px-3 py-3 rounded-lg hover:bg-gray-100 transition-colors"
-          onClick={() => setIsOpen(false)}
-        >
-          <Home className="h-5 w-5 text-green-600" />
-          <div>
-            <div className="font-medium text-gray-900">Dashboard</div>
-            <div className="text-sm text-gray-500">
-              {userRole === 'admin' || userRole === 'superadmin' ? 'Admin panel' : 'Your farm overview'}
-            </div>
-          </div>
-        </Link>
+                                         <Link
+               href={
+                 userRole === 'admin' || userRole === 'superadmin' ? '/admin' : 
+                 '/dashboard'
+               }
+               className="flex items-center space-x-3 px-3 py-3 rounded-lg hover:bg-gray-100 transition-colors"
+               onClick={() => setIsOpen(false)}
+             >
+               <Home className="h-5 w-5 text-green-600" />
+               <div>
+                 <div className="font-medium text-gray-900">Dashboard</div>
+                 <div className="text-sm text-gray-500">
+                   {userRole === 'admin' || userRole === 'superadmin' ? 'Admin panel' : 'Your overview'}
+                 </div>
+               </div>
+             </Link>
       )}
 
       {/* Main navigation items */}
@@ -381,7 +384,10 @@ export function Navigation() {
                   <DropdownMenuContent align="end" className="w-56">
                     <DropdownMenuItem asChild>
                       <Link 
-                        href={userRole === 'admin' || userRole === 'superadmin' ? '/admin' : '/dashboard'} 
+                        href={
+                          userRole === 'admin' || userRole === 'superadmin' ? '/admin' : 
+                          '/dashboard'
+                        } 
                         className="flex items-center"
                       >
                         <Home className="h-4 w-4 mr-2" />

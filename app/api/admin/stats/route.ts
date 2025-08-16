@@ -37,6 +37,7 @@ export async function GET(req: NextRequest) {
       totalReviews,
       pendingModeration,
       flaggedContent,
+      pendingMarketPrices,
       userGrowth,
       platformRevenue
     ] = await Promise.all([
@@ -86,6 +87,11 @@ export async function GET(req: NextRequest) {
         }
       }),
       
+      // Pending market prices for review
+      prisma.marketPrice.count({
+        where: { status: 'PENDING' }
+      }),
+      
       // User growth (new users this month vs last month)
       Promise.all([
         prisma.user.count({
@@ -115,6 +121,7 @@ export async function GET(req: NextRequest) {
       totalReviews,
       pendingModeration,
       flaggedContent,
+      pendingMarketPrices,
       userGrowth: growthPercentage,
       platformRevenue
     }

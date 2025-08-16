@@ -5,10 +5,10 @@ import { useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { TrendingUp, TrendingDown, Cloud, Users, ShoppingCart, Plus, MessageCircle, Bell } from "lucide-react"
+import { TrendingUp, TrendingDown, Cloud, Users, ShoppingCart, Bell, Plus, MessageCircle, Package, DollarSign } from "lucide-react"
 import Link from "next/link"
 
-export default function DashboardPage() {
+export default function FarmerDashboardPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
 
@@ -38,7 +38,7 @@ export default function DashboardPage() {
     validUntil: "2024-01-20",
   }
 
-  const generalStats = {
+  const farmerStats = {
     totalListings: 3,
     activeBids: 2,
     completedSales: 12,
@@ -70,58 +70,50 @@ export default function DashboardPage() {
         {/* Welcome Section */}
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-2">
-          {session?.user?.name && <span>Welcome back, {session?.user?.name}!</span>}
+            {session?.user?.name && <span>Welcome back, {session?.user?.name}!</span>}
           </h2>
-          <p className="text-lg text-gray-600">Here's what's happening with your account today</p>
-          <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-            <p className="text-sm text-blue-800">
-              <strong>Note:</strong> You're viewing the general dashboard. For a personalized experience, 
-              visit your role-specific dashboard: 
-              <Link href="/dashboard/farmer" className="ml-1 underline hover:text-blue-600">Farmer Dashboard</Link> or 
-              <Link href="/dashboard/user" className="ml-1 underline hover:text-blue-600">User Dashboard</Link>
-            </p>
-          </div>
+          <p className="text-lg text-gray-600">Here's what's happening with your farm business today</p>
         </div>
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">Total Listings</CardTitle>
+              <CardTitle className="text-sm font-medium text-gray-600">Active Listings</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-gray-900">{generalStats.totalListings}</div>
-              <p className="text-sm text-gray-600">Sample data</p>
+              <div className="text-2xl font-bold text-gray-900">{farmerStats.totalListings}</div>
+              <p className="text-sm text-green-600">+1 this week</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">Total Bids</CardTitle>
+              <CardTitle className="text-sm font-medium text-gray-600">Active Bids</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-gray-900">{generalStats.activeBids}</div>
-              <p className="text-sm text-gray-600">Sample data</p>
+              <div className="text-2xl font-bold text-gray-900">{farmerStats.activeBids}</div>
+              <p className="text-sm text-blue-600">2 pending responses</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">Total Sales</CardTitle>
+              <CardTitle className="text-sm font-medium text-gray-600">Completed Sales</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-gray-900">{generalStats.completedSales}</div>
-              <p className="text-sm text-gray-600">Sample data</p>
+              <div className="text-2xl font-bold text-gray-900">{farmerStats.completedSales}</div>
+              <p className="text-sm text-green-600">+3 this month</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">Total Value</CardTitle>
+              <CardTitle className="text-sm font-medium text-gray-600">Total Earnings</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-gray-900">UGX {generalStats.totalEarnings.toLocaleString()}</div>
-              <p className="text-sm text-gray-600">Sample data</p>
+              <div className="text-2xl font-bold text-gray-900">UGX {farmerStats.totalEarnings.toLocaleString()}</div>
+              <p className="text-sm text-green-600">+15% this month</p>
             </CardContent>
           </Card>
         </div>
@@ -149,14 +141,14 @@ export default function DashboardPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Quick Actions</CardTitle>
-                <CardDescription>Common tasks for all users</CardDescription>
+                <CardDescription>Common tasks to manage your farm business</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <Button className="h-20 flex-col" asChild>
-                    <Link href="/marketplace">
-                      <ShoppingCart className="h-6 w-6 mb-2" />
-                      Browse Products
+                    <Link href="/marketplace/create">
+                      <Plus className="h-6 w-6 mb-2" />
+                      List Product
                     </Link>
                   </Button>
                   <Button variant="outline" className="h-20 flex-col bg-transparent" asChild>
@@ -184,7 +176,7 @@ export default function DashboardPage() {
                     <CardDescription>Latest prices from major markets</CardDescription>
                   </div>
                   <Button variant="outline" asChild>
-                    <Link href="/prices">View All</Link>
+                    <Link href="/market-prices">View All</Link>
                   </Button>
                 </div>
               </CardHeader>
@@ -259,23 +251,51 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
 
-            {/* Subscription Status */}
+            {/* My Listings */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Subscription</CardTitle>
+                <CardTitle className="text-lg">My Listings</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">Current Plan</span>
-                    <Badge className="bg-green-600">Premium</Badge>
+                    <span className="text-sm text-gray-600">Active Listings</span>
+                    <Badge className="bg-green-600">{farmerStats.totalListings}</Badge>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">Expires</span>
-                    <span className="text-sm font-medium">Feb 15, 2024</span>
+                    <span className="text-sm text-gray-600">Pending Bids</span>
+                    <Badge className="bg-blue-600">{farmerStats.activeBids}</Badge>
                   </div>
-                  <Button className="w-full bg-transparent" variant="outline">
-                    Manage Subscription
+                  <Button className="w-full bg-transparent" variant="outline" asChild>
+                    <Link href="/marketplace/my-listings">
+                      <Package className="h-4 w-4 mr-2" />
+                      Manage Listings
+                    </Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Earnings Overview */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Earnings Overview</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-600">This Month</span>
+                    <span className="text-sm font-medium text-green-600">UGX 450,000</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-600">Last Month</span>
+                    <span className="text-sm font-medium">UGX 380,000</span>
+                  </div>
+                  <Button className="w-full bg-transparent" variant="outline" asChild>
+                    <Link href="/dashboard/analytics">
+                      <DollarSign className="h-4 w-4 mr-2" />
+                      View Analytics
+                    </Link>
                   </Button>
                 </div>
               </CardContent>

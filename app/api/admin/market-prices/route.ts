@@ -93,8 +93,26 @@ export async function GET(req: NextRequest) {
     })
   } catch (error) {
     console.error('Error fetching admin market prices:', error)
+    
+    // Provide more specific error information
+    let errorMessage = 'Failed to fetch admin market prices'
+    if (error instanceof Error) {
+      if (error.message.includes('prisma')) {
+        console.error('Prisma error details:', error.message)
+        if (error.message.includes('Unknown field')) {
+          errorMessage = 'Database schema issue. Please contact support.'
+        } else if (error.message.includes('connection')) {
+          errorMessage = 'Database connection issue. Please try again.'
+        } else {
+          errorMessage = `Database error: ${error.message}`
+        }
+      } else {
+        errorMessage = error.message
+      }
+    }
+    
     return NextResponse.json(
-      { error: 'Failed to fetch admin market prices' },
+      { error: errorMessage },
       { status: 500 }
     )
   }
@@ -192,13 +210,15 @@ export async function POST(req: NextRequest) {
         action: actionType,
         targetType: 'MARKET_PRICE',
         targetId: priceIds.join(','),
-        details: {
+        details: JSON.stringify({
           action,
           priceIds,
           reviewNotes: reviewNotes || null,
           affectedCount: updatedPrices.count
-        },
-        timestamp: new Date()
+        }),
+        timestamp: new Date(),
+        ipAddress: null,
+        userAgent: null
       }
     })
 

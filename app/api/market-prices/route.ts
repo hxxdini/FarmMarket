@@ -225,6 +225,26 @@ export async function POST(req: NextRequest) {
       }
     })
 
+    // Create admin action log for new market price submission
+    try {
+      await prisma.adminActionLog.create({
+        data: {
+          id: `log_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          action: 'market_price_submitted',
+          adminId: user.id,
+          targetId: marketPrice.id,
+          targetType: 'MarketPrice',
+          details: `New market price submitted for ${cropType} at ${location}`,
+          timestamp: new Date(),
+          ipAddress: null,
+          userAgent: null
+        }
+      })
+    } catch (logError) {
+      console.error('Error creating admin action log:', logError)
+      // Don't fail the main operation if logging fails
+    }
+
     // TODO: Emit WebSocket event for real-time price updates
     // TODO: Trigger price validation and trend analysis
 

@@ -32,13 +32,14 @@ interface DashboardStats {
   totalReviews: number
   pendingModeration: number
   flaggedContent: number
+  pendingMarketPrices: number
   platformRevenue: number
   userGrowth: number
 }
 
 interface RecentActivity {
   id: string
-  type: 'user_registration' | 'listing_created' | 'review_submitted' | 'message_sent' | 'user_suspended' | 'content_flagged'
+  type: 'user_registration' | 'listing_created' | 'review_submitted' | 'message_sent' | 'user_suspended' | 'content_flagged' | 'market_price_submitted' | 'market_price_approved' | 'market_price_rejected'
   title: string
   description: string
   timestamp: string
@@ -115,6 +116,9 @@ export default function AdminDashboard() {
       case 'message_sent': return <MessageCircle className="h-4 w-4" />
       case 'user_suspended': return <Users className="h-4 w-4" />
       case 'content_flagged': return <AlertTriangle className="h-4 w-4" />
+      case 'market_price_submitted': return <TrendingUp className="h-4 w-4" />
+      case 'market_price_approved': return <TrendingUp className="h-4 w-4" />
+      case 'market_price_rejected': return <TrendingUp className="h-4 w-4" />
       default: return <Activity className="h-4 w-4" />
     }
   }
@@ -177,7 +181,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
         <Card className="border-0 shadow-md bg-gradient-to-r from-blue-50 to-blue-100 hover:shadow-lg transition-all duration-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gray-700">Total Users</CardTitle>
@@ -241,6 +245,21 @@ export default function AdminDashboard() {
             <div className="text-3xl font-bold text-gray-900">{stats?.totalReviews || 0}</div>
             <p className="text-xs text-gray-600 mt-1">
               {stats?.totalMessages || 0} total messages
+            </p>
+          </CardContent>
+        </Card>
+        
+        <Card className="border-0 shadow-md bg-gradient-to-r from-yellow-50 to-yellow-100 hover:shadow-lg transition-all duration-200">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gray-700">Pending Prices</CardTitle>
+            <div className="p-2 bg-yellow-500 rounded-lg">
+              <TrendingUp className="h-4 w-4 text-white" />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-yellow-600">{stats?.pendingMarketPrices || 0}</div>
+            <p className="text-xs text-gray-600 mt-1">
+              Market prices awaiting review
             </p>
           </CardContent>
         </Card>
@@ -346,6 +365,22 @@ export default function AdminDashboard() {
                   <ShoppingCart className="h-5 w-5 text-green-600" />
                 </div>
                 <span className="text-sm font-medium text-gray-700">View Marketplace</span>
+              </Button>
+              
+              <Button 
+                variant="outline" 
+                className="h-24 flex flex-col justify-center space-y-2 border-yellow-200 hover:bg-yellow-50 hover:border-yellow-300 transition-all group"
+                onClick={() => router.push('/admin/market-prices')}
+              >
+                <div className="p-2 bg-yellow-100 rounded-lg group-hover:bg-yellow-200 transition-colors">
+                  <TrendingUp className="h-5 w-5 text-yellow-600" />
+                </div>
+                <span className="text-sm font-medium text-gray-700">Review Prices</span>
+                {stats?.pendingMarketPrices && stats.pendingMarketPrices > 0 && (
+                  <Badge variant="destructive" className="text-xs">
+                    {stats.pendingMarketPrices}
+                  </Badge>
+                )}
               </Button>
             </div>
           </CardContent>
