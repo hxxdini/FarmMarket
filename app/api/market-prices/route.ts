@@ -187,6 +187,18 @@ export async function POST(req: NextRequest) {
     }
 
     // Create the market price
+    console.log('Creating market price with data:', {
+      cropType: cropType.trim(),
+      pricePerUnit: parseFloat(pricePerUnit),
+      unit: unit.trim(),
+      quality,
+      location: location.trim(),
+      source,
+      submittedBy: user.id,
+      effectiveDate: effectiveDate ? new Date(effectiveDate) : new Date(),
+      expiryDate: expiryDate ? new Date(expiryDate) : null
+    })
+    
     const marketPrice = await prisma.marketPrice.create({
       data: {
         id: `price_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -222,8 +234,26 @@ export async function POST(req: NextRequest) {
     }, { status: 201 })
   } catch (error) {
     console.error('Error submitting market price:', error)
+    
+    // Provide more specific error information
+    let errorMessage = 'Failed to submit market price'
+    if (error instanceof Error) {
+      if (error.message.includes('prisma')) {
+        console.error('Prisma error details:', error.message)
+        if (error.message.includes('Unknown field')) {
+          errorMessage = 'Database schema issue. Please contact support.'
+        } else if (error.message.includes('connection')) {
+          errorMessage = 'Database connection issue. Please try again.'
+        } else {
+          errorMessage = `Database error: ${error.message}`
+        }
+      } else {
+        errorMessage = error.message
+      }
+    }
+    
     return NextResponse.json(
-      { error: 'Failed to submit market price' },
+      { error: errorMessage },
       { status: 500 }
     )
   }

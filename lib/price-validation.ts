@@ -132,11 +132,17 @@ export async function validateMarketPrice(
       result.confidence = Math.min(result.confidence, 0.5)
     }
 
-    // Check for seasonal patterns
-    const seasonalValidation = await validateSeasonalPricing(cropType, pricePerUnit, location)
-    if (seasonalValidation.warnings.length > 0) {
-      result.warnings.push(...seasonalValidation.warnings)
-      result.confidence = Math.min(result.confidence, seasonalValidation.confidence)
+    // Check for seasonal patterns (non-critical validation)
+    try {
+      const seasonalValidation = await validateSeasonalPricing(cropType, pricePerUnit, location)
+      if (seasonalValidation.warnings.length > 0) {
+        result.warnings.push(...seasonalValidation.warnings)
+        result.confidence = Math.min(result.confidence, seasonalValidation.confidence)
+      }
+    } catch (seasonalError) {
+      // Seasonal validation is not critical, just log the error
+      console.error('Seasonal validation error (non-critical):', seasonalError)
+      // Don't add warnings for seasonal validation failures
     }
 
     return result
@@ -147,7 +153,14 @@ export async function validateMarketPrice(
     if (error instanceof Error) {
       if (error.message.includes('prisma')) {
         console.error('Prisma error details:', error.message)
-        result.warnings.push('Database connection issue. Please try again.')
+        // Check if it's a specific Prisma error
+        if (error.message.includes('Unknown field')) {
+          result.warnings.push('Database schema issue detected. Please contact support.')
+        } else if (error.message.includes('connection')) {
+          result.warnings.push('Database connection issue. Please try again.')
+        } else {
+          result.warnings.push(`Database error: ${error.message}`)
+        }
       } else if (error.message.includes('timeout')) {
         result.warnings.push('Validation timeout. Please try again.')
       } else {
