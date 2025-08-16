@@ -20,7 +20,8 @@ import {
   Menu,
   X,
   LogOut,
-  Loader2
+  Loader2,
+  TrendingUp
 } from "lucide-react"
 import { toast } from "sonner"
 
@@ -70,6 +71,12 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       href: '/admin/moderation/reviews',
       icon: Star,
       current: pathname.startsWith('/admin/moderation')
+    },
+    {
+      name: 'Market Prices',
+      href: '/admin/market-prices',
+      icon: TrendingUp,
+      current: pathname.startsWith('/admin/market-prices')
     },
     {
       name: 'Analytics',

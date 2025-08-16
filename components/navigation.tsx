@@ -103,7 +103,7 @@ export function Navigation() {
   const navigationItems = [
     {
       name: "Market Prices",
-      href: "/prices",
+      href: "/market-prices",
       icon: <TrendingUp className="h-4 w-4" />,
       description: "Real-time crop prices",
     },
@@ -133,6 +133,16 @@ export function Navigation() {
         href: "/marketplace/my-listings",
         icon: <ShoppingCart className="h-4 w-4" />,
         description: "Manage your products",
+      },
+    ] : []),
+    
+    // Market price submission for all authenticated users
+    ...(isAuthenticated ? [
+      {
+        name: "Submit Price",
+        href: "/market-prices/submit",
+        icon: <TrendingUp className="h-4 w-4" />,
+        description: "Share market prices",
       },
     ] : []),
 
