@@ -34,6 +34,7 @@ import {
 import { useSession } from "next-auth/react"
 import { signOut } from "next-auth/react"
 import { useUnreadMessages } from "@/hooks/use-unread-messages"
+import { usePriceAlertNotifications } from "@/hooks/use-price-alert-notifications"
 import { useRef } from "react"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
@@ -44,7 +45,7 @@ export function Navigation() {
   const router = useRouter()
   const isAuthenticated = !!session?.user
   const userName = session?.user?.name || session?.user?.email || "Account"
-  const userRole = (session?.user as any)?.role
+  const userRole = (session?.user as any)?.role || 'user'
   const userId = (session?.user as any)?.id
   const notificationCount = 0 // Placeholder, actual count would need to be fetched
   const { unreadCount } = useUnreadMessages()
@@ -53,6 +54,9 @@ export function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
   const [recentUnreadMessages, setRecentUnreadMessages] = useState<any[]>([])
   const [notificationsOpen, setNotificationsOpen] = useState(false)
+  
+  // Price alert notifications hook
+  const { unreadCount: priceAlertCount } = usePriceAlertNotifications()
 
   // Close mobile menu on auth state change
   useEffect(() => {
@@ -77,6 +81,8 @@ export function Navigation() {
     }
   }
 
+
+
   // Show toast when new unread messages arrive
   useEffect(() => {
     // Skip on first render
@@ -99,6 +105,8 @@ export function Navigation() {
       fetchRecentUnreadMessages()
     }
   }, [notificationsOpen, isAuthenticated])
+
+
 
   const navigationItems = [
     {
@@ -145,22 +153,24 @@ export function Navigation() {
     <div className="flex flex-col space-y-1 p-4">
       {/* Dashboard link for authenticated users */}
       {isAuthenticated && (
-                                         <Link
-               href={
-                 userRole === 'admin' || userRole === 'superadmin' ? '/admin' : 
-                 '/dashboard'
-               }
-               className="flex items-center space-x-3 px-3 py-3 rounded-lg hover:bg-gray-100 transition-colors"
-               onClick={() => setIsOpen(false)}
-             >
-               <Home className="h-5 w-5 text-green-600" />
-               <div>
-                 <div className="font-medium text-gray-900">Dashboard</div>
-                 <div className="text-sm text-gray-500">
-                   {userRole === 'admin' || userRole === 'superadmin' ? 'Admin panel' : 'Your overview'}
-                 </div>
-               </div>
-             </Link>
+        <Link
+          href={
+            userRole === 'admin' || userRole === 'superadmin' ? '/admin' : 
+            userRole === 'farmer' ? '/dashboard/farmer' :
+            '/dashboard/user'
+          }
+          className="flex items-center space-x-3 px-3 py-3 rounded-lg hover:bg-gray-100 transition-colors"
+          onClick={() => setIsOpen(false)}
+        >
+          <Home className="h-5 w-5 text-green-600" />
+          <div>
+            <div className="font-medium text-gray-900">Dashboard</div>
+            <div className="text-sm text-gray-500">
+              {userRole === 'admin' || userRole === 'superadmin' ? 'Admin panel' : 
+               userRole === 'farmer' ? 'Farmer overview' : 'Buyer overview'}
+            </div>
+          </div>
+        </Link>
       )}
 
       {/* Main navigation items */}
@@ -212,6 +222,24 @@ export function Navigation() {
                   )}
                 </div>
                 <div className="text-sm text-gray-500">Chat with buyers & sellers</div>
+              </div>
+            </Link>
+            <Link
+              href="/price-alerts"
+              className="flex items-center space-x-3 px-3 py-3 rounded-lg hover:bg-gray-100 transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              <Bell className="h-5 w-5 text-gray-600" />
+              <div className="flex-1">
+                <div className="font-medium text-gray-900 flex items-center justify-between">
+                  Price Alerts
+                  {priceAlertCount > 0 && (
+                    <Badge className="h-5 w-5 flex items-center justify-center p-0 text-xs bg-blue-500">
+                      {priceAlertCount > 99 ? "99+" : priceAlertCount}
+                    </Badge>
+                  )}
+                </div>
+                <div className="text-sm text-gray-500">Monitor price changes</div>
               </div>
             </Link>
             <Link
@@ -270,7 +298,8 @@ export function Navigation() {
           <Link href={
             !isAuthenticated ? "/" : 
             (userRole === 'admin' || userRole === 'superadmin') ? "/admin" : 
-            "/dashboard"
+            userRole === 'farmer' ? "/dashboard/farmer" :
+            "/dashboard/user"
           } className="flex items-center">
             <h1 className="text-xl sm:text-2xl font-bold text-green-600">FarmMarket</h1>
             <span className="ml-2 text-xs sm:text-sm text-gray-500">Uganda</span>
@@ -386,7 +415,8 @@ export function Navigation() {
                       <Link 
                         href={
                           userRole === 'admin' || userRole === 'superadmin' ? '/admin' : 
-                          '/dashboard'
+                          userRole === 'farmer' ? '/dashboard/farmer' :
+                          '/dashboard/user'
                         } 
                         className="flex items-center"
                       >
@@ -401,6 +431,17 @@ export function Navigation() {
                         {unreadCount > 0 && (
                           <Badge className="h-5 w-5 flex items-center justify-center p-0 text-xs bg-red-500">
                             {unreadCount > 99 ? "99+" : unreadCount}
+                          </Badge>
+                        )}
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/price-alerts" className="flex items-center">
+                        <Bell className="h-4 w-4 mr-2" />
+                        Price Alerts
+                        {priceAlertCount > 0 && (
+                          <Badge className="h-5 w-5 flex items-center justify-center p-0 text-xs bg-blue-500">
+                            {priceAlertCount > 99 ? "99+" : priceAlertCount}
                           </Badge>
                         )}
                       </Link>

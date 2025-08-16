@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { toast } from "sonner"
-import { Plus, Search, Filter, TrendingUp, TrendingDown, Minus, Eye, Calendar, MapPin, Package } from "lucide-react"
+import { Plus, Search, Filter, TrendingUp, TrendingDown, Minus, Eye, Calendar, MapPin, Package, List, Grid3X3 } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 interface MarketPrice {
@@ -59,6 +59,7 @@ export default function MarketPricesPage() {
   const [regionalAverages, setRegionalAverages] = useState<RegionalAverage[]>([])
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
+  const [viewMode, setViewMode] = useState<'list' | 'cards'>('list')
   
   const [filters, setFilters] = useState({
     search: '',
@@ -379,107 +380,258 @@ export default function MarketPricesPage() {
           </Card>
         ) : (
           <>
-            {/* Prices Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {prices.map((price) => (
-                <Card key={price.id} className="border-0 shadow-sm hover:shadow-md transition-shadow">
-                  <CardHeader className="pb-3">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <CardTitle className="text-lg mb-2">{price.cropType}</CardTitle>
-                        <div className="flex items-center space-x-2 mb-2">
-                          <Badge className={getQualityColor(price.quality)}>
-                            {price.quality}
-                          </Badge>
-                          <Badge className={getStatusColor(price.status)}>
-                            {price.status}
-                          </Badge>
-                        </div>
-                      </div>
-                      
-                      {price.marketTrend && (
-                        <div className="flex items-center space-x-1">
-                          {getTrendIcon(price.marketTrend)}
-                        </div>
-                      )}
-                    </div>
-                  </CardHeader>
-                  
-                  <CardContent className="space-y-4">
-                    {/* Price Information */}
-                    <div className="text-center">
-                      <div className="text-3xl font-bold text-green-600">
-                        {price.pricePerUnit.toFixed(2)}
-                      </div>
-                      <div className="text-sm text-gray-500">per {price.unit}</div>
-                    </div>
+            {/* View Toggle */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <span className="text-sm font-medium text-gray-700">View:</span>
+                <div className="flex bg-gray-100 rounded-lg p-1">
+                  <Button
+                    variant={viewMode === 'list' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => setViewMode('list')}
+                    className="h-8 px-3"
+                  >
+                    <List className="h-4 w-4 mr-2" />
+                    List
+                  </Button>
+                  <Button
+                    variant={viewMode === 'cards' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => setViewMode('cards')}
+                    className="h-8 px-3"
+                  >
+                    <Grid3X3 className="h-4 w-4 mr-2" />
+                    Cards
+                  </Button>
+                </div>
+              </div>
+              
+              <div className="text-sm text-gray-500">
+                {prices.length} of {pagination.total} prices
+              </div>
+            </div>
 
-                    {/* Location and Source */}
-                    <div className="space-y-2 text-sm">
-                      <div className="flex items-center space-x-2">
-                        <MapPin className="h-4 w-4 text-gray-400" />
-                        <span>{price.location}</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Calendar className="h-4 w-4 text-gray-400" />
-                        <span>Effective: {formatDate(price.effectiveDate)}</span>
-                      </div>
-                    </div>
+            {/* List View */}
+            {viewMode === 'list' && (
+              <Card className="border-0 shadow-sm">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-gray-50 border-b">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Crop & Quality
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Price
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Location
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Status
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Effective Date
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Submitted By
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {prices.map((price) => (
+                        <tr key={price.id} className="hover:bg-gray-50">
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div>
+                              <div className="text-sm font-medium text-gray-900">{price.cropType}</div>
+                              <div className="flex items-center space-x-2 mt-1">
+                                <Badge className={getQualityColor(price.quality)}>
+                                  {price.quality}
+                                </Badge>
+                                {price.marketTrend && getTrendIcon(price.marketTrend)}
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-center">
+                              <div className="text-lg font-bold text-green-600">
+                                {price.pricePerUnit.toFixed(2)}
+                              </div>
+                              <div className="text-sm text-gray-500">per {price.unit}</div>
+                              {price.regionalAverage && (
+                                <div className="text-xs text-blue-600 mt-1">
+                                  Avg: {price.regionalAverage.toFixed(2)}
+                                </div>
+                              )}
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="flex items-center space-x-2">
+                              <MapPin className="h-4 w-4 text-gray-400" />
+                              <span className="text-sm text-gray-900">{price.location}</span>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <Badge className={getStatusColor(price.status)}>
+                              {price.status}
+                            </Badge>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm text-gray-900">{formatDate(price.effectiveDate)}</div>
+                            {price.expiryDate && (
+                              <div className="text-xs text-gray-500">
+                                Expires: {formatDate(price.expiryDate)}
+                              </div>
+                            )}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="flex items-center space-x-3">
+                              <Avatar className="h-8 w-8">
+                                <AvatarFallback className="text-xs">
+                                  {price.submittedBy.name?.split(' ').map(n => n.charAt(0)).join('').substring(0, 2)}
+                                </AvatarFallback>
+                              </Avatar>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm font-medium text-gray-900 truncate">
+                                  {price.submittedBy.name}
+                                </p>
+                                <p className="text-xs text-gray-500 truncate">
+                                  {price.submittedBy.location}
+                                </p>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="flex items-center space-x-2">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => router.push(`/market-prices/${price.id}`)}
+                              >
+                                <Eye className="h-4 w-4 mr-2" />
+                                View
+                              </Button>
+                              {price.isVerified && (
+                                <Badge variant="outline" className="text-green-600 border-green-300">
+                                  ✓ Verified
+                                </Badge>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </Card>
+            )}
 
-                    {/* Regional Comparison */}
-                    {price.regionalAverage && (
-                      <div className="p-3 bg-blue-50 rounded-lg">
-                        <div className="text-sm text-blue-900 mb-1">Regional Average</div>
-                        <div className="text-lg font-semibold text-blue-700">
-                          {price.regionalAverage.toFixed(2)} {price.unit}
+            {/* Cards View */}
+            {viewMode === 'cards' && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {prices.map((price) => (
+                  <Card key={price.id} className="border-0 shadow-sm hover:shadow-md transition-shadow">
+                    <CardHeader className="pb-3">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <CardTitle className="text-lg mb-2">{price.cropType}</CardTitle>
+                          <div className="flex items-center space-x-2 mb-2">
+                            <Badge className={getQualityColor(price.quality)}>
+                              {price.quality}
+                            </Badge>
+                            <Badge className={getStatusColor(price.status)}>
+                              {price.status}
+                            </Badge>
+                          </div>
                         </div>
-                        {price.priceChange && (
-                          <div className="text-sm text-blue-600">
-                            {price.priceChange > 0 ? '+' : ''}{price.priceChange.toFixed(1)}% from previous
+                        
+                        {price.marketTrend && (
+                          <div className="flex items-center space-x-1">
+                            {getTrendIcon(price.marketTrend)}
                           </div>
                         )}
                       </div>
-                    )}
-
-                    {/* Submitted By */}
-                    <div className="flex items-center space-x-3 pt-2 border-t">
-                      <Avatar className="h-8 w-8">
-                        <AvatarFallback className="text-xs">
-                          {price.submittedBy.name?.split(' ').map(n => n.charAt(0)).join('').substring(0, 2)}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-900 truncate">
-                          {price.submittedBy.name}
-                        </p>
-                        <p className="text-xs text-gray-500 truncate">
-                          {price.submittedBy.location}
-                        </p>
+                    </CardHeader>
+                    
+                    <CardContent className="space-y-4">
+                      {/* Price Information */}
+                      <div className="text-center">
+                        <div className="text-3xl font-bold text-green-600">
+                          {price.pricePerUnit.toFixed(2)}
+                        </div>
+                        <div className="text-sm text-gray-500">per {price.unit}</div>
                       </div>
-                      
-                      {price.isVerified && (
-                        <Badge variant="outline" className="text-green-600 border-green-300">
-                          ✓ Verified
-                        </Badge>
-                      )}
-                    </div>
 
-                    {/* Action Buttons */}
-                    <div className="flex space-x-2 pt-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="flex-1"
-                        onClick={() => router.push(`/market-prices/${price.id}`)}
-                      >
-                        <Eye className="h-4 w-4 mr-2" />
-                        View Details
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                      {/* Location and Source */}
+                      <div className="space-y-2 text-sm">
+                        <div className="flex items-center space-x-2">
+                          <MapPin className="h-4 w-4 text-gray-400" />
+                          <span>{price.location}</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Calendar className="h-4 w-4 text-gray-400" />
+                          <span>Effective: {formatDate(price.effectiveDate)}</span>
+                        </div>
+                      </div>
+
+                      {/* Regional Comparison */}
+                      {price.regionalAverage && (
+                        <div className="p-3 bg-blue-50 rounded-lg">
+                          <div className="text-sm text-blue-900 mb-1">Regional Average</div>
+                          <div className="text-lg font-semibold text-blue-700">
+                            {price.regionalAverage.toFixed(2)} {price.unit}
+                          </div>
+                          {price.priceChange && (
+                            <div className="text-sm text-blue-600">
+                              {price.priceChange > 0 ? '+' : ''}{price.priceChange.toFixed(1)}% from previous
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Submitted By */}
+                      <div className="flex items-center space-x-3 pt-2 border-t">
+                        <Avatar className="h-8 w-8">
+                          <AvatarFallback className="text-xs">
+                            {price.submittedBy.name?.split(' ').map(n => n.charAt(0)).join('').substring(0, 2)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-gray-900 truncate">
+                            {price.submittedBy.name}
+                          </p>
+                          <p className="text-xs text-gray-500 truncate">
+                            {price.submittedBy.location}
+                          </p>
+                        </div>
+                        
+                        {price.isVerified && (
+                          <Badge variant="outline" className="text-green-600 border-green-300">
+                            ✓ Verified
+                          </Badge>
+                        )}
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex space-x-2 pt-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex-1"
+                          onClick={() => router.push(`/market-prices/${price.id}`)}
+                        >
+                          <Eye className="h-4 w-4 mr-2" />
+                          View Details
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
 
             {/* Pagination */}
             {pagination.pages > 1 && (

@@ -25,14 +25,17 @@ import {
   Trash2,
   Eye,
   Clock,
-  Zap
+  Zap,
+  History,
+  RefreshCw
 } from "lucide-react"
+import { usePriceAlertNotifications } from "@/hooks/use-price-alert-notifications"
 
 interface PriceAlert {
   id: string
   cropType: string
   location: string
-  quality: 'PREMIUM' | 'STANDARD' | 'ECONOMY' | null
+  quality: 'PREMIUM' | 'STANDARD' | 'ECONOMY' | 'any'
   alertType: 'PRICE_INCREASE' | 'PRICE_DECREASE' | 'PRICE_VOLATILITY' | 'REGIONAL_DIFFERENCE' | 'QUALITY_OPPORTUNITY' | 'SEASONAL_TREND'
   frequency: 'IMMEDIATE' | 'DAILY' | 'WEEKLY' | 'MONTHLY'
   threshold: number
@@ -45,7 +48,7 @@ interface PriceAlert {
 interface AlertFormData {
   cropType: string
   location: string
-  quality: 'PREMIUM' | 'STANDARD' | 'ECONOMY' | null
+  quality: 'PREMIUM' | 'STANDARD' | 'ECONOMY' | 'any'
   alertType: 'PRICE_INCREASE' | 'PRICE_DECREASE' | 'PRICE_VOLATILITY' | 'REGIONAL_DIFFERENCE' | 'QUALITY_OPPORTUNITY' | 'SEASONAL_TREND'
   frequency: 'IMMEDIATE' | 'DAILY' | 'WEEKLY' | 'MONTHLY'
   threshold: string
@@ -68,7 +71,7 @@ const FREQUENCY_OPTIONS = [
 ]
 
 const QUALITY_OPTIONS = [
-  { value: null, label: 'Any Quality', description: 'Monitor all quality grades' },
+  { value: 'any', label: 'Any Quality', description: 'Monitor all quality grades' },
   { value: 'PREMIUM', label: 'Premium', description: 'Monitor premium quality only' },
   { value: 'STANDARD', label: 'Standard', description: 'Monitor standard quality only' },
   { value: 'ECONOMY', label: 'Economy', description: 'Monitor economy quality only' }
@@ -82,11 +85,22 @@ export default function PriceAlertsPage() {
   const [submitting, setSubmitting] = useState(false)
   const [editingAlert, setEditingAlert] = useState<PriceAlert | null>(null)
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [showNotifications, setShowNotifications] = useState(false)
+  
+  // Price alert notifications hook
+  const {
+    notifications,
+    isMonitoring,
+    lastCheck,
+    manualCheck,
+    clearNotifications,
+    unreadCount
+  } = usePriceAlertNotifications()
   
   const [formData, setFormData] = useState<AlertFormData>({
     cropType: '',
     location: '',
-    quality: null,
+    quality: 'any',
     alertType: 'PRICE_INCREASE',
     frequency: 'DAILY',
     threshold: '10'
@@ -129,7 +143,7 @@ export default function PriceAlertsPage() {
     setFormData({
       cropType: '',
       location: '',
-      quality: null,
+      quality: 'any',
       alertType: 'PRICE_INCREASE',
       frequency: 'DAILY',
       threshold: '10'
@@ -179,6 +193,7 @@ export default function PriceAlertsPage() {
         },
         body: JSON.stringify({
           ...formData,
+          quality: formData.quality === 'any' ? null : formData.quality,
           threshold: parseFloat(formData.threshold)
         }),
       })
@@ -422,7 +437,7 @@ export default function PriceAlertsPage() {
                       </div>
                       <div className="flex items-center space-x-2">
                         <Package className="h-4 w-4 text-gray-400" />
-                        <span>Quality: {alert.quality || 'Any'}</span>
+                        <span>Quality: {alert.quality === 'any' ? 'Any' : alert.quality}</span>
                       </div>
                     </div>
 
@@ -475,6 +490,145 @@ export default function PriceAlertsPage() {
             })}
           </div>
         )}
+
+        {/* Notification History */}
+        <Card className="mt-8">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="flex items-center space-x-2">
+                  <History className="h-5 w-5" />
+                  <span>Notification History</span>
+                  {unreadCount > 0 && (
+                    <Badge variant="destructive" className="ml-2">
+                      {unreadCount} new
+                    </Badge>
+                  )}
+                </CardTitle>
+                <CardDescription>
+                  Recent price alert notifications and system status
+                </CardDescription>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={manualCheck}
+                  disabled={!isMonitoring}
+                  className="flex items-center space-x-2"
+                >
+                  <RefreshCw className="h-4 w-4" />
+                  <span>Check Now</span>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowNotifications(!showNotifications)}
+                >
+                  {showNotifications ? 'Hide' : 'Show'} History
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={async () => {
+                    try {
+                      const response = await fetch('/api/test-price-alert', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          cropType: 'Maize',
+                          location: 'Kampala',
+                          priceChange: 12.5,
+                          alertType: 'PRICE_INCREASE'
+                        })
+                      })
+                      if (response.ok) {
+                        toast.success('Test notification created! Check the notification history.')
+                        // Refresh notifications
+                        setTimeout(() => {
+                          window.location.reload()
+                        }, 1000)
+                      }
+                    } catch (error) {
+                      toast.error('Failed to create test notification')
+                    }
+                  }}
+                >
+                  Test Alert
+                </Button>
+                {notifications.length > 0 && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={clearNotifications}
+                  >
+                    Clear All
+                  </Button>
+                )}
+              </div>
+            </div>
+          </CardHeader>
+          
+          {showNotifications && (
+            <CardContent>
+              <div className="space-y-4">
+                {/* System Status */}
+                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center space-x-2">
+                    <div className={`w-3 h-3 rounded-full ${isMonitoring ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                    <span className="text-sm font-medium">
+                      Monitoring Status: {isMonitoring ? 'Active' : 'Inactive'}
+                    </span>
+                  </div>
+                  <div className="text-sm text-gray-500">
+                    Last check: {lastCheck ? lastCheck.toLocaleString() : 'Never'}
+                  </div>
+                </div>
+
+                {/* Notifications List */}
+                {notifications.length === 0 ? (
+                  <div className="text-center py-8 text-gray-500">
+                    <Bell className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                    <p>No notifications yet</p>
+                    <p className="text-sm">Notifications will appear here when price alerts are triggered</p>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {notifications.map((notification) => (
+                      <div key={notification.id} className="p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+                        <div className="flex items-start justify-between mb-2">
+                          <h4 className="font-medium text-gray-900">{notification.title}</h4>
+                          <div className="flex items-center space-x-2">
+                            <Badge variant="outline" className="text-xs">
+                              {notification.type.replace('_', ' ')}
+                            </Badge>
+                            <span className="text-xs text-gray-500">
+                              {notification.timestamp.toLocaleString()}
+                            </span>
+                          </div>
+                        </div>
+                        <p className="text-sm text-gray-600 mb-2">{notification.message}</p>
+                        <div className="flex items-center space-x-2 text-xs text-gray-500">
+                          <span>{notification.cropType}</span>
+                          <span>•</span>
+                          <span>{notification.location}</span>
+                          {notification.priceChange && (
+                            <>
+                              <span>•</span>
+                              <span className={`font-medium ${notification.priceChange > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                {notification.priceChange > 0 ? '+' : ''}{notification.priceChange.toFixed(1)}%
+                              </span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          )}
+        </Card>
       </div>
 
       {/* Create/Edit Dialog */}
@@ -516,13 +670,13 @@ export default function PriceAlertsPage() {
             
             <div>
               <Label htmlFor="quality">Quality Grade</Label>
-              <Select value={formData.quality || ''} onValueChange={(value) => handleInputChange('quality', value === '' ? null : value as any)}>
+              <Select value={formData.quality || 'any'} onValueChange={(value) => handleInputChange('quality', value === 'any' ? null : value as any)}>
                 <SelectTrigger id="quality" name="quality">
                   <SelectValue placeholder="Select quality grade" />
                 </SelectTrigger>
                 <SelectContent>
                   {QUALITY_OPTIONS.map((quality) => (
-                    <SelectItem key={quality.value || 'any'} value={quality.value || ''}>
+                    <SelectItem key={quality.value || 'any'} value={quality.value || 'any'}>
                       <div>
                         <div className="font-medium">{quality.label}</div>
                         <div className="text-sm text-gray-500">{quality.description}</div>

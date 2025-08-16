@@ -229,9 +229,7 @@ export async function POST(req: NextRequest) {
           reviewNotes: reviewNotes || null,
           affectedCount: updatedPrices.count
         }),
-        timestamp: new Date(),
-        ipAddress: null,
-        userAgent: null
+        timestamp: new Date()
       }
     })
 

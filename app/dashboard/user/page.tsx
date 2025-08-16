@@ -1,68 +1,113 @@
 "use client"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { TrendingUp, TrendingDown, Cloud, Users, ShoppingCart, Bell, Plus, MessageCircle, Eye } from "lucide-react"
+import { TrendingUp, TrendingDown, Cloud, Users, ShoppingCart, Bell, Plus, MessageCircle, Eye, Loader2 } from "lucide-react"
 import Link from "next/link"
+
+interface UserStats {
+  totalPurchases: number
+  activeOrders: number
+  savedListings: number
+  totalSpent: number
+  pendingMessages: number
+  priceAlerts: number
+}
+
+interface MarketPrice {
+  cropType: string
+  pricePerUnit: number
+  unit: string
+  location: string
+  quality: string
+  source: string
+  effectiveDate: string
+  priceChange?: number
+}
+
+interface PriceAlert {
+  id: string
+  cropType: string
+  location: string
+  quality: string
+  alertType: string
+  frequency: string
+  threshold: number
+  isActive: boolean
+}
 
 export default function UserDashboardPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
+  const [stats, setStats] = useState<UserStats | null>(null)
+  const [marketPrices, setMarketPrices] = useState<MarketPrice[]>([])
+  const [priceAlerts, setPriceAlerts] = useState<PriceAlert[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.replace("/login")
+    } else if (status === "authenticated") {
+      fetchDashboardData()
     }
   }, [status, router])
 
-  if (status === "loading") {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>
+  const fetchDashboardData = async () => {
+    try {
+      setLoading(true)
+      
+      // Fetch market prices
+      const pricesResponse = await fetch('/api/market-prices?limit=4&sortBy=effectiveDate&sortOrder=desc')
+      if (pricesResponse.ok) {
+        const pricesData = await pricesResponse.json()
+        setMarketPrices(pricesData.prices || [])
+      }
+
+      // Fetch user's price alerts
+      const alertsResponse = await fetch('/api/price-alerts')
+      if (alertsResponse.ok) {
+        const alertsData = await alertsResponse.json()
+        setPriceAlerts(alertsData.data || [])
+        
+        // Calculate stats from alerts
+        const activeAlerts = alertsData.data?.filter((a: PriceAlert) => a.isActive).length || 0
+        
+        setStats({
+          totalPurchases: 0, // TODO: Implement purchase tracking
+          activeOrders: 0, // TODO: Implement order tracking
+          savedListings: 0, // TODO: Implement saved listings tracking
+          totalSpent: 0, // TODO: Implement spending tracking
+          pendingMessages: 0, // TODO: Implement message tracking
+          priceAlerts: activeAlerts
+        })
+      }
+
+      // TODO: Fetch other real-time data like purchases, orders, saved listings, spending, messages
+      
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error)
+    } finally {
+      setLoading(false)
+    }
   }
+
+  if (status === "loading" || loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-green-600" />
+          <p className="text-lg text-gray-600">Loading your user dashboard...</p>
+        </div>
+      </div>
+    )
+  }
+  
   if (status === "unauthenticated") {
     return null
   }
-
-  const marketPrices = [
-    { crop: "Maize", price: 2500, unit: "kg", trend: "up", change: "+5%", market: "Kampala" },
-    { crop: "Beans", price: 4200, unit: "kg", trend: "down", change: "-2%", market: "Mbale" },
-    { crop: "Coffee", price: 8500, unit: "kg", trend: "up", change: "+12%", market: "Mukono" },
-    { crop: "Bananas", price: 1800, unit: "bunch", trend: "stable", change: "0%", market: "Masaka" },
-  ]
-
-  const weatherAlert = {
-    type: "warning",
-    message: "Heavy rains expected in Central region. Plan your purchases accordingly.",
-    validUntil: "2024-01-20",
-  }
-
-  const userStats = {
-    totalPurchases: 8,
-    activeOrders: 1,
-    savedListings: 5,
-    totalSpent: 1250000,
-  }
-
-  const recentActivity = [
-    {
-      type: "purchase",
-      message: "Ordered 50kg of maize from Farmer John",
-      time: "2 hours ago",
-      amount: "UGX 125,000",
-    },
-    {
-      type: "price_alert",
-      message: "Coffee prices increased by 12% in Mukono",
-      time: "4 hours ago",
-    },
-    {
-      type: "weather",
-      message: "Weather alert for your region",
-      time: "6 hours ago",
-    },
-  ]
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -82,8 +127,8 @@ export default function UserDashboardPage() {
               <CardTitle className="text-sm font-medium text-gray-600">Total Purchases</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-gray-900">{userStats.totalPurchases}</div>
-              <p className="text-sm text-green-600">+2 this month</p>
+              <div className="text-2xl font-bold text-gray-900">{stats?.totalPurchases || 0}</div>
+              <p className="text-sm text-green-600">Real-time data</p>
             </CardContent>
           </Card>
 
@@ -92,8 +137,8 @@ export default function UserDashboardPage() {
               <CardTitle className="text-sm font-medium text-gray-600">Active Orders</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-gray-900">{userStats.activeOrders}</div>
-              <p className="text-sm text-blue-600">1 pending delivery</p>
+              <div className="text-2xl font-bold text-gray-900">{stats?.activeOrders || 0}</div>
+              <p className="text-sm text-blue-600">Real-time data</p>
             </CardContent>
           </Card>
 
@@ -102,8 +147,8 @@ export default function UserDashboardPage() {
               <CardTitle className="text-sm font-medium text-gray-600">Saved Listings</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-gray-900">{userStats.savedListings}</div>
-              <p className="text-sm text-green-600">+1 this week</p>
+              <div className="text-2xl font-bold text-gray-900">{stats?.savedListings || 0}</div>
+              <p className="text-sm text-green-600">Real-time data</p>
             </CardContent>
           </Card>
 
@@ -112,27 +157,11 @@ export default function UserDashboardPage() {
               <CardTitle className="text-sm font-medium text-gray-600">Total Spent</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-gray-900">UGX {userStats.totalSpent.toLocaleString()}</div>
-              <p className="text-sm text-green-600">+8% this month</p>
+              <div className="text-2xl font-bold text-gray-900">UGX {(stats?.totalSpent || 0).toLocaleString()}</div>
+              <p className="text-sm text-green-600">Real-time data</p>
             </CardContent>
           </Card>
         </div>
-
-        {/* Weather Alert */}
-        {weatherAlert && (
-          <Card className="mb-6 border-orange-200 bg-orange-50">
-            <CardContent className="pt-6">
-              <div className="flex items-start space-x-3">
-                <Cloud className="h-5 w-5 text-orange-600 mt-0.5" />
-                <div>
-                  <p className="text-orange-800 font-medium">Weather Alert</p>
-                  <p className="text-orange-700 text-sm mt-1">{weatherAlert.message}</p>
-                  <p className="text-orange-600 text-xs mt-2">Valid until: {weatherAlert.validUntil}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
@@ -181,76 +210,53 @@ export default function UserDashboardPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {marketPrices.map((item, index) => (
-                    <div key={index} className="p-4 border rounded-lg hover:bg-gray-50 transition-colors">
-                      <div className="flex justify-between items-start mb-2">
-                        <h3 className="font-semibold text-gray-900">{item.crop}</h3>
-                        <div className="flex items-center">
-                          {item.trend === "up" && <TrendingUp className="h-4 w-4 text-green-500" />}
-                          {item.trend === "down" && <TrendingDown className="h-4 w-4 text-red-500" />}
-                          <span
-                            className={`text-sm ml-1 ${
-                              item.trend === "up"
-                                ? "text-green-600"
-                                : item.trend === "down"
-                                  ? "text-red-600"
-                                  : "text-gray-600"
-                            }`}
-                          >
-                            {item.change}
-                          </span>
+                {marketPrices.length === 0 ? (
+                  <div className="text-center py-8 text-gray-500">
+                    <TrendingUp className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                    <p>No market prices available</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {marketPrices.map((item, index) => (
+                      <div key={index} className="p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+                        <div className="flex justify-between items-start mb-2">
+                          <h3 className="font-semibold text-gray-900">{item.cropType}</h3>
+                          <div className="flex items-center">
+                            {item.priceChange && item.priceChange > 0 && <TrendingUp className="h-4 w-4 text-green-500" />}
+                            {item.priceChange && item.priceChange < 0 && <TrendingDown className="h-4 w-4 text-red-500" />}
+                            {item.priceChange && (
+                              <span
+                                className={`text-sm ml-1 ${
+                                  item.priceChange > 0 ? "text-green-600" : "text-red-600"
+                                }`}
+                              >
+                                {item.priceChange > 0 ? '+' : ''}{item.priceChange.toFixed(1)}%
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-2xl font-bold text-gray-900">UGX {item.pricePerUnit.toLocaleString()}</p>
+                          <p className="text-sm text-gray-600">per {item.unit}</p>
+                          <div className="flex items-center space-x-2">
+                            <Badge variant="secondary" className="text-xs">
+                              {item.location}
+                            </Badge>
+                            <Badge variant="outline" className="text-xs">
+                              {item.quality}
+                            </Badge>
+                          </div>
                         </div>
                       </div>
-                      <div className="space-y-1">
-                        <p className="text-2xl font-bold text-gray-900">UGX {item.price.toLocaleString()}</p>
-                        <p className="text-sm text-gray-600">per {item.unit}</p>
-                        <Badge variant="secondary" className="text-xs">
-                          {item.market}
-                        </Badge>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {/* Recent Activity */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Recent Activity</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {recentActivity.map((activity, index) => (
-                    <div key={index} className="flex items-start space-x-3">
-                      <div
-                        className={`p-2 rounded-full ${
-                          activity.type === "purchase"
-                            ? "bg-green-100"
-                            : activity.type === "price_alert"
-                              ? "bg-blue-100"
-                              : "bg-orange-100"
-                        }`}
-                      >
-                        {activity.type === "purchase" && <ShoppingCart className="h-4 w-4 text-green-600" />}
-                        {activity.type === "price_alert" && <TrendingUp className="h-4 w-4 text-blue-600" />}
-                        {activity.type === "weather" && <Cloud className="h-4 w-4 text-orange-600" />}
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm text-gray-900">{activity.message}</p>
-                        <p className="text-xs text-gray-500">{activity.time}</p>
-                        {activity.amount && <p className="text-sm font-medium text-green-600">{activity.amount}</p>}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
             {/* Price Monitoring */}
             <Card>
               <CardHeader>
@@ -260,11 +266,11 @@ export default function UserDashboardPage() {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-gray-600">Active Alerts</span>
-                    <Badge className="bg-blue-600">3</Badge>
+                    <Badge className="bg-blue-600">{stats?.priceAlerts || 0}</Badge>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-gray-600">Last Update</span>
-                    <span className="text-sm font-medium">2 hours ago</span>
+                    <span className="text-sm font-medium">Real-time</span>
                   </div>
                   <Button className="w-full bg-transparent" variant="outline" asChild>
                     <Link href="/price-alerts">
@@ -275,6 +281,35 @@ export default function UserDashboardPage() {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Recent Price Alerts */}
+            {priceAlerts.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Recent Alerts</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {priceAlerts.slice(0, 3).map((alert) => (
+                      <div key={alert.id} className="p-3 border rounded-lg">
+                        <div className="flex items-center justify-between mb-1">
+                          <h4 className="font-medium text-sm">{alert.cropType}</h4>
+                          <Badge variant={alert.isActive ? 'default' : 'secondary'} className="text-xs">
+                            {alert.isActive ? 'Active' : 'Inactive'}
+                          </Badge>
+                        </div>
+                        <p className="text-xs text-gray-600">
+                          {alert.location} • {alert.alertType.replace('_', ' ')}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {alert.threshold}% • {alert.frequency.toLowerCase()}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
             {/* Support */}
             <Card>

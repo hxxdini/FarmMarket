@@ -235,9 +235,7 @@ export async function POST(req: NextRequest) {
           targetId: marketPrice.id,
           targetType: 'MarketPrice',
           details: `New market price submitted for ${cropType} at ${location}`,
-          timestamp: new Date(),
-          ipAddress: null,
-          userAgent: null
+                  timestamp: new Date()
         }
       })
     } catch (logError) {

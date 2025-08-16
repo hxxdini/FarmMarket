@@ -1,68 +1,143 @@
 "use client"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { TrendingUp, TrendingDown, Cloud, Users, ShoppingCart, Plus, MessageCircle, Bell } from "lucide-react"
+import { TrendingUp, TrendingDown, Cloud, Users, ShoppingCart, Plus, MessageCircle, Bell, Loader2 } from "lucide-react"
 import Link from "next/link"
+
+interface DashboardStats {
+  totalListings: number
+  activeBids: number
+  completedSales: number
+  totalEarnings: number
+  pendingMessages: number
+  priceAlerts: number
+}
+
+interface MarketPrice {
+  cropType: string
+  pricePerUnit: number
+  unit: string
+  location: string
+  quality: string
+  source: string
+  effectiveDate: string
+  priceChange?: number
+}
 
 export default function DashboardPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
+  const [stats, setStats] = useState<DashboardStats | null>(null)
+  const [marketPrices, setMarketPrices] = useState<MarketPrice[]>([])
+  const [loading, setLoading] = useState(true)
+  const [userRole, setUserRole] = useState<string | null>(null)
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.replace("/login")
+    } else if (status === "authenticated") {
+      fetchUserRole()
+      fetchDashboardData()
     }
   }, [status, router])
 
-  if (status === "loading") {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>
+  const fetchUserRole = async () => {
+    try {
+      const response = await fetch('/api/auth/session')
+      if (response.ok) {
+        const data = await response.json()
+        const role = (data.user as any)?.role
+        setUserRole(role)
+        
+        // Redirect to role-specific dashboard if available
+        if (role === 'admin' || role === 'superadmin') {
+          router.replace('/admin')
+        } else if (role === 'farmer') {
+          router.replace('/dashboard/farmer')
+        } else if (role === 'user') {
+          router.replace('/dashboard/user')
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching user role:', error)
+    }
   }
+
+  const fetchDashboardData = async () => {
+    try {
+      setLoading(true)
+      
+      // Fetch market prices
+      const pricesResponse = await fetch('/api/market-prices?limit=4&sortBy=effectiveDate&sortOrder=desc')
+      if (pricesResponse.ok) {
+        const pricesData = await pricesResponse.json()
+        setMarketPrices(pricesData.prices || [])
+      }
+
+      // Fetch user stats based on role
+      if (userRole === 'farmer') {
+        const statsResponse = await fetch('/api/marketplace/my-listings')
+        if (statsResponse.ok) {
+          const listingsData = await statsResponse.json()
+          const totalListings = listingsData.listings?.length || 0
+          
+          setStats({
+            totalListings,
+            activeBids: 0, // TODO: Implement bid tracking
+            completedSales: 0, // TODO: Implement sales tracking
+            totalEarnings: 0, // TODO: Implement earnings tracking
+            pendingMessages: 0, // TODO: Implement message tracking
+            priceAlerts: 0 // TODO: Implement alert tracking
+          })
+        }
+      } else if (userRole === 'user') {
+        // TODO: Implement buyer stats
+        setStats({
+          totalListings: 0,
+          activeBids: 0,
+          completedSales: 0,
+          totalEarnings: 0,
+          pendingMessages: 0,
+          priceAlerts: 0
+        })
+      }
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (status === "loading" || loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-green-600" />
+          <p className="text-lg text-gray-600">Loading your dashboard...</p>
+        </div>
+      </div>
+    )
+  }
+  
   if (status === "unauthenticated") {
     return null
   }
 
-  const marketPrices = [
-    { crop: "Maize", price: 2500, unit: "kg", trend: "up", change: "+5%", market: "Kampala" },
-    { crop: "Beans", price: 4200, unit: "kg", trend: "down", change: "-2%", market: "Mbale" },
-    { crop: "Coffee", price: 8500, unit: "kg", trend: "up", change: "+12%", market: "Mukono" },
-    { crop: "Bananas", price: 1800, unit: "bunch", trend: "stable", change: "0%", market: "Masaka" },
-  ]
-
-  const weatherAlert = {
-    type: "warning",
-    message: "Heavy rains expected in Central region. Protect your crops and harvest ready produce.",
-    validUntil: "2024-01-20",
+  // If we have a role, redirect to appropriate dashboard
+  if (userRole && userRole !== 'admin' && userRole !== 'superadmin') {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-green-600" />
+          <p className="text-lg text-gray-600">Redirecting to your dashboard...</p>
+        </div>
+      </div>
+    )
   }
-
-  const generalStats = {
-    totalListings: 3,
-    activeBids: 2,
-    completedSales: 12,
-    totalEarnings: 2450000,
-  }
-
-  const recentActivity = [
-    {
-      type: "sale",
-      message: "Your maize listing received a new bid",
-      time: "2 hours ago",
-      amount: "UGX 125,000",
-    },
-    {
-      type: "price_alert",
-      message: "Coffee prices increased by 12% in Mukono",
-      time: "4 hours ago",
-    },
-    {
-      type: "weather",
-      message: "Weather alert for your region",
-      time: "6 hours ago",
-    },
-  ]
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -70,7 +145,7 @@ export default function DashboardPage() {
         {/* Welcome Section */}
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-2">
-          {session?.user?.name && <span>Welcome back, {session?.user?.name}!</span>}
+            {session?.user?.name && <span>Welcome back, {session?.user?.name}!</span>}
           </h2>
           <p className="text-lg text-gray-600">Here's what's happening with your account today</p>
           <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
@@ -90,28 +165,28 @@ export default function DashboardPage() {
               <CardTitle className="text-sm font-medium text-gray-600">Total Listings</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-gray-900">{generalStats.totalListings}</div>
-              <p className="text-sm text-gray-600">Sample data</p>
+              <div className="text-2xl font-bold text-gray-900">{stats?.totalListings || 0}</div>
+              <p className="text-sm text-gray-600">Real-time data</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">Total Bids</CardTitle>
+              <CardTitle className="text-sm font-medium text-gray-600">Active Bids</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-gray-900">{generalStats.activeBids}</div>
-              <p className="text-sm text-gray-600">Sample data</p>
+              <div className="text-2xl font-bold text-gray-900">{stats?.activeBids || 0}</div>
+              <p className="text-sm text-gray-600">Real-time data</p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-gray-600">Total Sales</CardTitle>
+              <CardTitle className="text-sm font-medium text-gray-600">Completed Sales</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-gray-900">{generalStats.completedSales}</div>
-              <p className="text-sm text-gray-600">Sample data</p>
+              <div className="text-2xl font-bold text-gray-900">{stats?.completedSales || 0}</div>
+              <p className="text-sm text-gray-600">Real-time data</p>
             </CardContent>
           </Card>
 
@@ -120,27 +195,11 @@ export default function DashboardPage() {
               <CardTitle className="text-sm font-medium text-gray-600">Total Value</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-gray-900">UGX {generalStats.totalEarnings.toLocaleString()}</div>
-              <p className="text-sm text-gray-600">Sample data</p>
+              <div className="text-2xl font-bold text-gray-900">UGX {(stats?.totalEarnings || 0).toLocaleString()}</div>
+              <p className="text-sm text-gray-600">Real-time data</p>
             </CardContent>
           </Card>
         </div>
-
-        {/* Weather Alert */}
-        {weatherAlert && (
-          <Card className="mb-6 border-orange-200 bg-orange-50">
-            <CardContent className="pt-6">
-              <div className="flex items-start space-x-3">
-                <Cloud className="h-5 w-5 text-orange-600 mt-0.5" />
-                <div>
-                  <p className="text-orange-800 font-medium">Weather Alert</p>
-                  <p className="text-orange-700 text-sm mt-1">{weatherAlert.message}</p>
-                  <p className="text-orange-600 text-xs mt-2">Valid until: {weatherAlert.validUntil}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
@@ -184,42 +243,52 @@ export default function DashboardPage() {
                     <CardDescription>Latest prices from major markets</CardDescription>
                   </div>
                   <Button variant="outline" asChild>
-                    <Link href="/prices">View All</Link>
+                    <Link href="/market-prices">View All</Link>
                   </Button>
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {marketPrices.map((item, index) => (
-                    <div key={index} className="p-4 border rounded-lg hover:bg-gray-50 transition-colors">
-                      <div className="flex justify-between items-start mb-2">
-                        <h3 className="font-semibold text-gray-900">{item.crop}</h3>
-                        <div className="flex items-center">
-                          {item.trend === "up" && <TrendingUp className="h-4 w-4 text-green-500" />}
-                          {item.trend === "down" && <TrendingDown className="h-4 w-4 text-red-500" />}
-                          <span
-                            className={`text-sm ml-1 ${
-                              item.trend === "up"
-                                ? "text-green-600"
-                                : item.trend === "down"
-                                  ? "text-red-600"
-                                  : "text-gray-600"
-                            }`}
-                          >
-                            {item.change}
-                          </span>
+                {marketPrices.length === 0 ? (
+                  <div className="text-center py-8 text-gray-500">
+                    <TrendingUp className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                    <p>No market prices available</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {marketPrices.map((item, index) => (
+                      <div key={index} className="p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+                        <div className="flex justify-between items-start mb-2">
+                          <h3 className="font-semibold text-gray-900">{item.cropType}</h3>
+                          <div className="flex items-center">
+                            {item.priceChange && item.priceChange > 0 && <TrendingUp className="h-4 w-4 text-green-500" />}
+                            {item.priceChange && item.priceChange < 0 && <TrendingDown className="h-4 w-4 text-red-500" />}
+                            {item.priceChange && (
+                              <span
+                                className={`text-sm ml-1 ${
+                                  item.priceChange > 0 ? "text-green-600" : "text-red-600"
+                                }`}
+                              >
+                                {item.priceChange > 0 ? '+' : ''}{item.priceChange.toFixed(1)}%
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-2xl font-bold text-gray-900">UGX {item.pricePerUnit.toLocaleString()}</p>
+                          <p className="text-sm text-gray-600">per {item.unit}</p>
+                          <div className="flex items-center space-x-2">
+                            <Badge variant="secondary" className="text-xs">
+                              {item.location}
+                            </Badge>
+                            <Badge variant="outline" className="text-xs">
+                              {item.quality}
+                            </Badge>
+                          </div>
                         </div>
                       </div>
-                      <div className="space-y-1">
-                        <p className="text-2xl font-bold text-gray-900">UGX {item.price.toLocaleString()}</p>
-                        <p className="text-sm text-gray-600">per {item.unit}</p>
-                        <Badge variant="secondary" className="text-xs">
-                          {item.market}
-                        </Badge>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>
@@ -233,50 +302,11 @@ export default function DashboardPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {recentActivity.map((activity, index) => (
-                    <div key={index} className="flex items-start space-x-3">
-                      <div
-                        className={`p-2 rounded-full ${
-                          activity.type === "sale"
-                            ? "bg-green-100"
-                            : activity.type === "price_alert"
-                              ? "bg-blue-100"
-                              : "bg-orange-100"
-                        }`}
-                      >
-                        {activity.type === "sale" && <ShoppingCart className="h-4 w-4 text-green-600" />}
-                        {activity.type === "price_alert" && <TrendingUp className="h-4 w-4 text-blue-600" />}
-                        {activity.type === "weather" && <Cloud className="h-4 w-4 text-orange-600" />}
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm text-gray-900">{activity.message}</p>
-                        <p className="text-xs text-gray-500">{activity.time}</p>
-                        {activity.amount && <p className="text-sm font-medium text-green-600">{activity.amount}</p>}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Subscription Status */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Subscription</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">Current Plan</span>
-                    <Badge className="bg-green-600">Premium</Badge>
+                  <div className="text-center py-4 text-gray-500">
+                    <Bell className="h-8 w-8 mx-auto mb-2 text-gray-300" />
+                    <p className="text-sm">No recent activity</p>
+                    <p className="text-xs">Activity will appear here</p>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">Expires</span>
-                    <span className="text-sm font-medium">Feb 15, 2024</span>
-                  </div>
-                  <Button className="w-full bg-transparent" variant="outline">
-                    Manage Subscription
-                  </Button>
                 </div>
               </CardContent>
             </Card>
