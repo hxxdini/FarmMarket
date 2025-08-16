@@ -1,0 +1,246 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AdminActionLog {
+  id         String   @id
+  adminId    String
+  action     String
+  targetType String
+  targetId   String
+  details    Json
+  timestamp  DateTime @default(now())
+  User       User     @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@index([adminId, timestamp])
+  @@index([targetType, targetId])
+  @@index([timestamp])
+}
+
+model Conversation {
+  id                                           String          @id
+  user1Id                                      String
+  user2Id                                      String
+  listingId                                    String?
+  title                                        String?
+  lastMessageId                                String?         @unique
+  lastMessageAt                                DateTime?
+  isArchived                                   Boolean         @default(false)
+  createdAt                                    DateTime        @default(now())
+  updatedAt                                    DateTime
+  Message_Conversation_lastMessageIdToMessage  Message?        @relation("Conversation_lastMessageIdToMessage", fields: [lastMessageId], references: [id])
+  ProductListing                               ProductListing? @relation(fields: [listingId], references: [id])
+  User_Conversation_user1IdToUser              User            @relation("Conversation_user1IdToUser", fields: [user1Id], references: [id], onDelete: Cascade)
+  User_Conversation_user2IdToUser              User            @relation("Conversation_user2IdToUser", fields: [user2Id], references: [id], onDelete: Cascade)
+  Message_Message_conversationIdToConversation Message[]       @relation("Message_conversationIdToConversation")
+
+  @@unique([user1Id, user2Id, listingId])
+  @@index([listingId])
+  @@index([user1Id, updatedAt])
+  @@index([user2Id, updatedAt])
+}
+
+model Message {
+  id                                                String        @id
+  conversationId                                    String
+  senderId                                          String
+  receiverId                                        String
+  content                                           String
+  messageType                                       MessageType   @default(TEXT)
+  attachmentUrl                                     String?
+  attachmentType                                    String?
+  status                                            MessageStatus @default(SENT)
+  readAt                                            DateTime?
+  deliveredAt                                       DateTime?
+  editedAt                                          DateTime?
+  isEdited                                          Boolean       @default(false)
+  replyToId                                         String?
+  createdAt                                         DateTime      @default(now())
+  updatedAt                                         DateTime
+  Conversation_Conversation_lastMessageIdToMessage  Conversation? @relation("Conversation_lastMessageIdToMessage")
+  Conversation_Message_conversationIdToConversation Conversation  @relation("Message_conversationIdToConversation", fields: [conversationId], references: [id], onDelete: Cascade)
+  User_Message_receiverIdToUser                     User          @relation("Message_receiverIdToUser", fields: [receiverId], references: [id], onDelete: Cascade)
+  Message                                           Message?      @relation("MessageToMessage", fields: [replyToId], references: [id])
+  other_Message                                     Message[]     @relation("MessageToMessage")
+  User_Message_senderIdToUser                       User          @relation("Message_senderIdToUser", fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId, createdAt])
+  @@index([receiverId, status])
+  @@index([senderId, createdAt])
+}
+
+model Permission {
+  id          String  @id
+  name        String  @unique
+  description String?
+  Role        Role[]
+  User        User[]
+}
+
+model ProductImage {
+  id             String         @id
+  url            String
+  altText        String?
+  order          Int
+  isPrimary      Boolean        @default(false)
+  listingId      String
+  createdAt      DateTime       @default(now())
+  ProductListing ProductListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@index([listingId, order])
+}
+
+model ProductListing {
+  id             String         @id
+  cropType       String
+  quantity       Float
+  unit           String
+  pricePerUnit   Float
+  quality        String
+  location       String
+  description    String?
+  harvestDate    DateTime?
+  availableUntil DateTime?
+  status         ListingStatus  @default(ACTIVE)
+  farmerId       String
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime
+  Conversation   Conversation[]
+  ProductImage   ProductImage[]
+  User           User           @relation(fields: [farmerId], references: [id], onDelete: Cascade)
+  Review         Review[]
+
+  @@index([cropType, location])
+  @@index([farmerId])
+  @@index([status, createdAt])
+}
+
+model Review {
+  id                           String          @id
+  reviewerId                   String
+  reviewedId                   String
+  listingId                    String?
+  rating                       Int
+  title                        String?
+  comment                      String?
+  reviewType                   ReviewType      @default(TRANSACTION)
+  isVerified                   Boolean         @default(false)
+  isPublic                     Boolean         @default(true)
+  helpfulCount                 Int             @default(0)
+  isModerated                  Boolean         @default(false)
+  moderatedAt                  DateTime?
+  moderationReason             String?
+  createdAt                    DateTime        @default(now())
+  updatedAt                    DateTime
+  ProductListing               ProductListing? @relation(fields: [listingId], references: [id])
+  User_Review_reviewedIdToUser User            @relation("Review_reviewedIdToUser", fields: [reviewedId], references: [id], onDelete: Cascade)
+  User_Review_reviewerIdToUser User            @relation("Review_reviewerIdToUser", fields: [reviewerId], references: [id], onDelete: Cascade)
+
+  @@unique([reviewerId, reviewedId, listingId])
+  @@index([listingId, rating])
+  @@index([reviewedId, createdAt])
+  @@index([reviewedId, rating])
+  @@index([reviewerId, createdAt])
+}
+
+model Role {
+  id         String       @id
+  name       String       @unique
+  User       User[]
+  Permission Permission[]
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  token     String   @unique
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  User      User     @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id                                      String           @id
+  phone                                   String?          @unique
+  name                                    String?
+  location                                String?
+  roleId                                  String
+  createdAt                               DateTime         @default(now())
+  updatedAt                               DateTime
+  email                                   String           @unique
+  password                                String
+  avatar                                  String?
+  billingAddress                          String?
+  bio                                     String?
+  dateOfBirth                             DateTime?
+  emailNotifications                      Boolean          @default(true)
+  gender                                  String?
+  isEmailVerified                         Boolean          @default(false)
+  isPhoneVerified                         Boolean          @default(false)
+  lastLoginAt                             DateTime?
+  loginCount                              Int              @default(0)
+  marketingEmails                         Boolean          @default(false)
+  preferredLanguage                       String           @default("en")
+  pushNotifications                       Boolean          @default(true)
+  smsNotifications                        Boolean          @default(true)
+  subscriptionEndsAt                      DateTime?
+  subscriptionPlan                        String           @default("free")
+  subscriptionStatus                      String           @default("active")
+  taxId                                   String?
+  timezone                                String           @default("UTC")
+  twoFactorEnabled                        Boolean          @default(false)
+  status                                  UserStatus       @default(ACTIVE)
+  Conversation_Conversation_user1IdToUser Conversation[]   @relation("Conversation_user1IdToUser")
+  Conversation_Conversation_user2IdToUser Conversation[]   @relation("Conversation_user2IdToUser")
+  Message_Message_receiverIdToUser        Message[]        @relation("Message_receiverIdToUser")
+  Message_Message_senderIdToUser          Message[]        @relation("Message_senderIdToUser")
+  ProductListing                          ProductListing[]
+  Review_Review_reviewedIdToUser          Review[]         @relation("Review_reviewedIdToUser")
+  Review_Review_reviewerIdToUser          Review[]         @relation("Review_reviewerIdToUser")
+  Session                                 Session[]
+  Role                                    Role             @relation(fields: [roleId], references: [id])
+  Permission                              Permission[]
+  AdminActionLog                          AdminActionLog[]
+}
+
+enum ListingStatus {
+  ACTIVE
+  PENDING
+  SOLD
+  EXPIRED
+  CANCELLED
+}
+
+enum MessageStatus {
+  SENT
+  DELIVERED
+  READ
+  FAILED
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  FILE
+  SYSTEM
+  OFFER
+}
+
+enum ReviewType {
+  TRANSACTION
+  PRODUCT
+  SERVICE
+  COMMUNICATION
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  PENDING
+}
