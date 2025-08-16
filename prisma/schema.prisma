@@ -209,6 +209,8 @@ model User {
   AdminActionLog                          AdminActionLog[]
   MarketPrice_submittedBy                 MarketPrice[]    @relation("User_MarketPrice_submittedBy")
   MarketPrice_reviewedBy                  MarketPrice[]    @relation("User_MarketPrice_reviewedBy")
+  PriceAlert                              PriceAlert[]     @relation("User_PriceAlert")
+  AlertNotification                       AlertNotification[] @relation("User_AlertNotification")
 }
 
 enum ListingStatus {
@@ -303,4 +305,79 @@ model MarketPrice {
   @@index([reviewedBy, reviewDate])
   @@index([pricePerUnit, cropType, location])
   @@index([effectiveDate, expiryDate])
+}
+
+enum AlertType {
+  PRICE_INCREASE
+  PRICE_DECREASE
+  PRICE_VOLATILITY
+  REGIONAL_DIFFERENCE
+  QUALITY_OPPORTUNITY
+  SEASONAL_TREND
+}
+
+enum AlertStatus {
+  PENDING
+  SENT
+  READ
+  DISMISSED
+}
+
+enum AlertFrequency {
+  IMMEDIATE
+  DAILY
+  WEEKLY
+  MONTHLY
+}
+
+model PriceAlert {
+  id              String      @id
+  userId          String
+  cropType        String
+  location        String
+  quality         PriceQuality?
+  alertType       AlertType
+  frequency       AlertFrequency @default(DAILY)
+  threshold       Float       // Percentage change threshold
+  isActive        Boolean     @default(true)
+  lastTriggered   DateTime?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime
+  
+  // Relations
+  user            User        @relation("User_PriceAlert", fields: [userId], references: [id], onDelete: Cascade)
+  notifications   AlertNotification[] @relation("PriceAlert_AlertNotification")
+  
+  // Indexes
+  @@index([userId, isActive])
+  @@index([cropType, location, alertType])
+  @@unique([userId, cropType, location, quality, alertType])
+}
+
+model AlertNotification {
+  id              String      @id
+  alertId         String
+  userId          String
+  title            String
+  message          String
+  alertType       AlertType
+  cropType        String
+  location        String
+  oldPrice        Float?
+  newPrice        Float?
+  priceChange     Float?
+  status          AlertStatus @default(PENDING)
+  sentAt          DateTime?
+  readAt          DateTime?
+  dismissedAt     DateTime?
+  createdAt       DateTime    @default(now())
+  
+  // Relations
+  alert           PriceAlert  @relation("PriceAlert_AlertNotification", fields: [alertId], references: [id], onDelete: Cascade)
+  user            User        @relation("User_AlertNotification", fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Indexes
+  @@index([userId, status])
+  @@index([alertId, createdAt])
+  @@index([cropType, location, createdAt])
 }

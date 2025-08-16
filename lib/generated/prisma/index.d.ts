@@ -68,6 +68,16 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  * 
  */
 export type MarketPrice = $Result.DefaultSelection<Prisma.$MarketPricePayload>
+/**
+ * Model PriceAlert
+ * 
+ */
+export type PriceAlert = $Result.DefaultSelection<Prisma.$PriceAlertPayload>
+/**
+ * Model AlertNotification
+ * 
+ */
+export type AlertNotification = $Result.DefaultSelection<Prisma.$AlertNotificationPayload>
 
 /**
  * Enums
@@ -153,6 +163,38 @@ export const PriceStatus: {
 
 export type PriceStatus = (typeof PriceStatus)[keyof typeof PriceStatus]
 
+
+export const AlertType: {
+  PRICE_INCREASE: 'PRICE_INCREASE',
+  PRICE_DECREASE: 'PRICE_DECREASE',
+  PRICE_VOLATILITY: 'PRICE_VOLATILITY',
+  REGIONAL_DIFFERENCE: 'REGIONAL_DIFFERENCE',
+  QUALITY_OPPORTUNITY: 'QUALITY_OPPORTUNITY',
+  SEASONAL_TREND: 'SEASONAL_TREND'
+};
+
+export type AlertType = (typeof AlertType)[keyof typeof AlertType]
+
+
+export const AlertStatus: {
+  PENDING: 'PENDING',
+  SENT: 'SENT',
+  READ: 'READ',
+  DISMISSED: 'DISMISSED'
+};
+
+export type AlertStatus = (typeof AlertStatus)[keyof typeof AlertStatus]
+
+
+export const AlertFrequency: {
+  IMMEDIATE: 'IMMEDIATE',
+  DAILY: 'DAILY',
+  WEEKLY: 'WEEKLY',
+  MONTHLY: 'MONTHLY'
+};
+
+export type AlertFrequency = (typeof AlertFrequency)[keyof typeof AlertFrequency]
+
 }
 
 export type ListingStatus = $Enums.ListingStatus
@@ -186,6 +228,18 @@ export const PriceSource: typeof $Enums.PriceSource
 export type PriceStatus = $Enums.PriceStatus
 
 export const PriceStatus: typeof $Enums.PriceStatus
+
+export type AlertType = $Enums.AlertType
+
+export const AlertType: typeof $Enums.AlertType
+
+export type AlertStatus = $Enums.AlertStatus
+
+export const AlertStatus: typeof $Enums.AlertStatus
+
+export type AlertFrequency = $Enums.AlertFrequency
+
+export const AlertFrequency: typeof $Enums.AlertFrequency
 
 /**
  * ##  Prisma Client ʲˢ
@@ -421,6 +475,26 @@ export class PrismaClient<
     * ```
     */
   get marketPrice(): Prisma.MarketPriceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.priceAlert`: Exposes CRUD operations for the **PriceAlert** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PriceAlerts
+    * const priceAlerts = await prisma.priceAlert.findMany()
+    * ```
+    */
+  get priceAlert(): Prisma.PriceAlertDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.alertNotification`: Exposes CRUD operations for the **AlertNotification** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AlertNotifications
+    * const alertNotifications = await prisma.alertNotification.findMany()
+    * ```
+    */
+  get alertNotification(): Prisma.AlertNotificationDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -871,7 +945,9 @@ export namespace Prisma {
     Role: 'Role',
     Session: 'Session',
     User: 'User',
-    MarketPrice: 'MarketPrice'
+    MarketPrice: 'MarketPrice',
+    PriceAlert: 'PriceAlert',
+    AlertNotification: 'AlertNotification'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -890,7 +966,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "adminActionLog" | "conversation" | "message" | "permission" | "productImage" | "productListing" | "review" | "role" | "session" | "user" | "marketPrice"
+      modelProps: "adminActionLog" | "conversation" | "message" | "permission" | "productImage" | "productListing" | "review" | "role" | "session" | "user" | "marketPrice" | "priceAlert" | "alertNotification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1708,6 +1784,154 @@ export namespace Prisma {
           }
         }
       }
+      PriceAlert: {
+        payload: Prisma.$PriceAlertPayload<ExtArgs>
+        fields: Prisma.PriceAlertFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PriceAlertFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PriceAlertPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PriceAlertFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PriceAlertPayload>
+          }
+          findFirst: {
+            args: Prisma.PriceAlertFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PriceAlertPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PriceAlertFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PriceAlertPayload>
+          }
+          findMany: {
+            args: Prisma.PriceAlertFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PriceAlertPayload>[]
+          }
+          create: {
+            args: Prisma.PriceAlertCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PriceAlertPayload>
+          }
+          createMany: {
+            args: Prisma.PriceAlertCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PriceAlertCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PriceAlertPayload>[]
+          }
+          delete: {
+            args: Prisma.PriceAlertDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PriceAlertPayload>
+          }
+          update: {
+            args: Prisma.PriceAlertUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PriceAlertPayload>
+          }
+          deleteMany: {
+            args: Prisma.PriceAlertDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PriceAlertUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PriceAlertUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PriceAlertPayload>[]
+          }
+          upsert: {
+            args: Prisma.PriceAlertUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PriceAlertPayload>
+          }
+          aggregate: {
+            args: Prisma.PriceAlertAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePriceAlert>
+          }
+          groupBy: {
+            args: Prisma.PriceAlertGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PriceAlertGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PriceAlertCountArgs<ExtArgs>
+            result: $Utils.Optional<PriceAlertCountAggregateOutputType> | number
+          }
+        }
+      }
+      AlertNotification: {
+        payload: Prisma.$AlertNotificationPayload<ExtArgs>
+        fields: Prisma.AlertNotificationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AlertNotificationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertNotificationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AlertNotificationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertNotificationPayload>
+          }
+          findFirst: {
+            args: Prisma.AlertNotificationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertNotificationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AlertNotificationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertNotificationPayload>
+          }
+          findMany: {
+            args: Prisma.AlertNotificationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertNotificationPayload>[]
+          }
+          create: {
+            args: Prisma.AlertNotificationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertNotificationPayload>
+          }
+          createMany: {
+            args: Prisma.AlertNotificationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AlertNotificationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertNotificationPayload>[]
+          }
+          delete: {
+            args: Prisma.AlertNotificationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertNotificationPayload>
+          }
+          update: {
+            args: Prisma.AlertNotificationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertNotificationPayload>
+          }
+          deleteMany: {
+            args: Prisma.AlertNotificationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AlertNotificationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AlertNotificationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertNotificationPayload>[]
+          }
+          upsert: {
+            args: Prisma.AlertNotificationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AlertNotificationPayload>
+          }
+          aggregate: {
+            args: Prisma.AlertNotificationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAlertNotification>
+          }
+          groupBy: {
+            args: Prisma.AlertNotificationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AlertNotificationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AlertNotificationCountArgs<ExtArgs>
+            result: $Utils.Optional<AlertNotificationCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1803,6 +2027,8 @@ export namespace Prisma {
     session?: SessionOmit
     user?: UserOmit
     marketPrice?: MarketPriceOmit
+    priceAlert?: PriceAlertOmit
+    alertNotification?: AlertNotificationOmit
   }
 
   /* Types for Logging */
@@ -2100,6 +2326,8 @@ export namespace Prisma {
     AdminActionLog: number
     MarketPrice_submittedBy: number
     MarketPrice_reviewedBy: number
+    PriceAlert: number
+    AlertNotification: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2115,6 +2343,8 @@ export namespace Prisma {
     AdminActionLog?: boolean | UserCountOutputTypeCountAdminActionLogArgs
     MarketPrice_submittedBy?: boolean | UserCountOutputTypeCountMarketPrice_submittedByArgs
     MarketPrice_reviewedBy?: boolean | UserCountOutputTypeCountMarketPrice_reviewedByArgs
+    PriceAlert?: boolean | UserCountOutputTypeCountPriceAlertArgs
+    AlertNotification?: boolean | UserCountOutputTypeCountAlertNotificationArgs
   }
 
   // Custom InputTypes
@@ -2210,6 +2440,51 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountMarketPrice_reviewedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MarketPriceWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPriceAlertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PriceAlertWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAlertNotificationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AlertNotificationWhereInput
+  }
+
+
+  /**
+   * Count Type PriceAlertCountOutputType
+   */
+
+  export type PriceAlertCountOutputType = {
+    notifications: number
+  }
+
+  export type PriceAlertCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    notifications?: boolean | PriceAlertCountOutputTypeCountNotificationsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PriceAlertCountOutputType without action
+   */
+  export type PriceAlertCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PriceAlertCountOutputType
+     */
+    select?: PriceAlertCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PriceAlertCountOutputType without action
+   */
+  export type PriceAlertCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AlertNotificationWhereInput
   }
 
 
@@ -13100,6 +13375,8 @@ export namespace Prisma {
     AdminActionLog?: boolean | User$AdminActionLogArgs<ExtArgs>
     MarketPrice_submittedBy?: boolean | User$MarketPrice_submittedByArgs<ExtArgs>
     MarketPrice_reviewedBy?: boolean | User$MarketPrice_reviewedByArgs<ExtArgs>
+    PriceAlert?: boolean | User$PriceAlertArgs<ExtArgs>
+    AlertNotification?: boolean | User$AlertNotificationArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -13219,6 +13496,8 @@ export namespace Prisma {
     AdminActionLog?: boolean | User$AdminActionLogArgs<ExtArgs>
     MarketPrice_submittedBy?: boolean | User$MarketPrice_submittedByArgs<ExtArgs>
     MarketPrice_reviewedBy?: boolean | User$MarketPrice_reviewedByArgs<ExtArgs>
+    PriceAlert?: boolean | User$PriceAlertArgs<ExtArgs>
+    AlertNotification?: boolean | User$AlertNotificationArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13244,6 +13523,8 @@ export namespace Prisma {
       AdminActionLog: Prisma.$AdminActionLogPayload<ExtArgs>[]
       MarketPrice_submittedBy: Prisma.$MarketPricePayload<ExtArgs>[]
       MarketPrice_reviewedBy: Prisma.$MarketPricePayload<ExtArgs>[]
+      PriceAlert: Prisma.$PriceAlertPayload<ExtArgs>[]
+      AlertNotification: Prisma.$AlertNotificationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -13683,6 +13964,8 @@ export namespace Prisma {
     AdminActionLog<T extends User$AdminActionLogArgs<ExtArgs> = {}>(args?: Subset<T, User$AdminActionLogArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdminActionLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     MarketPrice_submittedBy<T extends User$MarketPrice_submittedByArgs<ExtArgs> = {}>(args?: Subset<T, User$MarketPrice_submittedByArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MarketPricePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     MarketPrice_reviewedBy<T extends User$MarketPrice_reviewedByArgs<ExtArgs> = {}>(args?: Subset<T, User$MarketPrice_reviewedByArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MarketPricePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    PriceAlert<T extends User$PriceAlertArgs<ExtArgs> = {}>(args?: Subset<T, User$PriceAlertArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PriceAlertPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    AlertNotification<T extends User$AlertNotificationArgs<ExtArgs> = {}>(args?: Subset<T, User$AlertNotificationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlertNotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14423,6 +14706,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MarketPriceScalarFieldEnum | MarketPriceScalarFieldEnum[]
+  }
+
+  /**
+   * User.PriceAlert
+   */
+  export type User$PriceAlertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PriceAlert
+     */
+    select?: PriceAlertSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PriceAlert
+     */
+    omit?: PriceAlertOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriceAlertInclude<ExtArgs> | null
+    where?: PriceAlertWhereInput
+    orderBy?: PriceAlertOrderByWithRelationInput | PriceAlertOrderByWithRelationInput[]
+    cursor?: PriceAlertWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PriceAlertScalarFieldEnum | PriceAlertScalarFieldEnum[]
+  }
+
+  /**
+   * User.AlertNotification
+   */
+  export type User$AlertNotificationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertNotification
+     */
+    select?: AlertNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertNotification
+     */
+    omit?: AlertNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertNotificationInclude<ExtArgs> | null
+    where?: AlertNotificationWhereInput
+    orderBy?: AlertNotificationOrderByWithRelationInput | AlertNotificationOrderByWithRelationInput[]
+    cursor?: AlertNotificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AlertNotificationScalarFieldEnum | AlertNotificationScalarFieldEnum[]
   }
 
   /**
@@ -15784,6 +16115,2470 @@ export namespace Prisma {
 
 
   /**
+   * Model PriceAlert
+   */
+
+  export type AggregatePriceAlert = {
+    _count: PriceAlertCountAggregateOutputType | null
+    _avg: PriceAlertAvgAggregateOutputType | null
+    _sum: PriceAlertSumAggregateOutputType | null
+    _min: PriceAlertMinAggregateOutputType | null
+    _max: PriceAlertMaxAggregateOutputType | null
+  }
+
+  export type PriceAlertAvgAggregateOutputType = {
+    threshold: number | null
+  }
+
+  export type PriceAlertSumAggregateOutputType = {
+    threshold: number | null
+  }
+
+  export type PriceAlertMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    cropType: string | null
+    location: string | null
+    quality: $Enums.PriceQuality | null
+    alertType: $Enums.AlertType | null
+    frequency: $Enums.AlertFrequency | null
+    threshold: number | null
+    isActive: boolean | null
+    lastTriggered: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PriceAlertMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    cropType: string | null
+    location: string | null
+    quality: $Enums.PriceQuality | null
+    alertType: $Enums.AlertType | null
+    frequency: $Enums.AlertFrequency | null
+    threshold: number | null
+    isActive: boolean | null
+    lastTriggered: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PriceAlertCountAggregateOutputType = {
+    id: number
+    userId: number
+    cropType: number
+    location: number
+    quality: number
+    alertType: number
+    frequency: number
+    threshold: number
+    isActive: number
+    lastTriggered: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PriceAlertAvgAggregateInputType = {
+    threshold?: true
+  }
+
+  export type PriceAlertSumAggregateInputType = {
+    threshold?: true
+  }
+
+  export type PriceAlertMinAggregateInputType = {
+    id?: true
+    userId?: true
+    cropType?: true
+    location?: true
+    quality?: true
+    alertType?: true
+    frequency?: true
+    threshold?: true
+    isActive?: true
+    lastTriggered?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PriceAlertMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    cropType?: true
+    location?: true
+    quality?: true
+    alertType?: true
+    frequency?: true
+    threshold?: true
+    isActive?: true
+    lastTriggered?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PriceAlertCountAggregateInputType = {
+    id?: true
+    userId?: true
+    cropType?: true
+    location?: true
+    quality?: true
+    alertType?: true
+    frequency?: true
+    threshold?: true
+    isActive?: true
+    lastTriggered?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PriceAlertAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PriceAlert to aggregate.
+     */
+    where?: PriceAlertWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PriceAlerts to fetch.
+     */
+    orderBy?: PriceAlertOrderByWithRelationInput | PriceAlertOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PriceAlertWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PriceAlerts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PriceAlerts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PriceAlerts
+    **/
+    _count?: true | PriceAlertCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PriceAlertAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PriceAlertSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PriceAlertMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PriceAlertMaxAggregateInputType
+  }
+
+  export type GetPriceAlertAggregateType<T extends PriceAlertAggregateArgs> = {
+        [P in keyof T & keyof AggregatePriceAlert]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePriceAlert[P]>
+      : GetScalarType<T[P], AggregatePriceAlert[P]>
+  }
+
+
+
+
+  export type PriceAlertGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PriceAlertWhereInput
+    orderBy?: PriceAlertOrderByWithAggregationInput | PriceAlertOrderByWithAggregationInput[]
+    by: PriceAlertScalarFieldEnum[] | PriceAlertScalarFieldEnum
+    having?: PriceAlertScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PriceAlertCountAggregateInputType | true
+    _avg?: PriceAlertAvgAggregateInputType
+    _sum?: PriceAlertSumAggregateInputType
+    _min?: PriceAlertMinAggregateInputType
+    _max?: PriceAlertMaxAggregateInputType
+  }
+
+  export type PriceAlertGroupByOutputType = {
+    id: string
+    userId: string
+    cropType: string
+    location: string
+    quality: $Enums.PriceQuality | null
+    alertType: $Enums.AlertType
+    frequency: $Enums.AlertFrequency
+    threshold: number
+    isActive: boolean
+    lastTriggered: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: PriceAlertCountAggregateOutputType | null
+    _avg: PriceAlertAvgAggregateOutputType | null
+    _sum: PriceAlertSumAggregateOutputType | null
+    _min: PriceAlertMinAggregateOutputType | null
+    _max: PriceAlertMaxAggregateOutputType | null
+  }
+
+  type GetPriceAlertGroupByPayload<T extends PriceAlertGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PriceAlertGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PriceAlertGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PriceAlertGroupByOutputType[P]>
+            : GetScalarType<T[P], PriceAlertGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PriceAlertSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    cropType?: boolean
+    location?: boolean
+    quality?: boolean
+    alertType?: boolean
+    frequency?: boolean
+    threshold?: boolean
+    isActive?: boolean
+    lastTriggered?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    notifications?: boolean | PriceAlert$notificationsArgs<ExtArgs>
+    _count?: boolean | PriceAlertCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["priceAlert"]>
+
+  export type PriceAlertSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    cropType?: boolean
+    location?: boolean
+    quality?: boolean
+    alertType?: boolean
+    frequency?: boolean
+    threshold?: boolean
+    isActive?: boolean
+    lastTriggered?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["priceAlert"]>
+
+  export type PriceAlertSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    cropType?: boolean
+    location?: boolean
+    quality?: boolean
+    alertType?: boolean
+    frequency?: boolean
+    threshold?: boolean
+    isActive?: boolean
+    lastTriggered?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["priceAlert"]>
+
+  export type PriceAlertSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    cropType?: boolean
+    location?: boolean
+    quality?: boolean
+    alertType?: boolean
+    frequency?: boolean
+    threshold?: boolean
+    isActive?: boolean
+    lastTriggered?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PriceAlertOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "cropType" | "location" | "quality" | "alertType" | "frequency" | "threshold" | "isActive" | "lastTriggered" | "createdAt" | "updatedAt", ExtArgs["result"]["priceAlert"]>
+  export type PriceAlertInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    notifications?: boolean | PriceAlert$notificationsArgs<ExtArgs>
+    _count?: boolean | PriceAlertCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PriceAlertIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PriceAlertIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PriceAlertPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PriceAlert"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      notifications: Prisma.$AlertNotificationPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      cropType: string
+      location: string
+      quality: $Enums.PriceQuality | null
+      alertType: $Enums.AlertType
+      frequency: $Enums.AlertFrequency
+      threshold: number
+      isActive: boolean
+      lastTriggered: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["priceAlert"]>
+    composites: {}
+  }
+
+  type PriceAlertGetPayload<S extends boolean | null | undefined | PriceAlertDefaultArgs> = $Result.GetResult<Prisma.$PriceAlertPayload, S>
+
+  type PriceAlertCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PriceAlertFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PriceAlertCountAggregateInputType | true
+    }
+
+  export interface PriceAlertDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PriceAlert'], meta: { name: 'PriceAlert' } }
+    /**
+     * Find zero or one PriceAlert that matches the filter.
+     * @param {PriceAlertFindUniqueArgs} args - Arguments to find a PriceAlert
+     * @example
+     * // Get one PriceAlert
+     * const priceAlert = await prisma.priceAlert.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PriceAlertFindUniqueArgs>(args: SelectSubset<T, PriceAlertFindUniqueArgs<ExtArgs>>): Prisma__PriceAlertClient<$Result.GetResult<Prisma.$PriceAlertPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PriceAlert that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PriceAlertFindUniqueOrThrowArgs} args - Arguments to find a PriceAlert
+     * @example
+     * // Get one PriceAlert
+     * const priceAlert = await prisma.priceAlert.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PriceAlertFindUniqueOrThrowArgs>(args: SelectSubset<T, PriceAlertFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PriceAlertClient<$Result.GetResult<Prisma.$PriceAlertPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PriceAlert that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PriceAlertFindFirstArgs} args - Arguments to find a PriceAlert
+     * @example
+     * // Get one PriceAlert
+     * const priceAlert = await prisma.priceAlert.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PriceAlertFindFirstArgs>(args?: SelectSubset<T, PriceAlertFindFirstArgs<ExtArgs>>): Prisma__PriceAlertClient<$Result.GetResult<Prisma.$PriceAlertPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PriceAlert that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PriceAlertFindFirstOrThrowArgs} args - Arguments to find a PriceAlert
+     * @example
+     * // Get one PriceAlert
+     * const priceAlert = await prisma.priceAlert.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PriceAlertFindFirstOrThrowArgs>(args?: SelectSubset<T, PriceAlertFindFirstOrThrowArgs<ExtArgs>>): Prisma__PriceAlertClient<$Result.GetResult<Prisma.$PriceAlertPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PriceAlerts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PriceAlertFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PriceAlerts
+     * const priceAlerts = await prisma.priceAlert.findMany()
+     * 
+     * // Get first 10 PriceAlerts
+     * const priceAlerts = await prisma.priceAlert.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const priceAlertWithIdOnly = await prisma.priceAlert.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PriceAlertFindManyArgs>(args?: SelectSubset<T, PriceAlertFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PriceAlertPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PriceAlert.
+     * @param {PriceAlertCreateArgs} args - Arguments to create a PriceAlert.
+     * @example
+     * // Create one PriceAlert
+     * const PriceAlert = await prisma.priceAlert.create({
+     *   data: {
+     *     // ... data to create a PriceAlert
+     *   }
+     * })
+     * 
+     */
+    create<T extends PriceAlertCreateArgs>(args: SelectSubset<T, PriceAlertCreateArgs<ExtArgs>>): Prisma__PriceAlertClient<$Result.GetResult<Prisma.$PriceAlertPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PriceAlerts.
+     * @param {PriceAlertCreateManyArgs} args - Arguments to create many PriceAlerts.
+     * @example
+     * // Create many PriceAlerts
+     * const priceAlert = await prisma.priceAlert.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PriceAlertCreateManyArgs>(args?: SelectSubset<T, PriceAlertCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PriceAlerts and returns the data saved in the database.
+     * @param {PriceAlertCreateManyAndReturnArgs} args - Arguments to create many PriceAlerts.
+     * @example
+     * // Create many PriceAlerts
+     * const priceAlert = await prisma.priceAlert.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PriceAlerts and only return the `id`
+     * const priceAlertWithIdOnly = await prisma.priceAlert.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PriceAlertCreateManyAndReturnArgs>(args?: SelectSubset<T, PriceAlertCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PriceAlertPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PriceAlert.
+     * @param {PriceAlertDeleteArgs} args - Arguments to delete one PriceAlert.
+     * @example
+     * // Delete one PriceAlert
+     * const PriceAlert = await prisma.priceAlert.delete({
+     *   where: {
+     *     // ... filter to delete one PriceAlert
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PriceAlertDeleteArgs>(args: SelectSubset<T, PriceAlertDeleteArgs<ExtArgs>>): Prisma__PriceAlertClient<$Result.GetResult<Prisma.$PriceAlertPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PriceAlert.
+     * @param {PriceAlertUpdateArgs} args - Arguments to update one PriceAlert.
+     * @example
+     * // Update one PriceAlert
+     * const priceAlert = await prisma.priceAlert.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PriceAlertUpdateArgs>(args: SelectSubset<T, PriceAlertUpdateArgs<ExtArgs>>): Prisma__PriceAlertClient<$Result.GetResult<Prisma.$PriceAlertPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PriceAlerts.
+     * @param {PriceAlertDeleteManyArgs} args - Arguments to filter PriceAlerts to delete.
+     * @example
+     * // Delete a few PriceAlerts
+     * const { count } = await prisma.priceAlert.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PriceAlertDeleteManyArgs>(args?: SelectSubset<T, PriceAlertDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PriceAlerts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PriceAlertUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PriceAlerts
+     * const priceAlert = await prisma.priceAlert.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PriceAlertUpdateManyArgs>(args: SelectSubset<T, PriceAlertUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PriceAlerts and returns the data updated in the database.
+     * @param {PriceAlertUpdateManyAndReturnArgs} args - Arguments to update many PriceAlerts.
+     * @example
+     * // Update many PriceAlerts
+     * const priceAlert = await prisma.priceAlert.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PriceAlerts and only return the `id`
+     * const priceAlertWithIdOnly = await prisma.priceAlert.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PriceAlertUpdateManyAndReturnArgs>(args: SelectSubset<T, PriceAlertUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PriceAlertPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PriceAlert.
+     * @param {PriceAlertUpsertArgs} args - Arguments to update or create a PriceAlert.
+     * @example
+     * // Update or create a PriceAlert
+     * const priceAlert = await prisma.priceAlert.upsert({
+     *   create: {
+     *     // ... data to create a PriceAlert
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PriceAlert we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PriceAlertUpsertArgs>(args: SelectSubset<T, PriceAlertUpsertArgs<ExtArgs>>): Prisma__PriceAlertClient<$Result.GetResult<Prisma.$PriceAlertPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PriceAlerts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PriceAlertCountArgs} args - Arguments to filter PriceAlerts to count.
+     * @example
+     * // Count the number of PriceAlerts
+     * const count = await prisma.priceAlert.count({
+     *   where: {
+     *     // ... the filter for the PriceAlerts we want to count
+     *   }
+     * })
+    **/
+    count<T extends PriceAlertCountArgs>(
+      args?: Subset<T, PriceAlertCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PriceAlertCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PriceAlert.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PriceAlertAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PriceAlertAggregateArgs>(args: Subset<T, PriceAlertAggregateArgs>): Prisma.PrismaPromise<GetPriceAlertAggregateType<T>>
+
+    /**
+     * Group by PriceAlert.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PriceAlertGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PriceAlertGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PriceAlertGroupByArgs['orderBy'] }
+        : { orderBy?: PriceAlertGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PriceAlertGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPriceAlertGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PriceAlert model
+   */
+  readonly fields: PriceAlertFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PriceAlert.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PriceAlertClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    notifications<T extends PriceAlert$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, PriceAlert$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlertNotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PriceAlert model
+   */
+  interface PriceAlertFieldRefs {
+    readonly id: FieldRef<"PriceAlert", 'String'>
+    readonly userId: FieldRef<"PriceAlert", 'String'>
+    readonly cropType: FieldRef<"PriceAlert", 'String'>
+    readonly location: FieldRef<"PriceAlert", 'String'>
+    readonly quality: FieldRef<"PriceAlert", 'PriceQuality'>
+    readonly alertType: FieldRef<"PriceAlert", 'AlertType'>
+    readonly frequency: FieldRef<"PriceAlert", 'AlertFrequency'>
+    readonly threshold: FieldRef<"PriceAlert", 'Float'>
+    readonly isActive: FieldRef<"PriceAlert", 'Boolean'>
+    readonly lastTriggered: FieldRef<"PriceAlert", 'DateTime'>
+    readonly createdAt: FieldRef<"PriceAlert", 'DateTime'>
+    readonly updatedAt: FieldRef<"PriceAlert", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PriceAlert findUnique
+   */
+  export type PriceAlertFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PriceAlert
+     */
+    select?: PriceAlertSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PriceAlert
+     */
+    omit?: PriceAlertOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriceAlertInclude<ExtArgs> | null
+    /**
+     * Filter, which PriceAlert to fetch.
+     */
+    where: PriceAlertWhereUniqueInput
+  }
+
+  /**
+   * PriceAlert findUniqueOrThrow
+   */
+  export type PriceAlertFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PriceAlert
+     */
+    select?: PriceAlertSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PriceAlert
+     */
+    omit?: PriceAlertOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriceAlertInclude<ExtArgs> | null
+    /**
+     * Filter, which PriceAlert to fetch.
+     */
+    where: PriceAlertWhereUniqueInput
+  }
+
+  /**
+   * PriceAlert findFirst
+   */
+  export type PriceAlertFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PriceAlert
+     */
+    select?: PriceAlertSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PriceAlert
+     */
+    omit?: PriceAlertOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriceAlertInclude<ExtArgs> | null
+    /**
+     * Filter, which PriceAlert to fetch.
+     */
+    where?: PriceAlertWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PriceAlerts to fetch.
+     */
+    orderBy?: PriceAlertOrderByWithRelationInput | PriceAlertOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PriceAlerts.
+     */
+    cursor?: PriceAlertWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PriceAlerts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PriceAlerts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PriceAlerts.
+     */
+    distinct?: PriceAlertScalarFieldEnum | PriceAlertScalarFieldEnum[]
+  }
+
+  /**
+   * PriceAlert findFirstOrThrow
+   */
+  export type PriceAlertFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PriceAlert
+     */
+    select?: PriceAlertSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PriceAlert
+     */
+    omit?: PriceAlertOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriceAlertInclude<ExtArgs> | null
+    /**
+     * Filter, which PriceAlert to fetch.
+     */
+    where?: PriceAlertWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PriceAlerts to fetch.
+     */
+    orderBy?: PriceAlertOrderByWithRelationInput | PriceAlertOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PriceAlerts.
+     */
+    cursor?: PriceAlertWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PriceAlerts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PriceAlerts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PriceAlerts.
+     */
+    distinct?: PriceAlertScalarFieldEnum | PriceAlertScalarFieldEnum[]
+  }
+
+  /**
+   * PriceAlert findMany
+   */
+  export type PriceAlertFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PriceAlert
+     */
+    select?: PriceAlertSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PriceAlert
+     */
+    omit?: PriceAlertOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriceAlertInclude<ExtArgs> | null
+    /**
+     * Filter, which PriceAlerts to fetch.
+     */
+    where?: PriceAlertWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PriceAlerts to fetch.
+     */
+    orderBy?: PriceAlertOrderByWithRelationInput | PriceAlertOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PriceAlerts.
+     */
+    cursor?: PriceAlertWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PriceAlerts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PriceAlerts.
+     */
+    skip?: number
+    distinct?: PriceAlertScalarFieldEnum | PriceAlertScalarFieldEnum[]
+  }
+
+  /**
+   * PriceAlert create
+   */
+  export type PriceAlertCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PriceAlert
+     */
+    select?: PriceAlertSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PriceAlert
+     */
+    omit?: PriceAlertOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriceAlertInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PriceAlert.
+     */
+    data: XOR<PriceAlertCreateInput, PriceAlertUncheckedCreateInput>
+  }
+
+  /**
+   * PriceAlert createMany
+   */
+  export type PriceAlertCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PriceAlerts.
+     */
+    data: PriceAlertCreateManyInput | PriceAlertCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PriceAlert createManyAndReturn
+   */
+  export type PriceAlertCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PriceAlert
+     */
+    select?: PriceAlertSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PriceAlert
+     */
+    omit?: PriceAlertOmit<ExtArgs> | null
+    /**
+     * The data used to create many PriceAlerts.
+     */
+    data: PriceAlertCreateManyInput | PriceAlertCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriceAlertIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PriceAlert update
+   */
+  export type PriceAlertUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PriceAlert
+     */
+    select?: PriceAlertSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PriceAlert
+     */
+    omit?: PriceAlertOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriceAlertInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PriceAlert.
+     */
+    data: XOR<PriceAlertUpdateInput, PriceAlertUncheckedUpdateInput>
+    /**
+     * Choose, which PriceAlert to update.
+     */
+    where: PriceAlertWhereUniqueInput
+  }
+
+  /**
+   * PriceAlert updateMany
+   */
+  export type PriceAlertUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PriceAlerts.
+     */
+    data: XOR<PriceAlertUpdateManyMutationInput, PriceAlertUncheckedUpdateManyInput>
+    /**
+     * Filter which PriceAlerts to update
+     */
+    where?: PriceAlertWhereInput
+    /**
+     * Limit how many PriceAlerts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PriceAlert updateManyAndReturn
+   */
+  export type PriceAlertUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PriceAlert
+     */
+    select?: PriceAlertSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PriceAlert
+     */
+    omit?: PriceAlertOmit<ExtArgs> | null
+    /**
+     * The data used to update PriceAlerts.
+     */
+    data: XOR<PriceAlertUpdateManyMutationInput, PriceAlertUncheckedUpdateManyInput>
+    /**
+     * Filter which PriceAlerts to update
+     */
+    where?: PriceAlertWhereInput
+    /**
+     * Limit how many PriceAlerts to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriceAlertIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PriceAlert upsert
+   */
+  export type PriceAlertUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PriceAlert
+     */
+    select?: PriceAlertSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PriceAlert
+     */
+    omit?: PriceAlertOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriceAlertInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PriceAlert to update in case it exists.
+     */
+    where: PriceAlertWhereUniqueInput
+    /**
+     * In case the PriceAlert found by the `where` argument doesn't exist, create a new PriceAlert with this data.
+     */
+    create: XOR<PriceAlertCreateInput, PriceAlertUncheckedCreateInput>
+    /**
+     * In case the PriceAlert was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PriceAlertUpdateInput, PriceAlertUncheckedUpdateInput>
+  }
+
+  /**
+   * PriceAlert delete
+   */
+  export type PriceAlertDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PriceAlert
+     */
+    select?: PriceAlertSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PriceAlert
+     */
+    omit?: PriceAlertOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriceAlertInclude<ExtArgs> | null
+    /**
+     * Filter which PriceAlert to delete.
+     */
+    where: PriceAlertWhereUniqueInput
+  }
+
+  /**
+   * PriceAlert deleteMany
+   */
+  export type PriceAlertDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PriceAlerts to delete
+     */
+    where?: PriceAlertWhereInput
+    /**
+     * Limit how many PriceAlerts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PriceAlert.notifications
+   */
+  export type PriceAlert$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertNotification
+     */
+    select?: AlertNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertNotification
+     */
+    omit?: AlertNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertNotificationInclude<ExtArgs> | null
+    where?: AlertNotificationWhereInput
+    orderBy?: AlertNotificationOrderByWithRelationInput | AlertNotificationOrderByWithRelationInput[]
+    cursor?: AlertNotificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AlertNotificationScalarFieldEnum | AlertNotificationScalarFieldEnum[]
+  }
+
+  /**
+   * PriceAlert without action
+   */
+  export type PriceAlertDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PriceAlert
+     */
+    select?: PriceAlertSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PriceAlert
+     */
+    omit?: PriceAlertOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PriceAlertInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AlertNotification
+   */
+
+  export type AggregateAlertNotification = {
+    _count: AlertNotificationCountAggregateOutputType | null
+    _avg: AlertNotificationAvgAggregateOutputType | null
+    _sum: AlertNotificationSumAggregateOutputType | null
+    _min: AlertNotificationMinAggregateOutputType | null
+    _max: AlertNotificationMaxAggregateOutputType | null
+  }
+
+  export type AlertNotificationAvgAggregateOutputType = {
+    oldPrice: number | null
+    newPrice: number | null
+    priceChange: number | null
+  }
+
+  export type AlertNotificationSumAggregateOutputType = {
+    oldPrice: number | null
+    newPrice: number | null
+    priceChange: number | null
+  }
+
+  export type AlertNotificationMinAggregateOutputType = {
+    id: string | null
+    alertId: string | null
+    userId: string | null
+    title: string | null
+    message: string | null
+    alertType: $Enums.AlertType | null
+    cropType: string | null
+    location: string | null
+    oldPrice: number | null
+    newPrice: number | null
+    priceChange: number | null
+    status: $Enums.AlertStatus | null
+    sentAt: Date | null
+    readAt: Date | null
+    dismissedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type AlertNotificationMaxAggregateOutputType = {
+    id: string | null
+    alertId: string | null
+    userId: string | null
+    title: string | null
+    message: string | null
+    alertType: $Enums.AlertType | null
+    cropType: string | null
+    location: string | null
+    oldPrice: number | null
+    newPrice: number | null
+    priceChange: number | null
+    status: $Enums.AlertStatus | null
+    sentAt: Date | null
+    readAt: Date | null
+    dismissedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type AlertNotificationCountAggregateOutputType = {
+    id: number
+    alertId: number
+    userId: number
+    title: number
+    message: number
+    alertType: number
+    cropType: number
+    location: number
+    oldPrice: number
+    newPrice: number
+    priceChange: number
+    status: number
+    sentAt: number
+    readAt: number
+    dismissedAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AlertNotificationAvgAggregateInputType = {
+    oldPrice?: true
+    newPrice?: true
+    priceChange?: true
+  }
+
+  export type AlertNotificationSumAggregateInputType = {
+    oldPrice?: true
+    newPrice?: true
+    priceChange?: true
+  }
+
+  export type AlertNotificationMinAggregateInputType = {
+    id?: true
+    alertId?: true
+    userId?: true
+    title?: true
+    message?: true
+    alertType?: true
+    cropType?: true
+    location?: true
+    oldPrice?: true
+    newPrice?: true
+    priceChange?: true
+    status?: true
+    sentAt?: true
+    readAt?: true
+    dismissedAt?: true
+    createdAt?: true
+  }
+
+  export type AlertNotificationMaxAggregateInputType = {
+    id?: true
+    alertId?: true
+    userId?: true
+    title?: true
+    message?: true
+    alertType?: true
+    cropType?: true
+    location?: true
+    oldPrice?: true
+    newPrice?: true
+    priceChange?: true
+    status?: true
+    sentAt?: true
+    readAt?: true
+    dismissedAt?: true
+    createdAt?: true
+  }
+
+  export type AlertNotificationCountAggregateInputType = {
+    id?: true
+    alertId?: true
+    userId?: true
+    title?: true
+    message?: true
+    alertType?: true
+    cropType?: true
+    location?: true
+    oldPrice?: true
+    newPrice?: true
+    priceChange?: true
+    status?: true
+    sentAt?: true
+    readAt?: true
+    dismissedAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AlertNotificationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AlertNotification to aggregate.
+     */
+    where?: AlertNotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AlertNotifications to fetch.
+     */
+    orderBy?: AlertNotificationOrderByWithRelationInput | AlertNotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AlertNotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AlertNotifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AlertNotifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AlertNotifications
+    **/
+    _count?: true | AlertNotificationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AlertNotificationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AlertNotificationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AlertNotificationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AlertNotificationMaxAggregateInputType
+  }
+
+  export type GetAlertNotificationAggregateType<T extends AlertNotificationAggregateArgs> = {
+        [P in keyof T & keyof AggregateAlertNotification]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAlertNotification[P]>
+      : GetScalarType<T[P], AggregateAlertNotification[P]>
+  }
+
+
+
+
+  export type AlertNotificationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AlertNotificationWhereInput
+    orderBy?: AlertNotificationOrderByWithAggregationInput | AlertNotificationOrderByWithAggregationInput[]
+    by: AlertNotificationScalarFieldEnum[] | AlertNotificationScalarFieldEnum
+    having?: AlertNotificationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AlertNotificationCountAggregateInputType | true
+    _avg?: AlertNotificationAvgAggregateInputType
+    _sum?: AlertNotificationSumAggregateInputType
+    _min?: AlertNotificationMinAggregateInputType
+    _max?: AlertNotificationMaxAggregateInputType
+  }
+
+  export type AlertNotificationGroupByOutputType = {
+    id: string
+    alertId: string
+    userId: string
+    title: string
+    message: string
+    alertType: $Enums.AlertType
+    cropType: string
+    location: string
+    oldPrice: number | null
+    newPrice: number | null
+    priceChange: number | null
+    status: $Enums.AlertStatus
+    sentAt: Date | null
+    readAt: Date | null
+    dismissedAt: Date | null
+    createdAt: Date
+    _count: AlertNotificationCountAggregateOutputType | null
+    _avg: AlertNotificationAvgAggregateOutputType | null
+    _sum: AlertNotificationSumAggregateOutputType | null
+    _min: AlertNotificationMinAggregateOutputType | null
+    _max: AlertNotificationMaxAggregateOutputType | null
+  }
+
+  type GetAlertNotificationGroupByPayload<T extends AlertNotificationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AlertNotificationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AlertNotificationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AlertNotificationGroupByOutputType[P]>
+            : GetScalarType<T[P], AlertNotificationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AlertNotificationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alertId?: boolean
+    userId?: boolean
+    title?: boolean
+    message?: boolean
+    alertType?: boolean
+    cropType?: boolean
+    location?: boolean
+    oldPrice?: boolean
+    newPrice?: boolean
+    priceChange?: boolean
+    status?: boolean
+    sentAt?: boolean
+    readAt?: boolean
+    dismissedAt?: boolean
+    createdAt?: boolean
+    alert?: boolean | PriceAlertDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["alertNotification"]>
+
+  export type AlertNotificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alertId?: boolean
+    userId?: boolean
+    title?: boolean
+    message?: boolean
+    alertType?: boolean
+    cropType?: boolean
+    location?: boolean
+    oldPrice?: boolean
+    newPrice?: boolean
+    priceChange?: boolean
+    status?: boolean
+    sentAt?: boolean
+    readAt?: boolean
+    dismissedAt?: boolean
+    createdAt?: boolean
+    alert?: boolean | PriceAlertDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["alertNotification"]>
+
+  export type AlertNotificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    alertId?: boolean
+    userId?: boolean
+    title?: boolean
+    message?: boolean
+    alertType?: boolean
+    cropType?: boolean
+    location?: boolean
+    oldPrice?: boolean
+    newPrice?: boolean
+    priceChange?: boolean
+    status?: boolean
+    sentAt?: boolean
+    readAt?: boolean
+    dismissedAt?: boolean
+    createdAt?: boolean
+    alert?: boolean | PriceAlertDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["alertNotification"]>
+
+  export type AlertNotificationSelectScalar = {
+    id?: boolean
+    alertId?: boolean
+    userId?: boolean
+    title?: boolean
+    message?: boolean
+    alertType?: boolean
+    cropType?: boolean
+    location?: boolean
+    oldPrice?: boolean
+    newPrice?: boolean
+    priceChange?: boolean
+    status?: boolean
+    sentAt?: boolean
+    readAt?: boolean
+    dismissedAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type AlertNotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "alertId" | "userId" | "title" | "message" | "alertType" | "cropType" | "location" | "oldPrice" | "newPrice" | "priceChange" | "status" | "sentAt" | "readAt" | "dismissedAt" | "createdAt", ExtArgs["result"]["alertNotification"]>
+  export type AlertNotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alert?: boolean | PriceAlertDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AlertNotificationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alert?: boolean | PriceAlertDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AlertNotificationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    alert?: boolean | PriceAlertDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $AlertNotificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AlertNotification"
+    objects: {
+      alert: Prisma.$PriceAlertPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      alertId: string
+      userId: string
+      title: string
+      message: string
+      alertType: $Enums.AlertType
+      cropType: string
+      location: string
+      oldPrice: number | null
+      newPrice: number | null
+      priceChange: number | null
+      status: $Enums.AlertStatus
+      sentAt: Date | null
+      readAt: Date | null
+      dismissedAt: Date | null
+      createdAt: Date
+    }, ExtArgs["result"]["alertNotification"]>
+    composites: {}
+  }
+
+  type AlertNotificationGetPayload<S extends boolean | null | undefined | AlertNotificationDefaultArgs> = $Result.GetResult<Prisma.$AlertNotificationPayload, S>
+
+  type AlertNotificationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AlertNotificationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AlertNotificationCountAggregateInputType | true
+    }
+
+  export interface AlertNotificationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AlertNotification'], meta: { name: 'AlertNotification' } }
+    /**
+     * Find zero or one AlertNotification that matches the filter.
+     * @param {AlertNotificationFindUniqueArgs} args - Arguments to find a AlertNotification
+     * @example
+     * // Get one AlertNotification
+     * const alertNotification = await prisma.alertNotification.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AlertNotificationFindUniqueArgs>(args: SelectSubset<T, AlertNotificationFindUniqueArgs<ExtArgs>>): Prisma__AlertNotificationClient<$Result.GetResult<Prisma.$AlertNotificationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AlertNotification that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AlertNotificationFindUniqueOrThrowArgs} args - Arguments to find a AlertNotification
+     * @example
+     * // Get one AlertNotification
+     * const alertNotification = await prisma.alertNotification.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AlertNotificationFindUniqueOrThrowArgs>(args: SelectSubset<T, AlertNotificationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AlertNotificationClient<$Result.GetResult<Prisma.$AlertNotificationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AlertNotification that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlertNotificationFindFirstArgs} args - Arguments to find a AlertNotification
+     * @example
+     * // Get one AlertNotification
+     * const alertNotification = await prisma.alertNotification.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AlertNotificationFindFirstArgs>(args?: SelectSubset<T, AlertNotificationFindFirstArgs<ExtArgs>>): Prisma__AlertNotificationClient<$Result.GetResult<Prisma.$AlertNotificationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AlertNotification that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlertNotificationFindFirstOrThrowArgs} args - Arguments to find a AlertNotification
+     * @example
+     * // Get one AlertNotification
+     * const alertNotification = await prisma.alertNotification.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AlertNotificationFindFirstOrThrowArgs>(args?: SelectSubset<T, AlertNotificationFindFirstOrThrowArgs<ExtArgs>>): Prisma__AlertNotificationClient<$Result.GetResult<Prisma.$AlertNotificationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AlertNotifications that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlertNotificationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AlertNotifications
+     * const alertNotifications = await prisma.alertNotification.findMany()
+     * 
+     * // Get first 10 AlertNotifications
+     * const alertNotifications = await prisma.alertNotification.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const alertNotificationWithIdOnly = await prisma.alertNotification.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AlertNotificationFindManyArgs>(args?: SelectSubset<T, AlertNotificationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlertNotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AlertNotification.
+     * @param {AlertNotificationCreateArgs} args - Arguments to create a AlertNotification.
+     * @example
+     * // Create one AlertNotification
+     * const AlertNotification = await prisma.alertNotification.create({
+     *   data: {
+     *     // ... data to create a AlertNotification
+     *   }
+     * })
+     * 
+     */
+    create<T extends AlertNotificationCreateArgs>(args: SelectSubset<T, AlertNotificationCreateArgs<ExtArgs>>): Prisma__AlertNotificationClient<$Result.GetResult<Prisma.$AlertNotificationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AlertNotifications.
+     * @param {AlertNotificationCreateManyArgs} args - Arguments to create many AlertNotifications.
+     * @example
+     * // Create many AlertNotifications
+     * const alertNotification = await prisma.alertNotification.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AlertNotificationCreateManyArgs>(args?: SelectSubset<T, AlertNotificationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AlertNotifications and returns the data saved in the database.
+     * @param {AlertNotificationCreateManyAndReturnArgs} args - Arguments to create many AlertNotifications.
+     * @example
+     * // Create many AlertNotifications
+     * const alertNotification = await prisma.alertNotification.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AlertNotifications and only return the `id`
+     * const alertNotificationWithIdOnly = await prisma.alertNotification.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AlertNotificationCreateManyAndReturnArgs>(args?: SelectSubset<T, AlertNotificationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlertNotificationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AlertNotification.
+     * @param {AlertNotificationDeleteArgs} args - Arguments to delete one AlertNotification.
+     * @example
+     * // Delete one AlertNotification
+     * const AlertNotification = await prisma.alertNotification.delete({
+     *   where: {
+     *     // ... filter to delete one AlertNotification
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AlertNotificationDeleteArgs>(args: SelectSubset<T, AlertNotificationDeleteArgs<ExtArgs>>): Prisma__AlertNotificationClient<$Result.GetResult<Prisma.$AlertNotificationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AlertNotification.
+     * @param {AlertNotificationUpdateArgs} args - Arguments to update one AlertNotification.
+     * @example
+     * // Update one AlertNotification
+     * const alertNotification = await prisma.alertNotification.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AlertNotificationUpdateArgs>(args: SelectSubset<T, AlertNotificationUpdateArgs<ExtArgs>>): Prisma__AlertNotificationClient<$Result.GetResult<Prisma.$AlertNotificationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AlertNotifications.
+     * @param {AlertNotificationDeleteManyArgs} args - Arguments to filter AlertNotifications to delete.
+     * @example
+     * // Delete a few AlertNotifications
+     * const { count } = await prisma.alertNotification.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AlertNotificationDeleteManyArgs>(args?: SelectSubset<T, AlertNotificationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AlertNotifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlertNotificationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AlertNotifications
+     * const alertNotification = await prisma.alertNotification.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AlertNotificationUpdateManyArgs>(args: SelectSubset<T, AlertNotificationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AlertNotifications and returns the data updated in the database.
+     * @param {AlertNotificationUpdateManyAndReturnArgs} args - Arguments to update many AlertNotifications.
+     * @example
+     * // Update many AlertNotifications
+     * const alertNotification = await prisma.alertNotification.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AlertNotifications and only return the `id`
+     * const alertNotificationWithIdOnly = await prisma.alertNotification.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AlertNotificationUpdateManyAndReturnArgs>(args: SelectSubset<T, AlertNotificationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlertNotificationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AlertNotification.
+     * @param {AlertNotificationUpsertArgs} args - Arguments to update or create a AlertNotification.
+     * @example
+     * // Update or create a AlertNotification
+     * const alertNotification = await prisma.alertNotification.upsert({
+     *   create: {
+     *     // ... data to create a AlertNotification
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AlertNotification we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AlertNotificationUpsertArgs>(args: SelectSubset<T, AlertNotificationUpsertArgs<ExtArgs>>): Prisma__AlertNotificationClient<$Result.GetResult<Prisma.$AlertNotificationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AlertNotifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlertNotificationCountArgs} args - Arguments to filter AlertNotifications to count.
+     * @example
+     * // Count the number of AlertNotifications
+     * const count = await prisma.alertNotification.count({
+     *   where: {
+     *     // ... the filter for the AlertNotifications we want to count
+     *   }
+     * })
+    **/
+    count<T extends AlertNotificationCountArgs>(
+      args?: Subset<T, AlertNotificationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AlertNotificationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AlertNotification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlertNotificationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AlertNotificationAggregateArgs>(args: Subset<T, AlertNotificationAggregateArgs>): Prisma.PrismaPromise<GetAlertNotificationAggregateType<T>>
+
+    /**
+     * Group by AlertNotification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AlertNotificationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AlertNotificationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AlertNotificationGroupByArgs['orderBy'] }
+        : { orderBy?: AlertNotificationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AlertNotificationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAlertNotificationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AlertNotification model
+   */
+  readonly fields: AlertNotificationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AlertNotification.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AlertNotificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    alert<T extends PriceAlertDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PriceAlertDefaultArgs<ExtArgs>>): Prisma__PriceAlertClient<$Result.GetResult<Prisma.$PriceAlertPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AlertNotification model
+   */
+  interface AlertNotificationFieldRefs {
+    readonly id: FieldRef<"AlertNotification", 'String'>
+    readonly alertId: FieldRef<"AlertNotification", 'String'>
+    readonly userId: FieldRef<"AlertNotification", 'String'>
+    readonly title: FieldRef<"AlertNotification", 'String'>
+    readonly message: FieldRef<"AlertNotification", 'String'>
+    readonly alertType: FieldRef<"AlertNotification", 'AlertType'>
+    readonly cropType: FieldRef<"AlertNotification", 'String'>
+    readonly location: FieldRef<"AlertNotification", 'String'>
+    readonly oldPrice: FieldRef<"AlertNotification", 'Float'>
+    readonly newPrice: FieldRef<"AlertNotification", 'Float'>
+    readonly priceChange: FieldRef<"AlertNotification", 'Float'>
+    readonly status: FieldRef<"AlertNotification", 'AlertStatus'>
+    readonly sentAt: FieldRef<"AlertNotification", 'DateTime'>
+    readonly readAt: FieldRef<"AlertNotification", 'DateTime'>
+    readonly dismissedAt: FieldRef<"AlertNotification", 'DateTime'>
+    readonly createdAt: FieldRef<"AlertNotification", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AlertNotification findUnique
+   */
+  export type AlertNotificationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertNotification
+     */
+    select?: AlertNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertNotification
+     */
+    omit?: AlertNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertNotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which AlertNotification to fetch.
+     */
+    where: AlertNotificationWhereUniqueInput
+  }
+
+  /**
+   * AlertNotification findUniqueOrThrow
+   */
+  export type AlertNotificationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertNotification
+     */
+    select?: AlertNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertNotification
+     */
+    omit?: AlertNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertNotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which AlertNotification to fetch.
+     */
+    where: AlertNotificationWhereUniqueInput
+  }
+
+  /**
+   * AlertNotification findFirst
+   */
+  export type AlertNotificationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertNotification
+     */
+    select?: AlertNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertNotification
+     */
+    omit?: AlertNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertNotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which AlertNotification to fetch.
+     */
+    where?: AlertNotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AlertNotifications to fetch.
+     */
+    orderBy?: AlertNotificationOrderByWithRelationInput | AlertNotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AlertNotifications.
+     */
+    cursor?: AlertNotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AlertNotifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AlertNotifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AlertNotifications.
+     */
+    distinct?: AlertNotificationScalarFieldEnum | AlertNotificationScalarFieldEnum[]
+  }
+
+  /**
+   * AlertNotification findFirstOrThrow
+   */
+  export type AlertNotificationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertNotification
+     */
+    select?: AlertNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertNotification
+     */
+    omit?: AlertNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertNotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which AlertNotification to fetch.
+     */
+    where?: AlertNotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AlertNotifications to fetch.
+     */
+    orderBy?: AlertNotificationOrderByWithRelationInput | AlertNotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AlertNotifications.
+     */
+    cursor?: AlertNotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AlertNotifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AlertNotifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AlertNotifications.
+     */
+    distinct?: AlertNotificationScalarFieldEnum | AlertNotificationScalarFieldEnum[]
+  }
+
+  /**
+   * AlertNotification findMany
+   */
+  export type AlertNotificationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertNotification
+     */
+    select?: AlertNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertNotification
+     */
+    omit?: AlertNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertNotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which AlertNotifications to fetch.
+     */
+    where?: AlertNotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AlertNotifications to fetch.
+     */
+    orderBy?: AlertNotificationOrderByWithRelationInput | AlertNotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AlertNotifications.
+     */
+    cursor?: AlertNotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AlertNotifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AlertNotifications.
+     */
+    skip?: number
+    distinct?: AlertNotificationScalarFieldEnum | AlertNotificationScalarFieldEnum[]
+  }
+
+  /**
+   * AlertNotification create
+   */
+  export type AlertNotificationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertNotification
+     */
+    select?: AlertNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertNotification
+     */
+    omit?: AlertNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertNotificationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AlertNotification.
+     */
+    data: XOR<AlertNotificationCreateInput, AlertNotificationUncheckedCreateInput>
+  }
+
+  /**
+   * AlertNotification createMany
+   */
+  export type AlertNotificationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AlertNotifications.
+     */
+    data: AlertNotificationCreateManyInput | AlertNotificationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AlertNotification createManyAndReturn
+   */
+  export type AlertNotificationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertNotification
+     */
+    select?: AlertNotificationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertNotification
+     */
+    omit?: AlertNotificationOmit<ExtArgs> | null
+    /**
+     * The data used to create many AlertNotifications.
+     */
+    data: AlertNotificationCreateManyInput | AlertNotificationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertNotificationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AlertNotification update
+   */
+  export type AlertNotificationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertNotification
+     */
+    select?: AlertNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertNotification
+     */
+    omit?: AlertNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertNotificationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AlertNotification.
+     */
+    data: XOR<AlertNotificationUpdateInput, AlertNotificationUncheckedUpdateInput>
+    /**
+     * Choose, which AlertNotification to update.
+     */
+    where: AlertNotificationWhereUniqueInput
+  }
+
+  /**
+   * AlertNotification updateMany
+   */
+  export type AlertNotificationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AlertNotifications.
+     */
+    data: XOR<AlertNotificationUpdateManyMutationInput, AlertNotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which AlertNotifications to update
+     */
+    where?: AlertNotificationWhereInput
+    /**
+     * Limit how many AlertNotifications to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AlertNotification updateManyAndReturn
+   */
+  export type AlertNotificationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertNotification
+     */
+    select?: AlertNotificationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertNotification
+     */
+    omit?: AlertNotificationOmit<ExtArgs> | null
+    /**
+     * The data used to update AlertNotifications.
+     */
+    data: XOR<AlertNotificationUpdateManyMutationInput, AlertNotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which AlertNotifications to update
+     */
+    where?: AlertNotificationWhereInput
+    /**
+     * Limit how many AlertNotifications to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertNotificationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AlertNotification upsert
+   */
+  export type AlertNotificationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertNotification
+     */
+    select?: AlertNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertNotification
+     */
+    omit?: AlertNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertNotificationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AlertNotification to update in case it exists.
+     */
+    where: AlertNotificationWhereUniqueInput
+    /**
+     * In case the AlertNotification found by the `where` argument doesn't exist, create a new AlertNotification with this data.
+     */
+    create: XOR<AlertNotificationCreateInput, AlertNotificationUncheckedCreateInput>
+    /**
+     * In case the AlertNotification was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AlertNotificationUpdateInput, AlertNotificationUncheckedUpdateInput>
+  }
+
+  /**
+   * AlertNotification delete
+   */
+  export type AlertNotificationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertNotification
+     */
+    select?: AlertNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertNotification
+     */
+    omit?: AlertNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertNotificationInclude<ExtArgs> | null
+    /**
+     * Filter which AlertNotification to delete.
+     */
+    where: AlertNotificationWhereUniqueInput
+  }
+
+  /**
+   * AlertNotification deleteMany
+   */
+  export type AlertNotificationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AlertNotifications to delete
+     */
+    where?: AlertNotificationWhereInput
+    /**
+     * Limit how many AlertNotifications to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AlertNotification without action
+   */
+  export type AlertNotificationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AlertNotification
+     */
+    select?: AlertNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AlertNotification
+     */
+    omit?: AlertNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AlertNotificationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -15992,6 +18787,46 @@ export namespace Prisma {
   };
 
   export type MarketPriceScalarFieldEnum = (typeof MarketPriceScalarFieldEnum)[keyof typeof MarketPriceScalarFieldEnum]
+
+
+  export const PriceAlertScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    cropType: 'cropType',
+    location: 'location',
+    quality: 'quality',
+    alertType: 'alertType',
+    frequency: 'frequency',
+    threshold: 'threshold',
+    isActive: 'isActive',
+    lastTriggered: 'lastTriggered',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PriceAlertScalarFieldEnum = (typeof PriceAlertScalarFieldEnum)[keyof typeof PriceAlertScalarFieldEnum]
+
+
+  export const AlertNotificationScalarFieldEnum: {
+    id: 'id',
+    alertId: 'alertId',
+    userId: 'userId',
+    title: 'title',
+    message: 'message',
+    alertType: 'alertType',
+    cropType: 'cropType',
+    location: 'location',
+    oldPrice: 'oldPrice',
+    newPrice: 'newPrice',
+    priceChange: 'priceChange',
+    status: 'status',
+    sentAt: 'sentAt',
+    readAt: 'readAt',
+    dismissedAt: 'dismissedAt',
+    createdAt: 'createdAt'
+  };
+
+  export type AlertNotificationScalarFieldEnum = (typeof AlertNotificationScalarFieldEnum)[keyof typeof AlertNotificationScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -16225,6 +19060,48 @@ export namespace Prisma {
    * Reference to a field of type 'PriceStatus[]'
    */
   export type ListEnumPriceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PriceStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'AlertType'
+   */
+  export type EnumAlertTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AlertType'>
+    
+
+
+  /**
+   * Reference to a field of type 'AlertType[]'
+   */
+  export type ListEnumAlertTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AlertType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'AlertFrequency'
+   */
+  export type EnumAlertFrequencyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AlertFrequency'>
+    
+
+
+  /**
+   * Reference to a field of type 'AlertFrequency[]'
+   */
+  export type ListEnumAlertFrequencyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AlertFrequency[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'AlertStatus'
+   */
+  export type EnumAlertStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AlertStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'AlertStatus[]'
+   */
+  export type ListEnumAlertStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AlertStatus[]'>
     
   /**
    * Deep Input Types
@@ -17004,6 +19881,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogListRelationFilter
     MarketPrice_submittedBy?: MarketPriceListRelationFilter
     MarketPrice_reviewedBy?: MarketPriceListRelationFilter
+    PriceAlert?: PriceAlertListRelationFilter
+    AlertNotification?: AlertNotificationListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -17050,6 +19929,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogOrderByRelationAggregateInput
     MarketPrice_submittedBy?: MarketPriceOrderByRelationAggregateInput
     MarketPrice_reviewedBy?: MarketPriceOrderByRelationAggregateInput
+    PriceAlert?: PriceAlertOrderByRelationAggregateInput
+    AlertNotification?: AlertNotificationOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -17099,6 +19980,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogListRelationFilter
     MarketPrice_submittedBy?: MarketPriceListRelationFilter
     MarketPrice_reviewedBy?: MarketPriceListRelationFilter
+    PriceAlert?: PriceAlertListRelationFilter
+    AlertNotification?: AlertNotificationListRelationFilter
   }, "id" | "phone" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -17313,6 +20196,217 @@ export namespace Prisma {
     priceChange?: FloatNullableWithAggregatesFilter<"MarketPrice"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"MarketPrice"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"MarketPrice"> | Date | string
+  }
+
+  export type PriceAlertWhereInput = {
+    AND?: PriceAlertWhereInput | PriceAlertWhereInput[]
+    OR?: PriceAlertWhereInput[]
+    NOT?: PriceAlertWhereInput | PriceAlertWhereInput[]
+    id?: StringFilter<"PriceAlert"> | string
+    userId?: StringFilter<"PriceAlert"> | string
+    cropType?: StringFilter<"PriceAlert"> | string
+    location?: StringFilter<"PriceAlert"> | string
+    quality?: EnumPriceQualityNullableFilter<"PriceAlert"> | $Enums.PriceQuality | null
+    alertType?: EnumAlertTypeFilter<"PriceAlert"> | $Enums.AlertType
+    frequency?: EnumAlertFrequencyFilter<"PriceAlert"> | $Enums.AlertFrequency
+    threshold?: FloatFilter<"PriceAlert"> | number
+    isActive?: BoolFilter<"PriceAlert"> | boolean
+    lastTriggered?: DateTimeNullableFilter<"PriceAlert"> | Date | string | null
+    createdAt?: DateTimeFilter<"PriceAlert"> | Date | string
+    updatedAt?: DateTimeFilter<"PriceAlert"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    notifications?: AlertNotificationListRelationFilter
+  }
+
+  export type PriceAlertOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    cropType?: SortOrder
+    location?: SortOrder
+    quality?: SortOrderInput | SortOrder
+    alertType?: SortOrder
+    frequency?: SortOrder
+    threshold?: SortOrder
+    isActive?: SortOrder
+    lastTriggered?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    notifications?: AlertNotificationOrderByRelationAggregateInput
+  }
+
+  export type PriceAlertWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_cropType_location_quality_alertType?: PriceAlertUserIdCropTypeLocationQualityAlertTypeCompoundUniqueInput
+    AND?: PriceAlertWhereInput | PriceAlertWhereInput[]
+    OR?: PriceAlertWhereInput[]
+    NOT?: PriceAlertWhereInput | PriceAlertWhereInput[]
+    userId?: StringFilter<"PriceAlert"> | string
+    cropType?: StringFilter<"PriceAlert"> | string
+    location?: StringFilter<"PriceAlert"> | string
+    quality?: EnumPriceQualityNullableFilter<"PriceAlert"> | $Enums.PriceQuality | null
+    alertType?: EnumAlertTypeFilter<"PriceAlert"> | $Enums.AlertType
+    frequency?: EnumAlertFrequencyFilter<"PriceAlert"> | $Enums.AlertFrequency
+    threshold?: FloatFilter<"PriceAlert"> | number
+    isActive?: BoolFilter<"PriceAlert"> | boolean
+    lastTriggered?: DateTimeNullableFilter<"PriceAlert"> | Date | string | null
+    createdAt?: DateTimeFilter<"PriceAlert"> | Date | string
+    updatedAt?: DateTimeFilter<"PriceAlert"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    notifications?: AlertNotificationListRelationFilter
+  }, "id" | "userId_cropType_location_quality_alertType">
+
+  export type PriceAlertOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    cropType?: SortOrder
+    location?: SortOrder
+    quality?: SortOrderInput | SortOrder
+    alertType?: SortOrder
+    frequency?: SortOrder
+    threshold?: SortOrder
+    isActive?: SortOrder
+    lastTriggered?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PriceAlertCountOrderByAggregateInput
+    _avg?: PriceAlertAvgOrderByAggregateInput
+    _max?: PriceAlertMaxOrderByAggregateInput
+    _min?: PriceAlertMinOrderByAggregateInput
+    _sum?: PriceAlertSumOrderByAggregateInput
+  }
+
+  export type PriceAlertScalarWhereWithAggregatesInput = {
+    AND?: PriceAlertScalarWhereWithAggregatesInput | PriceAlertScalarWhereWithAggregatesInput[]
+    OR?: PriceAlertScalarWhereWithAggregatesInput[]
+    NOT?: PriceAlertScalarWhereWithAggregatesInput | PriceAlertScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PriceAlert"> | string
+    userId?: StringWithAggregatesFilter<"PriceAlert"> | string
+    cropType?: StringWithAggregatesFilter<"PriceAlert"> | string
+    location?: StringWithAggregatesFilter<"PriceAlert"> | string
+    quality?: EnumPriceQualityNullableWithAggregatesFilter<"PriceAlert"> | $Enums.PriceQuality | null
+    alertType?: EnumAlertTypeWithAggregatesFilter<"PriceAlert"> | $Enums.AlertType
+    frequency?: EnumAlertFrequencyWithAggregatesFilter<"PriceAlert"> | $Enums.AlertFrequency
+    threshold?: FloatWithAggregatesFilter<"PriceAlert"> | number
+    isActive?: BoolWithAggregatesFilter<"PriceAlert"> | boolean
+    lastTriggered?: DateTimeNullableWithAggregatesFilter<"PriceAlert"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"PriceAlert"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PriceAlert"> | Date | string
+  }
+
+  export type AlertNotificationWhereInput = {
+    AND?: AlertNotificationWhereInput | AlertNotificationWhereInput[]
+    OR?: AlertNotificationWhereInput[]
+    NOT?: AlertNotificationWhereInput | AlertNotificationWhereInput[]
+    id?: StringFilter<"AlertNotification"> | string
+    alertId?: StringFilter<"AlertNotification"> | string
+    userId?: StringFilter<"AlertNotification"> | string
+    title?: StringFilter<"AlertNotification"> | string
+    message?: StringFilter<"AlertNotification"> | string
+    alertType?: EnumAlertTypeFilter<"AlertNotification"> | $Enums.AlertType
+    cropType?: StringFilter<"AlertNotification"> | string
+    location?: StringFilter<"AlertNotification"> | string
+    oldPrice?: FloatNullableFilter<"AlertNotification"> | number | null
+    newPrice?: FloatNullableFilter<"AlertNotification"> | number | null
+    priceChange?: FloatNullableFilter<"AlertNotification"> | number | null
+    status?: EnumAlertStatusFilter<"AlertNotification"> | $Enums.AlertStatus
+    sentAt?: DateTimeNullableFilter<"AlertNotification"> | Date | string | null
+    readAt?: DateTimeNullableFilter<"AlertNotification"> | Date | string | null
+    dismissedAt?: DateTimeNullableFilter<"AlertNotification"> | Date | string | null
+    createdAt?: DateTimeFilter<"AlertNotification"> | Date | string
+    alert?: XOR<PriceAlertScalarRelationFilter, PriceAlertWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type AlertNotificationOrderByWithRelationInput = {
+    id?: SortOrder
+    alertId?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    alertType?: SortOrder
+    cropType?: SortOrder
+    location?: SortOrder
+    oldPrice?: SortOrderInput | SortOrder
+    newPrice?: SortOrderInput | SortOrder
+    priceChange?: SortOrderInput | SortOrder
+    status?: SortOrder
+    sentAt?: SortOrderInput | SortOrder
+    readAt?: SortOrderInput | SortOrder
+    dismissedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    alert?: PriceAlertOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type AlertNotificationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AlertNotificationWhereInput | AlertNotificationWhereInput[]
+    OR?: AlertNotificationWhereInput[]
+    NOT?: AlertNotificationWhereInput | AlertNotificationWhereInput[]
+    alertId?: StringFilter<"AlertNotification"> | string
+    userId?: StringFilter<"AlertNotification"> | string
+    title?: StringFilter<"AlertNotification"> | string
+    message?: StringFilter<"AlertNotification"> | string
+    alertType?: EnumAlertTypeFilter<"AlertNotification"> | $Enums.AlertType
+    cropType?: StringFilter<"AlertNotification"> | string
+    location?: StringFilter<"AlertNotification"> | string
+    oldPrice?: FloatNullableFilter<"AlertNotification"> | number | null
+    newPrice?: FloatNullableFilter<"AlertNotification"> | number | null
+    priceChange?: FloatNullableFilter<"AlertNotification"> | number | null
+    status?: EnumAlertStatusFilter<"AlertNotification"> | $Enums.AlertStatus
+    sentAt?: DateTimeNullableFilter<"AlertNotification"> | Date | string | null
+    readAt?: DateTimeNullableFilter<"AlertNotification"> | Date | string | null
+    dismissedAt?: DateTimeNullableFilter<"AlertNotification"> | Date | string | null
+    createdAt?: DateTimeFilter<"AlertNotification"> | Date | string
+    alert?: XOR<PriceAlertScalarRelationFilter, PriceAlertWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type AlertNotificationOrderByWithAggregationInput = {
+    id?: SortOrder
+    alertId?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    alertType?: SortOrder
+    cropType?: SortOrder
+    location?: SortOrder
+    oldPrice?: SortOrderInput | SortOrder
+    newPrice?: SortOrderInput | SortOrder
+    priceChange?: SortOrderInput | SortOrder
+    status?: SortOrder
+    sentAt?: SortOrderInput | SortOrder
+    readAt?: SortOrderInput | SortOrder
+    dismissedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: AlertNotificationCountOrderByAggregateInput
+    _avg?: AlertNotificationAvgOrderByAggregateInput
+    _max?: AlertNotificationMaxOrderByAggregateInput
+    _min?: AlertNotificationMinOrderByAggregateInput
+    _sum?: AlertNotificationSumOrderByAggregateInput
+  }
+
+  export type AlertNotificationScalarWhereWithAggregatesInput = {
+    AND?: AlertNotificationScalarWhereWithAggregatesInput | AlertNotificationScalarWhereWithAggregatesInput[]
+    OR?: AlertNotificationScalarWhereWithAggregatesInput[]
+    NOT?: AlertNotificationScalarWhereWithAggregatesInput | AlertNotificationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AlertNotification"> | string
+    alertId?: StringWithAggregatesFilter<"AlertNotification"> | string
+    userId?: StringWithAggregatesFilter<"AlertNotification"> | string
+    title?: StringWithAggregatesFilter<"AlertNotification"> | string
+    message?: StringWithAggregatesFilter<"AlertNotification"> | string
+    alertType?: EnumAlertTypeWithAggregatesFilter<"AlertNotification"> | $Enums.AlertType
+    cropType?: StringWithAggregatesFilter<"AlertNotification"> | string
+    location?: StringWithAggregatesFilter<"AlertNotification"> | string
+    oldPrice?: FloatNullableWithAggregatesFilter<"AlertNotification"> | number | null
+    newPrice?: FloatNullableWithAggregatesFilter<"AlertNotification"> | number | null
+    priceChange?: FloatNullableWithAggregatesFilter<"AlertNotification"> | number | null
+    status?: EnumAlertStatusWithAggregatesFilter<"AlertNotification"> | $Enums.AlertStatus
+    sentAt?: DateTimeNullableWithAggregatesFilter<"AlertNotification"> | Date | string | null
+    readAt?: DateTimeNullableWithAggregatesFilter<"AlertNotification"> | Date | string | null
+    dismissedAt?: DateTimeNullableWithAggregatesFilter<"AlertNotification"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AlertNotification"> | Date | string
   }
 
   export type AdminActionLogCreateInput = {
@@ -18132,6 +21226,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -18177,6 +21273,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceUncheckedCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertUncheckedCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -18222,6 +21320,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -18267,6 +21367,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUncheckedUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUncheckedUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -18531,6 +21633,245 @@ export namespace Prisma {
     priceChange?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PriceAlertCreateInput = {
+    id: string
+    cropType: string
+    location: string
+    quality?: $Enums.PriceQuality | null
+    alertType: $Enums.AlertType
+    frequency?: $Enums.AlertFrequency
+    threshold: number
+    isActive?: boolean
+    lastTriggered?: Date | string | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+    user: UserCreateNestedOneWithoutPriceAlertInput
+    notifications?: AlertNotificationCreateNestedManyWithoutAlertInput
+  }
+
+  export type PriceAlertUncheckedCreateInput = {
+    id: string
+    userId: string
+    cropType: string
+    location: string
+    quality?: $Enums.PriceQuality | null
+    alertType: $Enums.AlertType
+    frequency?: $Enums.AlertFrequency
+    threshold: number
+    isActive?: boolean
+    lastTriggered?: Date | string | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+    notifications?: AlertNotificationUncheckedCreateNestedManyWithoutAlertInput
+  }
+
+  export type PriceAlertUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cropType?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    quality?: NullableEnumPriceQualityFieldUpdateOperationsInput | $Enums.PriceQuality | null
+    alertType?: EnumAlertTypeFieldUpdateOperationsInput | $Enums.AlertType
+    frequency?: EnumAlertFrequencyFieldUpdateOperationsInput | $Enums.AlertFrequency
+    threshold?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPriceAlertNestedInput
+    notifications?: AlertNotificationUpdateManyWithoutAlertNestedInput
+  }
+
+  export type PriceAlertUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    cropType?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    quality?: NullableEnumPriceQualityFieldUpdateOperationsInput | $Enums.PriceQuality | null
+    alertType?: EnumAlertTypeFieldUpdateOperationsInput | $Enums.AlertType
+    frequency?: EnumAlertFrequencyFieldUpdateOperationsInput | $Enums.AlertFrequency
+    threshold?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notifications?: AlertNotificationUncheckedUpdateManyWithoutAlertNestedInput
+  }
+
+  export type PriceAlertCreateManyInput = {
+    id: string
+    userId: string
+    cropType: string
+    location: string
+    quality?: $Enums.PriceQuality | null
+    alertType: $Enums.AlertType
+    frequency?: $Enums.AlertFrequency
+    threshold: number
+    isActive?: boolean
+    lastTriggered?: Date | string | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type PriceAlertUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cropType?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    quality?: NullableEnumPriceQualityFieldUpdateOperationsInput | $Enums.PriceQuality | null
+    alertType?: EnumAlertTypeFieldUpdateOperationsInput | $Enums.AlertType
+    frequency?: EnumAlertFrequencyFieldUpdateOperationsInput | $Enums.AlertFrequency
+    threshold?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PriceAlertUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    cropType?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    quality?: NullableEnumPriceQualityFieldUpdateOperationsInput | $Enums.PriceQuality | null
+    alertType?: EnumAlertTypeFieldUpdateOperationsInput | $Enums.AlertType
+    frequency?: EnumAlertFrequencyFieldUpdateOperationsInput | $Enums.AlertFrequency
+    threshold?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AlertNotificationCreateInput = {
+    id: string
+    title: string
+    message: string
+    alertType: $Enums.AlertType
+    cropType: string
+    location: string
+    oldPrice?: number | null
+    newPrice?: number | null
+    priceChange?: number | null
+    status?: $Enums.AlertStatus
+    sentAt?: Date | string | null
+    readAt?: Date | string | null
+    dismissedAt?: Date | string | null
+    createdAt?: Date | string
+    alert: PriceAlertCreateNestedOneWithoutNotificationsInput
+    user: UserCreateNestedOneWithoutAlertNotificationInput
+  }
+
+  export type AlertNotificationUncheckedCreateInput = {
+    id: string
+    alertId: string
+    userId: string
+    title: string
+    message: string
+    alertType: $Enums.AlertType
+    cropType: string
+    location: string
+    oldPrice?: number | null
+    newPrice?: number | null
+    priceChange?: number | null
+    status?: $Enums.AlertStatus
+    sentAt?: Date | string | null
+    readAt?: Date | string | null
+    dismissedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type AlertNotificationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    alertType?: EnumAlertTypeFieldUpdateOperationsInput | $Enums.AlertType
+    cropType?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    oldPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    newPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    priceChange?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: EnumAlertStatusFieldUpdateOperationsInput | $Enums.AlertStatus
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dismissedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    alert?: PriceAlertUpdateOneRequiredWithoutNotificationsNestedInput
+    user?: UserUpdateOneRequiredWithoutAlertNotificationNestedInput
+  }
+
+  export type AlertNotificationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alertId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    alertType?: EnumAlertTypeFieldUpdateOperationsInput | $Enums.AlertType
+    cropType?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    oldPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    newPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    priceChange?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: EnumAlertStatusFieldUpdateOperationsInput | $Enums.AlertStatus
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dismissedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AlertNotificationCreateManyInput = {
+    id: string
+    alertId: string
+    userId: string
+    title: string
+    message: string
+    alertType: $Enums.AlertType
+    cropType: string
+    location: string
+    oldPrice?: number | null
+    newPrice?: number | null
+    priceChange?: number | null
+    status?: $Enums.AlertStatus
+    sentAt?: Date | string | null
+    readAt?: Date | string | null
+    dismissedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type AlertNotificationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    alertType?: EnumAlertTypeFieldUpdateOperationsInput | $Enums.AlertType
+    cropType?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    oldPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    newPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    priceChange?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: EnumAlertStatusFieldUpdateOperationsInput | $Enums.AlertStatus
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dismissedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AlertNotificationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alertId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    alertType?: EnumAlertTypeFieldUpdateOperationsInput | $Enums.AlertType
+    cropType?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    oldPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    newPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    priceChange?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: EnumAlertStatusFieldUpdateOperationsInput | $Enums.AlertStatus
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dismissedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -19333,6 +22674,18 @@ export namespace Prisma {
     none?: MarketPriceWhereInput
   }
 
+  export type PriceAlertListRelationFilter = {
+    every?: PriceAlertWhereInput
+    some?: PriceAlertWhereInput
+    none?: PriceAlertWhereInput
+  }
+
+  export type AlertNotificationListRelationFilter = {
+    every?: AlertNotificationWhereInput
+    some?: AlertNotificationWhereInput
+    none?: AlertNotificationWhereInput
+  }
+
   export type ProductListingOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -19346,6 +22699,14 @@ export namespace Prisma {
   }
 
   export type MarketPriceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PriceAlertOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AlertNotificationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -19633,6 +22994,209 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type EnumPriceQualityNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.PriceQuality | EnumPriceQualityFieldRefInput<$PrismaModel> | null
+    in?: $Enums.PriceQuality[] | ListEnumPriceQualityFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.PriceQuality[] | ListEnumPriceQualityFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumPriceQualityNullableFilter<$PrismaModel> | $Enums.PriceQuality | null
+  }
+
+  export type EnumAlertTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AlertType | EnumAlertTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AlertType[] | ListEnumAlertTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AlertType[] | ListEnumAlertTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAlertTypeFilter<$PrismaModel> | $Enums.AlertType
+  }
+
+  export type EnumAlertFrequencyFilter<$PrismaModel = never> = {
+    equals?: $Enums.AlertFrequency | EnumAlertFrequencyFieldRefInput<$PrismaModel>
+    in?: $Enums.AlertFrequency[] | ListEnumAlertFrequencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AlertFrequency[] | ListEnumAlertFrequencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumAlertFrequencyFilter<$PrismaModel> | $Enums.AlertFrequency
+  }
+
+  export type PriceAlertUserIdCropTypeLocationQualityAlertTypeCompoundUniqueInput = {
+    userId: string
+    cropType: string
+    location: string
+    quality: $Enums.PriceQuality
+    alertType: $Enums.AlertType
+  }
+
+  export type PriceAlertCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    cropType?: SortOrder
+    location?: SortOrder
+    quality?: SortOrder
+    alertType?: SortOrder
+    frequency?: SortOrder
+    threshold?: SortOrder
+    isActive?: SortOrder
+    lastTriggered?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PriceAlertAvgOrderByAggregateInput = {
+    threshold?: SortOrder
+  }
+
+  export type PriceAlertMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    cropType?: SortOrder
+    location?: SortOrder
+    quality?: SortOrder
+    alertType?: SortOrder
+    frequency?: SortOrder
+    threshold?: SortOrder
+    isActive?: SortOrder
+    lastTriggered?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PriceAlertMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    cropType?: SortOrder
+    location?: SortOrder
+    quality?: SortOrder
+    alertType?: SortOrder
+    frequency?: SortOrder
+    threshold?: SortOrder
+    isActive?: SortOrder
+    lastTriggered?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PriceAlertSumOrderByAggregateInput = {
+    threshold?: SortOrder
+  }
+
+  export type EnumPriceQualityNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PriceQuality | EnumPriceQualityFieldRefInput<$PrismaModel> | null
+    in?: $Enums.PriceQuality[] | ListEnumPriceQualityFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.PriceQuality[] | ListEnumPriceQualityFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumPriceQualityNullableWithAggregatesFilter<$PrismaModel> | $Enums.PriceQuality | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumPriceQualityNullableFilter<$PrismaModel>
+    _max?: NestedEnumPriceQualityNullableFilter<$PrismaModel>
+  }
+
+  export type EnumAlertTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AlertType | EnumAlertTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AlertType[] | ListEnumAlertTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AlertType[] | ListEnumAlertTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAlertTypeWithAggregatesFilter<$PrismaModel> | $Enums.AlertType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAlertTypeFilter<$PrismaModel>
+    _max?: NestedEnumAlertTypeFilter<$PrismaModel>
+  }
+
+  export type EnumAlertFrequencyWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AlertFrequency | EnumAlertFrequencyFieldRefInput<$PrismaModel>
+    in?: $Enums.AlertFrequency[] | ListEnumAlertFrequencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AlertFrequency[] | ListEnumAlertFrequencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumAlertFrequencyWithAggregatesFilter<$PrismaModel> | $Enums.AlertFrequency
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAlertFrequencyFilter<$PrismaModel>
+    _max?: NestedEnumAlertFrequencyFilter<$PrismaModel>
+  }
+
+  export type EnumAlertStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.AlertStatus | EnumAlertStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AlertStatus[] | ListEnumAlertStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AlertStatus[] | ListEnumAlertStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAlertStatusFilter<$PrismaModel> | $Enums.AlertStatus
+  }
+
+  export type PriceAlertScalarRelationFilter = {
+    is?: PriceAlertWhereInput
+    isNot?: PriceAlertWhereInput
+  }
+
+  export type AlertNotificationCountOrderByAggregateInput = {
+    id?: SortOrder
+    alertId?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    alertType?: SortOrder
+    cropType?: SortOrder
+    location?: SortOrder
+    oldPrice?: SortOrder
+    newPrice?: SortOrder
+    priceChange?: SortOrder
+    status?: SortOrder
+    sentAt?: SortOrder
+    readAt?: SortOrder
+    dismissedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AlertNotificationAvgOrderByAggregateInput = {
+    oldPrice?: SortOrder
+    newPrice?: SortOrder
+    priceChange?: SortOrder
+  }
+
+  export type AlertNotificationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    alertId?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    alertType?: SortOrder
+    cropType?: SortOrder
+    location?: SortOrder
+    oldPrice?: SortOrder
+    newPrice?: SortOrder
+    priceChange?: SortOrder
+    status?: SortOrder
+    sentAt?: SortOrder
+    readAt?: SortOrder
+    dismissedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AlertNotificationMinOrderByAggregateInput = {
+    id?: SortOrder
+    alertId?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    alertType?: SortOrder
+    cropType?: SortOrder
+    location?: SortOrder
+    oldPrice?: SortOrder
+    newPrice?: SortOrder
+    priceChange?: SortOrder
+    status?: SortOrder
+    sentAt?: SortOrder
+    readAt?: SortOrder
+    dismissedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AlertNotificationSumOrderByAggregateInput = {
+    oldPrice?: SortOrder
+    newPrice?: SortOrder
+    priceChange?: SortOrder
+  }
+
+  export type EnumAlertStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AlertStatus | EnumAlertStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AlertStatus[] | ListEnumAlertStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AlertStatus[] | ListEnumAlertStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAlertStatusWithAggregatesFilter<$PrismaModel> | $Enums.AlertStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAlertStatusFilter<$PrismaModel>
+    _max?: NestedEnumAlertStatusFilter<$PrismaModel>
   }
 
   export type UserCreateNestedOneWithoutAdminActionLogInput = {
@@ -20392,6 +23956,20 @@ export namespace Prisma {
     connect?: MarketPriceWhereUniqueInput | MarketPriceWhereUniqueInput[]
   }
 
+  export type PriceAlertCreateNestedManyWithoutUserInput = {
+    create?: XOR<PriceAlertCreateWithoutUserInput, PriceAlertUncheckedCreateWithoutUserInput> | PriceAlertCreateWithoutUserInput[] | PriceAlertUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PriceAlertCreateOrConnectWithoutUserInput | PriceAlertCreateOrConnectWithoutUserInput[]
+    createMany?: PriceAlertCreateManyUserInputEnvelope
+    connect?: PriceAlertWhereUniqueInput | PriceAlertWhereUniqueInput[]
+  }
+
+  export type AlertNotificationCreateNestedManyWithoutUserInput = {
+    create?: XOR<AlertNotificationCreateWithoutUserInput, AlertNotificationUncheckedCreateWithoutUserInput> | AlertNotificationCreateWithoutUserInput[] | AlertNotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AlertNotificationCreateOrConnectWithoutUserInput | AlertNotificationCreateOrConnectWithoutUserInput[]
+    createMany?: AlertNotificationCreateManyUserInputEnvelope
+    connect?: AlertNotificationWhereUniqueInput | AlertNotificationWhereUniqueInput[]
+  }
+
   export type ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput = {
     create?: XOR<ConversationCreateWithoutUser_Conversation_user1IdToUserInput, ConversationUncheckedCreateWithoutUser_Conversation_user1IdToUserInput> | ConversationCreateWithoutUser_Conversation_user1IdToUserInput[] | ConversationUncheckedCreateWithoutUser_Conversation_user1IdToUserInput[]
     connectOrCreate?: ConversationCreateOrConnectWithoutUser_Conversation_user1IdToUserInput | ConversationCreateOrConnectWithoutUser_Conversation_user1IdToUserInput[]
@@ -20473,6 +24051,20 @@ export namespace Prisma {
     connectOrCreate?: MarketPriceCreateOrConnectWithoutReviewedByUserInput | MarketPriceCreateOrConnectWithoutReviewedByUserInput[]
     createMany?: MarketPriceCreateManyReviewedByUserInputEnvelope
     connect?: MarketPriceWhereUniqueInput | MarketPriceWhereUniqueInput[]
+  }
+
+  export type PriceAlertUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PriceAlertCreateWithoutUserInput, PriceAlertUncheckedCreateWithoutUserInput> | PriceAlertCreateWithoutUserInput[] | PriceAlertUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PriceAlertCreateOrConnectWithoutUserInput | PriceAlertCreateOrConnectWithoutUserInput[]
+    createMany?: PriceAlertCreateManyUserInputEnvelope
+    connect?: PriceAlertWhereUniqueInput | PriceAlertWhereUniqueInput[]
+  }
+
+  export type AlertNotificationUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<AlertNotificationCreateWithoutUserInput, AlertNotificationUncheckedCreateWithoutUserInput> | AlertNotificationCreateWithoutUserInput[] | AlertNotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AlertNotificationCreateOrConnectWithoutUserInput | AlertNotificationCreateOrConnectWithoutUserInput[]
+    createMany?: AlertNotificationCreateManyUserInputEnvelope
+    connect?: AlertNotificationWhereUniqueInput | AlertNotificationWhereUniqueInput[]
   }
 
   export type EnumUserStatusFieldUpdateOperationsInput = {
@@ -20654,6 +24246,34 @@ export namespace Prisma {
     deleteMany?: MarketPriceScalarWhereInput | MarketPriceScalarWhereInput[]
   }
 
+  export type PriceAlertUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PriceAlertCreateWithoutUserInput, PriceAlertUncheckedCreateWithoutUserInput> | PriceAlertCreateWithoutUserInput[] | PriceAlertUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PriceAlertCreateOrConnectWithoutUserInput | PriceAlertCreateOrConnectWithoutUserInput[]
+    upsert?: PriceAlertUpsertWithWhereUniqueWithoutUserInput | PriceAlertUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PriceAlertCreateManyUserInputEnvelope
+    set?: PriceAlertWhereUniqueInput | PriceAlertWhereUniqueInput[]
+    disconnect?: PriceAlertWhereUniqueInput | PriceAlertWhereUniqueInput[]
+    delete?: PriceAlertWhereUniqueInput | PriceAlertWhereUniqueInput[]
+    connect?: PriceAlertWhereUniqueInput | PriceAlertWhereUniqueInput[]
+    update?: PriceAlertUpdateWithWhereUniqueWithoutUserInput | PriceAlertUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PriceAlertUpdateManyWithWhereWithoutUserInput | PriceAlertUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PriceAlertScalarWhereInput | PriceAlertScalarWhereInput[]
+  }
+
+  export type AlertNotificationUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AlertNotificationCreateWithoutUserInput, AlertNotificationUncheckedCreateWithoutUserInput> | AlertNotificationCreateWithoutUserInput[] | AlertNotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AlertNotificationCreateOrConnectWithoutUserInput | AlertNotificationCreateOrConnectWithoutUserInput[]
+    upsert?: AlertNotificationUpsertWithWhereUniqueWithoutUserInput | AlertNotificationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AlertNotificationCreateManyUserInputEnvelope
+    set?: AlertNotificationWhereUniqueInput | AlertNotificationWhereUniqueInput[]
+    disconnect?: AlertNotificationWhereUniqueInput | AlertNotificationWhereUniqueInput[]
+    delete?: AlertNotificationWhereUniqueInput | AlertNotificationWhereUniqueInput[]
+    connect?: AlertNotificationWhereUniqueInput | AlertNotificationWhereUniqueInput[]
+    update?: AlertNotificationUpdateWithWhereUniqueWithoutUserInput | AlertNotificationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AlertNotificationUpdateManyWithWhereWithoutUserInput | AlertNotificationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AlertNotificationScalarWhereInput | AlertNotificationScalarWhereInput[]
+  }
+
   export type ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput = {
     create?: XOR<ConversationCreateWithoutUser_Conversation_user1IdToUserInput, ConversationUncheckedCreateWithoutUser_Conversation_user1IdToUserInput> | ConversationCreateWithoutUser_Conversation_user1IdToUserInput[] | ConversationUncheckedCreateWithoutUser_Conversation_user1IdToUserInput[]
     connectOrCreate?: ConversationCreateOrConnectWithoutUser_Conversation_user1IdToUserInput | ConversationCreateOrConnectWithoutUser_Conversation_user1IdToUserInput[]
@@ -20821,6 +24441,34 @@ export namespace Prisma {
     deleteMany?: MarketPriceScalarWhereInput | MarketPriceScalarWhereInput[]
   }
 
+  export type PriceAlertUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PriceAlertCreateWithoutUserInput, PriceAlertUncheckedCreateWithoutUserInput> | PriceAlertCreateWithoutUserInput[] | PriceAlertUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PriceAlertCreateOrConnectWithoutUserInput | PriceAlertCreateOrConnectWithoutUserInput[]
+    upsert?: PriceAlertUpsertWithWhereUniqueWithoutUserInput | PriceAlertUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PriceAlertCreateManyUserInputEnvelope
+    set?: PriceAlertWhereUniqueInput | PriceAlertWhereUniqueInput[]
+    disconnect?: PriceAlertWhereUniqueInput | PriceAlertWhereUniqueInput[]
+    delete?: PriceAlertWhereUniqueInput | PriceAlertWhereUniqueInput[]
+    connect?: PriceAlertWhereUniqueInput | PriceAlertWhereUniqueInput[]
+    update?: PriceAlertUpdateWithWhereUniqueWithoutUserInput | PriceAlertUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PriceAlertUpdateManyWithWhereWithoutUserInput | PriceAlertUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PriceAlertScalarWhereInput | PriceAlertScalarWhereInput[]
+  }
+
+  export type AlertNotificationUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AlertNotificationCreateWithoutUserInput, AlertNotificationUncheckedCreateWithoutUserInput> | AlertNotificationCreateWithoutUserInput[] | AlertNotificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AlertNotificationCreateOrConnectWithoutUserInput | AlertNotificationCreateOrConnectWithoutUserInput[]
+    upsert?: AlertNotificationUpsertWithWhereUniqueWithoutUserInput | AlertNotificationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AlertNotificationCreateManyUserInputEnvelope
+    set?: AlertNotificationWhereUniqueInput | AlertNotificationWhereUniqueInput[]
+    disconnect?: AlertNotificationWhereUniqueInput | AlertNotificationWhereUniqueInput[]
+    delete?: AlertNotificationWhereUniqueInput | AlertNotificationWhereUniqueInput[]
+    connect?: AlertNotificationWhereUniqueInput | AlertNotificationWhereUniqueInput[]
+    update?: AlertNotificationUpdateWithWhereUniqueWithoutUserInput | AlertNotificationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AlertNotificationUpdateManyWithWhereWithoutUserInput | AlertNotificationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AlertNotificationScalarWhereInput | AlertNotificationScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutMarketPrice_submittedByInput = {
     create?: XOR<UserCreateWithoutMarketPrice_submittedByInput, UserUncheckedCreateWithoutMarketPrice_submittedByInput>
     connectOrCreate?: UserCreateOrConnectWithoutMarketPrice_submittedByInput
@@ -20869,6 +24517,106 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMarketPrice_reviewedByInput, UserUpdateWithoutMarketPrice_reviewedByInput>, UserUncheckedUpdateWithoutMarketPrice_reviewedByInput>
+  }
+
+  export type UserCreateNestedOneWithoutPriceAlertInput = {
+    create?: XOR<UserCreateWithoutPriceAlertInput, UserUncheckedCreateWithoutPriceAlertInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPriceAlertInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type AlertNotificationCreateNestedManyWithoutAlertInput = {
+    create?: XOR<AlertNotificationCreateWithoutAlertInput, AlertNotificationUncheckedCreateWithoutAlertInput> | AlertNotificationCreateWithoutAlertInput[] | AlertNotificationUncheckedCreateWithoutAlertInput[]
+    connectOrCreate?: AlertNotificationCreateOrConnectWithoutAlertInput | AlertNotificationCreateOrConnectWithoutAlertInput[]
+    createMany?: AlertNotificationCreateManyAlertInputEnvelope
+    connect?: AlertNotificationWhereUniqueInput | AlertNotificationWhereUniqueInput[]
+  }
+
+  export type AlertNotificationUncheckedCreateNestedManyWithoutAlertInput = {
+    create?: XOR<AlertNotificationCreateWithoutAlertInput, AlertNotificationUncheckedCreateWithoutAlertInput> | AlertNotificationCreateWithoutAlertInput[] | AlertNotificationUncheckedCreateWithoutAlertInput[]
+    connectOrCreate?: AlertNotificationCreateOrConnectWithoutAlertInput | AlertNotificationCreateOrConnectWithoutAlertInput[]
+    createMany?: AlertNotificationCreateManyAlertInputEnvelope
+    connect?: AlertNotificationWhereUniqueInput | AlertNotificationWhereUniqueInput[]
+  }
+
+  export type NullableEnumPriceQualityFieldUpdateOperationsInput = {
+    set?: $Enums.PriceQuality | null
+  }
+
+  export type EnumAlertTypeFieldUpdateOperationsInput = {
+    set?: $Enums.AlertType
+  }
+
+  export type EnumAlertFrequencyFieldUpdateOperationsInput = {
+    set?: $Enums.AlertFrequency
+  }
+
+  export type UserUpdateOneRequiredWithoutPriceAlertNestedInput = {
+    create?: XOR<UserCreateWithoutPriceAlertInput, UserUncheckedCreateWithoutPriceAlertInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPriceAlertInput
+    upsert?: UserUpsertWithoutPriceAlertInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPriceAlertInput, UserUpdateWithoutPriceAlertInput>, UserUncheckedUpdateWithoutPriceAlertInput>
+  }
+
+  export type AlertNotificationUpdateManyWithoutAlertNestedInput = {
+    create?: XOR<AlertNotificationCreateWithoutAlertInput, AlertNotificationUncheckedCreateWithoutAlertInput> | AlertNotificationCreateWithoutAlertInput[] | AlertNotificationUncheckedCreateWithoutAlertInput[]
+    connectOrCreate?: AlertNotificationCreateOrConnectWithoutAlertInput | AlertNotificationCreateOrConnectWithoutAlertInput[]
+    upsert?: AlertNotificationUpsertWithWhereUniqueWithoutAlertInput | AlertNotificationUpsertWithWhereUniqueWithoutAlertInput[]
+    createMany?: AlertNotificationCreateManyAlertInputEnvelope
+    set?: AlertNotificationWhereUniqueInput | AlertNotificationWhereUniqueInput[]
+    disconnect?: AlertNotificationWhereUniqueInput | AlertNotificationWhereUniqueInput[]
+    delete?: AlertNotificationWhereUniqueInput | AlertNotificationWhereUniqueInput[]
+    connect?: AlertNotificationWhereUniqueInput | AlertNotificationWhereUniqueInput[]
+    update?: AlertNotificationUpdateWithWhereUniqueWithoutAlertInput | AlertNotificationUpdateWithWhereUniqueWithoutAlertInput[]
+    updateMany?: AlertNotificationUpdateManyWithWhereWithoutAlertInput | AlertNotificationUpdateManyWithWhereWithoutAlertInput[]
+    deleteMany?: AlertNotificationScalarWhereInput | AlertNotificationScalarWhereInput[]
+  }
+
+  export type AlertNotificationUncheckedUpdateManyWithoutAlertNestedInput = {
+    create?: XOR<AlertNotificationCreateWithoutAlertInput, AlertNotificationUncheckedCreateWithoutAlertInput> | AlertNotificationCreateWithoutAlertInput[] | AlertNotificationUncheckedCreateWithoutAlertInput[]
+    connectOrCreate?: AlertNotificationCreateOrConnectWithoutAlertInput | AlertNotificationCreateOrConnectWithoutAlertInput[]
+    upsert?: AlertNotificationUpsertWithWhereUniqueWithoutAlertInput | AlertNotificationUpsertWithWhereUniqueWithoutAlertInput[]
+    createMany?: AlertNotificationCreateManyAlertInputEnvelope
+    set?: AlertNotificationWhereUniqueInput | AlertNotificationWhereUniqueInput[]
+    disconnect?: AlertNotificationWhereUniqueInput | AlertNotificationWhereUniqueInput[]
+    delete?: AlertNotificationWhereUniqueInput | AlertNotificationWhereUniqueInput[]
+    connect?: AlertNotificationWhereUniqueInput | AlertNotificationWhereUniqueInput[]
+    update?: AlertNotificationUpdateWithWhereUniqueWithoutAlertInput | AlertNotificationUpdateWithWhereUniqueWithoutAlertInput[]
+    updateMany?: AlertNotificationUpdateManyWithWhereWithoutAlertInput | AlertNotificationUpdateManyWithWhereWithoutAlertInput[]
+    deleteMany?: AlertNotificationScalarWhereInput | AlertNotificationScalarWhereInput[]
+  }
+
+  export type PriceAlertCreateNestedOneWithoutNotificationsInput = {
+    create?: XOR<PriceAlertCreateWithoutNotificationsInput, PriceAlertUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: PriceAlertCreateOrConnectWithoutNotificationsInput
+    connect?: PriceAlertWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutAlertNotificationInput = {
+    create?: XOR<UserCreateWithoutAlertNotificationInput, UserUncheckedCreateWithoutAlertNotificationInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAlertNotificationInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumAlertStatusFieldUpdateOperationsInput = {
+    set?: $Enums.AlertStatus
+  }
+
+  export type PriceAlertUpdateOneRequiredWithoutNotificationsNestedInput = {
+    create?: XOR<PriceAlertCreateWithoutNotificationsInput, PriceAlertUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: PriceAlertCreateOrConnectWithoutNotificationsInput
+    upsert?: PriceAlertUpsertWithoutNotificationsInput
+    connect?: PriceAlertWhereUniqueInput
+    update?: XOR<XOR<PriceAlertUpdateToOneWithWhereWithoutNotificationsInput, PriceAlertUpdateWithoutNotificationsInput>, PriceAlertUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutAlertNotificationNestedInput = {
+    create?: XOR<UserCreateWithoutAlertNotificationInput, UserUncheckedCreateWithoutAlertNotificationInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAlertNotificationInput
+    upsert?: UserUpsertWithoutAlertNotificationInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAlertNotificationInput, UserUpdateWithoutAlertNotificationInput>, UserUncheckedUpdateWithoutAlertNotificationInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -21247,6 +24995,74 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumPriceQualityNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.PriceQuality | EnumPriceQualityFieldRefInput<$PrismaModel> | null
+    in?: $Enums.PriceQuality[] | ListEnumPriceQualityFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.PriceQuality[] | ListEnumPriceQualityFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumPriceQualityNullableFilter<$PrismaModel> | $Enums.PriceQuality | null
+  }
+
+  export type NestedEnumAlertTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AlertType | EnumAlertTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AlertType[] | ListEnumAlertTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AlertType[] | ListEnumAlertTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAlertTypeFilter<$PrismaModel> | $Enums.AlertType
+  }
+
+  export type NestedEnumAlertFrequencyFilter<$PrismaModel = never> = {
+    equals?: $Enums.AlertFrequency | EnumAlertFrequencyFieldRefInput<$PrismaModel>
+    in?: $Enums.AlertFrequency[] | ListEnumAlertFrequencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AlertFrequency[] | ListEnumAlertFrequencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumAlertFrequencyFilter<$PrismaModel> | $Enums.AlertFrequency
+  }
+
+  export type NestedEnumPriceQualityNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PriceQuality | EnumPriceQualityFieldRefInput<$PrismaModel> | null
+    in?: $Enums.PriceQuality[] | ListEnumPriceQualityFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.PriceQuality[] | ListEnumPriceQualityFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumPriceQualityNullableWithAggregatesFilter<$PrismaModel> | $Enums.PriceQuality | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumPriceQualityNullableFilter<$PrismaModel>
+    _max?: NestedEnumPriceQualityNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumAlertTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AlertType | EnumAlertTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AlertType[] | ListEnumAlertTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AlertType[] | ListEnumAlertTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAlertTypeWithAggregatesFilter<$PrismaModel> | $Enums.AlertType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAlertTypeFilter<$PrismaModel>
+    _max?: NestedEnumAlertTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumAlertFrequencyWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AlertFrequency | EnumAlertFrequencyFieldRefInput<$PrismaModel>
+    in?: $Enums.AlertFrequency[] | ListEnumAlertFrequencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AlertFrequency[] | ListEnumAlertFrequencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumAlertFrequencyWithAggregatesFilter<$PrismaModel> | $Enums.AlertFrequency
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAlertFrequencyFilter<$PrismaModel>
+    _max?: NestedEnumAlertFrequencyFilter<$PrismaModel>
+  }
+
+  export type NestedEnumAlertStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.AlertStatus | EnumAlertStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AlertStatus[] | ListEnumAlertStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AlertStatus[] | ListEnumAlertStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAlertStatusFilter<$PrismaModel> | $Enums.AlertStatus
+  }
+
+  export type NestedEnumAlertStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AlertStatus | EnumAlertStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AlertStatus[] | ListEnumAlertStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AlertStatus[] | ListEnumAlertStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAlertStatusWithAggregatesFilter<$PrismaModel> | $Enums.AlertStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAlertStatusFilter<$PrismaModel>
+    _max?: NestedEnumAlertStatusFilter<$PrismaModel>
+  }
+
   export type UserCreateWithoutAdminActionLogInput = {
     id: string
     phone?: string | null
@@ -21289,6 +25105,8 @@ export namespace Prisma {
     Permission?: PermissionCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAdminActionLogInput = {
@@ -21333,6 +25151,8 @@ export namespace Prisma {
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceUncheckedCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertUncheckedCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAdminActionLogInput = {
@@ -21393,6 +25213,8 @@ export namespace Prisma {
     Permission?: PermissionUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAdminActionLogInput = {
@@ -21437,6 +25259,8 @@ export namespace Prisma {
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUncheckedUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUncheckedUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MessageCreateWithoutConversation_Conversation_lastMessageIdToMessageInput = {
@@ -21569,6 +25393,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConversation_Conversation_user1IdToUserInput = {
@@ -21613,6 +25439,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceUncheckedCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertUncheckedCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConversation_Conversation_user1IdToUserInput = {
@@ -21662,6 +25490,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConversation_Conversation_user2IdToUserInput = {
@@ -21706,6 +25536,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceUncheckedCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertUncheckedCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConversation_Conversation_user2IdToUserInput = {
@@ -21916,6 +25748,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConversation_Conversation_user1IdToUserInput = {
@@ -21960,6 +25794,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUncheckedUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUncheckedUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutConversation_Conversation_user2IdToUserInput = {
@@ -22015,6 +25851,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConversation_Conversation_user2IdToUserInput = {
@@ -22059,6 +25897,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUncheckedUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUncheckedUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutConversation_Message_conversationIdToConversationInput = {
@@ -22203,6 +26043,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessage_Message_receiverIdToUserInput = {
@@ -22247,6 +26089,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceUncheckedCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertUncheckedCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessage_Message_receiverIdToUserInput = {
@@ -22391,6 +26235,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessage_Message_senderIdToUserInput = {
@@ -22435,6 +26281,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceUncheckedCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertUncheckedCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessage_Message_senderIdToUserInput = {
@@ -22569,6 +26417,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessage_Message_receiverIdToUserInput = {
@@ -22613,6 +26463,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUncheckedUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUncheckedUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MessageUpsertWithoutOther_MessageInput = {
@@ -22735,6 +26587,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessage_Message_senderIdToUserInput = {
@@ -22779,6 +26633,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUncheckedUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUncheckedUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RoleCreateWithoutPermissionInput = {
@@ -22840,6 +26696,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPermissionInput = {
@@ -22884,6 +26742,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceUncheckedCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertUncheckedCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPermissionInput = {
@@ -23165,6 +27025,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProductListingInput = {
@@ -23209,6 +27071,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceUncheckedCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertUncheckedCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProductListingInput = {
@@ -23376,6 +27240,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProductListingInput = {
@@ -23420,6 +27286,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUncheckedUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUncheckedUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ReviewUpsertWithWhereUniqueWithoutProductListingInput = {
@@ -23545,6 +27413,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReview_Review_reviewedIdToUserInput = {
@@ -23589,6 +27459,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceUncheckedCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertUncheckedCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReview_Review_reviewedIdToUserInput = {
@@ -23638,6 +27510,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReview_Review_reviewerIdToUserInput = {
@@ -23682,6 +27556,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceUncheckedCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertUncheckedCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReview_Review_reviewerIdToUserInput = {
@@ -23791,6 +27667,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReview_Review_reviewedIdToUserInput = {
@@ -23835,6 +27713,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUncheckedUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUncheckedUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutReview_Review_reviewerIdToUserInput = {
@@ -23890,6 +27770,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReview_Review_reviewerIdToUserInput = {
@@ -23934,6 +27816,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUncheckedUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUncheckedUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutRoleInput = {
@@ -23978,6 +27862,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRoleInput = {
@@ -24022,6 +27908,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceUncheckedCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertUncheckedCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRoleInput = {
@@ -24136,6 +28024,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionInput = {
@@ -24180,6 +28070,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceUncheckedCreateNestedManyWithoutSubmittedByUserInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertUncheckedCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionInput = {
@@ -24240,6 +28132,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionInput = {
@@ -24284,6 +28178,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUncheckedUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUncheckedUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ConversationCreateWithoutUser_Conversation_user1IdToUserInput = {
@@ -24798,6 +28694,92 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PriceAlertCreateWithoutUserInput = {
+    id: string
+    cropType: string
+    location: string
+    quality?: $Enums.PriceQuality | null
+    alertType: $Enums.AlertType
+    frequency?: $Enums.AlertFrequency
+    threshold: number
+    isActive?: boolean
+    lastTriggered?: Date | string | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+    notifications?: AlertNotificationCreateNestedManyWithoutAlertInput
+  }
+
+  export type PriceAlertUncheckedCreateWithoutUserInput = {
+    id: string
+    cropType: string
+    location: string
+    quality?: $Enums.PriceQuality | null
+    alertType: $Enums.AlertType
+    frequency?: $Enums.AlertFrequency
+    threshold: number
+    isActive?: boolean
+    lastTriggered?: Date | string | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+    notifications?: AlertNotificationUncheckedCreateNestedManyWithoutAlertInput
+  }
+
+  export type PriceAlertCreateOrConnectWithoutUserInput = {
+    where: PriceAlertWhereUniqueInput
+    create: XOR<PriceAlertCreateWithoutUserInput, PriceAlertUncheckedCreateWithoutUserInput>
+  }
+
+  export type PriceAlertCreateManyUserInputEnvelope = {
+    data: PriceAlertCreateManyUserInput | PriceAlertCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AlertNotificationCreateWithoutUserInput = {
+    id: string
+    title: string
+    message: string
+    alertType: $Enums.AlertType
+    cropType: string
+    location: string
+    oldPrice?: number | null
+    newPrice?: number | null
+    priceChange?: number | null
+    status?: $Enums.AlertStatus
+    sentAt?: Date | string | null
+    readAt?: Date | string | null
+    dismissedAt?: Date | string | null
+    createdAt?: Date | string
+    alert: PriceAlertCreateNestedOneWithoutNotificationsInput
+  }
+
+  export type AlertNotificationUncheckedCreateWithoutUserInput = {
+    id: string
+    alertId: string
+    title: string
+    message: string
+    alertType: $Enums.AlertType
+    cropType: string
+    location: string
+    oldPrice?: number | null
+    newPrice?: number | null
+    priceChange?: number | null
+    status?: $Enums.AlertStatus
+    sentAt?: Date | string | null
+    readAt?: Date | string | null
+    dismissedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type AlertNotificationCreateOrConnectWithoutUserInput = {
+    where: AlertNotificationWhereUniqueInput
+    create: XOR<AlertNotificationCreateWithoutUserInput, AlertNotificationUncheckedCreateWithoutUserInput>
+  }
+
+  export type AlertNotificationCreateManyUserInputEnvelope = {
+    data: AlertNotificationCreateManyUserInput | AlertNotificationCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ConversationUpsertWithWhereUniqueWithoutUser_Conversation_user1IdToUserInput = {
     where: ConversationWhereUniqueInput
     update: XOR<ConversationUpdateWithoutUser_Conversation_user1IdToUserInput, ConversationUncheckedUpdateWithoutUser_Conversation_user1IdToUserInput>
@@ -25084,6 +29066,78 @@ export namespace Prisma {
     data: XOR<MarketPriceUpdateManyMutationInput, MarketPriceUncheckedUpdateManyWithoutReviewedByUserInput>
   }
 
+  export type PriceAlertUpsertWithWhereUniqueWithoutUserInput = {
+    where: PriceAlertWhereUniqueInput
+    update: XOR<PriceAlertUpdateWithoutUserInput, PriceAlertUncheckedUpdateWithoutUserInput>
+    create: XOR<PriceAlertCreateWithoutUserInput, PriceAlertUncheckedCreateWithoutUserInput>
+  }
+
+  export type PriceAlertUpdateWithWhereUniqueWithoutUserInput = {
+    where: PriceAlertWhereUniqueInput
+    data: XOR<PriceAlertUpdateWithoutUserInput, PriceAlertUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PriceAlertUpdateManyWithWhereWithoutUserInput = {
+    where: PriceAlertScalarWhereInput
+    data: XOR<PriceAlertUpdateManyMutationInput, PriceAlertUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type PriceAlertScalarWhereInput = {
+    AND?: PriceAlertScalarWhereInput | PriceAlertScalarWhereInput[]
+    OR?: PriceAlertScalarWhereInput[]
+    NOT?: PriceAlertScalarWhereInput | PriceAlertScalarWhereInput[]
+    id?: StringFilter<"PriceAlert"> | string
+    userId?: StringFilter<"PriceAlert"> | string
+    cropType?: StringFilter<"PriceAlert"> | string
+    location?: StringFilter<"PriceAlert"> | string
+    quality?: EnumPriceQualityNullableFilter<"PriceAlert"> | $Enums.PriceQuality | null
+    alertType?: EnumAlertTypeFilter<"PriceAlert"> | $Enums.AlertType
+    frequency?: EnumAlertFrequencyFilter<"PriceAlert"> | $Enums.AlertFrequency
+    threshold?: FloatFilter<"PriceAlert"> | number
+    isActive?: BoolFilter<"PriceAlert"> | boolean
+    lastTriggered?: DateTimeNullableFilter<"PriceAlert"> | Date | string | null
+    createdAt?: DateTimeFilter<"PriceAlert"> | Date | string
+    updatedAt?: DateTimeFilter<"PriceAlert"> | Date | string
+  }
+
+  export type AlertNotificationUpsertWithWhereUniqueWithoutUserInput = {
+    where: AlertNotificationWhereUniqueInput
+    update: XOR<AlertNotificationUpdateWithoutUserInput, AlertNotificationUncheckedUpdateWithoutUserInput>
+    create: XOR<AlertNotificationCreateWithoutUserInput, AlertNotificationUncheckedCreateWithoutUserInput>
+  }
+
+  export type AlertNotificationUpdateWithWhereUniqueWithoutUserInput = {
+    where: AlertNotificationWhereUniqueInput
+    data: XOR<AlertNotificationUpdateWithoutUserInput, AlertNotificationUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AlertNotificationUpdateManyWithWhereWithoutUserInput = {
+    where: AlertNotificationScalarWhereInput
+    data: XOR<AlertNotificationUpdateManyMutationInput, AlertNotificationUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type AlertNotificationScalarWhereInput = {
+    AND?: AlertNotificationScalarWhereInput | AlertNotificationScalarWhereInput[]
+    OR?: AlertNotificationScalarWhereInput[]
+    NOT?: AlertNotificationScalarWhereInput | AlertNotificationScalarWhereInput[]
+    id?: StringFilter<"AlertNotification"> | string
+    alertId?: StringFilter<"AlertNotification"> | string
+    userId?: StringFilter<"AlertNotification"> | string
+    title?: StringFilter<"AlertNotification"> | string
+    message?: StringFilter<"AlertNotification"> | string
+    alertType?: EnumAlertTypeFilter<"AlertNotification"> | $Enums.AlertType
+    cropType?: StringFilter<"AlertNotification"> | string
+    location?: StringFilter<"AlertNotification"> | string
+    oldPrice?: FloatNullableFilter<"AlertNotification"> | number | null
+    newPrice?: FloatNullableFilter<"AlertNotification"> | number | null
+    priceChange?: FloatNullableFilter<"AlertNotification"> | number | null
+    status?: EnumAlertStatusFilter<"AlertNotification"> | $Enums.AlertStatus
+    sentAt?: DateTimeNullableFilter<"AlertNotification"> | Date | string | null
+    readAt?: DateTimeNullableFilter<"AlertNotification"> | Date | string | null
+    dismissedAt?: DateTimeNullableFilter<"AlertNotification"> | Date | string | null
+    createdAt?: DateTimeFilter<"AlertNotification"> | Date | string
+  }
+
   export type UserCreateWithoutMarketPrice_submittedByInput = {
     id: string
     phone?: string | null
@@ -25126,6 +29180,8 @@ export namespace Prisma {
     Permission?: PermissionCreateNestedManyWithoutUserInput
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     MarketPrice_reviewedBy?: MarketPriceCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMarketPrice_submittedByInput = {
@@ -25170,6 +29226,8 @@ export namespace Prisma {
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertUncheckedCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMarketPrice_submittedByInput = {
@@ -25219,6 +29277,8 @@ export namespace Prisma {
     Permission?: PermissionCreateNestedManyWithoutUserInput
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceCreateNestedManyWithoutSubmittedByUserInput
+    PriceAlert?: PriceAlertCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMarketPrice_reviewedByInput = {
@@ -25263,6 +29323,8 @@ export namespace Prisma {
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     MarketPrice_submittedBy?: MarketPriceUncheckedCreateNestedManyWithoutSubmittedByUserInput
+    PriceAlert?: PriceAlertUncheckedCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMarketPrice_reviewedByInput = {
@@ -25323,6 +29385,8 @@ export namespace Prisma {
     Permission?: PermissionUpdateManyWithoutUserNestedInput
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMarketPrice_submittedByInput = {
@@ -25367,6 +29431,8 @@ export namespace Prisma {
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUncheckedUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutMarketPrice_reviewedByInput = {
@@ -25422,6 +29488,8 @@ export namespace Prisma {
     Permission?: PermissionUpdateManyWithoutUserNestedInput
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUpdateManyWithoutSubmittedByUserNestedInput
+    PriceAlert?: PriceAlertUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMarketPrice_reviewedByInput = {
@@ -25466,6 +29534,546 @@ export namespace Prisma {
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUncheckedUpdateManyWithoutSubmittedByUserNestedInput
+    PriceAlert?: PriceAlertUncheckedUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutPriceAlertInput = {
+    id: string
+    phone?: string | null
+    name?: string | null
+    location?: string | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+    email: string
+    password: string
+    avatar?: string | null
+    billingAddress?: string | null
+    bio?: string | null
+    dateOfBirth?: Date | string | null
+    emailNotifications?: boolean
+    gender?: string | null
+    isEmailVerified?: boolean
+    isPhoneVerified?: boolean
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    marketingEmails?: boolean
+    preferredLanguage?: string
+    pushNotifications?: boolean
+    smsNotifications?: boolean
+    subscriptionEndsAt?: Date | string | null
+    subscriptionPlan?: string
+    subscriptionStatus?: string
+    taxId?: string | null
+    timezone?: string
+    twoFactorEnabled?: boolean
+    status?: $Enums.UserStatus
+    Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
+    Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
+    Message_Message_senderIdToUser?: MessageCreateNestedManyWithoutUser_Message_senderIdToUserInput
+    ProductListing?: ProductListingCreateNestedManyWithoutUserInput
+    Review_Review_reviewedIdToUser?: ReviewCreateNestedManyWithoutUser_Review_reviewedIdToUserInput
+    Review_Review_reviewerIdToUser?: ReviewCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
+    Session?: SessionCreateNestedManyWithoutUserInput
+    Role: RoleCreateNestedOneWithoutUserInput
+    Permission?: PermissionCreateNestedManyWithoutUserInput
+    AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
+    MarketPrice_submittedBy?: MarketPriceCreateNestedManyWithoutSubmittedByUserInput
+    MarketPrice_reviewedBy?: MarketPriceCreateNestedManyWithoutReviewedByUserInput
+    AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPriceAlertInput = {
+    id: string
+    phone?: string | null
+    name?: string | null
+    location?: string | null
+    roleId: string
+    createdAt?: Date | string
+    updatedAt: Date | string
+    email: string
+    password: string
+    avatar?: string | null
+    billingAddress?: string | null
+    bio?: string | null
+    dateOfBirth?: Date | string | null
+    emailNotifications?: boolean
+    gender?: string | null
+    isEmailVerified?: boolean
+    isPhoneVerified?: boolean
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    marketingEmails?: boolean
+    preferredLanguage?: string
+    pushNotifications?: boolean
+    smsNotifications?: boolean
+    subscriptionEndsAt?: Date | string | null
+    subscriptionPlan?: string
+    subscriptionStatus?: string
+    taxId?: string | null
+    timezone?: string
+    twoFactorEnabled?: boolean
+    status?: $Enums.UserStatus
+    Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
+    Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
+    Message_Message_senderIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_senderIdToUserInput
+    ProductListing?: ProductListingUncheckedCreateNestedManyWithoutUserInput
+    Review_Review_reviewedIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewedIdToUserInput
+    Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
+    Session?: SessionUncheckedCreateNestedManyWithoutUserInput
+    Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
+    AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
+    MarketPrice_submittedBy?: MarketPriceUncheckedCreateNestedManyWithoutSubmittedByUserInput
+    MarketPrice_reviewedBy?: MarketPriceUncheckedCreateNestedManyWithoutReviewedByUserInput
+    AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPriceAlertInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPriceAlertInput, UserUncheckedCreateWithoutPriceAlertInput>
+  }
+
+  export type AlertNotificationCreateWithoutAlertInput = {
+    id: string
+    title: string
+    message: string
+    alertType: $Enums.AlertType
+    cropType: string
+    location: string
+    oldPrice?: number | null
+    newPrice?: number | null
+    priceChange?: number | null
+    status?: $Enums.AlertStatus
+    sentAt?: Date | string | null
+    readAt?: Date | string | null
+    dismissedAt?: Date | string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutAlertNotificationInput
+  }
+
+  export type AlertNotificationUncheckedCreateWithoutAlertInput = {
+    id: string
+    userId: string
+    title: string
+    message: string
+    alertType: $Enums.AlertType
+    cropType: string
+    location: string
+    oldPrice?: number | null
+    newPrice?: number | null
+    priceChange?: number | null
+    status?: $Enums.AlertStatus
+    sentAt?: Date | string | null
+    readAt?: Date | string | null
+    dismissedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type AlertNotificationCreateOrConnectWithoutAlertInput = {
+    where: AlertNotificationWhereUniqueInput
+    create: XOR<AlertNotificationCreateWithoutAlertInput, AlertNotificationUncheckedCreateWithoutAlertInput>
+  }
+
+  export type AlertNotificationCreateManyAlertInputEnvelope = {
+    data: AlertNotificationCreateManyAlertInput | AlertNotificationCreateManyAlertInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutPriceAlertInput = {
+    update: XOR<UserUpdateWithoutPriceAlertInput, UserUncheckedUpdateWithoutPriceAlertInput>
+    create: XOR<UserCreateWithoutPriceAlertInput, UserUncheckedCreateWithoutPriceAlertInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPriceAlertInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPriceAlertInput, UserUncheckedUpdateWithoutPriceAlertInput>
+  }
+
+  export type UserUpdateWithoutPriceAlertInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    marketingEmails?: BoolFieldUpdateOperationsInput | boolean
+    preferredLanguage?: StringFieldUpdateOperationsInput | string
+    pushNotifications?: BoolFieldUpdateOperationsInput | boolean
+    smsNotifications?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
+    Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
+    Message_Message_senderIdToUser?: MessageUpdateManyWithoutUser_Message_senderIdToUserNestedInput
+    ProductListing?: ProductListingUpdateManyWithoutUserNestedInput
+    Review_Review_reviewedIdToUser?: ReviewUpdateManyWithoutUser_Review_reviewedIdToUserNestedInput
+    Review_Review_reviewerIdToUser?: ReviewUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
+    Session?: SessionUpdateManyWithoutUserNestedInput
+    Role?: RoleUpdateOneRequiredWithoutUserNestedInput
+    Permission?: PermissionUpdateManyWithoutUserNestedInput
+    AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
+    MarketPrice_submittedBy?: MarketPriceUpdateManyWithoutSubmittedByUserNestedInput
+    MarketPrice_reviewedBy?: MarketPriceUpdateManyWithoutReviewedByUserNestedInput
+    AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPriceAlertInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    roleId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    marketingEmails?: BoolFieldUpdateOperationsInput | boolean
+    preferredLanguage?: StringFieldUpdateOperationsInput | string
+    pushNotifications?: BoolFieldUpdateOperationsInput | boolean
+    smsNotifications?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
+    Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
+    Message_Message_senderIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_senderIdToUserNestedInput
+    ProductListing?: ProductListingUncheckedUpdateManyWithoutUserNestedInput
+    Review_Review_reviewedIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewedIdToUserNestedInput
+    Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
+    Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
+    AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
+    MarketPrice_submittedBy?: MarketPriceUncheckedUpdateManyWithoutSubmittedByUserNestedInput
+    MarketPrice_reviewedBy?: MarketPriceUncheckedUpdateManyWithoutReviewedByUserNestedInput
+    AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type AlertNotificationUpsertWithWhereUniqueWithoutAlertInput = {
+    where: AlertNotificationWhereUniqueInput
+    update: XOR<AlertNotificationUpdateWithoutAlertInput, AlertNotificationUncheckedUpdateWithoutAlertInput>
+    create: XOR<AlertNotificationCreateWithoutAlertInput, AlertNotificationUncheckedCreateWithoutAlertInput>
+  }
+
+  export type AlertNotificationUpdateWithWhereUniqueWithoutAlertInput = {
+    where: AlertNotificationWhereUniqueInput
+    data: XOR<AlertNotificationUpdateWithoutAlertInput, AlertNotificationUncheckedUpdateWithoutAlertInput>
+  }
+
+  export type AlertNotificationUpdateManyWithWhereWithoutAlertInput = {
+    where: AlertNotificationScalarWhereInput
+    data: XOR<AlertNotificationUpdateManyMutationInput, AlertNotificationUncheckedUpdateManyWithoutAlertInput>
+  }
+
+  export type PriceAlertCreateWithoutNotificationsInput = {
+    id: string
+    cropType: string
+    location: string
+    quality?: $Enums.PriceQuality | null
+    alertType: $Enums.AlertType
+    frequency?: $Enums.AlertFrequency
+    threshold: number
+    isActive?: boolean
+    lastTriggered?: Date | string | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+    user: UserCreateNestedOneWithoutPriceAlertInput
+  }
+
+  export type PriceAlertUncheckedCreateWithoutNotificationsInput = {
+    id: string
+    userId: string
+    cropType: string
+    location: string
+    quality?: $Enums.PriceQuality | null
+    alertType: $Enums.AlertType
+    frequency?: $Enums.AlertFrequency
+    threshold: number
+    isActive?: boolean
+    lastTriggered?: Date | string | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type PriceAlertCreateOrConnectWithoutNotificationsInput = {
+    where: PriceAlertWhereUniqueInput
+    create: XOR<PriceAlertCreateWithoutNotificationsInput, PriceAlertUncheckedCreateWithoutNotificationsInput>
+  }
+
+  export type UserCreateWithoutAlertNotificationInput = {
+    id: string
+    phone?: string | null
+    name?: string | null
+    location?: string | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+    email: string
+    password: string
+    avatar?: string | null
+    billingAddress?: string | null
+    bio?: string | null
+    dateOfBirth?: Date | string | null
+    emailNotifications?: boolean
+    gender?: string | null
+    isEmailVerified?: boolean
+    isPhoneVerified?: boolean
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    marketingEmails?: boolean
+    preferredLanguage?: string
+    pushNotifications?: boolean
+    smsNotifications?: boolean
+    subscriptionEndsAt?: Date | string | null
+    subscriptionPlan?: string
+    subscriptionStatus?: string
+    taxId?: string | null
+    timezone?: string
+    twoFactorEnabled?: boolean
+    status?: $Enums.UserStatus
+    Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
+    Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
+    Message_Message_senderIdToUser?: MessageCreateNestedManyWithoutUser_Message_senderIdToUserInput
+    ProductListing?: ProductListingCreateNestedManyWithoutUserInput
+    Review_Review_reviewedIdToUser?: ReviewCreateNestedManyWithoutUser_Review_reviewedIdToUserInput
+    Review_Review_reviewerIdToUser?: ReviewCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
+    Session?: SessionCreateNestedManyWithoutUserInput
+    Role: RoleCreateNestedOneWithoutUserInput
+    Permission?: PermissionCreateNestedManyWithoutUserInput
+    AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
+    MarketPrice_submittedBy?: MarketPriceCreateNestedManyWithoutSubmittedByUserInput
+    MarketPrice_reviewedBy?: MarketPriceCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAlertNotificationInput = {
+    id: string
+    phone?: string | null
+    name?: string | null
+    location?: string | null
+    roleId: string
+    createdAt?: Date | string
+    updatedAt: Date | string
+    email: string
+    password: string
+    avatar?: string | null
+    billingAddress?: string | null
+    bio?: string | null
+    dateOfBirth?: Date | string | null
+    emailNotifications?: boolean
+    gender?: string | null
+    isEmailVerified?: boolean
+    isPhoneVerified?: boolean
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    marketingEmails?: boolean
+    preferredLanguage?: string
+    pushNotifications?: boolean
+    smsNotifications?: boolean
+    subscriptionEndsAt?: Date | string | null
+    subscriptionPlan?: string
+    subscriptionStatus?: string
+    taxId?: string | null
+    timezone?: string
+    twoFactorEnabled?: boolean
+    status?: $Enums.UserStatus
+    Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
+    Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
+    Message_Message_senderIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_senderIdToUserInput
+    ProductListing?: ProductListingUncheckedCreateNestedManyWithoutUserInput
+    Review_Review_reviewedIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewedIdToUserInput
+    Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
+    Session?: SessionUncheckedCreateNestedManyWithoutUserInput
+    Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
+    AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
+    MarketPrice_submittedBy?: MarketPriceUncheckedCreateNestedManyWithoutSubmittedByUserInput
+    MarketPrice_reviewedBy?: MarketPriceUncheckedCreateNestedManyWithoutReviewedByUserInput
+    PriceAlert?: PriceAlertUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAlertNotificationInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAlertNotificationInput, UserUncheckedCreateWithoutAlertNotificationInput>
+  }
+
+  export type PriceAlertUpsertWithoutNotificationsInput = {
+    update: XOR<PriceAlertUpdateWithoutNotificationsInput, PriceAlertUncheckedUpdateWithoutNotificationsInput>
+    create: XOR<PriceAlertCreateWithoutNotificationsInput, PriceAlertUncheckedCreateWithoutNotificationsInput>
+    where?: PriceAlertWhereInput
+  }
+
+  export type PriceAlertUpdateToOneWithWhereWithoutNotificationsInput = {
+    where?: PriceAlertWhereInput
+    data: XOR<PriceAlertUpdateWithoutNotificationsInput, PriceAlertUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type PriceAlertUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cropType?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    quality?: NullableEnumPriceQualityFieldUpdateOperationsInput | $Enums.PriceQuality | null
+    alertType?: EnumAlertTypeFieldUpdateOperationsInput | $Enums.AlertType
+    frequency?: EnumAlertFrequencyFieldUpdateOperationsInput | $Enums.AlertFrequency
+    threshold?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPriceAlertNestedInput
+  }
+
+  export type PriceAlertUncheckedUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    cropType?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    quality?: NullableEnumPriceQualityFieldUpdateOperationsInput | $Enums.PriceQuality | null
+    alertType?: EnumAlertTypeFieldUpdateOperationsInput | $Enums.AlertType
+    frequency?: EnumAlertFrequencyFieldUpdateOperationsInput | $Enums.AlertFrequency
+    threshold?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpsertWithoutAlertNotificationInput = {
+    update: XOR<UserUpdateWithoutAlertNotificationInput, UserUncheckedUpdateWithoutAlertNotificationInput>
+    create: XOR<UserCreateWithoutAlertNotificationInput, UserUncheckedCreateWithoutAlertNotificationInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAlertNotificationInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAlertNotificationInput, UserUncheckedUpdateWithoutAlertNotificationInput>
+  }
+
+  export type UserUpdateWithoutAlertNotificationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    marketingEmails?: BoolFieldUpdateOperationsInput | boolean
+    preferredLanguage?: StringFieldUpdateOperationsInput | string
+    pushNotifications?: BoolFieldUpdateOperationsInput | boolean
+    smsNotifications?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
+    Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
+    Message_Message_senderIdToUser?: MessageUpdateManyWithoutUser_Message_senderIdToUserNestedInput
+    ProductListing?: ProductListingUpdateManyWithoutUserNestedInput
+    Review_Review_reviewedIdToUser?: ReviewUpdateManyWithoutUser_Review_reviewedIdToUserNestedInput
+    Review_Review_reviewerIdToUser?: ReviewUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
+    Session?: SessionUpdateManyWithoutUserNestedInput
+    Role?: RoleUpdateOneRequiredWithoutUserNestedInput
+    Permission?: PermissionUpdateManyWithoutUserNestedInput
+    AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
+    MarketPrice_submittedBy?: MarketPriceUpdateManyWithoutSubmittedByUserNestedInput
+    MarketPrice_reviewedBy?: MarketPriceUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAlertNotificationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    roleId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    marketingEmails?: BoolFieldUpdateOperationsInput | boolean
+    preferredLanguage?: StringFieldUpdateOperationsInput | string
+    pushNotifications?: BoolFieldUpdateOperationsInput | boolean
+    smsNotifications?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
+    Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
+    Message_Message_senderIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_senderIdToUserNestedInput
+    ProductListing?: ProductListingUncheckedUpdateManyWithoutUserNestedInput
+    Review_Review_reviewedIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewedIdToUserNestedInput
+    Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
+    Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
+    AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
+    MarketPrice_submittedBy?: MarketPriceUncheckedUpdateManyWithoutSubmittedByUserNestedInput
+    MarketPrice_reviewedBy?: MarketPriceUncheckedUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MessageCreateManyConversation_Message_conversationIdToConversationInput = {
@@ -25679,6 +30287,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPermissionInput = {
@@ -25723,6 +30333,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUncheckedUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUncheckedUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutPermissionInput = {
@@ -25990,6 +30602,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoleInput = {
@@ -26034,6 +30648,8 @@ export namespace Prisma {
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     MarketPrice_submittedBy?: MarketPriceUncheckedUpdateManyWithoutSubmittedByUserNestedInput
     MarketPrice_reviewedBy?: MarketPriceUncheckedUpdateManyWithoutReviewedByUserNestedInput
+    PriceAlert?: PriceAlertUncheckedUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutRoleInput = {
@@ -26260,6 +30876,38 @@ export namespace Prisma {
     priceChange?: number | null
     createdAt?: Date | string
     updatedAt: Date | string
+  }
+
+  export type PriceAlertCreateManyUserInput = {
+    id: string
+    cropType: string
+    location: string
+    quality?: $Enums.PriceQuality | null
+    alertType: $Enums.AlertType
+    frequency?: $Enums.AlertFrequency
+    threshold: number
+    isActive?: boolean
+    lastTriggered?: Date | string | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type AlertNotificationCreateManyUserInput = {
+    id: string
+    alertId: string
+    title: string
+    message: string
+    alertType: $Enums.AlertType
+    cropType: string
+    location: string
+    oldPrice?: number | null
+    newPrice?: number | null
+    priceChange?: number | null
+    status?: $Enums.AlertStatus
+    sentAt?: Date | string | null
+    readAt?: Date | string | null
+    dismissedAt?: Date | string | null
+    createdAt?: Date | string
   }
 
   export type ConversationUpdateWithoutUser_Conversation_user1IdToUserInput = {
@@ -26820,6 +31468,176 @@ export namespace Prisma {
     priceChange?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PriceAlertUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cropType?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    quality?: NullableEnumPriceQualityFieldUpdateOperationsInput | $Enums.PriceQuality | null
+    alertType?: EnumAlertTypeFieldUpdateOperationsInput | $Enums.AlertType
+    frequency?: EnumAlertFrequencyFieldUpdateOperationsInput | $Enums.AlertFrequency
+    threshold?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notifications?: AlertNotificationUpdateManyWithoutAlertNestedInput
+  }
+
+  export type PriceAlertUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cropType?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    quality?: NullableEnumPriceQualityFieldUpdateOperationsInput | $Enums.PriceQuality | null
+    alertType?: EnumAlertTypeFieldUpdateOperationsInput | $Enums.AlertType
+    frequency?: EnumAlertFrequencyFieldUpdateOperationsInput | $Enums.AlertFrequency
+    threshold?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notifications?: AlertNotificationUncheckedUpdateManyWithoutAlertNestedInput
+  }
+
+  export type PriceAlertUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cropType?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    quality?: NullableEnumPriceQualityFieldUpdateOperationsInput | $Enums.PriceQuality | null
+    alertType?: EnumAlertTypeFieldUpdateOperationsInput | $Enums.AlertType
+    frequency?: EnumAlertFrequencyFieldUpdateOperationsInput | $Enums.AlertFrequency
+    threshold?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AlertNotificationUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    alertType?: EnumAlertTypeFieldUpdateOperationsInput | $Enums.AlertType
+    cropType?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    oldPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    newPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    priceChange?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: EnumAlertStatusFieldUpdateOperationsInput | $Enums.AlertStatus
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dismissedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    alert?: PriceAlertUpdateOneRequiredWithoutNotificationsNestedInput
+  }
+
+  export type AlertNotificationUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alertId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    alertType?: EnumAlertTypeFieldUpdateOperationsInput | $Enums.AlertType
+    cropType?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    oldPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    newPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    priceChange?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: EnumAlertStatusFieldUpdateOperationsInput | $Enums.AlertStatus
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dismissedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AlertNotificationUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    alertId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    alertType?: EnumAlertTypeFieldUpdateOperationsInput | $Enums.AlertType
+    cropType?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    oldPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    newPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    priceChange?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: EnumAlertStatusFieldUpdateOperationsInput | $Enums.AlertStatus
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dismissedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AlertNotificationCreateManyAlertInput = {
+    id: string
+    userId: string
+    title: string
+    message: string
+    alertType: $Enums.AlertType
+    cropType: string
+    location: string
+    oldPrice?: number | null
+    newPrice?: number | null
+    priceChange?: number | null
+    status?: $Enums.AlertStatus
+    sentAt?: Date | string | null
+    readAt?: Date | string | null
+    dismissedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type AlertNotificationUpdateWithoutAlertInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    alertType?: EnumAlertTypeFieldUpdateOperationsInput | $Enums.AlertType
+    cropType?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    oldPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    newPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    priceChange?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: EnumAlertStatusFieldUpdateOperationsInput | $Enums.AlertStatus
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dismissedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAlertNotificationNestedInput
+  }
+
+  export type AlertNotificationUncheckedUpdateWithoutAlertInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    alertType?: EnumAlertTypeFieldUpdateOperationsInput | $Enums.AlertType
+    cropType?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    oldPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    newPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    priceChange?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: EnumAlertStatusFieldUpdateOperationsInput | $Enums.AlertStatus
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dismissedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AlertNotificationUncheckedUpdateManyWithoutAlertInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    alertType?: EnumAlertTypeFieldUpdateOperationsInput | $Enums.AlertType
+    cropType?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    oldPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    newPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    priceChange?: NullableFloatFieldUpdateOperationsInput | number | null
+    status?: EnumAlertStatusFieldUpdateOperationsInput | $Enums.AlertStatus
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dismissedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

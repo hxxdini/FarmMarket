@@ -144,6 +144,12 @@ export function Navigation() {
         icon: <TrendingUp className="h-4 w-4" />,
         description: "Share market prices",
       },
+      {
+        name: "Price Alerts",
+        href: "/price-alerts",
+        icon: <Bell className="h-4 w-4" />,
+        description: "Monitor price changes",
+      },
     ] : []),
 
   ]

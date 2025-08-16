@@ -166,49 +166,51 @@ model Session {
 }
 
 model User {
-  id                                      String           @id
-  phone                                   String?          @unique
+  id                                      String              @id
+  phone                                   String?             @unique
   name                                    String?
   location                                String?
   roleId                                  String
-  createdAt                               DateTime         @default(now())
+  createdAt                               DateTime            @default(now())
   updatedAt                               DateTime
-  email                                   String           @unique
+  email                                   String              @unique
   password                                String
   avatar                                  String?
   billingAddress                          String?
   bio                                     String?
   dateOfBirth                             DateTime?
-  emailNotifications                      Boolean          @default(true)
+  emailNotifications                      Boolean             @default(true)
   gender                                  String?
-  isEmailVerified                         Boolean          @default(false)
-  isPhoneVerified                         Boolean          @default(false)
+  isEmailVerified                         Boolean             @default(false)
+  isPhoneVerified                         Boolean             @default(false)
   lastLoginAt                             DateTime?
-  loginCount                              Int              @default(0)
-  marketingEmails                         Boolean          @default(false)
-  preferredLanguage                       String           @default("en")
-  pushNotifications                       Boolean          @default(true)
-  smsNotifications                        Boolean          @default(true)
+  loginCount                              Int                 @default(0)
+  marketingEmails                         Boolean             @default(false)
+  preferredLanguage                       String              @default("en")
+  pushNotifications                       Boolean             @default(true)
+  smsNotifications                        Boolean             @default(true)
   subscriptionEndsAt                      DateTime?
-  subscriptionPlan                        String           @default("free")
-  subscriptionStatus                      String           @default("active")
+  subscriptionPlan                        String              @default("free")
+  subscriptionStatus                      String              @default("active")
   taxId                                   String?
-  timezone                                String           @default("UTC")
-  twoFactorEnabled                        Boolean          @default(false)
-  status                                  UserStatus       @default(ACTIVE)
-  Conversation_Conversation_user1IdToUser Conversation[]   @relation("Conversation_user1IdToUser")
-  Conversation_Conversation_user2IdToUser Conversation[]   @relation("Conversation_user2IdToUser")
-  Message_Message_receiverIdToUser        Message[]        @relation("Message_receiverIdToUser")
-  Message_Message_senderIdToUser          Message[]        @relation("Message_senderIdToUser")
+  timezone                                String              @default("UTC")
+  twoFactorEnabled                        Boolean             @default(false)
+  status                                  UserStatus          @default(ACTIVE)
+  Conversation_Conversation_user1IdToUser Conversation[]      @relation("Conversation_user1IdToUser")
+  Conversation_Conversation_user2IdToUser Conversation[]      @relation("Conversation_user2IdToUser")
+  Message_Message_receiverIdToUser        Message[]           @relation("Message_receiverIdToUser")
+  Message_Message_senderIdToUser          Message[]           @relation("Message_senderIdToUser")
   ProductListing                          ProductListing[]
-  Review_Review_reviewedIdToUser          Review[]         @relation("Review_reviewedIdToUser")
-  Review_Review_reviewerIdToUser          Review[]         @relation("Review_reviewerIdToUser")
+  Review_Review_reviewedIdToUser          Review[]            @relation("Review_reviewedIdToUser")
+  Review_Review_reviewerIdToUser          Review[]            @relation("Review_reviewerIdToUser")
   Session                                 Session[]
-  Role                                    Role             @relation(fields: [roleId], references: [id])
+  Role                                    Role                @relation(fields: [roleId], references: [id])
   Permission                              Permission[]
   AdminActionLog                          AdminActionLog[]
-  MarketPrice_submittedBy                 MarketPrice[]    @relation("User_MarketPrice_submittedBy")
-  MarketPrice_reviewedBy                  MarketPrice[]    @relation("User_MarketPrice_reviewedBy")
+  MarketPrice_submittedBy                 MarketPrice[]       @relation("User_MarketPrice_submittedBy")
+  MarketPrice_reviewedBy                  MarketPrice[]       @relation("User_MarketPrice_reviewedBy")
+  PriceAlert                              PriceAlert[]        @relation("User_PriceAlert")
+  AlertNotification                       AlertNotification[] @relation("User_AlertNotification")
 }
 
 enum ListingStatus {
@@ -303,4 +305,79 @@ model MarketPrice {
   @@index([reviewedBy, reviewDate])
   @@index([pricePerUnit, cropType, location])
   @@index([effectiveDate, expiryDate])
+}
+
+enum AlertType {
+  PRICE_INCREASE
+  PRICE_DECREASE
+  PRICE_VOLATILITY
+  REGIONAL_DIFFERENCE
+  QUALITY_OPPORTUNITY
+  SEASONAL_TREND
+}
+
+enum AlertStatus {
+  PENDING
+  SENT
+  READ
+  DISMISSED
+}
+
+enum AlertFrequency {
+  IMMEDIATE
+  DAILY
+  WEEKLY
+  MONTHLY
+}
+
+model PriceAlert {
+  id            String         @id
+  userId        String
+  cropType      String
+  location      String
+  quality       PriceQuality?
+  alertType     AlertType
+  frequency     AlertFrequency @default(DAILY)
+  threshold     Float // Percentage change threshold
+  isActive      Boolean        @default(true)
+  lastTriggered DateTime?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime
+
+  // Relations
+  user          User                @relation("User_PriceAlert", fields: [userId], references: [id], onDelete: Cascade)
+  notifications AlertNotification[] @relation("PriceAlert_AlertNotification")
+
+  @@unique([userId, cropType, location, quality, alertType])
+  // Indexes
+  @@index([userId, isActive])
+  @@index([cropType, location, alertType])
+}
+
+model AlertNotification {
+  id          String      @id
+  alertId     String
+  userId      String
+  title       String
+  message     String
+  alertType   AlertType
+  cropType    String
+  location    String
+  oldPrice    Float?
+  newPrice    Float?
+  priceChange Float?
+  status      AlertStatus @default(PENDING)
+  sentAt      DateTime?
+  readAt      DateTime?
+  dismissedAt DateTime?
+  createdAt   DateTime    @default(now())
+
+  // Relations
+  alert PriceAlert @relation("PriceAlert_AlertNotification", fields: [alertId], references: [id], onDelete: Cascade)
+  user  User       @relation("User_AlertNotification", fields: [userId], references: [id], onDelete: Cascade)
+
+  // Indexes
+  @@index([userId, status])
+  @@index([alertId, createdAt])
+  @@index([cropType, location, createdAt])
 }
