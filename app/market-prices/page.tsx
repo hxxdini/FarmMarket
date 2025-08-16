@@ -202,6 +202,7 @@ export default function MarketPricesPage() {
             </Button>
           )}
         </div>
+        </div>
 
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4 sm:mb-6">
@@ -231,7 +232,7 @@ export default function MarketPricesPage() {
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="border-0 shadow-sm">
             <CardContent className="p-4">
               <div className="flex items-center space-x-2">
                 <MapPin className="h-5 w-5 text-purple-600" />
@@ -245,7 +246,7 @@ export default function MarketPricesPage() {
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="border-0 shadow-sm">
             <CardContent className="p-4">
               <div className="flex items-center space-x-2">
                 <Calendar className="h-5 w-5 text-orange-600" />
