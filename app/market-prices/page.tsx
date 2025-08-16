@@ -264,10 +264,9 @@ export default function MarketPricesPage() {
             </CardContent>
           </Card>
         </div>
-      </div>
 
-      {/* Filters */}
-      <Card className="border-0 shadow-sm mb-4 sm:mb-6">
+        {/* Filters */}
+        <Card className="border-0 shadow-sm mb-4 sm:mb-6">
         <CardHeader className="pb-3 sm:pb-4">
           <CardTitle className="text-lg">Filters & Search</CardTitle>
         </CardHeader>
@@ -361,17 +360,7 @@ export default function MarketPricesPage() {
 
       {/* Market Prices List */}
       <div className="space-y-6">
-        {status === "loading" ? (
-          <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
-            <p className="text-lg text-gray-600">Loading...</p>
-          </div>
-        ) : status === "unauthenticated" ? (
-          <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
-            <p className="text-lg text-gray-600">Redirecting to login...</p>
-          </div>
-        ) : loading ? (
+        {loading ? (
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
             <p className="text-lg text-gray-600">Loading market prices...</p>
@@ -531,6 +520,7 @@ export default function MarketPricesPage() {
           </>
         )}
       </div>
+      </main>
     </div>
   )
 }
