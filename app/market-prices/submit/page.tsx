@@ -12,8 +12,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { toast } from "sonner"
-import { ArrowLeft, Upload, CheckCircle, AlertTriangle, Info } from "lucide-react"
-import { validateMarketPrice, PriceValidationResult } from "@/lib/price-validation"
+import { ArrowLeft, Upload, CheckCircle, Info } from "lucide-react"
+// Validation will be handled server-side
 
 interface PriceSubmissionForm {
   cropType: string
@@ -52,8 +52,6 @@ export default function PriceSubmissionPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
-  const [validationResult, setValidationResult] = useState<PriceValidationResult | null>(null)
-  const [showValidation, setShowValidation] = useState(false)
   
   const [formData, setFormData] = useState<PriceSubmissionForm>({
     cropType: '',
@@ -82,45 +80,10 @@ export default function PriceSubmissionPage() {
     }
   }
 
-  const validatePrice = async () => {
-    if (!formData.cropType || !formData.pricePerUnit || !formData.location) {
-      toast.error("Please fill in all required fields before validation")
-      return
-    }
-
-    try {
-      setLoading(true)
-      const result = await validateMarketPrice(
-        formData.cropType,
-        parseFloat(formData.pricePerUnit),
-        formData.quality,
-        formData.location,
-        formData.unit
-      )
-      
-      setValidationResult(result)
-      setShowValidation(true)
-      
-      if (result.isValid) {
-        toast.success("Price validation passed! You can submit this price.")
-      } else {
-        toast.warning("Price validation failed. Please review the warnings.")
-      }
-    } catch (error) {
-      console.error('Validation error:', error)
-      toast.error("Failed to validate price. Please try again.")
-    } finally {
-      setLoading(false)
-    }
-  }
+  // Validation is handled server-side during submission
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
-    if (!validationResult || !validationResult.isValid) {
-      toast.error("Please validate your price first and ensure it passes validation")
-      return
-    }
 
     try {
       setLoading(true)
@@ -152,8 +115,7 @@ export default function PriceSubmissionPage() {
           expiryDate: '',
           notes: ''
         })
-        setValidationResult(null)
-        setShowValidation(false)
+
         
         // Redirect to market prices page
         router.push('/market-prices')
@@ -199,18 +161,13 @@ export default function PriceSubmissionPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
         {/* Main Form */}
         <div className="lg:col-span-2">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Upload className="h-5 w-5 mr-2" />
-                Price Information
-              </CardTitle>
-              <CardDescription>
-                Fill in the details about your crop and pricing
-              </CardDescription>
+          <Card className="border-0 shadow-sm">
+            <CardHeader className="pb-3 sm:pb-4">
+              <CardTitle className="text-lg">Price Information</CardTitle>
+              <CardDescription>Fill in the details about your crop and pricing</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -357,26 +314,11 @@ export default function PriceSubmissionPage() {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={validatePrice}
-                    disabled={loading || !formData.cropType || !formData.pricePerUnit || !formData.location}
-                    className="flex-1"
-                  >
-                    {loading ? (
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2"></div>
-                    ) : (
-                      <CheckCircle className="h-4 w-4 mr-2" />
-                    )}
-                    Validate Price
-                  </Button>
-                  
+                <div className="flex justify-end pt-4">
                   <Button
                     type="submit"
-                    disabled={loading || !validationResult || !validationResult.isValid}
-                    className="flex-1"
+                    disabled={loading}
+                    className="px-8"
                   >
                     {loading ? (
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2"></div>
@@ -391,92 +333,9 @@ export default function PriceSubmissionPage() {
           </Card>
         </div>
 
-        {/* Validation Results Sidebar */}
+        {/* Help Information */}
         <div className="lg:col-span-1">
-          {showValidation && validationResult && (
-            <Card className="sticky top-8">
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  {validationResult.isValid ? (
-                    <CheckCircle className="h-5 w-5 mr-2 text-green-600" />
-                  ) : (
-                    <AlertTriangle className="h-5 w-5 mr-2 text-yellow-600" />
-                  )}
-                  Validation Results
-                </CardTitle>
-                <CardDescription>
-                  {validationResult.isValid ? 'Price validation passed!' : 'Please review the warnings below'}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {/* Confidence Score */}
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Confidence Score:</span>
-                  <Badge variant={validationResult.confidence > 0.7 ? 'default' : 'secondary'}>
-                    {(validationResult.confidence * 100).toFixed(0)}%
-                  </Badge>
-                </div>
-
-                {/* Regional Average */}
-                {validationResult.regionalAverage && (
-                  <div className="p-3 bg-blue-50 rounded-lg">
-                    <div className="text-sm font-medium text-blue-900">Regional Average</div>
-                    <div className="text-lg font-bold text-blue-700">
-                      {validationResult.regionalAverage.toFixed(2)} {formData.unit}
-                    </div>
-                  </div>
-                )}
-
-                {/* Market Trend */}
-                {validationResult.marketTrend && (
-                  <div className="p-3 bg-green-50 rounded-lg">
-                    <div className="text-sm font-medium text-green-900">Market Trend</div>
-                    <Badge 
-                      variant={
-                        validationResult.marketTrend === 'UP' ? 'default' : 
-                        validationResult.marketTrend === 'DOWN' ? 'destructive' : 'secondary'
-                      }
-                    >
-                      {validationResult.marketTrend}
-                    </Badge>
-                  </div>
-                )}
-
-                {/* Warnings */}
-                {validationResult.warnings.length > 0 && (
-                  <div>
-                    <div className="text-sm font-medium text-red-900 mb-2">Warnings:</div>
-                    <div className="space-y-2">
-                      {validationResult.warnings.map((warning, index) => (
-                        <Alert key={index} variant="destructive">
-                          <AlertTriangle className="h-4 w-4" />
-                          <AlertDescription>{warning}</AlertDescription>
-                        </Alert>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Suggestions */}
-                {validationResult.suggestions.length > 0 && (
-                  <div>
-                    <div className="text-sm font-medium text-blue-900 mb-2">Suggestions:</div>
-                    <div className="space-y-2">
-                      {validationResult.suggestions.map((suggestion, index) => (
-                        <Alert key={index}>
-                          <Info className="h-4 w-4" />
-                          <AlertDescription>{suggestion.message}</AlertDescription>
-                        </Alert>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Help Information */}
-          <Card className="mt-6">
+          <Card className="sticky top-8">
             <CardHeader>
               <CardTitle className="text-lg">Tips for Accurate Pricing</CardTitle>
             </CardHeader>
