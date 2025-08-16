@@ -207,6 +207,8 @@ model User {
   Role                                    Role             @relation(fields: [roleId], references: [id])
   Permission                              Permission[]
   AdminActionLog                          AdminActionLog[]
+  MarketPrice_submittedBy                 MarketPrice[]    @relation("User_MarketPrice_submittedBy")
+  MarketPrice_reviewedBy                  MarketPrice[]    @relation("User_MarketPrice_reviewedBy")
 }
 
 enum ListingStatus {
@@ -243,4 +245,62 @@ enum UserStatus {
   ACTIVE
   SUSPENDED
   PENDING
+}
+
+enum PriceQuality {
+  PREMIUM
+  STANDARD
+  ECONOMY
+}
+
+enum PriceSource {
+  FARMER_SUBMISSION
+  EXTENSION_OFFICER
+  MARKET_SURVEY
+  GOVERNMENT_DATA
+  THIRD_PARTY
+}
+
+enum PriceStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  EXPIRED
+}
+
+model MarketPrice {
+  id                String       @id
+  cropType          String
+  pricePerUnit      Float
+  unit              String
+  quality           PriceQuality
+  location          String
+  source            PriceSource
+  status            PriceStatus  @default(PENDING)
+  submittedBy       String
+  reviewedBy        String?
+  reviewNotes       String?
+  reviewDate        DateTime?
+  effectiveDate     DateTime     @default(now())
+  expiryDate        DateTime?
+  isVerified        Boolean      @default(false)
+  verificationScore Float        @default(0.0)
+  marketTrend       String? // UP, DOWN, STABLE
+  regionalAverage   Float?
+  priceChange       Float? // Percentage change from previous period
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime
+
+  // Relations
+  submittedByUser User  @relation("User_MarketPrice_submittedBy", fields: [submittedBy], references: [id], onDelete: Cascade)
+  reviewedByUser  User? @relation("User_MarketPrice_reviewedBy", fields: [reviewedBy], references: [id], onDelete: SetNull)
+
+  // Indexes for efficient querying
+  @@index([cropType, location, effectiveDate])
+  @@index([location, cropType, quality])
+  @@index([status, effectiveDate])
+  @@index([submittedBy, createdAt])
+  @@index([reviewedBy, reviewDate])
+  @@index([pricePerUnit, cropType, location])
+  @@index([effectiveDate, expiryDate])
 }
