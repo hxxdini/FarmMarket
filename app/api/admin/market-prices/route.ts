@@ -28,14 +28,27 @@ export async function GET(req: NextRequest) {
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '20')
     
+    // Validate status parameter
+    const validStatuses = ['all', 'pending', 'approved', 'rejected', 'expired']
+    if (status && !validStatuses.includes(status.toLowerCase())) {
+      return NextResponse.json(
+        { error: `Invalid status. Must be one of: ${validStatuses.join(', ')}` },
+        { status: 400 }
+      )
+    }
+    
     const skip = (page - 1) * limit
 
     // Build where clause based on filters
     const where: any = {}
     
-    if (status !== 'all') where.status = status
+    if (status !== 'all') where.status = status.toUpperCase()
     if (cropType) where.cropType = { contains: cropType, mode: 'insensitive' }
     if (location) where.location = { contains: location, mode: 'insensitive' }
+    
+    // Note: If you add quality and source filters later, they should also be converted to uppercase
+    // if (quality) where.quality = quality.toUpperCase()
+    // if (source) where.source = source.toUpperCase()
 
     // Fetch market prices with pagination
     const [prices, total] = await Promise.all([

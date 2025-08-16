@@ -31,9 +31,9 @@ export async function GET(req: NextRequest) {
     
     if (cropType) where.cropType = { contains: cropType, mode: 'insensitive' }
     if (location) where.location = { contains: location, mode: 'insensitive' }
-    if (quality) where.quality = quality
-    if (source) where.source = source
-    if (status) where.status = status
+    if (quality) where.quality = quality.toUpperCase()
+    if (source) where.source = source.toUpperCase()
+    if (status) where.status = status.toUpperCase()
     
     // Handle expired prices filter
     if (!includeExpired) {
