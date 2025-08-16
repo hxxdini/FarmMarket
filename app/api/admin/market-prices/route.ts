@@ -42,7 +42,7 @@ export async function GET(req: NextRequest) {
       prisma.marketPrice.findMany({
         where,
         include: {
-          submittedByUser: {
+          User_MarketPrice_submittedByToUser: {
             select: {
               id: true,
               name: true,
@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
               email: true
             }
           },
-          reviewedByUser: {
+          User_MarketPrice_reviewedByToUser: {
             select: {
               id: true,
               name: true

@@ -20,14 +20,14 @@ export async function GET(
     const marketPrice = await prisma.marketPrice.findUnique({
       where: { id },
       include: {
-        submittedByUser: {
+        User_MarketPrice_submittedByToUser: {
           select: {
             id: true,
             name: true,
             location: true
           }
         },
-        reviewedByUser: {
+        User_MarketPrice_reviewedByToUser: {
           select: {
             id: true,
             name: true

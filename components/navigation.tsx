@@ -137,20 +137,7 @@ export function Navigation() {
     ] : []),
     
     // Market price submission for all authenticated users
-    ...(isAuthenticated ? [
-      {
-        name: "Submit Price",
-        href: "/market-prices/submit",
-        icon: <TrendingUp className="h-4 w-4" />,
-        description: "Share market prices",
-      },
-      {
-        name: "Price Alerts",
-        href: "/price-alerts",
-        icon: <Bell className="h-4 w-4" />,
-        description: "Monitor price changes",
-      },
-    ] : []),
+    // Removed from main navigation - now available on dashboards
 
   ]
 
