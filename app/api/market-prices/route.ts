@@ -6,6 +6,12 @@ import { prisma } from "@/lib/prisma"
 // GET /api/market-prices - Fetch market prices with filtering and pagination
 export async function GET(req: NextRequest) {
   try {
+    // Check authentication
+    const session = await getServerSession(authOptions)
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
     const { searchParams } = new URL(req.url)
     const cropType = searchParams.get('cropType')
     const location = searchParams.get('location')

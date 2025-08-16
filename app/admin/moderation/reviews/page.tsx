@@ -412,7 +412,11 @@ export default function ReviewModerationPage() {
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => router.push(`/marketplace/${review.ProductListing.id}`)}
+                            onClick={() => {
+                              if (review.ProductListing?.id) {
+                                router.push(`/marketplace/${review.ProductListing.id}`);
+                              }
+                            }}
                           >
                             <Eye className="h-4 w-4 mr-2" />
                             View Listing

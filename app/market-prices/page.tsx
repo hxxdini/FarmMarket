@@ -79,8 +79,12 @@ export default function MarketPricesPage() {
   })
 
   useEffect(() => {
-    fetchPrices()
-  }, [filters, pagination.page])
+    if (status === "unauthenticated") {
+      router.replace("/login")
+    } else if (status === "authenticated") {
+      fetchPrices()
+    }
+  }, [status, router, filters, pagination.page])
 
   const fetchPrices = async () => {
     try {
@@ -358,7 +362,17 @@ export default function MarketPricesPage() {
 
       {/* Market Prices List */}
       <div className="space-y-6">
-        {loading ? (
+        {status === "loading" ? (
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
+            <p className="text-lg text-gray-600">Loading...</p>
+          </div>
+        ) : status === "unauthenticated" ? (
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
+            <p className="text-lg text-gray-600">Redirecting to login...</p>
+          </div>
+        ) : loading ? (
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
             <p className="text-lg text-gray-600">Loading market prices...</p>
@@ -442,7 +456,6 @@ export default function MarketPricesPage() {
                     {/* Submitted By */}
                     <div className="flex items-center space-x-3 pt-2 border-t">
                       <Avatar className="h-8 w-8">
-                        <AvatarImage src={price.submittedBy.avatar} alt={price.submittedBy.name} />
                         <AvatarFallback className="text-xs">
                           {price.submittedBy.name?.split(' ').map(n => n.charAt(0)).join('').substring(0, 2)}
                         </AvatarFallback>

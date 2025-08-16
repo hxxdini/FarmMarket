@@ -140,9 +140,22 @@ export async function validateMarketPrice(
     return result
   } catch (error) {
     console.error('Error validating market price:', error)
-    result.isValid = false
-    result.confidence = 0.1
-    result.warnings.push('Unable to validate price due to system error')
+    
+    // Provide more specific error information
+    if (error instanceof Error) {
+      if (error.message.includes('prisma')) {
+        result.warnings.push('Database connection issue. Please try again.')
+      } else if (error.message.includes('timeout')) {
+        result.warnings.push('Validation timeout. Please try again.')
+      } else {
+        result.warnings.push(`Validation error: ${error.message}`)
+      }
+    } else {
+      result.warnings.push('Unable to validate price due to system error')
+    }
+    
+    result.isValid = true // Don't block submission due to validation errors
+    result.confidence = 0.3
     return result
   }
 }
@@ -227,6 +240,7 @@ async function validateSeasonalPricing(
   } catch (error) {
     console.error('Error validating seasonal pricing:', error)
     confidence = 0.6
+    // Don't add warnings for seasonal validation errors as they're not critical
   }
 
   return { warnings, confidence }

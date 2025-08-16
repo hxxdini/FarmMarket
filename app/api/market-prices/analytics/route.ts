@@ -1,9 +1,17 @@
 import { NextRequest, NextResponse } from "next/server"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/authOptions"
 import { prisma } from "@/lib/prisma"
 
 // GET /api/market-prices/analytics - Get market analytics and regional pricing data
 export async function GET(req: NextRequest) {
   try {
+    // Check authentication
+    const session = await getServerSession(authOptions)
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
     const { searchParams } = new URL(req.url)
     const cropType = searchParams.get('cropType')
     const location = searchParams.get('location')

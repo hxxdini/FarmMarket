@@ -578,7 +578,6 @@ export default function AdminMarketPricesPage() {
                     {/* Submitted By */}
                     <div className="flex items-center space-x-3 pt-2 border-t">
                       <Avatar className="h-8 w-8">
-                        <AvatarImage src={price.submittedBy.avatar} alt={price.submittedBy.name} />
                         <AvatarFallback className="text-xs">
                           <User className="h-4 w-4" />
                         </AvatarFallback>
