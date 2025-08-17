@@ -334,7 +334,7 @@ export default function UserManagementPage() {
         </Card>
 
         {/* Users List */}
-        <div className="space-y-6">
+        <div className="space-y-3">
           {users.length === 0 ? (
             <Card className="text-center py-12">
               <Users className="h-12 w-12 mx-auto mb-4 text-gray-300" />
@@ -342,143 +342,189 @@ export default function UserManagementPage() {
               <p className="text-gray-500">Try adjusting your filters or search terms.</p>
             </Card>
           ) : (
-            users.map((user) => (
-              <Card key={user.id} className="border-l-4 border-l-blue-500">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center space-x-4">
-                      <Avatar className="h-12 w-12">
-                        <AvatarImage src={user.avatar} alt={user.name} />
-                        <AvatarFallback>{user.name ? user.name.split(' ').map(n => n.charAt(0)).join('').substring(0, 2) : 'U'}</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <h3 className="font-medium">{user.name || 'Unnamed User'}</h3>
-                        <div className="flex items-center space-x-2 mt-1">
-                          <Badge className={getRoleColor(user.role)}>
-                            {user.role}
-                          </Badge>
-                          <Badge className={getStatusColor(user.status)}>
-                            {user.status}
-                          </Badge>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="text-right">
-                      <p className="text-sm text-gray-500">
-                        Joined {new Date(user.createdAt).toLocaleDateString()}
-                      </p>
-                      {user.lastLoginAt && (
-                        <p className="text-xs text-gray-400">
-                          Last login: {new Date(user.lastLoginAt).toLocaleDateString()}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </CardHeader>
-                
-                <CardContent>
-                  <div className="space-y-4">
-                    {/* User Details */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                      <div className="flex items-center space-x-2">
-                        <Mail className="h-4 w-4 text-gray-400" />
-                        <span>{user.email}</span>
-                        {user.isEmailVerified && (
-                          <Badge variant="outline" className="text-green-600 border-green-300">
-                            <UserCheck className="h-3 w-3 mr-1" />
-                            Verified
-                          </Badge>
-                        )}
-                      </div>
-                      
-                      {user.phone && (
-                        <div className="flex items-center space-x-2">
-                          <Phone className="h-4 w-4 text-gray-400" />
-                          <span>{user.phone}</span>
-                          {user.isPhoneVerified && (
-                            <Badge variant="outline" className="text-green-600 border-green-300">
-                              <UserCheck className="h-3 w-3 mr-1" />
-                              Verified
-                            </Badge>
-                          )}
-                        </div>
-                      )}
-                      
-                      {user.location && (
-                        <div className="flex items-center space-x-2">
-                          <MapPin className="h-4 w-4 text-gray-400" />
-                          <span>{user.location}</span>
-                        </div>
-                      )}
-                    </div>
-                    
-                    {/* Actions */}
-                    <div className="flex items-center justify-between pt-4 border-t">
-                      <div className="flex flex-wrap gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => router.push(`/users/${user.id}`)}
-                        >
-                          <Eye className="h-4 w-4 mr-2" />
-                          View Profile
-                        </Button>
-                        {/* Quick role assignment */}
-                        <Select onValueChange={(v)=>{
-                          fetch(`/api/admin/users/${user.id}`, {method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'assign_role', roleName:v })}).then(async r=>{
-                            if(r.ok){ toast.success('Role updated'); fetchUsers() } else { const e = await r.json(); toast.error(e.error||'Failed') }
-                          })
-                        }}>
-                          <SelectTrigger className="h-9 w-[160px]"><SelectValue placeholder={user.role} /></SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="user">User</SelectItem>
-                            <SelectItem value="farmer">Farmer</SelectItem>
-                            <SelectItem value="admin">Admin</SelectItem>
-                            <SelectItem value="superadmin">Super Admin</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      
-                      <div className="flex space-x-2">
-                        {user.status === 'active' ? (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="text-red-600 border-red-300 hover:bg-red-50"
-                            onClick={() => handleUserAction(user.id, 'suspend')}
-                          >
-                            <UserX className="h-4 w-4 mr-2" />
-                            Suspend
-                          </Button>
-                        ) : (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="text-green-600 border-green-300 hover:bg-green-50"
-                            onClick={() => handleUserAction(user.id, 'activate')}
-                          >
-                            <UserCheck className="h-4 w-4 mr-2" />
-                            Activate
-                          </Button>
-                        )}
+            <Card className="border-0 shadow-sm">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-50 border-b">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        User
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Contact
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Role & Status
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Verification
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {users.map((user) => (
+                      <tr key={user.id} className="hover:bg-gray-50">
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="flex items-center space-x-3">
+                            <Avatar className="h-8 w-8">
+                              <AvatarImage src={user.avatar} alt={user.name} />
+                              <AvatarFallback className="text-xs">
+                                {user.name ? user.name.split(' ').map(n => n.charAt(0)).join('').substring(0, 2) : 'U'}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div>
+                              <div className="text-sm font-medium text-gray-900">{user.name || 'Unnamed User'}</div>
+                              <div className="text-xs text-gray-500">
+                                Joined {new Date(user.createdAt).toLocaleDateString()}
+                              </div>
+                              {user.lastLoginAt && (
+                                <div className="text-xs text-gray-400">
+                                  Last: {new Date(user.lastLoginAt).toLocaleDateString()}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </td>
                         
-                        {!user.isEmailVerified && (
-                          <Button
-                            size="sm"
-                            className="bg-blue-600 hover:bg-blue-700"
-                            onClick={() => handleUserAction(user.id, 'verify')}
-                          >
-                            <Shield className="h-4 w-4 mr-2" />
-                            Verify Email
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="space-y-1">
+                            <div className="flex items-center space-x-2 text-sm">
+                              <Mail className="h-3 w-3 text-gray-400" />
+                              <span className="truncate max-w-[200px]">{user.email}</span>
+                            </div>
+                            {user.phone && (
+                              <div className="flex items-center space-x-2 text-sm">
+                                <Phone className="h-3 w-3 text-gray-400" />
+                                <span>{user.phone}</span>
+                              </div>
+                            )}
+                            {user.location && (
+                              <div className="flex items-center space-x-2 text-sm">
+                                <MapPin className="h-3 w-3 text-gray-400" />
+                                <span className="truncate max-w-[150px]">{user.location}</span>
+                              </div>
+                            )}
+                          </div>
+                        </td>
+                        
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="space-y-1">
+                            <Badge className={getRoleColor(user.role)}>
+                              {user.role}
+                            </Badge>
+                            <div>
+                              <Badge className={getStatusColor(user.status)}>
+                                {user.status}
+                              </Badge>
+                            </div>
+                          </div>
+                        </td>
+                        
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="space-y-1">
+                            <div className="flex items-center space-x-2">
+                              <span className="text-xs text-gray-500">Email:</span>
+                              {user.isEmailVerified ? (
+                                <Badge variant="outline" className="text-green-600 border-green-300 text-xs">
+                                  <UserCheck className="h-3 w-3 mr-1" />
+                                  Verified
+                                </Badge>
+                              ) : (
+                                <Badge variant="outline" className="text-red-600 border-red-300 text-xs">
+                                  Unverified
+                                </Badge>
+                              )}
+                            </div>
+                            {user.phone && (
+                              <div className="flex items-center space-x-2">
+                                <span className="text-xs text-gray-500">Phone:</span>
+                                {user.isPhoneVerified ? (
+                                  <Badge variant="outline" className="text-green-600 border-green-300 text-xs">
+                                    <UserCheck className="h-3 w-3 mr-1" />
+                                    Verified
+                                  </Badge>
+                                ) : (
+                                  <Badge variant="outline" className="text-red-600 border-red-300 text-xs">
+                                    Unverified
+                                  </Badge>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        </td>
+                        
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="flex items-center space-x-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => router.push(`/users/${user.id}`)}
+                              className="text-xs h-7 px-2"
+                            >
+                              <Eye className="h-3 w-3 mr-1" />
+                              View
+                            </Button>
+                            
+                            {/* Quick role assignment */}
+                            <Select onValueChange={(v)=>{
+                              fetch(`/api/admin/users/${user.id}`, {method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'assign_role', roleName:v })}).then(async r=>{
+                                if(r.ok){ toast.success('Role updated'); fetchUsers() } else { const e = await r.json(); toast.error(e.error||'Failed') }
+                              })
+                            }}>
+                              <SelectTrigger className="h-7 w-[120px] text-xs">
+                                <SelectValue placeholder={user.role} />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="user">User</SelectItem>
+                                <SelectItem value="farmer">Farmer</SelectItem>
+                                <SelectItem value="admin">Admin</SelectItem>
+                                <SelectItem value="superadmin">Super Admin</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            
+                            {user.status === 'active' ? (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="text-red-600 border-red-300 hover:bg-red-50 text-xs h-7 px-2"
+                                onClick={() => handleUserAction(user.id, 'suspend')}
+                              >
+                                <UserX className="h-3 w-3 mr-1" />
+                                Suspend
+                              </Button>
+                            ) : (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="text-green-600 border-green-300 hover:bg-green-50 text-xs h-7 px-2"
+                                onClick={() => handleUserAction(user.id, 'activate')}
+                              >
+                                <UserCheck className="h-3 w-3 mr-1" />
+                                Activate
+                              </Button>
+                            )}
+                            
+                            {!user.isEmailVerified && (
+                              <Button
+                                size="sm"
+                                className="bg-blue-600 hover:bg-blue-700 text-xs h-7 px-2"
+                                onClick={() => handleUserAction(user.id, 'verify')}
+                              >
+                                <Shield className="h-3 w-3 mr-1" />
+                                Verify
+                              </Button>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
           )}
         </div>
       </main>

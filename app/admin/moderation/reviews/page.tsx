@@ -262,7 +262,7 @@ export default function ReviewModerationPage() {
         </Card>
 
         {/* Reviews List */}
-        <div className="space-y-6">
+        <div className="space-y-3">
           {reviews.length === 0 ? (
             <Card className="text-center py-12">
               {filters.status === 'pending' ? (
@@ -292,37 +292,96 @@ export default function ReviewModerationPage() {
               )}
             </Card>
           ) : (
-            reviews.map((review) => (
-              <Card key={review.id} className={`border-l-4 ${
-                !review.isModerated 
-                  ? 'border-l-yellow-500' // Pending
-                  : review.isPublic 
-                    ? 'border-l-green-500' // Approved
-                    : 'border-l-red-500' // Rejected
-              }`}>
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center space-x-4">
-                      <Avatar className="h-12 w-12">
-                        <AvatarImage src={review.User_Review_reviewerIdToUser.avatar} alt={review.User_Review_reviewerIdToUser.name} />
-                        <AvatarFallback>{review.User_Review_reviewerIdToUser.name.split(' ').map(n => n.charAt(0)).join('').substring(0, 2)}</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <h3 className="font-medium">{review.User_Review_reviewerIdToUser.name}</h3>
-                        <p className="text-sm text-gray-500">{review.User_Review_reviewerIdToUser.email}</p>
-                        <div className="flex items-center space-x-2 mt-1">
-                          <Badge className={getReviewTypeColor(review.reviewType)}>
-                            {getReviewTypeLabel(review.reviewType)}
-                          </Badge>
-                          {review.moderationReason && (
-                            <Badge variant="destructive">
-                              <AlertTriangle className="h-3 w-3 mr-1" />
-                              Flagged
-                            </Badge>
-                          )}
-                          {/* Show moderation status */}
-                          {review.isModerated && (
-                            review.isPublic ? (
+            <Card className="border-0 shadow-sm">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-50 border-b">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Reviewer
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Review Content
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Context
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Status
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {reviews.map((review) => (
+                      <tr key={review.id} className="hover:bg-gray-50">
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="flex items-center space-x-3">
+                            <Avatar className="h-8 w-8">
+                              <AvatarImage src={review.User_Review_reviewerIdToUser.avatar} alt={review.User_Review_reviewerIdToUser.name} />
+                              <AvatarFallback className="text-xs">
+                                {review.User_Review_reviewerIdToUser.name.split(' ').map(n => n.charAt(0)).join('').substring(0, 2)}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div>
+                              <div className="text-sm font-medium text-gray-900">{review.User_Review_reviewerIdToUser.name}</div>
+                              <div className="text-xs text-gray-500">{review.User_Review_reviewerIdToUser.email}</div>
+                              <div className="text-xs text-gray-400">
+                                {new Date(review.createdAt).toLocaleDateString()}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="max-w-[300px]">
+                            <div className="flex items-center space-x-2 mb-1">
+                              <StarRatingDisplay rating={review.rating} size="sm" />
+                              <Badge className={getReviewTypeColor(review.reviewType)}>
+                                {getReviewTypeLabel(review.reviewType)}
+                              </Badge>
+                            </div>
+                            <div className="text-sm font-medium text-gray-900 mb-1">{review.title}</div>
+                            <div className="text-xs text-gray-600 line-clamp-2">{review.comment}</div>
+                          </div>
+                        </td>
+                        
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="space-y-2">
+                            <div className="flex items-center space-x-2">
+                              <span className="text-xs text-gray-500">Reviewing:</span>
+                              <div className="flex items-center space-x-2">
+                                <Avatar className="h-5 w-5">
+                                  <AvatarImage src={review.User_Review_reviewedIdToUser.avatar} alt={review.User_Review_reviewedIdToUser.name} />
+                                  <AvatarFallback className="text-xs">
+                                    {review.User_Review_reviewedIdToUser.name.split(' ').map(n => n.charAt(0)).join('').substring(0, 2)}
+                                  </AvatarFallback>
+                                </Avatar>
+                                <span className="text-xs font-medium">{review.User_Review_reviewedIdToUser.name}</span>
+                              </div>
+                            </div>
+                            
+                            {review.ProductListing && (
+                              <div className="text-xs">
+                                <span className="text-gray-500">Product: </span>
+                                <span className="font-medium">
+                                  {review.ProductListing.quantity} {review.ProductListing.unit} of {review.ProductListing.cropType}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        </td>
+                        
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="space-y-1">
+                            {!review.isModerated ? (
+                              <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">
+                                <AlertTriangle className="h-3 w-3 mr-1" />
+                                Pending
+                              </Badge>
+                            ) : review.isPublic ? (
                               <Badge className="bg-green-100 text-green-800 border-green-200">
                                 <CheckCircle className="h-3 w-3 mr-1" />
                                 Approved
@@ -332,153 +391,86 @@ export default function ReviewModerationPage() {
                                 <XCircle className="h-3 w-3 mr-1" />
                                 Rejected
                               </Badge>
-                            )
-                          )}
-                          {!review.isModerated && (
-                            <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">
-                              <AlertTriangle className="h-3 w-3 mr-1" />
-                              Pending
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="text-right">
-                      <div className="flex items-center space-x-1 mb-2">
-                        <StarRatingDisplay rating={review.rating} size="sm" />
-                      </div>
-                      <p className="text-sm text-gray-500">
-                        {new Date(review.createdAt).toLocaleDateString()}
-                      </p>
-                    </div>
-                  </div>
-                </CardHeader>
-                
-                <CardContent>
-                  <div className="space-y-4">
-                    {/* Review Content */}
-                    <div>
-                      <h4 className="font-medium mb-2">{review.title}</h4>
-                      <p className="text-gray-700">{review.comment}</p>
-                    </div>
-                    
-                    {/* Review Context */}
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <h5 className="font-medium text-sm mb-2">Review Context</h5>
-                      <div className="grid grid-cols-2 gap-4 text-sm">
-                        <div>
-                          <span className="text-gray-500">Reviewing:</span>
-                          <div className="flex items-center space-x-2 mt-1">
-                            <Avatar className="h-6 w-6">
-                              <AvatarImage src={review.User_Review_reviewedIdToUser.avatar} alt={review.User_Review_reviewedIdToUser.name} />
-                              <AvatarFallback className="text-xs">{review.User_Review_reviewedIdToUser.name.split(' ').map(n => n.charAt(0)).join('').substring(0, 2)}</AvatarFallback>
-                            </Avatar>
-                            <span className="font-medium">{review.User_Review_reviewedIdToUser.name}</span>
+                            )}
+                            
+                            {review.moderationReason && (
+                              <Badge variant="destructive" className="text-xs">
+                                <AlertTriangle className="h-3 w-3 mr-1" />
+                                Flagged
+                              </Badge>
+                            )}
                           </div>
-                        </div>
+                        </td>
                         
-                        {review.ProductListing && (
-                          <div>
-                            <span className="text-gray-500">Product:</span>
-                            <p className="font-medium mt-1">
-                              {review.ProductListing.quantity} {review.ProductListing.unit} of {review.ProductListing.cropType}
-                            </p>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="flex items-center space-x-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => router.push(`/users/${review.User_Review_reviewerIdToUser.id}`)}
+                              className="text-xs h-7 px-2"
+                            >
+                              <Eye className="h-3 w-3 mr-1" />
+                              Profile
+                            </Button>
+                            
+                            {review.ProductListing && (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  if (review.ProductListing?.id) {
+                                    router.push(`/marketplace/${review.ProductListing.id}`);
+                                  }
+                                }}
+                                className="text-xs h-7 px-2"
+                              >
+                                <Eye className="h-3 w-3 mr-1" />
+                                Listing
+                              </Button>
+                            )}
+                            
+                            {/* Only show moderation actions for pending reviews */}
+                            {!review.isModerated && (
+                              <>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="text-red-600 border-red-300 hover:bg-red-50 text-xs h-7 px-2"
+                                  onClick={() => handleModeration(review.id, 'reject', 'Inappropriate content')}
+                                  disabled={moderating === review.id}
+                                >
+                                  {moderating === review.id ? (
+                                    <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                                  ) : (
+                                    <XCircle className="h-3 w-3 mr-1" />
+                                  )}
+                                  Reject
+                                </Button>
+                                
+                                <Button
+                                  size="sm"
+                                  className="bg-green-600 hover:bg-green-700 text-xs h-7 px-2"
+                                  onClick={() => handleModeration(review.id, 'approve')}
+                                  disabled={moderating === review.id}
+                                >
+                                  {moderating === review.id ? (
+                                    <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                                  ) : (
+                                    <CheckCircle className="h-3 w-3 mr-1" />
+                                  )}
+                                  Approve
+                                </Button>
+                              </>
+                            )}
                           </div>
-                        )}
-                      </div>
-                    </div>
-                    
-                    {/* Moderation Reason (if flagged) */}
-                    {review.moderationReason && (
-                      <div className="bg-red-50 border border-red-200 p-4 rounded-lg">
-                        <h5 className="font-medium text-red-800 mb-2">Moderation Reason</h5>
-                        <p className="text-red-700">{review.moderationReason}</p>
-                      </div>
-                    )}
-                    
-                    {/* Moderation Actions */}
-                    <div className="flex items-center justify-between pt-4 border-t">
-                      <div className="flex space-x-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => router.push(`/users/${review.User_Review_reviewerIdToUser.id}`)}
-                        >
-                          <Eye className="h-4 w-4 mr-2" />
-                          View Profile
-                        </Button>
-                        {review.ProductListing && (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => {
-                              if (review.ProductListing?.id) {
-                                router.push(`/marketplace/${review.ProductListing.id}`);
-                              }
-                            }}
-                          >
-                            <Eye className="h-4 w-4 mr-2" />
-                            View Listing
-                          </Button>
-                        )}
-                      </div>
-                      
-                      {/* Only show moderation actions for pending reviews */}
-                      {!review.isModerated && (
-                        <div className="flex space-x-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="text-red-600 border-red-300 hover:bg-red-50"
-                            onClick={() => handleModeration(review.id, 'reject', 'Inappropriate content')}
-                            disabled={moderating === review.id}
-                          >
-                            {moderating === review.id ? (
-                              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                            ) : (
-                              <XCircle className="h-4 w-4 mr-2" />
-                            )}
-                            Reject
-                          </Button>
-                          
-                          <Button
-                            size="sm"
-                            className="bg-green-600 hover:bg-green-700"
-                            onClick={() => handleModeration(review.id, 'approve')}
-                            disabled={moderating === review.id}
-                          >
-                            {moderating === review.id ? (
-                              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                            ) : (
-                              <CheckCircle className="h-4 w-4 mr-2" />
-                            )}
-                            Approve
-                          </Button>
-                        </div>
-                      )}
-                      
-                      {/* Show status badge for moderated reviews */}
-                      {review.isModerated && (
-                        <div className="flex items-center space-x-2">
-                          {review.isPublic ? (
-                            <Badge className="bg-green-100 text-green-800 border-green-200">
-                              <CheckCircle className="h-3 w-3 mr-1" />
-                              Approved
-                            </Badge>
-                          ) : (
-                            <Badge className="bg-red-100 text-red-800 border-red-200">
-                              <XCircle className="h-3 w-3 mr-1" />
-                              Rejected
-                            </Badge>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
           )}
         </div>
       </main>
