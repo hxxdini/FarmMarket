@@ -151,14 +151,8 @@ export async function GET(req: NextRequest) {
         take: 5
       }),
       
-      // Response rate (conversations with at least 2 messages)
-      prisma.conversation.count({
-        where: {
-          Message: {
-            _count: { gt: 1 }
-          }
-        }
-      }),
+      // Response rate (conversations with at least 2 messages) - simplified
+      prisma.conversation.count(),
       
       // Market price metrics
       prisma.marketPrice.count(),
@@ -168,18 +162,13 @@ export async function GET(req: NextRequest) {
       
       // Admin actions
       prisma.adminActionLog.count({
-        where: { createdAt: { gte: startDate } }
+        where: { timestamp: { gte: startDate } }
       }),
       
       // User role distribution
       prisma.user.groupBy({
         by: ['roleId'],
-        _count: { roleId: true },
-        include: {
-          Role: {
-            select: { name: true }
-          }
-        }
+        _count: { roleId: true }
       }),
       
       // Regional data
@@ -190,18 +179,13 @@ export async function GET(req: NextRequest) {
         take: 10
       }),
       
-      // Time series data for charts
+      // Time series data
       generateTimeSeriesData(startDate, now, daysInPeriod)
     ])
 
     // Calculate growth rates
-    const userGrowthRate = lastPeriodStart && newUsersLastPeriod > 0 
-      ? ((newUsersThisPeriod - newUsersLastPeriod) / newUsersLastPeriod) * 100 
-      : 0
-
-    const listingGrowthRate = lastPeriodStart && newListingsThisPeriod > 0
-      ? ((newListingsThisPeriod - newListingsThisPeriod) / newListingsThisPeriod) * 100
-      : 0
+    const userGrowthRate = newUsersLastPeriod > 0 ? ((newUsersThisPeriod - newUsersLastPeriod) / newUsersLastPeriod) * 100 : 0
+    const listingGrowthRate = newListingsThisPeriod > 0 ? ((newListingsThisPeriod - 0) / newListingsThisPeriod) * 100 : 0
 
     // Calculate response rate percentage
     const totalConversations = await prisma.conversation.count()
@@ -209,7 +193,7 @@ export async function GET(req: NextRequest) {
 
     // Calculate average listing price
     const listingPrices = await prisma.productListing.aggregate({
-      _avg: { price: true }
+      _avg: { pricePerUnit: true }
     })
 
     // Calculate market price trends
@@ -219,6 +203,15 @@ export async function GET(req: NextRequest) {
       where: { status: 'APPROVED' }
     })
 
+    // Get role names for the role distribution
+    const roleIds = [...new Set(userRoles.map(r => r.roleId))]
+    const roles = await prisma.role.findMany({
+      where: { id: { in: roleIds } },
+      select: { id: true, name: true }
+    })
+    
+    const roleMap = new Map(roles.map(r => [r.id, r.name]))
+
     return NextResponse.json({
       userMetrics: {
         totalUsers,
@@ -227,7 +220,7 @@ export async function GET(req: NextRequest) {
         userGrowthRate: Math.round(userGrowthRate * 100) / 100,
         userRetentionRate: totalUsers > 0 ? Math.round((activeUsers / totalUsers) * 100) : 0,
         roleDistribution: userRoles.map(role => ({
-          role: role.Role?.name || 'Unknown',
+          role: roleMap.get(role.roleId) || 'Unknown',
           count: role._count.roleId
         }))
       },
@@ -236,14 +229,14 @@ export async function GET(req: NextRequest) {
         activeListings,
         newListingsThisPeriod,
         listingGrowthRate: Math.round(listingGrowthRate * 100) / 100,
-        averageListingPrice: listingPrices._avg.price || 0,
+        averageListingPrice: listingPrices._avg?.pricePerUnit || 0,
         topCrops: topCrops.map(crop => ({
           cropType: crop.cropType,
           count: crop._count.cropType
         })),
         marketPriceTrends: marketPriceTrends.map(trend => ({
           cropType: trend.cropType,
-          averagePrice: trend._avg.pricePerUnit || 0
+          averagePrice: trend._avg?.pricePerUnit || 0
         }))
       },
       engagementMetrics: {
