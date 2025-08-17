@@ -204,7 +204,7 @@ export default function MarketPricesPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <main className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-6 lg:py-8">
+      <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
         {/* Header */}
         <div className="mb-4 sm:mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
@@ -216,7 +216,7 @@ export default function MarketPricesPage() {
             </div>
           
           {session && (
-            <Button onClick={() => router.push('/market-prices/submit')} className="flex items-center">
+            <Button onClick={() => router.push('/market-prices/submit')} className="flex items-center w-full sm:w-auto">
               <Plus className="h-4 w-4 mr-2" />
               Submit Price
             </Button>
@@ -225,26 +225,26 @@ export default function MarketPricesPage() {
         </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4 sm:mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
           <Card className="border-0 shadow-sm">
-            <CardContent className="p-4">
+            <CardContent className="p-3 sm:p-4">
               <div className="flex items-center space-x-2">
-                <Package className="h-5 w-5 text-blue-600" />
+                <Package className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
                 <div>
-                  <p className="text-sm text-gray-600">Total Prices</p>
-                  <p className="text-2xl font-bold">{pagination.total}</p>
+                  <p className="text-xs sm:text-sm text-gray-600">Total Prices</p>
+                  <p className="text-lg sm:text-2xl font-bold">{pagination.total}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
           
           <Card className="border-0 shadow-sm">
-            <CardContent className="p-4">
+            <CardContent className="p-3 sm:p-4">
               <div className="flex items-center space-x-2">
-                <TrendingUp className="h-5 w-5 text-green-600" />
+                <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
                 <div>
-                  <p className="text-sm text-gray-600">Active Prices</p>
-                  <p className="text-2xl font-bold">
+                  <p className="text-xs sm:text-sm text-gray-600">Active Prices</p>
+                  <p className="text-lg sm:text-2xl font-bold">
                     {prices.filter(p => p.status === 'APPROVED').length}
                   </p>
                 </div>
@@ -253,12 +253,12 @@ export default function MarketPricesPage() {
           </Card>
           
           <Card className="border-0 shadow-sm">
-            <CardContent className="p-4">
+            <CardContent className="p-3 sm:p-4">
               <div className="flex items-center space-x-2">
-                <MapPin className="h-5 w-5 text-purple-600" />
+                <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-purple-600" />
                 <div>
-                  <p className="text-sm text-gray-600">Regions</p>
-                  <p className="text-2xl font-bold">
+                  <p className="text-xs sm:text-sm text-gray-600">Regions</p>
+                  <p className="text-lg sm:text-2xl font-bold">
                     {new Set(prices.map(p => p.location)).size}
                   </p>
                 </div>
@@ -267,12 +267,12 @@ export default function MarketPricesPage() {
           </Card>
           
           <Card className="border-0 shadow-sm">
-            <CardContent className="p-4">
+            <CardContent className="p-3 sm:p-4">
               <div className="flex items-center space-x-2">
-                <Calendar className="h-5 w-5 text-orange-600" />
+                <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600" />
                 <div>
-                  <p className="text-sm text-gray-600">Updated Today</p>
-                  <p className="text-2xl font-bold">
+                  <p className="text-xs sm:text-sm text-gray-600">Updated Today</p>
+                  <p className="text-lg sm:text-2xl font-bold">
                     {prices.filter(p => {
                       const today = new Date().toDateString()
                       const priceDate = new Date(p.updatedAt).toDateString()
@@ -287,52 +287,54 @@ export default function MarketPricesPage() {
 
         {/* Filters */}
         <Card className="border-0 shadow-sm mb-4 sm:mb-6">
-        <CardHeader className="pb-3 sm:pb-4">
-          <CardTitle className="text-lg">Filters & Search</CardTitle>
+        <CardHeader className="pb-3 sm:pb-4 px-3 sm:px-6">
+          <CardTitle className="text-base sm:text-lg">Filters & Search</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
-            <div>
-              <Label htmlFor="search">Search</Label>
+        <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 sm:gap-4">
+            <div className="sm:col-span-2 lg:col-span-1">
+              <Label htmlFor="search" className="text-sm">Search</Label>
               <div className="relative">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <Input
                   id="search"
                   name="search"
                   placeholder="Search crops, locations, sources..."
                   value={filters.search}
                   onChange={(e) => handleFilterChange('search', e.target.value)}
-                  className="pl-10"
+                  className="pl-10 h-9 sm:h-10"
                 />
               </div>
             </div>
             
             <div>
-              <Label htmlFor="cropType">Crop Type</Label>
+              <Label htmlFor="cropType" className="text-sm">Crop Type</Label>
               <Input
                 id="cropType"
                 name="cropType"
                 placeholder="e.g., Maize"
                 value={filters.cropType}
                 onChange={(e) => handleFilterChange('cropType', e.target.value)}
+                className="h-9 sm:h-10"
               />
             </div>
             
             <div>
-              <Label htmlFor="location">Location</Label>
+              <Label htmlFor="location" className="text-sm">Location</Label>
               <Input
                 id="location"
                 name="location"
                 placeholder="e.g., Kampala"
                 value={filters.location}
                 onChange={(e) => handleFilterChange('location', e.target.value)}
+                className="h-9 sm:h-10"
               />
             </div>
             
             <div>
-              <Label htmlFor="quality">Quality</Label>
+              <Label htmlFor="quality" className="text-sm">Quality</Label>
               <Select value={filters.quality} onValueChange={(value) => handleFilterChange('quality', value)}>
-                <SelectTrigger id="quality" name="quality">
+                <SelectTrigger id="quality" name="quality" className="h-9 sm:h-10">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -345,9 +347,9 @@ export default function MarketPricesPage() {
             </div>
             
             <div>
-              <Label htmlFor="status">Status</Label>
+              <Label htmlFor="status" className="text-sm">Status</Label>
               <Select value={filters.status} onValueChange={(value) => handleFilterChange('status', value)}>
-                <SelectTrigger id="status" name="status">
+                <SelectTrigger id="status" name="status" className="h-9 sm:h-10">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -361,9 +363,9 @@ export default function MarketPricesPage() {
             </div>
             
             <div>
-              <Label htmlFor="sortBy">Sort By</Label>
+              <Label htmlFor="sortBy" className="text-sm">Sort By</Label>
               <Select value={filters.sortBy} onValueChange={(value) => handleFilterChange('sortBy', value)}>
-                <SelectTrigger id="sortBy" name="sortBy">
+                <SelectTrigger id="sortBy" name="sortBy" className="h-9 sm:h-10">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -400,7 +402,7 @@ export default function MarketPricesPage() {
         ) : (
           <>
             {/* View Toggle */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
               <div className="flex items-center space-x-2">
                 <span className="text-sm font-medium text-gray-700">View:</span>
                 <div className="flex bg-gray-100 rounded-lg p-1">
@@ -408,24 +410,24 @@ export default function MarketPricesPage() {
                     variant={viewMode === 'list' ? 'default' : 'ghost'}
                     size="sm"
                     onClick={() => setViewMode('list')}
-                    className="h-8 px-3"
+                    className="h-8 px-2 sm:px-3 text-xs sm:text-sm"
                   >
-                    <List className="h-4 w-4 mr-2" />
+                    <List className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                     List
                   </Button>
                   <Button
                     variant={viewMode === 'cards' ? 'default' : 'ghost'}
                     size="sm"
                     onClick={() => setViewMode('cards')}
-                    className="h-8 px-3"
+                    className="h-8 px-2 sm:px-3 text-xs sm:text-sm"
                   >
-                    <Grid3X3 className="h-4 w-4 mr-2" />
+                    <Grid3X3 className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                     Cards
                   </Button>
                 </div>
               </div>
               
-              <div className="text-sm text-gray-500">
+              <div className="text-sm text-gray-500 text-center sm:text-left">
                 {prices.length} of {pagination.total} prices
               </div>
             </div>
@@ -535,13 +537,13 @@ export default function MarketPricesPage() {
 
             {/* Cards View */}
             {viewMode === 'cards' && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
                 {prices.map((price) => (
                   <Card key={price.id} className="border-0 shadow-sm hover:shadow-md transition-shadow">
-                    <CardHeader className="pb-2 pt-3 px-3">
+                    <CardHeader className="pb-2 pt-3 px-3 sm:px-4">
                       <div className="flex items-start justify-between">
                         <div className="flex-1 min-w-0">
-                          <CardTitle className="text-base mb-1 truncate">{price.cropType}</CardTitle>
+                          <CardTitle className="text-sm sm:text-base mb-1 truncate">{price.cropType}</CardTitle>
                           <div className="flex items-center space-x-1 mb-1 flex-wrap gap-1">
                             <Badge className={`text-xs ${getQualityColor(price.quality)}`}>
                               {price.quality}
@@ -560,10 +562,10 @@ export default function MarketPricesPage() {
                       </div>
                     </CardHeader>
                     
-                    <CardContent className="space-y-3 px-3 pb-3">
+                    <CardContent className="space-y-3 px-3 sm:px-4 pb-3">
                       {/* Price Information */}
                       <div className="text-center">
-                        <div className="text-2xl font-bold text-green-600">
+                        <div className="text-xl sm:text-2xl font-bold text-green-600">
                           UGX {price.pricePerUnit.toFixed(2)}
                         </div>
                         <div className="text-xs text-gray-500">per {price.unit}</div>
@@ -626,24 +628,25 @@ export default function MarketPricesPage() {
 
             {/* Pagination */}
             {pagination.pages > 1 && (
-              <div className="flex items-center justify-center space-x-2 mt-8">
+              <div className="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-2 mt-6 sm:mt-8">
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => handlePageChange(pagination.page - 1)}
                   disabled={pagination.page === 1}
+                  className="w-full sm:w-auto"
                 >
                   Previous
                 </Button>
                 
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center space-x-1 flex-wrap justify-center">
                   {Array.from({ length: pagination.pages }, (_, i) => i + 1).map((page) => (
                     <Button
                       key={page}
                       variant={page === pagination.page ? "default" : "outline"}
                       size="sm"
                       onClick={() => handlePageChange(page)}
-                      className="w-10"
+                      className="w-8 sm:w-10 h-8 sm:h-10 text-xs sm:text-sm"
                     >
                       {page}
                     </Button>
@@ -655,6 +658,7 @@ export default function MarketPricesPage() {
                   size="sm"
                   onClick={() => handlePageChange(pagination.page + 1)}
                   disabled={pagination.page === pagination.pages}
+                  className="w-full sm:w-auto"
                 >
                   Next
                 </Button>

@@ -160,32 +160,32 @@ export default function UserManagementPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between">
+        <div className="mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">User Management</h1>
-              <p className="text-lg text-gray-600">Manage user accounts, permissions, and verification status</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">User Management</h1>
+              <p className="text-base sm:text-lg text-gray-600">Manage user accounts, permissions, and verification status</p>
             </div>
-            <div className="flex items-center space-x-2">
-              <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
+              <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 text-center sm:text-left">
                 <Users className="h-4 w-4 mr-1" />
                 {users.length} Users
               </Badge>
               <Dialog open={createOpen} onOpenChange={setCreateOpen}>
                 <DialogTrigger asChild>
-                  <Button className="bg-green-600 hover:bg-green-700">
+                  <Button className="bg-green-600 hover:bg-green-700 w-full sm:w-auto">
                     <Plus className="h-4 w-4 mr-2" />
                     Create User
                   </Button>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="w-[95vw] max-w-md sm:max-w-lg">
                   <DialogHeader>
                     <DialogTitle>Create New User</DialogTitle>
                     <DialogDescription>Provide user details and assign a role.</DialogDescription>
                   </DialogHeader>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                  <div className="grid grid-cols-1 gap-4 pt-2">
                     <div>
                       <label htmlFor="name" className="text-sm font-medium">Name</label>
                       <Input id="name" name="name" value={newUser.name} onChange={(e)=>setNewUser(p=>({...p,name:e.target.value}))} placeholder="John Doe" />
@@ -230,8 +230,8 @@ export default function UserManagementPage() {
                       </Select>
                     </div>
                   </div>
-                  <div className="flex justify-end space-x-2 pt-4">
-                    <Button variant="outline" onClick={()=>setCreateOpen(false)}>Cancel</Button>
+                  <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-2 pt-4">
+                    <Button variant="outline" onClick={()=>setCreateOpen(false)} className="w-full sm:w-auto">Cancel</Button>
                     <Button disabled={creating} onClick={async ()=>{
                       try{
                         setCreating(true)
@@ -247,7 +247,7 @@ export default function UserManagementPage() {
                       }catch(e){
                         console.error(e); toast.error('Failed to create user')
                       }finally{setCreating(false)}
-                    }}>Save</Button>
+                    }} className="w-full sm:w-auto">Save</Button>
                   </div>
                 </DialogContent>
               </Dialog>
@@ -256,17 +256,17 @@ export default function UserManagementPage() {
         </div>
 
         {/* Filters */}
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle>Filters</CardTitle>
-            <CardDescription>Filter users by role, status, and verification</CardDescription>
+        <Card className="mb-4 sm:mb-6">
+          <CardHeader className="px-3 sm:px-6 py-3 sm:py-6">
+            <CardTitle className="text-base sm:text-lg">Filters</CardTitle>
+            <CardDescription className="text-sm">Filter users by role, status, and verification</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-              <div>
+          <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
+              <div className="sm:col-span-2 lg:col-span-1">
                 <label htmlFor="search" className="text-sm font-medium">Search</label>
                 <div className="relative">
-                  <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <Input
                     id="search"
                     name="search"
@@ -323,7 +323,7 @@ export default function UserManagementPage() {
                 </Select>
               </div>
               
-              <div className="flex items-end">
+              <div className="flex items-end sm:col-span-2 lg:col-span-1">
                 <Button onClick={fetchUsers} className="w-full">
                   <Filter className="h-4 w-4 mr-2" />
                   Apply Filters
