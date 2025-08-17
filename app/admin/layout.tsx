@@ -110,13 +110,13 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     <div className="flex h-screen bg-gray-100">
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
-        <div className="fixed inset-0 z-40 lg:hidden">
+        <div className="fixed inset-0 z-50 lg:hidden">
           <div className="fixed inset-0 bg-gray-600 bg-opacity-75" onClick={() => setSidebarOpen(false)} />
         </div>
       )}
 
       {/* Sidebar */}
-      <div className={`fixed inset-y-0 left-0 z-30 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:relative lg:transform-none lg:flex lg:flex-col lg:z-auto ${
+      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-xl transform transition-transform duration-300 ease-in-out lg:relative lg:transform-none lg:z-auto lg:shadow-lg ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
       }`}>
         <div className="flex items-center justify-between h-16 px-3 sm:px-4 border-b border-gray-200 bg-gradient-to-r from-green-50 to-green-100">
@@ -209,19 +209,22 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Mobile menu button - positioned fixed for mobile only */}
-        <div className="lg:hidden fixed top-3 right-3 sm:top-4 sm:right-4 z-40">
+        <div className="lg:hidden fixed top-4 right-4 z-50">
           <Button
             variant="outline"
             size="sm"
-            className="bg-white shadow-md h-10 w-10 p-0"
+            className="bg-white shadow-lg border-2 border-gray-200 hover:bg-gray-50 h-12 w-12 p-0 rounded-full transition-all duration-200 hover:scale-105"
             onClick={() => setSidebarOpen(true)}
+            aria-label="Open admin menu"
           >
-            <Menu className="h-5 w-5" />
+            <Menu className="h-6 w-6" />
           </Button>
+          {/* Visual indicator */}
+          <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full animate-pulse"></div>
         </div>
 
         {/* Page content */}
-        <main className="flex-1 overflow-auto bg-gray-50">
+        <main className="flex-1 overflow-auto bg-gray-50 pt-16 lg:pt-0">
           {children}
         </main>
       </div>
