@@ -13,6 +13,7 @@ export async function GET(req: NextRequest) {
     }
 
     const { searchParams } = new URL(req.url)
+    const search = searchParams.get('search')
     const cropType = searchParams.get('cropType')
     const location = searchParams.get('location')
     const quality = searchParams.get('quality')
@@ -28,6 +29,15 @@ export async function GET(req: NextRequest) {
 
     // Build where clause based on filters
     const where: any = {}
+    
+    // Handle search across multiple fields
+    if (search) {
+      where.OR = [
+        { cropType: { contains: search, mode: 'insensitive' } },
+        { location: { contains: search, mode: 'insensitive' } },
+        { source: { contains: search, mode: 'insensitive' } }
+      ]
+    }
     
     if (cropType) where.cropType = { contains: cropType, mode: 'insensitive' }
     if (location) where.location = { contains: location, mode: 'insensitive' }

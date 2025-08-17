@@ -85,7 +85,26 @@ export default function MarketPricesPage() {
     } else if (status === "authenticated") {
       fetchPrices()
     }
-  }, [status, router, filters, pagination.page])
+  }, [status, router, pagination.page])
+
+  // Debounced search effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (status === "authenticated") {
+        setPagination(prev => ({ ...prev, page: 1 })) // Reset to first page
+        fetchPrices()
+      }
+    }, 500) // 500ms delay
+
+    return () => clearTimeout(timer)
+  }, [filters.search, filters.cropType, filters.location, filters.quality, filters.source, filters.status, filters.sortBy, filters.sortOrder])
+
+  // Remove the filters dependency from the main useEffect to avoid double fetching
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.replace("/login")
+    }
+  }, [status, router])
 
   const fetchPrices = async () => {
     try {
@@ -280,7 +299,7 @@ export default function MarketPricesPage() {
                 <Input
                   id="search"
                   name="search"
-                  placeholder="Crop, location..."
+                  placeholder="Search crops, locations, sources..."
                   value={filters.search}
                   onChange={(e) => handleFilterChange('search', e.target.value)}
                   className="pl-10"
@@ -455,12 +474,12 @@ export default function MarketPricesPage() {
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-center">
                               <div className="text-lg font-bold text-green-600">
-                                {price.pricePerUnit.toFixed(2)}
+                                UGX {price.pricePerUnit.toFixed(2)}
                               </div>
                               <div className="text-sm text-gray-500">per {price.unit}</div>
                               {price.regionalAverage && (
                                 <div className="text-xs text-blue-600 mt-1">
-                                  Avg: {price.regionalAverage.toFixed(2)}
+                                  Avg: UGX {price.regionalAverage.toFixed(2)}
                                 </div>
                               )}
                             </div>
@@ -545,7 +564,7 @@ export default function MarketPricesPage() {
                       {/* Price Information */}
                       <div className="text-center">
                         <div className="text-2xl font-bold text-green-600">
-                          {price.pricePerUnit.toFixed(2)}
+                          UGX {price.pricePerUnit.toFixed(2)}
                         </div>
                         <div className="text-xs text-gray-500">per {price.unit}</div>
                       </div>
@@ -567,7 +586,7 @@ export default function MarketPricesPage() {
                         <div className="p-2 bg-blue-50 rounded-lg">
                           <div className="text-xs text-blue-900 mb-1">Regional Avg</div>
                           <div className="text-sm font-semibold text-blue-700">
-                            {price.regionalAverage.toFixed(2)} {price.unit}
+                            UGX {price.regionalAverage.toFixed(2)} {price.unit}
                           </div>
                           {price.priceChange && (
                             <div className="text-xs text-blue-600">
