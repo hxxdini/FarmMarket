@@ -263,21 +263,6 @@ export default function AdminDashboard() {
             </p>
           </CardContent>
         </Card>
-
-        <Card className="border-0 shadow-md bg-gradient-to-r from-purple-50 to-purple-100 hover:shadow-lg transition-all duration-200">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-700">System Health</CardTitle>
-            <div className="p-2 bg-purple-500 rounded-lg">
-              <Activity className="h-4 w-4 text-white" />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-purple-600">Healthy</div>
-            <p className="text-xs text-gray-600 mt-1">
-              All systems operational
-            </p>
-          </CardContent>
-        </Card>
       </div>
 
       {/* Main Content Grid */}
@@ -326,62 +311,78 @@ export default function AdminDashboard() {
         </Card>
 
         {/* Quick Actions */}
-        <Card className="border-0 shadow-md mb-6">
-          <CardHeader>
-            <CardTitle className="text-lg">Quick Actions</CardTitle>
-            <CardDescription>Common administrative tasks</CardDescription>
+        <Card className="border-0 shadow-md">
+          <CardHeader className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-t-lg">
+            <CardTitle className="text-gray-800">Quick Actions</CardTitle>
+            <CardDescription className="text-gray-600">Frequently used admin functions</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <Button
-                variant="outline"
-                className="h-auto p-4 flex flex-col items-center space-y-2 hover:bg-green-50 hover:border-green-300 transition-all"
-                onClick={() => router.push('/admin/users')}
-              >
-                <Users className="h-6 w-6 text-blue-600" />
-                <div className="text-center">
-                  <div className="font-medium">Manage Users</div>
-                  <div className="text-xs text-gray-500">User accounts & roles</div>
-                </div>
-              </Button>
-
-              <Button
-                variant="outline"
-                className="h-auto p-4 flex flex-col items-center space-y-2 hover:bg-green-50 hover:border-green-300 transition-all"
+          <CardContent className="p-6">
+            <div className="grid grid-cols-2 gap-4">
+              <Button 
+                variant="outline" 
+                className="h-24 flex flex-col justify-center space-y-2 border-orange-200 hover:bg-orange-50 hover:border-orange-300 transition-all group"
                 onClick={() => router.push('/admin/moderation/reviews')}
               >
-                <Star className="h-6 w-6 text-yellow-600" />
-                <div className="text-center">
-                  <div className="font-medium">Review Moderation</div>
-                  <div className="text-xs text-gray-500">Approve/reject reviews</div>
+                <div className="p-2 bg-orange-100 rounded-lg group-hover:bg-orange-200 transition-colors">
+                  <Star className="h-5 w-5 text-orange-600" />
                 </div>
+                <span className="text-sm font-medium text-gray-700">Moderate Reviews</span>
+                {stats?.pendingModeration && stats.pendingModeration > 0 && (
+                  <Badge variant="destructive" className="text-xs">
+                    {stats.pendingModeration}
+                  </Badge>
+                )}
               </Button>
-
-              <Button
-                variant="outline"
-                className="h-auto p-4 flex flex-col items-center space-y-2 hover:bg-green-50 hover:border-green-300 transition-all"
+              
+              <Button 
+                variant="outline" 
+                className="h-24 flex flex-col justify-center space-y-2 border-yellow-200 hover:bg-yellow-50 hover:border-yellow-300 transition-all group"
                 onClick={() => router.push('/admin/market-prices')}
               >
-                <TrendingUp className="h-6 w-6 text-green-600" />
-                <div className="text-center">
-                  <div className="font-medium">Review Prices</div>
-                  <div className="text-xs text-gray-500">
-                    {stats?.pendingMarketPrices || 0} pending
-                  </div>
+                <div className="p-2 bg-yellow-100 rounded-lg group-hover:bg-yellow-200 transition-colors">
+                  <TrendingUp className="h-5 w-5 text-yellow-600" />
                 </div>
+                <span className="text-sm font-medium text-gray-700">Review Prices</span>
+                {stats?.pendingMarketPrices && stats.pendingMarketPrices > 0 && (
+                  <Badge variant="destructive" className="text-xs">
+                    {stats.pendingMarketPrices}
+                  </Badge>
+                )}
               </Button>
-
-              <Button
-                variant="outline"
-                className="h-auto p-4 flex flex-col items-center space-y-2 hover:bg-green-50 hover:border-green-300 transition-all"
-                onClick={() => router.push('/admin/system-health')}
+              
+              <Button 
+                variant="outline" 
+                className="h-24 flex flex-col justify-center space-y-2 border-blue-200 hover:bg-blue-50 hover:border-blue-300 transition-all group"
+                onClick={() => router.push('/admin/users')}
               >
-                <Activity className="h-6 w-6 text-purple-600" />
-                <div className="text-center">
-                  <div className="font-medium">System Health</div>
-                  <div className="text-xs text-gray-500">Monitor performance</div>
+                <div className="p-2 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
+                  <Users className="h-5 w-5 text-blue-600" />
                 </div>
+                <span className="text-sm font-medium text-gray-700">Manage Users</span>
               </Button>
+              
+              <Button 
+                variant="outline" 
+                className="h-24 flex flex-col justify-center space-y-2 border-purple-200 hover:bg-purple-50 hover:border-purple-300 transition-all group"
+                onClick={() => router.push('/admin/analytics/overview')}
+              >
+                <div className="p-2 bg-purple-100 rounded-lg group-hover:bg-purple-200 transition-colors">
+                  <BarChart3 className="h-5 w-5 text-purple-600" />
+                </div>
+                <span className="text-sm font-medium text-gray-700">View Analytics</span>
+              </Button>
+              
+              <Button 
+                variant="outline" 
+                className="h-24 flex flex-col justify-center space-y-2 border-green-200 hover:bg-green-50 hover:border-green-300 transition-all group"
+                onClick={() => router.push('/marketplace')}
+              >
+                <div className="p-2 bg-green-100 rounded-lg group-hover:bg-green-200 transition-colors">
+                  <ShoppingCart className="h-5 w-5 text-green-600" />
+                </div>
+                <span className="text-sm font-medium text-gray-700">View Marketplace</span>
+              </Button>
+              
             </div>
           </CardContent>
         </Card>
