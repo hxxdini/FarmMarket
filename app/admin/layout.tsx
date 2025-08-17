@@ -119,50 +119,50 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       <div className={`fixed inset-y-0 left-0 z-30 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:relative lg:transform-none lg:flex lg:flex-col lg:z-auto ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
       }`}>
-        <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200 bg-gradient-to-r from-green-50 to-green-100">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-green-500 rounded-lg shadow-sm">
-              <Shield className="h-6 w-6 text-white" />
+        <div className="flex items-center justify-between h-16 px-3 sm:px-4 border-b border-gray-200 bg-gradient-to-r from-green-50 to-green-100">
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <div className="p-1.5 sm:p-2 bg-green-500 rounded-lg shadow-sm">
+              <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
             </div>
             <div>
-              <h1 className="text-lg font-bold text-gray-900">Admin Panel</h1>
+              <h1 className="text-base sm:text-lg font-bold text-gray-900">Admin Panel</h1>
               <p className="text-xs text-gray-600">Platform Management</p>
             </div>
           </div>
           <Button
             variant="ghost"
             size="sm"
-            className="lg:hidden hover:bg-green-200"
+            className="lg:hidden hover:bg-green-200 p-1 sm:p-2"
             onClick={() => setSidebarOpen(false)}
           >
-            <X className="h-5 w-5" />
+            <X className="h-4 w-4 sm:h-5 sm:w-5" />
           </Button>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 px-4 pt-6 pb-28 space-y-2 overflow-y-auto">
+        <nav className="flex-1 px-3 sm:px-4 pt-4 sm:pt-6 pb-24 sm:pb-28 space-y-1 sm:space-y-2 overflow-y-auto">
           {navigation.map((item) => {
             const Icon = item.icon
             return (
               <Link
                 key={item.name}
                 href={item.href}
-                className={`group flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
+                className={`group flex items-center justify-between px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
                   item.current
                     ? 'bg-gradient-to-r from-green-100 to-green-50 text-green-700 border border-green-200 shadow-sm'
                     : 'text-gray-600 hover:bg-gradient-to-r hover:from-gray-100 hover:to-gray-50 hover:text-gray-900 hover:shadow-sm'
                 }`}
                 onClick={() => setSidebarOpen(false)}
               >
-                <div className="flex items-center space-x-3">
-                  <div className={`p-1.5 rounded-md transition-colors ${
+                <div className="flex items-center space-x-2 sm:space-x-3">
+                  <div className={`p-1 sm:p-1.5 rounded-md transition-colors ${
                     item.current 
                       ? 'bg-green-200' 
                       : 'group-hover:bg-gray-200'
                   }`}>
-                    <Icon className={`h-4 w-4 ${item.current ? 'text-green-700' : 'text-gray-500 group-hover:text-gray-700'}`} />
+                    <Icon className={`h-3.5 w-3.5 sm:h-4 sm:w-4 ${item.current ? 'text-green-700' : 'text-gray-500 group-hover:text-gray-700'}`} />
                   </div>
-                  <span className="font-medium">{item.name}</span>
+                  <span className="font-medium text-sm">{item.name}</span>
                 </div>
               </Link>
             )
@@ -170,14 +170,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </nav>
 
         {/* User section (sticky) */}
-        <div className="border-t border-gray-200 p-4 bg-white sticky bottom-0">
-          <div className="flex items-center space-x-3 mb-4">
-            <Avatar className="h-10 w-10">
+        <div className="border-t border-gray-200 p-3 sm:p-4 bg-white sticky bottom-0">
+          <div className="flex items-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
+            <Avatar className="h-8 w-8 sm:h-10 sm:w-10">
               <AvatarImage src={(session?.user as any)?.avatar} alt={(session?.user as any)?.name} />
-              <AvatarFallback>{(session?.user as any)?.name ? (session?.user as any)?.name.split(' ').map((n: string) => n.charAt(0)).join('').substring(0, 2) : 'A'}</AvatarFallback>
+              <AvatarFallback className="text-xs sm:text-sm">{(session?.user as any)?.name ? (session?.user as any)?.name.split(' ').map((n: string) => n.charAt(0)).join('').substring(0, 2) : 'A'}</AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-900 truncate">
+              <p className="text-xs sm:text-sm font-medium text-gray-900 truncate">
                 {(session?.user as any)?.name || session?.user?.email}
               </p>
               <p className="text-xs text-gray-500 truncate">
@@ -188,18 +188,18 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           
           <div className="space-y-2">
             <Link href="/marketplace">
-              <Button variant="outline" size="sm" className="w-full justify-start">
-                <ShoppingCart className="h-4 w-4 mr-2" />
+              <Button variant="outline" size="sm" className="w-full justify-start text-xs sm:text-sm h-8 sm:h-9">
+                <ShoppingCart className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
                 View Marketplace
               </Button>
             </Link>
             <Button
               variant="outline"
               size="sm"
-              className="w-full justify-start"
+              className="w-full justify-start text-xs sm:text-sm h-8 sm:h-9"
               onClick={handleSignOut}
             >
-              <LogOut className="h-4 w-4 mr-2" />
+              <LogOut className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
               Sign Out
             </Button>
           </div>
@@ -209,11 +209,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Mobile menu button - positioned fixed for mobile only */}
-        <div className="lg:hidden fixed top-4 right-4 z-40">
+        <div className="lg:hidden fixed top-3 right-3 sm:top-4 sm:right-4 z-40">
           <Button
             variant="outline"
             size="sm"
-            className="bg-white shadow-md"
+            className="bg-white shadow-md h-10 w-10 p-0"
             onClick={() => setSidebarOpen(true)}
           >
             <Menu className="h-5 w-5" />
