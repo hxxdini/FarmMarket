@@ -209,22 +209,22 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Mobile menu button - positioned fixed for mobile only */}
-        <div className="lg:hidden fixed top-4 right-4 z-50">
+        <div className="lg:hidden fixed bottom-6 right-6 z-50">
           <Button
             variant="outline"
             size="sm"
-            className="bg-white shadow-lg border-2 border-gray-200 hover:bg-gray-50 h-12 w-12 p-0 rounded-full transition-all duration-200 hover:scale-105"
+            className="bg-white shadow-lg border-2 border-gray-200 hover:bg-gray-50 h-14 w-14 p-0 rounded-full transition-all duration-200 hover:scale-105"
             onClick={() => setSidebarOpen(true)}
             aria-label="Open admin menu"
           >
-            <Menu className="h-6 w-6" />
+            <Menu className="h-7 w-7" />
           </Button>
           {/* Visual indicator */}
           <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full animate-pulse"></div>
         </div>
 
         {/* Page content */}
-        <main className="flex-1 overflow-auto bg-gray-50 pt-16 lg:pt-0">
+        <main className="flex-1 overflow-auto bg-gray-50">
           {children}
         </main>
       </div>
