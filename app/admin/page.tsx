@@ -219,21 +219,6 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-md bg-gradient-to-r from-orange-50 to-orange-100 hover:shadow-lg transition-all duration-200">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-700">Pending Moderation</CardTitle>
-            <div className="p-2 bg-orange-500 rounded-lg">
-              <AlertTriangle className="h-4 w-4 text-white" />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-orange-600">{stats?.pendingModeration || 0}</div>
-            <p className="text-xs text-gray-600 mt-1">
-              {stats?.flaggedContent || 0} flagged items
-            </p>
-          </CardContent>
-        </Card>
-
         <Card className="border-0 shadow-md bg-gradient-to-r from-purple-50 to-purple-100 hover:shadow-lg transition-all duration-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-gray-700">Platform Reviews</CardTitle>
@@ -245,6 +230,21 @@ export default function AdminDashboard() {
             <div className="text-3xl font-bold text-gray-900">{stats?.totalReviews || 0}</div>
             <p className="text-xs text-gray-600 mt-1">
               {stats?.totalMessages || 0} total messages
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-0 shadow-md bg-gradient-to-r from-orange-50 to-orange-100 hover:shadow-lg transition-all duration-200">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gray-700">Pending Moderation</CardTitle>
+            <div className="p-2 bg-orange-500 rounded-lg">
+              <AlertTriangle className="h-4 w-4 text-white" />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-orange-600">{stats?.pendingModeration || 0}</div>
+            <p className="text-xs text-gray-600 mt-1">
+              {stats?.flaggedContent || 0} flagged items
             </p>
           </CardContent>
         </Card>
@@ -336,6 +336,22 @@ export default function AdminDashboard() {
               
               <Button 
                 variant="outline" 
+                className="h-24 flex flex-col justify-center space-y-2 border-yellow-200 hover:bg-yellow-50 hover:border-yellow-300 transition-all group"
+                onClick={() => router.push('/admin/market-prices')}
+              >
+                <div className="p-2 bg-yellow-100 rounded-lg group-hover:bg-yellow-200 transition-colors">
+                  <TrendingUp className="h-5 w-5 text-yellow-600" />
+                </div>
+                <span className="text-sm font-medium text-gray-700">Review Prices</span>
+                {stats?.pendingMarketPrices && stats.pendingMarketPrices > 0 && (
+                  <Badge variant="destructive" className="text-xs">
+                    {stats.pendingMarketPrices}
+                  </Badge>
+                )}
+              </Button>
+              
+              <Button 
+                variant="outline" 
                 className="h-24 flex flex-col justify-center space-y-2 border-blue-200 hover:bg-blue-50 hover:border-blue-300 transition-all group"
                 onClick={() => router.push('/admin/users')}
               >
@@ -367,21 +383,6 @@ export default function AdminDashboard() {
                 <span className="text-sm font-medium text-gray-700">View Marketplace</span>
               </Button>
               
-              <Button 
-                variant="outline" 
-                className="h-24 flex flex-col justify-center space-y-2 border-yellow-200 hover:bg-yellow-50 hover:border-yellow-300 transition-all group"
-                onClick={() => router.push('/admin/market-prices')}
-              >
-                <div className="p-2 bg-yellow-100 rounded-lg group-hover:bg-yellow-200 transition-colors">
-                  <TrendingUp className="h-5 w-5 text-yellow-600" />
-                </div>
-                <span className="text-sm font-medium text-gray-700">Review Prices</span>
-                {stats?.pendingMarketPrices && stats.pendingMarketPrices > 0 && (
-                  <Badge variant="destructive" className="text-xs">
-                    {stats.pendingMarketPrices}
-                  </Badge>
-                )}
-              </Button>
             </div>
           </CardContent>
         </Card>
