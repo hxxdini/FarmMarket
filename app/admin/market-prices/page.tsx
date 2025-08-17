@@ -29,7 +29,9 @@ import {
   Package,
   User,
   Shield,
-  Loader2
+  Loader2,
+  List,
+  Grid3X3
 } from "lucide-react"
 
 interface MarketPrice {
@@ -89,6 +91,7 @@ export default function AdminMarketPricesPage() {
   const [reviewDialogOpen, setReviewDialogOpen] = useState(false)
   const [reviewNotes, setReviewNotes] = useState('')
   const [reviewAction, setReviewAction] = useState<'approve' | 'reject' | 'expire'>('approve')
+  const [viewMode, setViewMode] = useState<'list' | 'cards'>('list')
   
   const [filters, setFilters] = useState({
     status: 'pending',
@@ -498,180 +501,351 @@ export default function AdminMarketPricesPage() {
           </Card>
         ) : (
           <>
-            {/* Prices Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {prices.map((price) => (
-                <Card 
-                  key={price.id} 
-                  className={`hover:shadow-lg transition-shadow ${
-                    selectedPrices.includes(price.id) ? 'ring-2 ring-green-500' : ''
-                  }`}
-                >
-                  <CardHeader className="pb-2 pt-3 px-3">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center space-x-2 mb-2">
+            
+
+            {/* List View */}
+            {viewMode === 'list' && (
+              <Card className="border-0 shadow-sm">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-gray-50 border-b">
+                      <tr>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           <input
                             type="checkbox"
-                            checked={selectedPrices.includes(price.id)}
-                            onChange={() => togglePriceSelection(price.id)}
+                            checked={selectedPrices.length === prices.length && prices.length > 0}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                setSelectedPrices(prices.map(p => p.id))
+                              } else {
+                                setSelectedPrices([])
+                              }
+                            }}
                             className="rounded border-gray-300 text-green-600 focus:ring-green-500"
                           />
-                          <CardTitle className="text-base truncate">{price.cropType}</CardTitle>
-                        </div>
-                        <div className="flex items-center space-x-1 mb-2 flex-wrap gap-1">
-                          <Badge className={`text-xs ${getQualityColor(price.quality)}`}>
-                            {price.quality}
-                          </Badge>
-                          <Badge className={`text-xs ${getStatusColor(price.status)}`}>
-                            {price.status}
-                          </Badge>
-                          {/* Premium label for admin users */}
-                          {(price.submittedBy as any)?.role === 'admin' || (price.submittedBy as any)?.role === 'superadmin' ? (
-                            <Badge className="text-xs bg-gradient-to-r from-amber-500 to-yellow-500 text-white border-0">
-                              ⭐ Premium
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Crop & Quality
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Price
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Location
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Status
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Submitted By
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {prices.map((price) => (
+                        <tr key={price.id} className="hover:bg-gray-50">
+                          <td className="px-4 py-3 whitespace-nowrap">
+                            <input
+                              type="checkbox"
+                              checked={selectedPrices.includes(price.id)}
+                              onChange={() => togglePriceSelection(price.id)}
+                              className="rounded border-gray-300 text-green-600 focus:ring-green-500"
+                            />
+                          </td>
+                          <td className="px-4 py-3 whitespace-nowrap">
+                            <div>
+                              <div className="text-sm font-medium text-gray-900">{price.cropType}</div>
+                              <div className="flex items-center space-x-2 mt-1">
+                                <Badge className={getQualityColor(price.quality)}>
+                                  {price.quality}
+                                </Badge>
+                                {/* Premium label for admin users */}
+                                {(price.submittedBy as any)?.role === 'admin' || (price.submittedBy as any)?.role === 'superadmin' ? (
+                                  <Badge className="text-xs bg-gradient-to-r from-amber-500 to-yellow-500 text-white border-0">
+                                    ⭐ Premium
+                                  </Badge>
+                                ) : null}
+                                {price.marketTrend && getTrendIcon(price.marketTrend)}
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 whitespace-nowrap">
+                            <div className="text-center">
+                              <div className="text-lg font-bold text-green-600">
+                                {price.pricePerUnit.toFixed(2)}
+                              </div>
+                              <div className="text-sm text-gray-500">per {price.unit}</div>
+                              {price.regionalAverage && (
+                                <div className="text-xs text-blue-600 mt-1">
+                                  Avg: {price.regionalAverage.toFixed(2)}
+                                </div>
+                              )}
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 whitespace-nowrap">
+                            <div className="flex items-center space-x-2">
+                              <MapPin className="h-4 w-4 text-gray-400" />
+                              <span className="text-sm text-gray-900">{price.location}</span>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 whitespace-nowrap">
+                            <Badge className={getStatusColor(price.status)}>
+                              {price.status}
                             </Badge>
-                          ) : null}
-                        </div>
-                      </div>
-                      
-                      {price.marketTrend && (
-                        <div className="flex items-center space-x-1 ml-2">
-                          {getTrendIcon(price.marketTrend)}
-                        </div>
-                      )}
-                    </div>
-                  </CardHeader>
-                  
-                  <CardContent className="space-y-3 px-3 pb-3">
-                    {/* Price Information */}
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-green-600">
-                        {price.pricePerUnit.toFixed(2)}
-                      </div>
-                      <div className="text-xs text-gray-500">per {price.unit}</div>
-                    </div>
+                          </td>
+                          <td className="px-4 py-3 whitespace-nowrap">
+                            <div className="flex items-center space-x-3">
+                              <Avatar className="h-6 w-6">
+                                <AvatarFallback className="text-xs">
+                                  <User className="h-3 w-3" />
+                                </AvatarFallback>
+                              </Avatar>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm font-medium text-gray-900 truncate">
+                                  {price.submittedBy.name}
+                                </p>
+                                <p className="text-xs text-gray-500 truncate">
+                                  {price.submittedBy.email}
+                                </p>
+                                <p className="text-xs text-gray-500 truncate">
+                                  {price.submittedBy.location}
+                                </p>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 whitespace-nowrap">
+                            <div className="flex items-center space-x-2">
+                              {price.status === 'PENDING' && (
+                                <>
+                                  <Button
+                                    size="sm"
+                                    onClick={() => handleIndividualAction(price.id, 'approve')}
+                                    disabled={moderating === price.id}
+                                    className="bg-green-600 hover:bg-green-700 text-xs h-7 px-2"
+                                  >
+                                    {moderating === price.id ? (
+                                      <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                                    ) : (
+                                      <CheckCircle className="h-3 w-3 mr-1" />
+                                    )}
+                                    Approve
+                                  </Button>
+                                  
+                                  <Button
+                                    size="sm"
+                                    variant="destructive"
+                                    onClick={() => handleIndividualAction(price.id, 'reject')}
+                                    disabled={moderating === price.id}
+                                    className="text-xs h-7 px-2"
+                                  >
+                                    {moderating === price.id ? (
+                                      <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                                    ) : (
+                                      <XCircle className="h-3 w-3 mr-1" />
+                                    )}
+                                    Reject
+                                  </Button>
+                                </>
+                              )}
+                              
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => router.push(`/market-prices/${price.id}`)}
+                                className="text-xs h-7 px-2"
+                              >
+                                <Eye className="h-3 w-3 mr-1" />
+                                View
+                              </Button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </Card>
+            )}
 
-                    {/* Location and Source - Compact */}
-                    <div className="space-y-1 text-xs">
-                      <div className="flex items-center space-x-1">
-                        <MapPin className="h-3 w-3 text-gray-400 flex-shrink-0" />
-                        <span className="truncate">{price.location}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <Calendar className="h-3 w-3 text-gray-400 flex-shrink-0" />
-                        <span className="truncate">Effective: {formatDate(price.effectiveDate)}</span>
-                      </div>
-                    </div>
-
-                    {/* Regional Comparison - Compact */}
-                    {price.regionalAverage && (
-                      <div className="p-2 bg-blue-50 rounded-lg">
-                        <div className="text-xs text-blue-900 mb-1">Regional Avg</div>
-                        <div className="text-sm font-semibold text-blue-700">
-                          {price.regionalAverage.toFixed(2)} {price.unit}
-                        </div>
-                        {price.priceChange && (
-                          <div className="text-xs text-blue-600">
-                            {price.priceChange > 0 ? '+' : ''}{price.priceChange.toFixed(1)}%
+            {/* Cards View */}
+            {viewMode === 'cards' && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {prices.map((price) => (
+                  <Card 
+                    key={price.id} 
+                    className={`hover:shadow-lg transition-shadow ${
+                      selectedPrices.includes(price.id) ? 'ring-2 ring-green-500' : ''
+                    }`}
+                  >
+                    <CardHeader className="pb-2 pt-3 px-3">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <input
+                              type="checkbox"
+                              checked={selectedPrices.includes(price.id)}
+                              onChange={() => togglePriceSelection(price.id)}
+                              className="rounded border-gray-300 text-green-600 focus:ring-green-500"
+                            />
+                            <CardTitle className="text-base truncate">{price.cropType}</CardTitle>
                           </div>
-                        )}
-                      </div>
-                    )}
-
-                    {/* Submitted By - Compact */}
-                    <div className="flex items-center space-x-2 pt-2 border-t">
-                      <Avatar className="h-6 w-6">
-                        <AvatarFallback className="text-xs">
-                          <User className="h-3 w-3" />
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-medium text-gray-900 truncate">
-                          {price.submittedBy.name}
-                        </p>
-                        <p className="text-xs text-gray-500 truncate">
-                          {price.submittedBy.email}
-                        </p>
-                        <p className="text-xs text-gray-500 truncate">
-                          {price.submittedBy.location}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Review Status - Compact */}
-                    {price.status === 'PENDING' && (
-                      <div className="p-2 bg-yellow-50 rounded-lg border border-yellow-200">
-                        <div className="text-xs text-yellow-800 mb-2">
-                          <strong>Pending Review</strong> - {formatDate(price.createdAt)}
+                          <div className="flex items-center space-x-1 mb-2 flex-wrap gap-1">
+                            <Badge className={`text-xs ${getQualityColor(price.quality)}`}>
+                              {price.quality}
+                            </Badge>
+                            <Badge className={`text-xs ${getStatusColor(price.status)}`}>
+                              {price.status}
+                            </Badge>
+                            {/* Premium label for admin users */}
+                            {(price.submittedBy as any)?.role === 'admin' || (price.submittedBy as any)?.role === 'superadmin' ? (
+                              <Badge className="text-xs bg-gradient-to-r from-amber-500 to-yellow-500 text-white border-0">
+                                ⭐ Premium
+                              </Badge>
+                            ) : null}
+                          </div>
                         </div>
                         
-                        <div className="flex space-x-1">
-                          <Button
-                            size="sm"
-                            onClick={() => handleIndividualAction(price.id, 'approve')}
-                            disabled={moderating === price.id}
-                            className="bg-green-600 hover:bg-green-700 text-xs h-7 px-2"
-                          >
-                            {moderating === price.id ? (
-                              <Loader2 className="h-3 w-3 mr-1 animate-spin" />
-                            ) : (
-                              <CheckCircle className="h-3 w-3 mr-1" />
-                            )}
-                            Approve
-                          </Button>
-                          
-                          <Button
-                            size="sm"
-                            variant="destructive"
-                            onClick={() => handleIndividualAction(price.id, 'reject')}
-                            disabled={moderating === price.id}
-                            className="text-xs h-7 px-2"
-                          >
-                            {moderating === price.id ? (
-                              <Loader2 className="h-3 w-3 mr-1 animate-spin" />
-                            ) : (
-                              <XCircle className="h-3 w-3 mr-1" />
-                            )}
-                            Reject
-                          </Button>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Review Info - Compact */}
-                    {price.reviewedBy && (
-                      <div className="p-2 bg-gray-50 rounded-lg">
-                        <div className="text-xs text-gray-700">
-                          <strong>Reviewed by:</strong> {price.reviewedBy.name}
-                        </div>
-                        <div className="text-xs text-gray-600">
-                          {formatDate(price.reviewDate!)}
-                        </div>
-                        {price.reviewNotes && (
-                          <div className="text-xs text-gray-600 mt-1">
-                            <strong>Notes:</strong> {price.reviewNotes}
+                        {price.marketTrend && (
+                          <div className="flex items-center space-x-1 ml-2">
+                            {getTrendIcon(price.marketTrend)}
                           </div>
                         )}
                       </div>
-                    )}
+                    </CardHeader>
+                    
+                    <CardContent className="space-y-3 px-3 pb-3">
+                      {/* Price Information */}
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-green-600">
+                          {price.pricePerUnit.toFixed(2)}
+                        </div>
+                        <div className="text-xs text-gray-500">per {price.unit}</div>
+                      </div>
 
-                    {/* Action Button - Compact */}
-                    <div className="pt-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="w-full text-xs h-8"
-                        onClick={() => router.push(`/market-prices/${price.id}`)}
-                      >
-                        <Eye className="h-3 w-3 mr-1" />
-                        View Details
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                      {/* Location and Source - Compact */}
+                      <div className="space-y-1 text-xs">
+                        <div className="flex items-center space-x-1">
+                          <MapPin className="h-3 w-3 text-gray-400 flex-shrink-0" />
+                          <span className="truncate">{price.location}</span>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <Calendar className="h-3 w-3 text-gray-400 flex-shrink-0" />
+                          <span className="truncate">Effective: {formatDate(price.effectiveDate)}</span>
+                        </div>
+                      </div>
+
+                      {/* Regional Comparison - Compact */}
+                      {price.regionalAverage && (
+                        <div className="p-2 bg-blue-50 rounded-lg">
+                          <div className="text-xs text-blue-900 mb-1">Regional Avg</div>
+                          <div className="text-sm font-semibold text-blue-700">
+                            {price.regionalAverage.toFixed(2)} {price.unit}
+                          </div>
+                          {price.priceChange && (
+                            <div className="text-xs text-blue-600">
+                              {price.priceChange > 0 ? '+' : ''}{price.priceChange.toFixed(1)}%
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Submitted By - Compact */}
+                      <div className="flex items-center space-x-2 pt-2 border-t">
+                        <Avatar className="h-6 w-6">
+                          <AvatarFallback className="text-xs">
+                            <User className="h-3 w-3" />
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-medium text-gray-900 truncate">
+                            {price.submittedBy.name}
+                          </p>
+                          <p className="text-xs text-gray-500 truncate">
+                            {price.submittedBy.email}
+                          </p>
+                          <p className="text-xs text-gray-500 truncate">
+                            {price.submittedBy.location}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Review Status - Compact */}
+                      {price.status === 'PENDING' && (
+                        <div className="p-2 bg-yellow-50 rounded-lg border border-yellow-200">
+                          <div className="text-xs text-yellow-800 mb-2">
+                            <strong>Pending Review</strong> - {formatDate(price.createdAt)}
+                          </div>
+                          
+                          <div className="flex space-x-1">
+                            <Button
+                              size="sm"
+                              onClick={() => handleIndividualAction(price.id, 'approve')}
+                              disabled={moderating === price.id}
+                              className="bg-green-600 hover:bg-green-700 text-xs h-7 px-2"
+                            >
+                              {moderating === price.id ? (
+                                <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                              ) : (
+                                <CheckCircle className="h-3 w-3 mr-1" />
+                              )}
+                              Approve
+                            </Button>
+                            
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              onClick={() => handleIndividualAction(price.id, 'reject')}
+                              disabled={moderating === price.id}
+                              className="text-xs h-7 px-2"
+                            >
+                              {moderating === price.id ? (
+                                <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                              ) : (
+                                <XCircle className="h-3 w-3 mr-1" />
+                              )}
+                              Reject
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Review Info - Compact */}
+                      {price.reviewedBy && (
+                        <div className="p-2 bg-gray-50 rounded-lg">
+                          <div className="text-xs text-gray-700">
+                            <strong>Reviewed by:</strong> {price.reviewedBy.name}
+                          </div>
+                          <div className="text-xs text-gray-600">
+                            {formatDate(price.reviewDate!)}
+                          </div>
+                          {price.reviewNotes && (
+                            <div className="text-xs text-gray-600 mt-1">
+                              <strong>Notes:</strong> {price.reviewNotes}
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Action Button - Compact */}
+                      <div className="pt-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="w-full text-xs h-8"
+                          onClick={() => router.push(`/market-prices/${price.id}`)}
+                        >
+                          <Eye className="h-3 w-3 mr-1" />
+                          View Details
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
 
             {/* Pagination */}
             {pagination.pages > 1 && (

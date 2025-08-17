@@ -545,7 +545,12 @@ export default function MarketPricesPage() {
                             <Badge className={`text-xs ${getStatusColor(price.status)}`}>
                               {price.status}
                             </Badge>
-                            
+                            {/* Premium label for admin users */}
+                            {(price.submittedBy as any)?.role === 'admin' || (price.submittedBy as any)?.role === 'superadmin' ? (
+                              <Badge className="text-xs bg-gradient-to-r from-amber-500 to-yellow-500 text-white border-0">
+                                ⭐ Premium
+                              </Badge>
+                            ) : null}
                           </div>
                         </div>
                         
@@ -614,6 +619,19 @@ export default function MarketPricesPage() {
                             ✓
                           </Badge>
                         )}
+                      </div>
+
+                      {/* Action Button - Compact */}
+                      <div className="pt-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => router.push(`/market-prices/${price.id}`)}
+                          className="w-full text-xs h-8"
+                        >
+                          <Eye className="h-3 w-3 mr-1" />
+                          View Details
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>
