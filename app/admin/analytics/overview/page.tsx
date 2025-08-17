@@ -100,7 +100,7 @@ export default function AnalyticsOverviewPage() {
       router.replace("/login")
     } else if (status === "authenticated") {
       // Check if user is admin
-      if ((session?.user as any)?.Role?.name !== 'admin' && (session?.user as any)?.Role?.name !== 'superadmin') {
+      if ((session?.user as any)?.role !== 'admin' && (session?.user as any)?.role !== 'superadmin') {
         router.replace("/")
         toast.error("Access denied. Admin privileges required.")
         return
@@ -345,7 +345,7 @@ export default function AnalyticsOverviewPage() {
                   </CardHeader>
                   <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
-                      <PieChart>
+                      <RechartsPieChart>
                         <Pie
                           data={analytics.userMetrics.roleDistribution}
                           cx="50%"
@@ -361,7 +361,7 @@ export default function AnalyticsOverviewPage() {
                           ))}
                         </Pie>
                         <Tooltip />
-                      </PieChart>
+                      </RechartsPieChart>
                     </ResponsiveContainer>
                   </CardContent>
                 </Card>
@@ -407,7 +407,7 @@ export default function AnalyticsOverviewPage() {
                   </CardHeader>
                   <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
-                      <LineChart data={analytics.timeSeriesData.dates.map((date, index) => ({
+                      <RechartsLineChart data={analytics.timeSeriesData.dates.map((date, index) => ({
                         date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                         listings: analytics.timeSeriesData.newListings[index]
                       }))}>
@@ -416,7 +416,7 @@ export default function AnalyticsOverviewPage() {
                         <YAxis />
                         <Tooltip />
                         <Line type="monotone" dataKey="listings" stroke="#10b981" strokeWidth={2} />
-                      </LineChart>
+                      </RechartsLineChart>
                     </ResponsiveContainer>
                   </CardContent>
                 </Card>
@@ -499,7 +499,7 @@ export default function AnalyticsOverviewPage() {
                   </CardHeader>
                   <CardContent>
                     <ResponsiveContainer width="100%" height={300}>
-                      <LineChart data={analytics.timeSeriesData.dates.map((date, index) => ({
+                      <RechartsLineChart data={analytics.timeSeriesData.dates.map((date, index) => ({
                         date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                         reviews: analytics.timeSeriesData.reviews[index]
                       }))}>
@@ -508,7 +508,7 @@ export default function AnalyticsOverviewPage() {
                         <YAxis />
                         <Tooltip />
                         <Line type="monotone" dataKey="reviews" stroke="#ef4444" strokeWidth={2} />
-                      </LineChart>
+                      </RechartsLineChart>
                     </ResponsiveContainer>
                   </CardContent>
                 </Card>
@@ -553,7 +553,7 @@ export default function AnalyticsOverviewPage() {
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={400}>
-                    <LineChart data={analytics.timeSeriesData.dates.map((date, index) => ({
+                    <RechartsLineChart data={analytics.timeSeriesData.dates.map((date, index) => ({
                       date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                       prices: analytics.timeSeriesData.marketPrices[index]
                     }))}>
@@ -563,7 +563,7 @@ export default function AnalyticsOverviewPage() {
                       <Tooltip />
                       <Legend />
                       <Line type="monotone" dataKey="prices" stroke="#06b6d4" strokeWidth={2} name="Market Prices" />
-                    </LineChart>
+                    </RechartsLineChart>
                   </ResponsiveContainer>
                 </CardContent>
               </Card>
@@ -576,7 +576,7 @@ export default function AnalyticsOverviewPage() {
                 </CardHeader>
                 <CardContent>
                   <ResponsiveContainer width="100%" height={400}>
-                    <LineChart data={analytics.timeSeriesData.dates.map((date, index) => ({
+                    <RechartsLineChart data={analytics.timeSeriesData.dates.map((date, index) => ({
                       date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                       users: analytics.timeSeriesData.userRegistrations[index],
                       listings: analytics.timeSeriesData.newListings[index],
@@ -592,7 +592,7 @@ export default function AnalyticsOverviewPage() {
                       <Line type="monotone" dataKey="listings" stroke="#10b981" strokeWidth={2} name="New Listings" />
                       <Line type="monotone" dataKey="messages" stroke="#8b5cf6" strokeWidth={2} name="Messages" />
                       <Line type="monotone" dataKey="reviews" stroke="#ef4444" strokeWidth={2} name="Reviews" />
-                    </LineChart>
+                    </RechartsLineChart>
                   </ResponsiveContainer>
                 </CardContent>
               </Card>

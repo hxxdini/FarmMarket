@@ -13,7 +13,12 @@ export async function GET(req: NextRequest) {
     }
 
     // Check if user is admin
-    if ((session?.user as any)?.role !== 'admin' && (session?.user as any)?.role !== 'superadmin') {
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+      include: { Role: true }
+    })
+
+    if (user?.Role?.name !== 'admin' && user?.Role?.name !== 'superadmin') {
       return NextResponse.json({ error: 'Access denied. Admin privileges required.' }, { status: 403 })
     }
 
