@@ -15,12 +15,7 @@ export async function GET(req: NextRequest) {
     }
 
     // Check if user is admin
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
-      include: { Role: true }
-    })
-
-    if (user?.Role.name !== 'admin' && user?.Role.name !== 'superadmin') {
+    if ((session?.user as any)?.role !== 'admin' && (session?.user as any)?.role !== 'superadmin') {
       return NextResponse.json({ error: 'Access denied. Admin privileges required.' }, { status: 403 })
     }
 
@@ -128,8 +123,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const admin = await prisma.user.findUnique({ where: { email: session.user.email }, include: { Role: true } })
-    if (admin?.Role.name !== 'admin' && admin?.Role.name !== 'superadmin') {
+    // Check if user is admin
+    if ((session?.user as any)?.role !== 'admin' && (session?.user as any)?.role !== 'superadmin') {
       return NextResponse.json({ error: 'Access denied. Admin privileges required.' }, { status: 403 })
     }
 
@@ -154,12 +149,14 @@ export async function POST(req: NextRequest) {
 
     const created = await prisma.user.create({
       data: {
+        id: crypto.randomUUID(),
         name: name || null,
         email,
         phone: phone || null,
         password: hashedPassword,
         roleId: role.id,
-        status: status === 'SUSPENDED' ? UserStatus.SUSPENDED : status === 'PENDING' ? UserStatus.PENDING : UserStatus.ACTIVE
+        status: status === 'SUSPENDED' ? UserStatus.SUSPENDED : status === 'PENDING' ? UserStatus.PENDING : UserStatus.ACTIVE,
+        updatedAt: new Date()
       },
       include: { Role: true }
     })
@@ -170,7 +167,7 @@ export async function POST(req: NextRequest) {
         id: created.id,
         name: created.name,
         email: created.email,
-        role: created.Role.name,
+        role: created.Role?.name,
         status: created.status
       }
     }, { status: 201 })
