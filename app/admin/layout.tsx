@@ -116,10 +116,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       )}
 
       {/* Sidebar */}
-      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-xl transform transition-transform duration-300 ease-in-out lg:relative lg:transform-none lg:z-auto lg:shadow-lg ${
+      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-xl transform transition-transform duration-300 ease-in-out lg:relative lg:transform-none lg:z-auto lg:shadow-lg lg:flex lg:flex-col lg:min-h-0 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
       }`}>
-        <div className="flex items-center justify-between h-16 px-3 sm:px-4 border-b border-gray-200 bg-gradient-to-r from-green-50 to-green-100">
+        <div className="flex items-center justify-between h-16 px-3 sm:px-4 border-b border-gray-200 bg-gradient-to-r from-green-50 to-green-100 flex-shrink-0">
           <div className="flex items-center space-x-2 sm:space-x-3">
             <div className="p-1.5 sm:p-2 bg-green-500 rounded-lg shadow-sm">
               <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
@@ -140,7 +140,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 px-3 sm:px-4 pt-4 sm:pt-6 pb-24 sm:pb-28 space-y-1 sm:space-y-2 overflow-y-auto">
+        <nav className="flex-1 px-3 sm:px-4 pt-4 sm:pt-6 pb-24 sm:pb-28 space-y-1 sm:space-y-2 overflow-y-auto min-h-0">
           {navigation.map((item) => {
             const Icon = item.icon
             return (
@@ -170,7 +170,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </nav>
 
         {/* User section (sticky) */}
-        <div className="border-t border-gray-200 p-3 sm:p-4 bg-white sticky bottom-0">
+        <div className="border-t border-gray-200 p-3 sm:p-4 bg-white sticky bottom-0 flex-shrink-0">
           <div className="flex items-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
             <Avatar className="h-8 w-8 sm:h-10 sm:w-10">
               <AvatarImage src={(session?.user as any)?.avatar} alt={(session?.user as any)?.name} />
