@@ -60,7 +60,12 @@ export async function GET(req: NextRequest) {
               id: true,
               name: true,
               location: true,
-              email: true
+              email: true,
+              Role: {
+                select: {
+                  name: true
+                }
+              }
             }
           },
           User_MarketPrice_reviewedByToUser: {
@@ -88,8 +93,36 @@ export async function GET(req: NextRequest) {
       return acc
     }, {} as Record<string, number>)
 
+    // Transform data for frontend consumption
+    const transformedPrices = prices.map(price => ({
+      id: price.id,
+      cropType: price.cropType,
+      pricePerUnit: price.pricePerUnit,
+      unit: price.unit,
+      quality: price.quality,
+      location: price.location,
+      source: price.source,
+      status: price.status,
+      submittedBy: {
+        ...price.User_MarketPrice_submittedByToUser,
+        role: price.User_MarketPrice_submittedByToUser.Role?.name
+      },
+      reviewedBy: price.User_MarketPrice_reviewedByToUser,
+      reviewNotes: price.reviewNotes,
+      reviewDate: price.reviewDate,
+      effectiveDate: price.effectiveDate,
+      expiryDate: price.expiryDate,
+      isVerified: price.isVerified,
+      verificationScore: price.verificationScore,
+      marketTrend: price.marketTrend,
+      regionalAverage: price.regionalAverage,
+      priceChange: price.priceChange,
+      createdAt: price.createdAt,
+      updatedAt: price.updatedAt
+    }))
+
     return NextResponse.json({
-      prices,
+      prices: transformedPrices,
       stats: {
         total: total,
         pending: statusCounts.PENDING || 0,

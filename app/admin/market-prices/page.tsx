@@ -499,7 +499,7 @@ export default function AdminMarketPricesPage() {
         ) : (
           <>
             {/* Prices Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {prices.map((price) => (
                 <Card 
                   key={price.id} 
@@ -507,9 +507,9 @@ export default function AdminMarketPricesPage() {
                     selectedPrices.includes(price.id) ? 'ring-2 ring-green-500' : ''
                   }`}
                 >
-                  <CardHeader className="pb-3">
+                  <CardHeader className="pb-2 pt-3 px-3">
                     <div className="flex items-start justify-between">
-                      <div className="flex-1">
+                      <div className="flex-1 min-w-0">
                         <div className="flex items-center space-x-2 mb-2">
                           <input
                             type="checkbox"
@@ -517,71 +517,77 @@ export default function AdminMarketPricesPage() {
                             onChange={() => togglePriceSelection(price.id)}
                             className="rounded border-gray-300 text-green-600 focus:ring-green-500"
                           />
-                          <CardTitle className="text-lg">{price.cropType}</CardTitle>
+                          <CardTitle className="text-base truncate">{price.cropType}</CardTitle>
                         </div>
-                        <div className="flex items-center space-x-2 mb-2">
-                          <Badge className={getQualityColor(price.quality)}>
+                        <div className="flex items-center space-x-1 mb-2 flex-wrap gap-1">
+                          <Badge className={`text-xs ${getQualityColor(price.quality)}`}>
                             {price.quality}
                           </Badge>
-                          <Badge className={getStatusColor(price.status)}>
+                          <Badge className={`text-xs ${getStatusColor(price.status)}`}>
                             {price.status}
                           </Badge>
+                          {/* Premium label for admin users */}
+                          {(price.submittedBy as any)?.role === 'admin' || (price.submittedBy as any)?.role === 'superadmin' ? (
+                            <Badge className="text-xs bg-gradient-to-r from-amber-500 to-yellow-500 text-white border-0">
+                              ⭐ Premium
+                            </Badge>
+                          ) : null}
                         </div>
                       </div>
                       
                       {price.marketTrend && (
-                        <div className="flex items-center space-x-1">
+                        <div className="flex items-center space-x-1 ml-2">
                           {getTrendIcon(price.marketTrend)}
                         </div>
                       )}
                     </div>
                   </CardHeader>
                   
-                  <CardContent className="space-y-4">
+                  <CardContent className="space-y-3 px-3 pb-3">
                     {/* Price Information */}
                     <div className="text-center">
-                      <div className="text-3xl font-bold text-green-600">
+                      <div className="text-2xl font-bold text-green-600">
                         {price.pricePerUnit.toFixed(2)}
                       </div>
-                      <div className="text-sm text-gray-500">per {price.unit}</div>
+                      <div className="text-xs text-gray-500">per {price.unit}</div>
                     </div>
 
-                    {/* Location and Source */}
-                    <div className="space-y-2 text-sm">
-                      <div className="flex items-center space-x-2">
-                        <MapPin className="h-4 w-4 text-gray-400" />
-                        <span>{price.location}</span>
+                    {/* Location and Source - Compact */}
+                    <div className="space-y-1 text-xs">
+                      <div className="flex items-center space-x-1">
+                        <MapPin className="h-3 w-3 text-gray-400 flex-shrink-0" />
+                        <span className="truncate">{price.location}</span>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <Calendar className="h-4 w-4 text-gray-400" />
-                        <span>Effective: {formatDate(price.effectiveDate)}</span>
+                      <div className="flex items-center space-x-1">
+                        <Calendar className="h-3 w-3 text-gray-400 flex-shrink-0" />
+                        <span className="truncate">Effective: {formatDate(price.effectiveDate)}</span>
                       </div>
                     </div>
 
-                    {/* Regional Comparison */}
+                    {/* Regional Comparison - Compact */}
                     {price.regionalAverage && (
-                      <div className="p-3 bg-blue-50 rounded-lg">
-                        <div className="text-sm text-blue-900 mb-1">Regional Average</div>
-                        <div className="text-lg font-semibold text-blue-700">
+                      <div className="p-2 bg-blue-50 rounded-lg">
+                        <div className="text-xs text-blue-900 mb-1">Regional Avg</div>
+                        <div className="text-sm font-semibold text-blue-700">
                           {price.regionalAverage.toFixed(2)} {price.unit}
                         </div>
                         {price.priceChange && (
-                          <div className="text-sm text-blue-600">
-                            {price.priceChange > 0 ? '+' : ''}{price.priceChange.toFixed(1)}% from previous
+                          <div className="text-xs text-blue-600">
+                            {price.priceChange > 0 ? '+' : ''}{price.priceChange.toFixed(1)}%
                           </div>
                         )}
                       </div>
                     )}
 
-                    {/* Submitted By */}
-                    <div className="flex items-center space-x-3 pt-2 border-t">
-                      <Avatar className="h-8 w-8">
+                    {/* Submitted By - Compact */}
+                    <div className="flex items-center space-x-2 pt-2 border-t">
+                      <Avatar className="h-6 w-6">
                         <AvatarFallback className="text-xs">
-                          <User className="h-4 w-4" />
+                          <User className="h-3 w-3" />
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-900 truncate">
+                        <p className="text-xs font-medium text-gray-900 truncate">
                           {price.submittedBy.name}
                         </p>
                         <p className="text-xs text-gray-500 truncate">
@@ -593,24 +599,24 @@ export default function AdminMarketPricesPage() {
                       </div>
                     </div>
 
-                    {/* Review Status */}
+                    {/* Review Status - Compact */}
                     {price.status === 'PENDING' && (
-                      <div className="p-3 bg-yellow-50 rounded-lg border border-yellow-200">
-                        <div className="text-sm text-yellow-800 mb-2">
-                          <strong>Pending Review</strong> - Submitted {formatDate(price.createdAt)}
+                      <div className="p-2 bg-yellow-50 rounded-lg border border-yellow-200">
+                        <div className="text-xs text-yellow-800 mb-2">
+                          <strong>Pending Review</strong> - {formatDate(price.createdAt)}
                         </div>
                         
-                        <div className="flex space-x-2">
+                        <div className="flex space-x-1">
                           <Button
                             size="sm"
                             onClick={() => handleIndividualAction(price.id, 'approve')}
                             disabled={moderating === price.id}
-                            className="bg-green-600 hover:bg-green-700"
+                            className="bg-green-600 hover:bg-green-700 text-xs h-7 px-2"
                           >
                             {moderating === price.id ? (
-                              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                              <Loader2 className="h-3 w-3 mr-1 animate-spin" />
                             ) : (
-                              <CheckCircle className="h-4 w-4 mr-2" />
+                              <CheckCircle className="h-3 w-3 mr-1" />
                             )}
                             Approve
                           </Button>
@@ -620,11 +626,12 @@ export default function AdminMarketPricesPage() {
                             variant="destructive"
                             onClick={() => handleIndividualAction(price.id, 'reject')}
                             disabled={moderating === price.id}
+                            className="text-xs h-7 px-2"
                           >
                             {moderating === price.id ? (
-                              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                              <Loader2 className="h-3 w-3 mr-1 animate-spin" />
                             ) : (
-                              <XCircle className="h-4 w-4 mr-2" />
+                              <XCircle className="h-3 w-3 mr-1" />
                             )}
                             Reject
                           </Button>
@@ -632,32 +639,32 @@ export default function AdminMarketPricesPage() {
                       </div>
                     )}
 
-                    {/* Review Info */}
+                    {/* Review Info - Compact */}
                     {price.reviewedBy && (
-                      <div className="p-3 bg-gray-50 rounded-lg">
-                        <div className="text-sm text-gray-700">
+                      <div className="p-2 bg-gray-50 rounded-lg">
+                        <div className="text-xs text-gray-700">
                           <strong>Reviewed by:</strong> {price.reviewedBy.name}
                         </div>
-                        <div className="text-sm text-gray-600">
+                        <div className="text-xs text-gray-600">
                           {formatDate(price.reviewDate!)}
                         </div>
                         {price.reviewNotes && (
-                          <div className="text-sm text-gray-600 mt-1">
+                          <div className="text-xs text-gray-600 mt-1">
                             <strong>Notes:</strong> {price.reviewNotes}
                           </div>
                         )}
                       </div>
                     )}
 
-                    {/* Action Buttons */}
-                    <div className="flex space-x-2 pt-2">
+                    {/* Action Button - Compact */}
+                    <div className="pt-2">
                       <Button
                         variant="outline"
                         size="sm"
-                        className="flex-1"
+                        className="w-full text-xs h-8"
                         onClick={() => router.push(`/market-prices/${price.id}`)}
                       >
-                        <Eye className="h-4 w-4 mr-2" />
+                        <Eye className="h-3 w-3 mr-1" />
                         View Details
                       </Button>
                     </div>

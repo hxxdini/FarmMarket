@@ -531,76 +531,77 @@ export default function MarketPricesPage() {
 
             {/* Cards View */}
             {viewMode === 'cards' && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {prices.map((price) => (
                   <Card key={price.id} className="border-0 shadow-sm hover:shadow-md transition-shadow">
-                    <CardHeader className="pb-3">
+                    <CardHeader className="pb-2 pt-3 px-3">
                       <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <CardTitle className="text-lg mb-2">{price.cropType}</CardTitle>
-                          <div className="flex items-center space-x-2 mb-2">
-                            <Badge className={getQualityColor(price.quality)}>
+                        <div className="flex-1 min-w-0">
+                          <CardTitle className="text-base mb-1 truncate">{price.cropType}</CardTitle>
+                          <div className="flex items-center space-x-1 mb-1 flex-wrap gap-1">
+                            <Badge className={`text-xs ${getQualityColor(price.quality)}`}>
                               {price.quality}
                             </Badge>
-                            <Badge className={getStatusColor(price.status)}>
+                            <Badge className={`text-xs ${getStatusColor(price.status)}`}>
                               {price.status}
                             </Badge>
+                            
                           </div>
                         </div>
                         
                         {price.marketTrend && (
-                          <div className="flex items-center space-x-1">
+                          <div className="flex items-center space-x-1 ml-2">
                             {getTrendIcon(price.marketTrend)}
                           </div>
                         )}
                       </div>
                     </CardHeader>
                     
-                    <CardContent className="space-y-4">
+                    <CardContent className="space-y-3 px-3 pb-3">
                       {/* Price Information */}
                       <div className="text-center">
-                        <div className="text-3xl font-bold text-green-600">
+                        <div className="text-2xl font-bold text-green-600">
                           {price.pricePerUnit.toFixed(2)}
                         </div>
-                        <div className="text-sm text-gray-500">per {price.unit}</div>
+                        <div className="text-xs text-gray-500">per {price.unit}</div>
                       </div>
 
-                      {/* Location and Source */}
-                      <div className="space-y-2 text-sm">
-                        <div className="flex items-center space-x-2">
-                          <MapPin className="h-4 w-4 text-gray-400" />
-                          <span>{price.location}</span>
+                      {/* Location and Source - Compact */}
+                      <div className="space-y-1 text-xs">
+                        <div className="flex items-center space-x-1">
+                          <MapPin className="h-3 w-3 text-gray-400 flex-shrink-0" />
+                          <span className="truncate">{price.location}</span>
                         </div>
-                        <div className="flex items-center space-x-2">
-                          <Calendar className="h-4 w-4 text-gray-400" />
-                          <span>Effective: {formatDate(price.effectiveDate)}</span>
+                        <div className="flex items-center space-x-1">
+                          <Calendar className="h-3 w-3 text-gray-400 flex-shrink-0" />
+                          <span className="truncate">Effective: {formatDate(price.effectiveDate)}</span>
                         </div>
                       </div>
 
-                      {/* Regional Comparison */}
+                      {/* Regional Comparison - Compact */}
                       {price.regionalAverage && (
-                        <div className="p-3 bg-blue-50 rounded-lg">
-                          <div className="text-sm text-blue-900 mb-1">Regional Average</div>
-                          <div className="text-lg font-semibold text-blue-700">
+                        <div className="p-2 bg-blue-50 rounded-lg">
+                          <div className="text-xs text-blue-900 mb-1">Regional Avg</div>
+                          <div className="text-sm font-semibold text-blue-700">
                             {price.regionalAverage.toFixed(2)} {price.unit}
                           </div>
                           {price.priceChange && (
-                            <div className="text-sm text-blue-600">
-                              {price.priceChange > 0 ? '+' : ''}{price.priceChange.toFixed(1)}% from previous
+                            <div className="text-xs text-blue-600">
+                              {price.priceChange > 0 ? '+' : ''}{price.priceChange.toFixed(1)}%
                             </div>
                           )}
                         </div>
                       )}
 
-                      {/* Submitted By */}
-                      <div className="flex items-center space-x-3 pt-2 border-t">
-                        <Avatar className="h-8 w-8">
+                      {/* Submitted By - Compact */}
+                      <div className="flex items-center space-x-2 pt-2 border-t">
+                        <Avatar className="h-6 w-6">
                           <AvatarFallback className="text-xs">
                             {price.submittedBy.name?.split(' ').map(n => n.charAt(0)).join('').substring(0, 2)}
                           </AvatarFallback>
                         </Avatar>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-gray-900 truncate">
+                          <p className="text-xs font-medium text-gray-900 truncate">
                             {price.submittedBy.name}
                           </p>
                           <p className="text-xs text-gray-500 truncate">
@@ -609,23 +610,10 @@ export default function MarketPricesPage() {
                         </div>
                         
                         {price.isVerified && (
-                          <Badge variant="outline" className="text-green-600 border-green-300">
-                            ✓ Verified
+                          <Badge variant="outline" className="text-xs text-green-600 border-green-300">
+                            ✓
                           </Badge>
                         )}
-                      </div>
-
-                      {/* Action Buttons */}
-                      <div className="flex space-x-2 pt-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="flex-1"
-                          onClick={() => router.push(`/market-prices/${price.id}`)}
-                        >
-                          <Eye className="h-4 w-4 mr-2" />
-                          View Details
-                        </Button>
                       </div>
                     </CardContent>
                   </Card>

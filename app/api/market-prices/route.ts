@@ -56,7 +56,12 @@ export async function GET(req: NextRequest) {
             select: {
               id: true,
               name: true,
-              location: true
+              location: true,
+              Role: {
+                select: {
+                  name: true
+                }
+              }
             }
           },
           User_MarketPrice_reviewedByToUser: {
@@ -102,7 +107,10 @@ export async function GET(req: NextRequest) {
       location: price.location,
       source: price.source,
       status: price.status,
-      submittedBy: price.User_MarketPrice_submittedByToUser,
+      submittedBy: {
+        ...price.User_MarketPrice_submittedByToUser,
+        role: price.User_MarketPrice_submittedByToUser.Role?.name
+      },
       reviewedBy: price.User_MarketPrice_reviewedByToUser,
       reviewNotes: price.reviewNotes,
       reviewDate: price.reviewDate,
