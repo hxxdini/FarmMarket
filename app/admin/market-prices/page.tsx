@@ -297,131 +297,133 @@ export default function AdminMarketPricesPage() {
           </p>
         </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4 sm:mb-6">
-        <Card className="border-0 shadow-sm">
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <Package className="h-5 w-5 text-blue-600" />
-              <div>
-                <p className="text-sm text-gray-600">Total</p>
-                <p className="text-2xl font-bold">{stats.total}</p>
+        {/* Stats Cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-4 sm:mb-6">
+          <Card className="border-0 shadow-sm">
+            <CardContent className="p-3 sm:p-4">
+              <div className="flex items-center space-x-2">
+                <Package className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
+                <div>
+                  <p className="text-xs sm:text-sm text-gray-600">Total</p>
+                  <p className="text-lg sm:text-2xl font-bold">{stats.total}</p>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card className="border-0 shadow-sm">
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <Clock className="h-5 w-5 text-yellow-600" />
-              <div>
-                <p className="text-sm text-gray-600">Pending</p>
-                <p className="text-2xl font-bold text-yellow-600">{stats.pending}</p>
+            </CardContent>
+          </Card>
+          
+          <Card className="border-0 shadow-sm">
+            <CardContent className="p-3 sm:p-4">
+              <div className="flex items-center space-x-2">
+                <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-600" />
+                <div>
+                  <p className="text-xs sm:text-sm text-gray-600">Pending</p>
+                  <p className="text-lg sm:text-2xl font-bold text-yellow-600">{stats.pending}</p>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card className="border-0 shadow-sm">
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <CheckCircle className="h-5 w-5 text-green-600" />
-              <div>
-                <p className="text-sm text-gray-600">Approved</p>
-                <p className="text-2xl font-bold text-green-600">{stats.approved}</p>
+            </CardContent>
+          </Card>
+          
+          <Card className="border-0 shadow-sm">
+            <CardContent className="p-3 sm:p-4">
+              <div className="flex items-center space-x-2">
+                <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
+                <div>
+                  <p className="text-xs sm:text-sm text-gray-600">Approved</p>
+                  <p className="text-lg sm:text-2xl font-bold text-green-600">{stats.approved}</p>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card className="border-0 shadow-sm">
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <XCircle className="h-5 w-5 text-red-600" />
-              <div>
-                <p className="text-sm text-gray-600">Rejected</p>
-                <p className="text-2xl font-bold text-red-600">{stats.rejected}</p>
+            </CardContent>
+          </Card>
+          
+          <Card className="border-0 shadow-sm">
+            <CardContent className="p-3 sm:p-4">
+              <div className="flex items-center space-x-2">
+                <XCircle className="h-4 w-4 sm:h-5 sm:w-5 text-red-600" />
+                <div>
+                  <p className="text-xs sm:text-sm text-gray-600">Rejected</p>
+                  <p className="text-lg sm:text-2xl font-bold text-red-600">{stats.rejected}</p>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card className="border-0 shadow-sm">
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <AlertTriangle className="h-5 w-5 text-gray-600" />
-              <div>
-                <p className="text-sm text-gray-600">Expired</p>
-                <p className="text-2xl font-bold text-gray-600">{stats.expired}</p>
+            </CardContent>
+          </Card>
+          
+          <Card className="border-0 shadow-sm col-span-2 sm:col-span-3 lg:col-span-1">
+            <CardContent className="p-3 sm:p-4">
+              <div className="flex items-center space-x-2">
+                <AlertTriangle className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600" />
+                <div>
+                  <p className="text-xs sm:text-sm text-gray-600">Expired</p>
+                  <p className="text-lg sm:text-2xl font-bold text-gray-600">{stats.expired}</p>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+            </CardContent>
+          </Card>
+        </div>
 
-      {/* Filters */}
-      <Card className="border-0 shadow-sm mb-4 sm:mb-6">
-        <CardHeader className="pb-3 sm:pb-4">
-          <CardTitle className="text-lg">Filters & Search</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div>
-              <Label htmlFor="status">Status</Label>
-              <Select value={filters.status} onValueChange={(value) => handleFilterChange('status', value)}>
-                <SelectTrigger id="status" name="status">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Statuses</SelectItem>
-                  <SelectItem value="pending">Pending Review</SelectItem>
-                  <SelectItem value="approved">Approved</SelectItem>
-                  <SelectItem value="rejected">Rejected</SelectItem>
-                  <SelectItem value="expired">Expired</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            
-            <div>
-              <Label htmlFor="cropType">Crop Type</Label>
-              <Input
-                id="cropType"
-                name="cropType"
-                placeholder="e.g., Maize"
-                value={filters.cropType}
-                onChange={(e) => handleFilterChange('cropType', e.target.value)}
-              />
-            </div>
-            
-            <div>
-              <Label htmlFor="location">Location</Label>
-              <Input
-                id="location"
-                name="location"
-                placeholder="e.g., Kampala"
-                value={filters.location}
-                onChange={(e) => handleFilterChange('location', e.target.value)}
-              />
-            </div>
-            
-            <div>
-              <Label htmlFor="search">Search</Label>
-              <div className="relative">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+        {/* Filters */}
+        <Card className="border-0 shadow-sm mb-4 sm:mb-6">
+          <CardHeader className="pb-3 sm:pb-4 px-3 sm:px-6">
+            <CardTitle className="text-base sm:text-lg">Filters & Search</CardTitle>
+          </CardHeader>
+          <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+              <div>
+                <Label htmlFor="status" className="text-sm">Status</Label>
+                <Select value={filters.status} onValueChange={(value) => handleFilterChange('status', value)}>
+                  <SelectTrigger id="status" name="status" className="h-9 sm:h-10">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Statuses</SelectItem>
+                    <SelectItem value="pending">Pending Review</SelectItem>
+                    <SelectItem value="approved">Approved</SelectItem>
+                    <SelectItem value="rejected">Rejected</SelectItem>
+                    <SelectItem value="expired">Expired</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div>
+                <Label htmlFor="cropType" className="text-sm">Crop Type</Label>
                 <Input
-                  id="search"
-                  name="search"
-                  placeholder="Search prices..."
-                  value={filters.search}
-                  onChange={(e) => handleFilterChange('search', e.target.value)}
-                  className="pl-10"
+                  id="cropType"
+                  name="cropType"
+                  placeholder="e.g., Maize"
+                  value={filters.cropType}
+                  onChange={(e) => handleFilterChange('cropType', e.target.value)}
+                  className="h-9 sm:h-10"
                 />
               </div>
+              
+              <div>
+                <Label htmlFor="location" className="text-sm">Location</Label>
+                <Input
+                  id="location"
+                  name="location"
+                  placeholder="e.g., Kampala"
+                  value={filters.location}
+                  onChange={(e) => handleFilterChange('location', e.target.value)}
+                  className="h-9 sm:h-10"
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor="search" className="text-sm">Search</Label>
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Input
+                    id="search"
+                    name="search"
+                    placeholder="Search prices..."
+                    value={filters.search}
+                    onChange={(e) => handleFilterChange('search', e.target.value)}
+                    className="pl-10 h-9 sm:h-10"
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
 
       {/* Bulk Actions */}
       {selectedPrices.length > 0 && (

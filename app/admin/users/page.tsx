@@ -160,32 +160,32 @@ export default function UserManagementPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="mb-6 sm:mb-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
+        <div className="mb-8">
+          <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">User Management</h1>
-              <p className="text-base sm:text-lg text-gray-600">Manage user accounts, permissions, and verification status</p>
+              <h1 className="text-3xl font-bold text-gray-900">User Management</h1>
+              <p className="text-lg text-gray-600">Manage user accounts, permissions, and verification status</p>
             </div>
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
-              <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 text-center sm:text-left">
+            <div className="flex items-center space-x-2">
+              <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
                 <Users className="h-4 w-4 mr-1" />
                 {users.length} Users
               </Badge>
               <Dialog open={createOpen} onOpenChange={setCreateOpen}>
                 <DialogTrigger asChild>
-                  <Button className="bg-green-600 hover:bg-green-700 w-full sm:w-auto">
+                  <Button className="bg-green-600 hover:bg-green-700">
                     <Plus className="h-4 w-4 mr-2" />
                     Create User
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="w-[95vw] max-w-md sm:max-w-lg">
+                <DialogContent>
                   <DialogHeader>
                     <DialogTitle>Create New User</DialogTitle>
                     <DialogDescription>Provide user details and assign a role.</DialogDescription>
                   </DialogHeader>
-                  <div className="grid grid-cols-1 gap-4 pt-2">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                     <div>
                       <label htmlFor="name" className="text-sm font-medium">Name</label>
                       <Input id="name" name="name" value={newUser.name} onChange={(e)=>setNewUser(p=>({...p,name:e.target.value}))} placeholder="John Doe" />
@@ -230,8 +230,8 @@ export default function UserManagementPage() {
                       </Select>
                     </div>
                   </div>
-                  <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-2 pt-4">
-                    <Button variant="outline" onClick={()=>setCreateOpen(false)} className="w-full sm:w-auto">Cancel</Button>
+                  <div className="flex justify-end space-x-2 pt-4">
+                    <Button variant="outline" onClick={()=>setCreateOpen(false)}>Cancel</Button>
                     <Button disabled={creating} onClick={async ()=>{
                       try{
                         setCreating(true)
@@ -247,7 +247,7 @@ export default function UserManagementPage() {
                       }catch(e){
                         console.error(e); toast.error('Failed to create user')
                       }finally{setCreating(false)}
-                    }} className="w-full sm:w-auto">Save</Button>
+                    }}>Save</Button>
                   </div>
                 </DialogContent>
               </Dialog>
@@ -256,14 +256,14 @@ export default function UserManagementPage() {
         </div>
 
         {/* Filters */}
-        <Card className="mb-4 sm:mb-6">
-          <CardHeader className="px-3 sm:px-6 py-3 sm:py-6">
-            <CardTitle className="text-base sm:text-lg">Filters</CardTitle>
-            <CardDescription className="text-sm">Filter users by role, status, and verification</CardDescription>
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle>Filters</CardTitle>
+            <CardDescription>Filter users by role, status, and verification</CardDescription>
           </CardHeader>
-          <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
-              <div className="sm:col-span-2 lg:col-span-1">
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+              <div>
                 <label htmlFor="search" className="text-sm font-medium">Search</label>
                 <div className="relative">
                   <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
@@ -323,7 +323,7 @@ export default function UserManagementPage() {
                 </Select>
               </div>
               
-              <div className="flex items-end sm:col-span-2 lg:col-span-1">
+              <div className="flex items-end">
                 <Button onClick={fetchUsers} className="w-full">
                   <Filter className="h-4 w-4 mr-2" />
                   Apply Filters
@@ -336,82 +336,98 @@ export default function UserManagementPage() {
         {/* Users List */}
         <div className="space-y-3">
           {users.length === 0 ? (
-            <Card className="text-center py-8 sm:py-12">
-              <Users className="h-8 w-8 sm:h-12 sm:w-12 mx-auto mb-3 sm:mb-4 text-gray-300" />
-              <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-2">No users found</h3>
-              <p className="text-sm text-gray-500">Try adjusting your filters or search terms.</p>
+            <Card className="text-center py-12">
+              <Users className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">No users found</h3>
+              <p className="text-gray-500">Try adjusting your filters or search terms.</p>
             </Card>
           ) : (
-            <>
-              {/* Mobile Card View */}
-              <div className="lg:hidden space-y-3">
-                {users.map((user) => (
-                  <Card key={user.id} className="border-0 shadow-sm">
-                    <CardContent className="p-4">
-                      <div className="space-y-3">
-                        {/* User Info */}
-                        <div className="flex items-center space-x-3">
-                          <Avatar className="h-10 w-10">
-                            <AvatarImage src={user.avatar} alt={user.name} />
-                            <AvatarFallback className="text-sm">
-                              {user.name ? user.name.split(' ').map(n => n.charAt(0)).join('').substring(0, 2) : 'U'}
-                            </AvatarFallback>
-                          </Avatar>
-                          <div className="flex-1 min-w-0">
-                            <div className="text-sm font-medium text-gray-900">{user.name || 'Unnamed User'}</div>
-                            <div className="text-xs text-gray-500">
-                              Joined {new Date(user.createdAt).toLocaleDateString()}
+            <Card className="border-0 shadow-sm">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-50 border-b">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        User
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Contact
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Role & Status
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Verification
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {users.map((user) => (
+                      <tr key={user.id} className="hover:bg-gray-50">
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="flex items-center space-x-3">
+                            <Avatar className="h-8 w-8">
+                              <AvatarImage src={user.avatar} alt={user.name} />
+                              <AvatarFallback className="text-xs">
+                                {user.name ? user.name.split(' ').map(n => n.charAt(0)).join('').substring(0, 2) : 'U'}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div>
+                              <div className="text-sm font-medium text-gray-900">{user.name || 'Unnamed User'}</div>
+                              <div className="text-xs text-gray-500">
+                                Joined {new Date(user.createdAt).toLocaleDateString()}
+                              </div>
+                              {user.lastLoginAt && (
+                                <div className="text-xs text-gray-400">
+                                  Last: {new Date(user.lastLoginAt).toLocaleDateString()}
+                                </div>
+                              )}
                             </div>
                           </div>
-                          <div className="flex flex-col items-end space-y-1">
+                        </td>
+                        
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="space-y-1">
+                            <div className="flex items-center space-x-2 text-sm">
+                              <Mail className="h-3 w-3 text-gray-400" />
+                              <span className="truncate max-w-[200px]">{user.email}</span>
+                            </div>
+                            {user.phone && (
+                              <div className="flex items-center space-x-2 text-sm">
+                                <Phone className="h-3 w-3 text-gray-400" />
+                                <span>{user.phone}</span>
+                              </div>
+                            )}
+                            {user.location && (
+                              <div className="flex items-center space-x-2 text-sm">
+                                <MapPin className="h-3 w-3 text-gray-400" />
+                                <span className="truncate max-w-[150px]">{user.location}</span>
+                              </div>
+                            )}
+                          </div>
+                        </td>
+                        
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="space-y-1">
                             <Badge className={getRoleColor(user.role)}>
                               {user.role}
                             </Badge>
-                            <Badge className={getStatusColor(user.status)}>
-                              {user.status}
-                            </Badge>
-                          </div>
-                        </div>
-
-                        {/* Contact Info */}
-                        <div className="space-y-2 text-sm">
-                          <div className="flex items-center space-x-2">
-                            <Mail className="h-3 w-3 text-gray-400" />
-                            <span className="truncate">{user.email}</span>
-                          </div>
-                          {user.phone && (
-                            <div className="flex items-center space-x-2">
-                              <Phone className="h-3 w-3 text-gray-400" />
-                              <span>{user.phone}</span>
-                            </div>
-                          )}
-                          {user.location && (
-                            <div className="flex items-center space-x-2">
-                              <MapPin className="h-3 w-3 text-gray-400" />
-                              <span className="truncate">{user.location}</span>
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Verification Status */}
-                        <div className="flex flex-wrap gap-2">
-                          <div className="flex items-center space-x-2">
-                            <span className="text-xs text-gray-500">Email:</span>
-                            {user.isEmailVerified ? (
-                              <Badge variant="outline" className="text-green-600 border-green-300 text-xs">
-                                <UserCheck className="h-3 w-3 mr-1" />
-                                Verified
+                            <div>
+                              <Badge className={getStatusColor(user.status)}>
+                                {user.status}
                               </Badge>
-                            ) : (
-                              <Badge variant="outline" className="text-red-600 border-red-300 text-xs">
-                                Unverified
-                              </Badge>
-                            )}
+                            </div>
                           </div>
-                          {user.phone && (
+                        </td>
+                        
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="space-y-1">
                             <div className="flex items-center space-x-2">
-                              <span className="text-xs text-gray-500">Phone:</span>
-                              {user.isPhoneVerified ? (
+                              <span className="text-xs text-gray-500">Email:</span>
+                              {user.isEmailVerified ? (
                                 <Badge variant="outline" className="text-green-600 border-green-300 text-xs">
                                   <UserCheck className="h-3 w-3 mr-1" />
                                   Verified
@@ -422,163 +438,10 @@ export default function UserManagementPage() {
                                 </Badge>
                               )}
                             </div>
-                          )}
-                        </div>
-
-                        {/* Actions */}
-                        <div className="flex flex-wrap gap-2 pt-2 border-t border-gray-100">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => router.push(`/users/${user.id}`)}
-                            className="text-xs h-8 px-3"
-                          >
-                            <Eye className="h-3 w-3 mr-1" />
-                            View
-                          </Button>
-                          
-                          <Select onValueChange={(v)=>{
-                            fetch(`/api/admin/users/${user.id}`, {method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'assign_role', roleName:v })}).then(async r=>{
-                              if(r.ok){ toast.success('Role updated'); fetchUsers() } else { const e = await r.json(); toast.error(e.error||'Failed') }
-                            })
-                          }}>
-                            <SelectTrigger className="h-8 w-[100px] text-xs">
-                              <SelectValue placeholder={user.role} />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="user">User</SelectItem>
-                              <SelectItem value="farmer">Farmer</SelectItem>
-                              <SelectItem value="admin">Admin</SelectItem>
-                              <SelectItem value="superadmin">Super Admin</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          
-                          {user.status === 'active' ? (
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="text-red-600 border-red-300 hover:bg-red-50 text-xs h-8 px-3"
-                              onClick={() => handleUserAction(user.id, 'suspend')}
-                            >
-                              <UserX className="h-3 w-3 mr-1" />
-                              Suspend
-                            </Button>
-                          ) : (
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="text-green-600 border-green-300 hover:bg-green-50 text-xs h-8 px-3"
-                              onClick={() => handleUserAction(user.id, 'activate')}
-                            >
-                              <UserCheck className="h-3 w-3 mr-1" />
-                              Activate
-                            </Button>
-                          )}
-                          
-                          {!user.isEmailVerified && (
-                            <Button
-                              size="sm"
-                              className="bg-blue-600 hover:bg-blue-700 text-xs h-8 px-3"
-                              onClick={() => handleUserAction(user.id, 'verify')}
-                            >
-                              <Shield className="h-3 w-3 mr-1" />
-                              Verify
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-
-              {/* Desktop Table View */}
-              <Card className="border-0 shadow-sm hidden lg:block">
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead className="bg-gray-50 border-b">
-                      <tr>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          User
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Contact
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Role & Status
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Verification
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Actions
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      {users.map((user) => (
-                        <tr key={user.id} className="hover:bg-gray-50">
-                          <td className="px-4 py-3 whitespace-nowrap">
-                            <div className="flex items-center space-x-3">
-                              <Avatar className="h-8 w-8">
-                                <AvatarImage src={user.avatar} alt={user.name} />
-                                <AvatarFallback className="text-xs">
-                                  {user.name ? user.name.split(' ').map(n => n.charAt(0)).join('').substring(0, 2) : 'U'}
-                                </AvatarFallback>
-                              </Avatar>
-                              <div>
-                                <div className="text-sm font-medium text-gray-900">{user.name || 'Unnamed User'}</div>
-                                <div className="text-xs text-gray-500">
-                                  Joined {new Date(user.createdAt).toLocaleDateString()}
-                                </div>
-                                {user.lastLoginAt && (
-                                  <div className="text-xs text-gray-400">
-                                    Last: {new Date(user.lastLoginAt).toLocaleDateString()}
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          </td>
-                          
-                          <td className="px-4 py-3 whitespace-nowrap">
-                            <div className="space-y-1">
-                              <div className="flex items-center space-x-2 text-sm">
-                                <Mail className="h-3 w-3 text-gray-400" />
-                                <span className="truncate max-w-[200px]">{user.email}</span>
-                              </div>
-                              {user.phone && (
-                                <div className="flex items-center space-x-2 text-sm">
-                                  <Phone className="h-3 w-3 text-gray-400" />
-                                  <span>{user.phone}</span>
-                                </div>
-                              )}
-                              {user.location && (
-                                <div className="flex items-center space-x-2 text-sm">
-                                  <MapPin className="h-3 w-3 text-gray-400" />
-                                  <span className="truncate max-w-[150px]">{user.location}</span>
-                                </div>
-                              )}
-                            </div>
-                          </td>
-                          
-                          <td className="px-4 py-3 whitespace-nowrap">
-                            <div className="space-y-1">
-                              <Badge className={getRoleColor(user.role)}>
-                                {user.role}
-                              </Badge>
-                              <div>
-                                <Badge className={getStatusColor(user.status)}>
-                                  {user.status}
-                                </Badge>
-                              </div>
-                            </div>
-                          </td>
-                          
-                          <td className="px-4 py-3 whitespace-nowrap">
-                            <div className="space-y-1">
+                            {user.phone && (
                               <div className="flex items-center space-x-2">
-                                <span className="text-xs text-gray-500">Email:</span>
-                                {user.isEmailVerified ? (
+                                <span className="text-xs text-gray-500">Phone:</span>
+                                {user.isPhoneVerified ? (
                                   <Badge variant="outline" className="text-green-600 border-green-300 text-xs">
                                     <UserCheck className="h-3 w-3 mr-1" />
                                     Verified
@@ -589,94 +452,79 @@ export default function UserManagementPage() {
                                   </Badge>
                                 )}
                               </div>
-                              {user.phone && (
-                                <div className="flex items-center space-x-2">
-                                  <span className="text-xs text-gray-500">Phone:</span>
-                                  {user.isPhoneVerified ? (
-                                    <Badge variant="outline" className="text-green-600 border-green-300 text-xs">
-                                      <UserCheck className="h-3 w-3 mr-1" />
-                                      Verified
-                                    </Badge>
-                                  ) : (
-                                    <Badge variant="outline" className="text-red-600 border-red-300 text-xs">
-                                      Unverified
-                                    </Badge>
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                          </td>
-                          
-                          <td className="px-4 py-3 whitespace-nowrap">
-                            <div className="flex items-center space-x-2">
+                            )}
+                          </div>
+                        </td>
+                        
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="flex items-center space-x-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => router.push(`/users/${user.id}`)}
+                              className="text-xs h-7 px-2"
+                            >
+                              <Eye className="h-3 w-3 mr-1" />
+                              View
+                            </Button>
+                            
+                            {/* Quick role assignment */}
+                            <Select onValueChange={(v)=>{
+                              fetch(`/api/admin/users/${user.id}`, {method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'assign_role', roleName:v })}).then(async r=>{
+                                if(r.ok){ toast.success('Role updated'); fetchUsers() } else { const e = await r.json(); toast.error(e.error||'Failed') }
+                              })
+                            }}>
+                              <SelectTrigger className="h-7 w-[120px] text-xs">
+                                <SelectValue placeholder={user.role} />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="user">User</SelectItem>
+                                <SelectItem value="farmer">Farmer</SelectItem>
+                                <SelectItem value="admin">Admin</SelectItem>
+                                <SelectItem value="superadmin">Super Admin</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            
+                            {user.status === 'active' ? (
                               <Button
                                 variant="outline"
                                 size="sm"
-                                onClick={() => router.push(`/users/${user.id}`)}
-                                className="text-xs h-7 px-2"
+                                className="text-red-600 border-red-300 hover:bg-red-50 text-xs h-7 px-2"
+                                onClick={() => handleUserAction(user.id, 'suspend')}
                               >
-                                <Eye className="h-3 w-3 mr-1" />
-                                View
+                                <UserX className="h-3 w-3 mr-1" />
+                                Suspend
                               </Button>
-                              
-                              {/* Quick role assignment */}
-                              <Select onValueChange={(v)=>{
-                                fetch(`/api/admin/users/${user.id}`, {method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'assign_role', roleName:v })}).then(async r=>{
-                                  if(r.ok){ toast.success('Role updated'); fetchUsers() } else { const e = await r.json(); toast.error(e.error||'Failed') }
-                                })
-                              }}>
-                                <SelectTrigger className="h-7 w-[120px] text-xs">
-                                  <SelectValue placeholder={user.role} />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="user">User</SelectItem>
-                                  <SelectItem value="farmer">Farmer</SelectItem>
-                                  <SelectItem value="admin">Admin</SelectItem>
-                                  <SelectItem value="superadmin">Super Admin</SelectItem>
-                                </SelectContent>
-                              </Select>
-                              
-                              {user.status === 'active' ? (
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  className="text-red-600 border-red-300 hover:bg-red-50 text-xs h-7 px-2"
-                                  onClick={() => handleUserAction(user.id, 'suspend')}
-                                >
-                                  <UserX className="h-3 w-3 mr-1" />
-                                  Suspend
-                                </Button>
-                              ) : (
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  className="text-green-600 border-green-300 hover:bg-green-50 text-xs h-7 px-2"
-                                  onClick={() => handleUserAction(user.id, 'activate')}
-                                >
-                                  <UserCheck className="h-3 w-3 mr-1" />
-                                  Activate
-                                </Button>
-                              )}
-                              
-                              {!user.isEmailVerified && (
-                                <Button
-                                  size="sm"
-                                  className="bg-blue-600 hover:bg-blue-700 text-xs h-7 px-2"
-                                  onClick={() => handleUserAction(user.id, 'verify')}
-                                >
-                                  <Shield className="h-3 w-3 mr-1" />
-                                  Verify
-                                </Button>
-                              )}
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </Card>
-            </>
+                            ) : (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="text-green-600 border-green-300 hover:bg-green-50 text-xs h-7 px-2"
+                                onClick={() => handleUserAction(user.id, 'activate')}
+                              >
+                                <UserCheck className="h-3 w-3 mr-1" />
+                                Activate
+                              </Button>
+                            )}
+                            
+                            {!user.isEmailVerified && (
+                              <Button
+                                size="sm"
+                                className="bg-blue-600 hover:bg-blue-700 text-xs h-7 px-2"
+                                onClick={() => handleUserAction(user.id, 'verify')}
+                              >
+                                <Shield className="h-3 w-3 mr-1" />
+                                Verify
+                              </Button>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
           )}
         </div>
       </main>

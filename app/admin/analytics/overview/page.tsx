@@ -172,26 +172,26 @@ export default function AnalyticsOverviewPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between">
+        <div className="mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Advanced Analytics Dashboard</h1>
-              <p className="text-lg text-gray-600">Comprehensive platform performance and user behavior insights</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Advanced Analytics Dashboard</h1>
+              <p className="text-base sm:text-lg text-gray-600">Comprehensive platform performance and user behavior insights</p>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
               <select
                 value={timeRange}
                 onChange={(e) => setTimeRange(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
               >
                 <option value="7d">Last 7 days</option>
                 <option value="30d">Last 30 days</option>
                 <option value="90d">Last 90 days</option>
                 <option value="1y">Last year</option>
               </select>
-              <Button onClick={fetchAnalytics} variant="outline">
+              <Button onClick={fetchAnalytics} variant="outline" className="w-full sm:w-auto">
                 <Activity className="h-4 w-4 mr-2" />
                 Refresh
               </Button>
@@ -200,27 +200,27 @@ export default function AnalyticsOverviewPage() {
         </div>
 
         {analytics && (
-          <Tabs defaultValue="overview" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-5">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="users">Users</TabsTrigger>
-              <TabsTrigger value="marketplace">Marketplace</TabsTrigger>
-              <TabsTrigger value="engagement">Engagement</TabsTrigger>
-              <TabsTrigger value="trends">Trends</TabsTrigger>
+          <Tabs defaultValue="overview" className="space-y-4 sm:space-y-6">
+            <TabsList className="grid w-full grid-cols-3 sm:grid-cols-5 gap-1 sm:gap-2">
+              <TabsTrigger value="overview" className="text-xs sm:text-sm">Overview</TabsTrigger>
+              <TabsTrigger value="users" className="text-xs sm:text-sm">Users</TabsTrigger>
+              <TabsTrigger value="marketplace" className="text-xs sm:text-sm">Marketplace</TabsTrigger>
+              <TabsTrigger value="engagement" className="text-xs sm:text-sm">Engagement</TabsTrigger>
+              <TabsTrigger value="trends" className="text-xs sm:text-sm">Trends</TabsTrigger>
             </TabsList>
 
             {/* Overview Tab */}
-            <TabsContent value="overview" className="space-y-6">
+            <TabsContent value="overview" className="space-y-4 sm:space-y-6">
               {/* Key Metrics Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
                 <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-                    <Users className="h-4 w-4 text-muted-foreground" />
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 px-3 sm:px-6">
+                    <CardTitle className="text-xs sm:text-sm font-medium">Total Users</CardTitle>
+                    <Users className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
                   </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{formatNumber(analytics.userMetrics.totalUsers)}</div>
-                    <div className="flex items-center space-x-1 text-sm text-muted-foreground">
+                  <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+                    <div className="text-xl sm:text-2xl font-bold">{formatNumber(analytics.userMetrics.totalUsers)}</div>
+                    <div className="flex items-center space-x-1 text-xs sm:text-sm text-muted-foreground">
                       {getGrowthIcon(analytics.userMetrics.userGrowthRate)}
                       <span className={getGrowthColor(analytics.userMetrics.userGrowthRate)}>
                         {analytics.userMetrics.userGrowthRate > 0 ? '+' : ''}{formatPercentage(analytics.userMetrics.userGrowthRate)}
@@ -231,12 +231,12 @@ export default function AnalyticsOverviewPage() {
                 </Card>
 
                 <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Active Listings</CardTitle>
-                    <ShoppingCart className="h-4 w-4 text-muted-foreground" />
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 px-3 sm:px-6">
+                    <CardTitle className="text-xs sm:text-sm font-medium">Active Listings</CardTitle>
+                    <ShoppingCart className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
                   </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{formatNumber(analytics.marketplaceMetrics.activeListings)}</div>
+                  <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+                    <div className="text-xl sm:text-2xl font-bold">{formatNumber(analytics.marketplaceMetrics.activeListings)}</div>
                     <p className="text-xs text-muted-foreground">
                       {formatNumber(analytics.marketplaceMetrics.totalListings)} total listings
                     </p>
@@ -244,12 +244,12 @@ export default function AnalyticsOverviewPage() {
                 </Card>
 
                 <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Market Prices</CardTitle>
-                    <DollarSign className="h-4 w-4 text-muted-foreground" />
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 px-3 sm:px-6">
+                    <CardTitle className="text-xs sm:text-sm font-medium">Market Prices</CardTitle>
+                    <DollarSign className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
                   </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{formatNumber(analytics.marketDataMetrics.totalMarketPrices)}</div>
+                  <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+                    <div className="text-xl sm:text-2xl font-bold">{formatNumber(analytics.marketDataMetrics.totalMarketPrices)}</div>
                     <p className="text-xs text-muted-foreground">
                       {formatNumber(analytics.marketDataMetrics.totalPriceAlerts)} price alerts
                     </p>
@@ -257,12 +257,12 @@ export default function AnalyticsOverviewPage() {
                 </Card>
 
                 <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Admin Actions</CardTitle>
-                    <Shield className="h-4 w-4 text-muted-foreground" />
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 px-3 sm:px-6">
+                    <CardTitle className="text-xs sm:text-sm font-medium">Admin Actions</CardTitle>
+                    <Shield className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
                   </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{formatNumber(analytics.marketDataMetrics.adminActionsThisPeriod)}</div>
+                  <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+                    <div className="text-xl sm:text-2xl font-bold">{formatNumber(analytics.marketDataMetrics.adminActionsThisPeriod)}</div>
                     <p className="text-xs text-muted-foreground">
                       This period
                     </p>
@@ -271,15 +271,15 @@ export default function AnalyticsOverviewPage() {
               </div>
 
               {/* Charts Row */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 {/* User Growth Chart */}
                 <Card>
-                  <CardHeader>
-                    <CardTitle>User Growth Trend</CardTitle>
-                    <CardDescription>New user registrations over time</CardDescription>
+                  <CardHeader className="px-3 sm:px-6 py-3 sm:py-6">
+                    <CardTitle className="text-base sm:text-lg">User Growth Trend</CardTitle>
+                    <CardDescription className="text-sm">New user registrations over time</CardDescription>
                   </CardHeader>
-                  <CardContent>
-                    <ResponsiveContainer width="100%" height={300}>
+                  <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+                    <ResponsiveContainer width="100%" height={250} className="sm:h-[300px]">
                       <AreaChart data={analytics.timeSeriesData.dates.map((date, index) => ({
                         date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                         users: analytics.timeSeriesData.userRegistrations[index]
@@ -296,12 +296,12 @@ export default function AnalyticsOverviewPage() {
 
                 {/* Top Crops Chart */}
                 <Card>
-                  <CardHeader>
-                    <CardTitle>Top Crops by Listings</CardTitle>
-                    <CardDescription>Most popular crop types</CardDescription>
+                  <CardHeader className="px-3 sm:px-6 py-3 sm:py-6">
+                    <CardTitle className="text-base sm:text-lg">Top Crops by Listings</CardTitle>
+                    <CardDescription className="text-sm">Most popular crop types</CardDescription>
                   </CardHeader>
-                  <CardContent>
-                    <ResponsiveContainer width="100%" height={300}>
+                  <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+                    <ResponsiveContainer width="100%" height={250} className="sm:h-[300px]">
                       <BarChart data={analytics.marketplaceMetrics.topCrops}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="cropType" />
@@ -316,11 +316,11 @@ export default function AnalyticsOverviewPage() {
 
               {/* Regional Distribution */}
               <Card>
-                <CardHeader>
-                  <CardTitle>Regional User Distribution</CardTitle>
-                  <CardDescription>Users by location</CardDescription>
+                <CardHeader className="px-3 sm:px-6 py-3 sm:py-6">
+                  <CardTitle className="text-base sm:text-lg">Regional User Distribution</CardTitle>
+                  <CardDescription className="text-sm">Users by location</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                     {analytics.regionalMetrics.topLocations.map((location, index) => (
                       <div key={location.location} className="text-center p-4 bg-gray-50 rounded-lg">
@@ -335,16 +335,16 @@ export default function AnalyticsOverviewPage() {
             </TabsContent>
 
             {/* Users Tab */}
-            <TabsContent value="users" className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <TabsContent value="users" className="space-y-4 sm:space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 {/* User Role Distribution */}
                 <Card>
-                  <CardHeader>
-                    <CardTitle>User Role Distribution</CardTitle>
-                    <CardDescription>Breakdown of users by role</CardDescription>
+                  <CardHeader className="px-3 sm:px-6 py-3 sm:py-6">
+                    <CardTitle className="text-base sm:text-lg">User Role Distribution</CardTitle>
+                    <CardDescription className="text-sm">Breakdown of users by role</CardDescription>
                   </CardHeader>
-                  <CardContent>
-                    <ResponsiveContainer width="100%" height={300}>
+                  <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+                    <ResponsiveContainer width="100%" height={250} className="sm:h-[300px]">
                       <RechartsPieChart>
                         <Pie
                           data={analytics.userMetrics.roleDistribution}
@@ -368,11 +368,11 @@ export default function AnalyticsOverviewPage() {
 
                 {/* User Metrics */}
                 <Card>
-                  <CardHeader>
-                    <CardTitle>User Metrics</CardTitle>
-                    <CardDescription>Key user performance indicators</CardDescription>
+                  <CardHeader className="px-3 sm:px-6 py-3 sm:py-6">
+                    <CardTitle className="text-base sm:text-lg">User Metrics</CardTitle>
+                    <CardDescription className="text-sm">Key user performance indicators</CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-4">
+                  <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6 space-y-4">
                     <div className="flex justify-between items-center">
                       <span>Active Users</span>
                       <span className="font-semibold">{formatNumber(analytics.userMetrics.activeUsers)}</span>
@@ -397,16 +397,16 @@ export default function AnalyticsOverviewPage() {
             </TabsContent>
 
             {/* Marketplace Tab */}
-            <TabsContent value="marketplace" className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <TabsContent value="marketplace" className="space-y-4 sm:space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 {/* Listing Growth Chart */}
                 <Card>
-                  <CardHeader>
-                    <CardTitle>Listing Activity</CardTitle>
-                    <CardDescription>New listings over time</CardDescription>
+                  <CardHeader className="px-3 sm:px-6 py-3 sm:py-6">
+                    <CardTitle className="text-base sm:text-lg">Listing Activity</CardTitle>
+                    <CardDescription className="text-sm">New listings over time</CardDescription>
                   </CardHeader>
-                  <CardContent>
-                    <ResponsiveContainer width="100%" height={300}>
+                  <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+                    <ResponsiveContainer width="100%" height={250} className="sm:h-[300px]">
                       <RechartsLineChart data={analytics.timeSeriesData.dates.map((date, index) => ({
                         date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                         listings: analytics.timeSeriesData.newListings[index]
@@ -423,12 +423,12 @@ export default function AnalyticsOverviewPage() {
 
                 {/* Market Price Trends */}
                 <Card>
-                  <CardHeader>
-                    <CardTitle>Market Price Trends</CardTitle>
-                    <CardDescription>Average prices by crop type</CardDescription>
+                  <CardHeader className="px-3 sm:px-6 py-3 sm:py-6">
+                    <CardTitle className="text-base sm:text-lg">Market Price Trends</CardTitle>
+                    <CardDescription className="text-sm">Average prices by crop type</CardDescription>
                   </CardHeader>
-                  <CardContent>
-                    <ResponsiveContainer width="100%" height={300}>
+                  <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+                    <ResponsiveContainer width="100%" height={250} className="sm:h-[300px]">
                       <BarChart data={analytics.marketplaceMetrics.marketPriceTrends}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="cropType" />
@@ -443,11 +443,11 @@ export default function AnalyticsOverviewPage() {
 
               {/* Marketplace Metrics */}
               <Card>
-                <CardHeader>
-                  <CardTitle>Marketplace Performance</CardTitle>
-                  <CardDescription>Key marketplace indicators</CardDescription>
+                <CardHeader className="px-3 sm:px-6 py-3 sm:py-6">
+                  <CardTitle className="text-base sm:text-lg">Marketplace Performance</CardTitle>
+                  <CardDescription className="text-sm">Key marketplace indicators</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="text-center">
                       <div className="text-3xl font-bold text-blue-600">{formatNumber(analytics.marketplaceMetrics.totalListings)}</div>
@@ -467,16 +467,16 @@ export default function AnalyticsOverviewPage() {
             </TabsContent>
 
             {/* Engagement Tab */}
-            <TabsContent value="engagement" className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <TabsContent value="engagement" className="space-y-4 sm:space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 {/* Message Activity */}
                 <Card>
-                  <CardHeader>
-                    <CardTitle>Message Activity</CardTitle>
-                    <CardDescription>Communication trends over time</CardDescription>
+                  <CardHeader className="px-3 sm:px-6 py-3 sm:py-6">
+                    <CardTitle className="text-base sm:text-lg">Message Activity</CardTitle>
+                    <CardDescription className="text-sm">Communication trends over time</CardDescription>
                   </CardHeader>
-                  <CardContent>
-                    <ResponsiveContainer width="100%" height={300}>
+                  <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+                    <ResponsiveContainer width="100%" height={250} className="sm:h-[300px]">
                       <AreaChart data={analytics.timeSeriesData.dates.map((date, index) => ({
                         date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                         messages: analytics.timeSeriesData.messages[index]
@@ -493,12 +493,12 @@ export default function AnalyticsOverviewPage() {
 
                 {/* Review Activity */}
                 <Card>
-                  <CardHeader>
-                    <CardTitle>Review Activity</CardTitle>
-                    <CardDescription>User feedback trends</CardDescription>
+                  <CardHeader className="px-3 sm:px-6 py-3 sm:py-6">
+                    <CardTitle className="text-base sm:text-lg">Review Activity</CardTitle>
+                    <CardDescription className="text-sm">User feedback trends</CardDescription>
                   </CardHeader>
-                  <CardContent>
-                    <ResponsiveContainer width="100%" height={300}>
+                  <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+                    <ResponsiveContainer width="100%" height={250} className="sm:h-[300px]">
                       <RechartsLineChart data={analytics.timeSeriesData.dates.map((date, index) => ({
                         date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                         reviews: analytics.timeSeriesData.reviews[index]
@@ -516,11 +516,11 @@ export default function AnalyticsOverviewPage() {
 
               {/* Engagement Metrics */}
               <Card>
-                <CardHeader>
-                  <CardTitle>Engagement Overview</CardTitle>
-                  <CardDescription>User interaction metrics</CardDescription>
+                <CardHeader className="px-3 sm:px-6 py-3 sm:py-6">
+                  <CardTitle className="text-base sm:text-lg">Engagement Overview</CardTitle>
+                  <CardDescription className="text-sm">User interaction metrics</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                     <div className="text-center">
                       <div className="text-3xl font-bold text-blue-600">{formatNumber(analytics.engagementMetrics.totalMessages)}</div>
@@ -544,15 +544,15 @@ export default function AnalyticsOverviewPage() {
             </TabsContent>
 
             {/* Trends Tab */}
-            <TabsContent value="trends" className="space-y-6">
+            <TabsContent value="trends" className="space-y-4 sm:space-y-6">
               {/* Market Price Trends */}
               <Card>
-                <CardHeader>
-                  <CardTitle>Market Price Trends</CardTitle>
-                  <CardDescription>Price submissions over time</CardDescription>
+                <CardHeader className="px-3 sm:px-6 py-3 sm:py-6">
+                  <CardTitle className="text-base sm:text-lg">Market Price Trends</CardTitle>
+                  <CardDescription className="text-sm">Price submissions over time</CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <ResponsiveContainer width="100%" height={400}>
+                <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+                  <ResponsiveContainer width="100%" height={300} className="sm:h-[400px]">
                     <RechartsLineChart data={analytics.timeSeriesData.dates.map((date, index) => ({
                       date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                       prices: analytics.timeSeriesData.marketPrices[index]
@@ -570,12 +570,12 @@ export default function AnalyticsOverviewPage() {
 
               {/* Combined Activity Chart */}
               <Card>
-                <CardHeader>
-                  <CardTitle>Platform Activity Overview</CardTitle>
-                  <CardDescription>All activities combined for trend analysis</CardDescription>
+                <CardHeader className="px-3 sm:px-6 py-3 sm:py-6">
+                  <CardTitle className="text-base sm:text-lg">Platform Activity Overview</CardTitle>
+                  <CardDescription className="text-sm">All activities combined for trend analysis</CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <ResponsiveContainer width="100%" height={400}>
+                <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+                  <ResponsiveContainer width="100%" height={300} className="sm:h-[400px]">
                     <RechartsLineChart data={analytics.timeSeriesData.dates.map((date, index) => ({
                       date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                       users: analytics.timeSeriesData.userRegistrations[index],

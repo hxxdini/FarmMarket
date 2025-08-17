@@ -167,19 +167,19 @@ export default function ReviewModerationPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between">
+        <div className="mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
                 {filters.status === 'pending' ? 'Review Moderation' :
                  filters.status === 'approved' ? 'Approved Reviews' :
                  filters.status === 'rejected' ? 'Rejected Reviews' :
                  filters.status === 'flagged' ? 'Flagged Reviews' :
                  'All Reviews'}
               </h1>
-              <p className="text-lg text-gray-600">
+              <p className="text-base sm:text-lg text-gray-600">
                 {filters.status === 'pending' ? 'Moderate user reviews and maintain platform quality' :
                  filters.status === 'approved' ? 'View and manage approved reviews' :
                  filters.status === 'rejected' ? 'View and manage rejected reviews' :
@@ -188,7 +188,7 @@ export default function ReviewModerationPage() {
               </p>
             </div>
             <div className="flex items-center space-x-2">
-              <Badge variant="outline" className="bg-orange-50 text-orange-700 border-orange-200">
+              <Badge variant="outline" className="bg-orange-50 text-orange-700 border-orange-200 text-center sm:text-left">
                 <Shield className="h-4 w-4 mr-1" />
                 {reviews.length} Pending
               </Badge>
@@ -197,17 +197,17 @@ export default function ReviewModerationPage() {
         </div>
 
         {/* Filters */}
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle>Filters</CardTitle>
-            <CardDescription>Filter reviews by status, type, and content</CardDescription>
+        <Card className="mb-4 sm:mb-6">
+          <CardHeader className="px-3 sm:px-6 py-3 sm:py-6">
+            <CardTitle className="text-base sm:text-lg">Filters</CardTitle>
+            <CardDescription className="text-sm">Filter reviews by status, type, and content</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
               <div>
                 <label htmlFor="filterStatus" className="text-sm font-medium">Status</label>
                 <Select value={filters.status} onValueChange={(value) => setFilters(prev => ({ ...prev, status: value }))}>
-                  <SelectTrigger id="filterStatus" name="filterStatus">
+                  <SelectTrigger id="filterStatus" name="filterStatus" className="h-9 sm:h-10">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -223,7 +223,7 @@ export default function ReviewModerationPage() {
               <div>
                 <label htmlFor="filterReviewType" className="text-sm font-medium">Review Type</label>
                 <Select value={filters.reviewType} onValueChange={(value) => setFilters(prev => ({ ...prev, reviewType: value }))}>
-                  <SelectTrigger id="filterReviewType" name="filterReviewType">
+                  <SelectTrigger id="filterReviewType" name="filterReviewType" className="h-9 sm:h-10">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -236,23 +236,24 @@ export default function ReviewModerationPage() {
                 </Select>
               </div>
               
-              <div>
+              <div className="sm:col-span-2 lg:col-span-1">
                 <label htmlFor="search" className="text-sm font-medium">Search</label>
                 <div className="relative">
-                  <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <Input
                     id="search"
                     name="search"
                     placeholder="Search reviews..."
                     value={filters.search}
                     onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
-                    className="pl-10"
+                    className="pl-10 h-9 sm:h-10"
                   />
                 </div>
               </div>
               
-              <div className="flex items-end">
-                <Button onClick={fetchReviews} className="w-full">
+              <div className="sm:col-span-2 lg:col-span-1">
+                <label className="text-sm font-medium">&nbsp;</label>
+                <Button onClick={fetchReviews} className="w-full h-9 sm:h-10">
                   <Filter className="h-4 w-4 mr-2" />
                   Apply Filters
                 </Button>
