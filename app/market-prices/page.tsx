@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { toast } from "sonner"
-import { Plus, Search, Filter, TrendingUp, TrendingDown, Minus, Eye, Calendar, MapPin, Package, List, Grid3X3 } from "lucide-react"
+import { Plus, Search, TrendingUp, TrendingDown, Minus, Calendar, MapPin, Package, List, Grid3X3 } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 interface MarketPrice {
@@ -67,7 +67,6 @@ export default function MarketPricesPage() {
     location: '',
     quality: 'all',
     source: 'all',
-    status: 'all',
     sortBy: 'effectiveDate',
     sortOrder: 'desc'
   })
@@ -97,7 +96,7 @@ export default function MarketPricesPage() {
     }, 500) // 500ms delay
 
     return () => clearTimeout(timer)
-  }, [filters.search, filters.cropType, filters.location, filters.quality, filters.source, filters.status, filters.sortBy, filters.sortOrder])
+  }, [filters.search, filters.cropType, filters.location, filters.quality, filters.source, filters.sortBy, filters.sortOrder])
 
   // Remove the filters dependency from the main useEffect to avoid double fetching
   useEffect(() => {
@@ -118,8 +117,7 @@ export default function MarketPricesPage() {
         ...(filters.cropType && { cropType: filters.cropType }),
         ...(filters.location && { location: filters.location }),
         ...(filters.quality !== 'all' && { quality: filters.quality }),
-        ...(filters.source !== 'all' && { source: filters.source }),
-        ...(filters.status !== 'all' && { status: filters.status })
+        ...(filters.source !== 'all' && { source: filters.source })
       })
 
       const response = await fetch(`/api/market-prices?${params}`)
@@ -157,19 +155,9 @@ export default function MarketPricesPage() {
 
   const getQualityColor = (quality: string) => {
     switch (quality) {
-      case 'PREMIUM': return 'bg-purple-100 text-purple-800 border-purple-200'
+      case 'PREMIUM': return 'bg-green-200 text-green-800 border-green-200'
       case 'STANDARD': return 'bg-blue-100 text-blue-800 border-blue-200'
       case 'ECONOMY': return 'bg-green-100 text-green-800 border-green-200'
-      default: return 'bg-gray-100 text-gray-800 border-gray-200'
-    }
-  }
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'APPROVED': return 'bg-green-100 text-green-800 border-green-200'
-      case 'PENDING': return 'bg-yellow-100 text-yellow-800 border-yellow-200'
-      case 'REJECTED': return 'bg-red-100 text-red-800 border-red-200'
-      case 'EXPIRED': return 'bg-gray-100 text-gray-800 border-gray-200'
       default: return 'bg-gray-100 text-gray-800 border-gray-200'
     }
   }
@@ -291,7 +279,7 @@ export default function MarketPricesPage() {
           <CardTitle className="text-base sm:text-lg">Filters & Search</CardTitle>
         </CardHeader>
         <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
             <div className="sm:col-span-2 lg:col-span-1">
               <Label htmlFor="search" className="text-sm">Search</Label>
               <div className="relative">
@@ -346,21 +334,7 @@ export default function MarketPricesPage() {
               </Select>
             </div>
             
-            <div>
-              <Label htmlFor="status" className="text-sm">Status</Label>
-              <Select value={filters.status} onValueChange={(value) => handleFilterChange('status', value)}>
-                <SelectTrigger id="status" name="status" className="h-9 sm:h-10">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Statuses</SelectItem>
-                  <SelectItem value="APPROVED">Approved</SelectItem>
-                  <SelectItem value="PENDING">Pending</SelectItem>
-                  <SelectItem value="REJECTED">Rejected</SelectItem>
-                  <SelectItem value="EXPIRED">Expired</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            
             
             <div>
               <Label htmlFor="sortBy" className="text-sm">Sort By</Label>
@@ -448,9 +422,7 @@ export default function MarketPricesPage() {
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Location
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Status
-                        </th>
+                        
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Effective Date
                         </th>
@@ -492,11 +464,7 @@ export default function MarketPricesPage() {
                               <span className="text-sm text-gray-900">{price.location}</span>
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <Badge className={getStatusColor(price.status)}>
-                              {price.status}
-                            </Badge>
-                          </td>
+                          
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-gray-900">{formatDate(price.effectiveDate)}</div>
                             {price.expiryDate && (
@@ -548,9 +516,7 @@ export default function MarketPricesPage() {
                             <Badge className={`text-xs ${getQualityColor(price.quality)}`}>
                               {price.quality}
                             </Badge>
-                            <Badge className={`text-xs ${getStatusColor(price.status)}`}>
-                              {price.status}
-                            </Badge>
+                            
                           </div>
                         </div>
                         

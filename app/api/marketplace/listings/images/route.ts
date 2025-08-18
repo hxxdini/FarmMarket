@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     const listing = await prisma.productListing.findFirst({
       where: {
         id: listingId,
-        farmer: {
+        User: {
           email: session.user.email
         }
       }
@@ -37,6 +37,7 @@ export async function POST(req: NextRequest) {
     })
 
     const imageData: any = {
+      id: `img_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       url,
       altText: altText || null,
       order: order !== undefined ? order : existingImages,
@@ -55,11 +56,11 @@ export async function POST(req: NextRequest) {
     const productImage = await prisma.productImage.create({
       data: imageData,
       include: {
-        listing: {
+        ProductListing: {
           select: {
             id: true,
             cropType: true,
-            farmer: {
+            User: {
               select: {
                 id: true,
                 name: true,
@@ -100,8 +101,8 @@ export async function PUT(req: NextRequest) {
     const image = await prisma.productImage.findFirst({
       where: {
         id: imageId,
-        listing: {
-          farmer: {
+        ProductListing: {
+          User: {
             email: session.user.email
           }
         }
@@ -141,11 +142,11 @@ export async function PUT(req: NextRequest) {
       where: { id: imageId },
       data: updateData,
       include: {
-        listing: {
+        ProductListing: {
           select: {
             id: true,
             cropType: true,
-            farmer: {
+            User: {
               select: {
                 id: true,
                 name: true,
@@ -186,8 +187,8 @@ export async function DELETE(req: NextRequest) {
     const image = await prisma.productImage.findFirst({
       where: {
         id: imageId,
-        listing: {
-          farmer: {
+        ProductListing: {
+          User: {
             email: session.user.email
           }
         }

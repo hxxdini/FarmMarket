@@ -47,7 +47,7 @@ export async function GET(req: NextRequest) {
 
     // Role filter
     if (role !== 'all') {
-      where.role = { name: role }
+      where.Role = { name: role }
     }
 
     // Status filter using User.status enum

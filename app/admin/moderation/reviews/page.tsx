@@ -16,7 +16,6 @@ import {
   AlertTriangle, 
   Shield,
   Loader2,
-  Filter,
   Search
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
@@ -56,12 +55,25 @@ export default function ReviewModerationPage() {
   const router = useRouter()
   const [reviews, setReviews] = useState<Review[]>([])
   const [loading, setLoading] = useState(true)
+  const [filtering, setFiltering] = useState(false)
   const [moderating, setModerating] = useState<string | null>(null)
   const [filters, setFilters] = useState({
     status: 'pending',
     reviewType: 'all',
     search: ''
   })
+
+  // Debounced search effect
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (status === "authenticated") {
+        setFiltering(true)
+        fetchReviews()
+      }
+    }, 300) // 300ms delay
+
+    return () => clearTimeout(timeoutId)
+  }, [filters.search])
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -75,11 +87,13 @@ export default function ReviewModerationPage() {
       }
       fetchReviews()
     }
-  }, [status, session, router])
+  }, [status, session, router, filters])
 
   const fetchReviews = async () => {
     try {
-      setLoading(true)
+      if (!filtering) {
+        setLoading(true)
+      }
       const params = new URLSearchParams({
         status: filters.status,
         reviewType: filters.reviewType,
@@ -101,6 +115,7 @@ export default function ReviewModerationPage() {
       toast.error('Failed to fetch reviews')
     } finally {
       setLoading(false)
+      setFiltering(false)
     }
   }
 
@@ -188,9 +203,19 @@ export default function ReviewModerationPage() {
               </p>
             </div>
             <div className="flex items-center space-x-2">
-              <Badge variant="outline" className="bg-orange-50 text-orange-700 border-orange-200 text-center sm:text-left">
+              <Badge variant="outline" className={`text-center sm:text-left ${
+                filters.status === 'pending' ? 'bg-orange-50 text-orange-700 border-orange-200' :
+                filters.status === 'approved' ? 'bg-green-50 text-green-700 border-green-200' :
+                filters.status === 'rejected' ? 'bg-red-50 text-red-700 border-red-200' :
+                filters.status === 'flagged' ? 'bg-yellow-50 text-yellow-700 border-yellow-200' :
+                'bg-gray-50 text-gray-700 border-gray-200'
+              }`}>
                 <Shield className="h-4 w-4 mr-1" />
-                {reviews.length} Pending
+                {reviews.length} {filters.status === 'pending' ? 'Pending' :
+                                 filters.status === 'approved' ? 'Approved' :
+                                 filters.status === 'rejected' ? 'Rejected' :
+                                 filters.status === 'flagged' ? 'Flagged' :
+                                 'Total'}
               </Badge>
             </div>
           </div>
@@ -248,16 +273,13 @@ export default function ReviewModerationPage() {
                     onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
                     className="pl-10 h-9 sm:h-10"
                   />
+                  {filtering && (
+                    <Loader2 className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 animate-spin text-gray-400" />
+                  )}
                 </div>
               </div>
               
-              <div className="sm:col-span-2 lg:col-span-1">
-                <label className="text-sm font-medium">&nbsp;</label>
-                <Button onClick={fetchReviews} className="w-full h-9 sm:h-10">
-                  <Filter className="h-4 w-4 mr-2" />
-                  Apply Filters
-                </Button>
-              </div>
+
             </div>
           </CardContent>
         </Card>

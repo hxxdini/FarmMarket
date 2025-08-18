@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
       where.OR = [
         { cropType: { contains: search, mode: 'insensitive' } },
         { description: { contains: search, mode: 'insensitive' } },
-        { farmer: { name: { contains: search, mode: 'insensitive' } } }
+        { User: { name: { contains: search, mode: 'insensitive' } } }
       ]
     }
 
@@ -58,7 +58,10 @@ export async function GET(req: NextRequest) {
       include: { 
         User: { select: { id: true, name: true, email: true, location: true, avatar: true } },
         ProductImage: {
-          orderBy: { order: 'asc' },
+          orderBy: [
+            { isPrimary: 'desc' },
+            { order: 'asc' }
+          ],
           select: {
             id: true,
             url: true,
@@ -185,22 +188,24 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 404 })
     }
 
-    // Create listing
+        // Create listing
     const listing = await prisma.productListing.create({
-              data: {
-          cropType,
-          quantity: parseFloat(quantity),
-          unit,
-          pricePerUnit: parseFloat(pricePerUnit),
-          farmerId: user.id,
-          quality,
-          location,
-          description: description || null,
-          harvestDate: harvestDate ? new Date(harvestDate) : null,
-          availableUntil: availableUntil ? new Date(availableUntil) : null
-        },
+      data: {
+        id: `listing_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        cropType,
+        quantity: parseFloat(quantity),
+        unit,
+        pricePerUnit: parseFloat(pricePerUnit),
+        farmerId: user.id,
+        quality,
+        location,
+        description: description || null,
+        harvestDate: harvestDate ? new Date(harvestDate) : null,
+        availableUntil: availableUntil ? new Date(availableUntil) : null,
+        updatedAt: new Date()
+      },
       include: {
-        farmer: {
+        User: {
           select: {
             id: true,
             name: true,

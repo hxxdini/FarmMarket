@@ -17,12 +17,12 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     const listing = await prisma.productListing.findFirst({
       where: {
         id,
-        farmer: {
+        User: {
           email: session.user.email
         }
       },
       include: {
-        images: {
+        ProductImage: {
           orderBy: { order: 'asc' },
           select: {
             id: true,
@@ -52,7 +52,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       description: listing.description,
       harvestDate: listing.harvestDate,
       availableUntil: listing.availableUntil,
-      images: listing.images
+      images: listing.ProductImage
     }
 
     return NextResponse.json({ listing: editListing })

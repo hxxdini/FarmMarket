@@ -368,7 +368,7 @@ export default function MarketplacePage() {
                 >
                   <div className="relative h-40 sm:h-48">
                     <Image 
-                      src={listing.images?.[0]?.url || "/placeholder.svg"} 
+                      src={listing.images?.find(i => i.isPrimary)?.url || listing.images?.[0]?.url || "/placeholder.svg"} 
                       alt={listing.title} 
                       fill 
                       className="object-cover group-hover:scale-105 transition-transform" 

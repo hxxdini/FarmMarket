@@ -14,7 +14,6 @@ import { toast } from "sonner"
 import { 
   Users, 
   Search, 
-  Filter,
   Eye,
   Shield,
   UserX,
@@ -46,6 +45,7 @@ export default function UserManagementPage() {
   const router = useRouter()
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
+  const [filtering, setFiltering] = useState(false)
   const [creating, setCreating] = useState(false)
   const [createOpen, setCreateOpen] = useState(false)
   const [newUser, setNewUser] = useState({
@@ -63,6 +63,18 @@ export default function UserManagementPage() {
     verification: 'all'
   })
 
+  // Debounced search effect
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (status === "authenticated") {
+        setFiltering(true)
+        fetchUsers()
+      }
+    }, 300) // 300ms delay
+
+    return () => clearTimeout(timeoutId)
+  }, [filters.search])
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.replace("/login")
@@ -75,11 +87,13 @@ export default function UserManagementPage() {
       }
       fetchUsers()
     }
-  }, [status, session, router])
+  }, [status, session, router, filters])
 
   const fetchUsers = async () => {
     try {
-      setLoading(true)
+      if (!filtering) {
+        setLoading(true)
+      }
       const params = new URLSearchParams({
         search: filters.search,
         role: filters.role,
@@ -100,6 +114,7 @@ export default function UserManagementPage() {
       toast.error('Failed to fetch users')
     } finally {
       setLoading(false)
+      setFiltering(false)
     }
   }
 
@@ -169,9 +184,13 @@ export default function UserManagementPage() {
               <p className="text-base sm:text-lg text-gray-600">Manage user accounts, permissions, and verification status</p>
             </div>
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
-              <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 text-center sm:text-left">
+              <Badge variant="outline" className={`text-center sm:text-left ${
+                filters.role !== 'all' || filters.status !== 'all' || filters.verification !== 'all' || filters.search
+                  ? 'bg-orange-50 text-orange-700 border-orange-200'
+                  : 'bg-blue-50 text-blue-700 border-blue-200'
+              }`}>
                 <Users className="h-4 w-4 mr-1" />
-                {users.length} Users
+                {users.length} {filters.role !== 'all' || filters.status !== 'all' || filters.verification !== 'all' || filters.search ? 'Filtered' : 'Total'} Users
               </Badge>
               <Dialog open={createOpen} onOpenChange={setCreateOpen}>
                 <DialogTrigger asChild>
@@ -275,6 +294,9 @@ export default function UserManagementPage() {
                     onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
                     className="pl-10"
                   />
+                  {filtering && (
+                    <Loader2 className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 animate-spin text-gray-400" />
+                  )}
                 </div>
               </div>
               
@@ -323,12 +345,7 @@ export default function UserManagementPage() {
                 </Select>
               </div>
               
-              <div className="flex items-end sm:col-span-2 lg:col-span-1">
-                <Button onClick={fetchUsers} className="w-full">
-                  <Filter className="h-4 w-4 mr-2" />
-                  Apply Filters
-                </Button>
-              </div>
+
             </div>
           </CardContent>
         </Card>

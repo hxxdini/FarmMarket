@@ -65,9 +65,10 @@ export async function POST(req: NextRequest) {
     for (const listingData of sampleListings) {
       const listing = await prisma.productListing.create({
         data: {
+          id: `listing_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
           ...listingData,
           farmerId: user.id,
-          images: []
+          updatedAt: new Date()
         }
       })
       createdListings.push(listing)

@@ -111,7 +111,7 @@ export async function PUT(
     const existingListing = await prisma.productListing.findFirst({
       where: {
         id,
-        farmer: {
+        User: {
           email: session.user.email
         }
       }
@@ -137,7 +137,7 @@ export async function PUT(
         status: status || existingListing.status
       },
       include: {
-        farmer: {
+        User: {
           select: {
             id: true,
             name: true,
@@ -174,7 +174,7 @@ export async function DELETE(
     const existingListing = await prisma.productListing.findFirst({
       where: {
         id,
-        farmer: {
+        User: {
           email: session.user.email
         }
       }
