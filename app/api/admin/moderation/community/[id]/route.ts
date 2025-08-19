@@ -13,13 +13,20 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 
     const { id } = params
     const body = await request.json()
-    const { action } = body as { action: 'approve' | 'reject' }
+    const { action, reason } = body as { action: 'approve' | 'reject', reason?: string }
     if (!action) return NextResponse.json({ error: 'Action required' }, { status: 400 })
 
     const status = action === 'approve' ? 'APPROVED' : 'REJECTED'
+    
+    // Prepare update data
+    const updateData: any = { 
+      status, 
+      updatedAt: new Date() 
+    }
+
     const post = await prisma.communityPost.update({
       where: { id },
-      data: { status, updatedAt: new Date() }
+      data: updateData
     })
 
     return NextResponse.json({ post })

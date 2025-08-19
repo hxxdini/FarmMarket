@@ -7,10 +7,23 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { useSession } from "next-auth/react"
+import { Edit2, Trash2, X, Check, MoreVertical } from "lucide-react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { useToast } from "@/hooks/use-toast"
+import { Toaster } from "@/components/ui/toaster"
 
 export default function CommunityPostDetailPage() {
   const params = useParams() as { id: string }
   const router = useRouter()
+  const { data: session } = useSession()
+  const { toast } = useToast()
   const [post, setPost] = useState<any | null>(null)
   const [loading, setLoading] = useState(true)
   const [replyContent, setReplyContent] = useState("")
@@ -18,6 +31,23 @@ export default function CommunityPostDetailPage() {
   const [replyingTo, setReplyingTo] = useState<string | null>(null)
   const [nestedReplyContent, setNestedReplyContent] = useState("")
   const [nestedSubmitting, setNestedSubmitting] = useState(false)
+
+  // Edit states
+  const [editingPost, setEditingPost] = useState(false)
+  const [editingReply, setEditingReply] = useState<string | null>(null)
+  const [editingNestedReply, setEditingNestedReply] = useState<string | null>(null)
+  const [editPostTitle, setEditPostTitle] = useState("")
+  const [editPostContent, setEditPostContent] = useState("")
+  const [editPostCategory, setEditPostCategory] = useState("")
+  const [editPostCrop, setEditPostCrop] = useState("")
+  const [editReplyContent, setEditReplyContent] = useState("")
+  const [editNestedReplyContent, setEditNestedReplyContent] = useState("")
+  const [deleting, setDeleting] = useState(false)
+  const [editingPostLoading, setEditingPostLoading] = useState(false)
+  const [editingReplyLoading, setEditingReplyLoading] = useState<string | null>(null)
+  const [editingNestedReplyLoading, setEditingNestedReplyLoading] = useState<string | null>(null)
+  const [deletingReply, setDeletingReply] = useState<string | null>(null)
+  const [deletingNestedReply, setDeletingNestedReply] = useState<string | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -27,7 +57,13 @@ export default function CommunityPostDetailPage() {
         const res = await fetch(`/api/community/${params.id}`, { cache: "no-store" })
         if (!res.ok) throw new Error(`Failed: ${res.status}`)
         const data = await res.json()
-        if (!cancelled) setPost(data.post)
+        if (!cancelled) {
+          setPost(data.post)
+          setEditPostTitle(data.post.title)
+          setEditPostContent(data.post.content)
+          setEditPostCategory(data.post.category)
+          setEditPostCrop(data.post.crop)
+        }
       } finally {
         if (!cancelled) setLoading(false)
       }
@@ -49,7 +85,20 @@ export default function CommunityPostDetailPage() {
         const { reply } = await res.json()
         setPost((prev: any) => ({ ...prev, repliesList: [...prev.repliesList, reply] }))
         setReplyContent("")
+        toast({
+          title: "Reply posted!",
+          description: "Your reply has been posted.",
+        })
+      } else {
+        throw new Error(`Failed to post reply: ${res.status}`)
       }
+         } catch (error: any) {
+       console.error("Failed to submit reply:", error)
+       toast({
+         title: "Error posting reply",
+         description: error?.message || "An error occurred",
+         variant: "destructive",
+       })
     } finally {
       setSubmitting(false)
     }
@@ -81,7 +130,20 @@ export default function CommunityPostDetailPage() {
         }))
         setNestedReplyContent("")
         setReplyingTo(null)
+        toast({
+          title: "Nested reply posted!",
+          description: "Your nested reply has been posted.",
+        })
+      } else {
+        throw new Error(`Failed to post nested reply: ${res.status}`)
       }
+         } catch (error: any) {
+       console.error("Failed to submit nested reply:", error)
+       toast({
+         title: "Error posting nested reply",
+         description: error?.message || "An error occurred",
+         variant: "destructive",
+       })
     } finally {
       setNestedSubmitting(false)
     }
@@ -124,9 +186,252 @@ export default function CommunityPostDetailPage() {
             return reply
           })
         }))
+      } else {
+        throw new Error(`Failed to toggle reply like: ${res.status}`)
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to toggle reply like:", error)
+      toast({
+        title: "Error liking reply",
+        description: error?.message || "An error occurred",
+        variant: "destructive",
+      })
+    }
+  }
+
+  // Post editing functions
+  async function handleEditPost() {
+    try {
+      setEditingPostLoading(true)
+      const res = await fetch(`/api/community/${params.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: editPostTitle,
+          content: editPostContent,
+          category: editPostCategory,
+          crop: editPostCrop
+        })
+      })
+      
+      if (res.ok) {
+        const { post: updatedPost } = await res.json()
+        setPost((prev: any) => ({
+          ...prev,
+          title: updatedPost.title,
+          content: updatedPost.content,
+          category: updatedPost.category,
+          crop: updatedPost.crop
+        }))
+        setEditingPost(false)
+        toast({
+          title: "Post updated!",
+          description: "Your post has been updated.",
+        })
+      } else {
+        throw new Error(`Failed to edit post: ${res.status}`)
+      }
+    } catch (error: any) {
+      console.error("Failed to edit post:", error)
+      toast({
+        title: "Error updating post",
+        description: error?.message || "An error occurred",
+        variant: "destructive",
+      })
+    } finally {
+      setEditingPostLoading(false)
+    }
+  }
+
+  async function handleDeletePost() {
+    if (!confirm("Are you sure you want to delete this post? This action cannot be undone.")) {
+      return
+    }
+    
+    try {
+      setDeleting(true)
+      const res = await fetch(`/api/community/${params.id}`, {
+        method: 'DELETE'
+      })
+      
+      if (res.ok) {
+        router.push('/community')
+        toast({
+          title: "Post deleted!",
+          description: "Your post has been deleted.",
+        })
+      } else {
+        throw new Error(`Failed to delete post: ${res.status}`)
+      }
+    } catch (error: any) {
+      console.error("Failed to delete post:", error)
+      toast({
+        title: "Error deleting post",
+        description: error?.message || "An error occurred",
+        variant: "destructive",
+      })
+    } finally {
+      setDeleting(false)
+    }
+  }
+
+  // Reply editing functions
+  async function handleEditReply(replyId: string) {
+    try {
+      setEditingReplyLoading(replyId)
+      const res = await fetch(`/api/community/replies/${replyId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: editReplyContent })
+      })
+      
+      if (res.ok) {
+        const { reply: updatedReply } = await res.json()
+        setPost((prev: any) => ({
+          ...prev,
+          repliesList: prev.repliesList.map((r: any) => 
+            r.id === replyId ? { ...r, content: updatedReply.content } : r
+          )
+        }))
+        setEditingReply(null)
+        setEditReplyContent("")
+        toast({
+          title: "Reply updated!",
+          description: "Your reply has been updated.",
+        })
+      } else {
+        throw new Error(`Failed to edit reply: ${res.status}`)
+      }
+    } catch (error: any) {
+      console.error("Failed to edit reply:", error)
+      toast({
+        title: "Error updating reply",
+        description: error?.message || "An error occurred",
+        variant: "destructive",
+      })
+    } finally {
+      setEditingReplyLoading(null)
+    }
+  }
+
+  async function handleDeleteReply(replyId: string) {
+    if (!confirm("Are you sure you want to delete this reply?")) {
+      return
+    }
+    
+    try {
+      setDeletingReply(replyId)
+      const res = await fetch(`/api/community/replies/${replyId}`, {
+        method: 'DELETE'
+      })
+      
+      if (res.ok) {
+        setPost((prev: any) => ({
+          ...prev,
+          repliesList: prev.repliesList.filter((r: any) => r.id !== replyId)
+        }))
+        toast({
+          title: "Reply deleted!",
+          description: "Your reply has been deleted.",
+        })
+      } else {
+        throw new Error(`Failed to delete reply: ${res.status}`)
+      }
+    } catch (error: any) {
+      console.error("Failed to delete reply:", error)
+      toast({
+        title: "Error deleting reply",
+        description: error?.message || "An error occurred",
+        variant: "destructive",
+      })
+    } finally {
+      setDeletingReply(null)
+    }
+  }
+
+  // Nested reply editing functions
+  async function handleEditNestedReply(replyId: string) {
+    try {
+      setEditingNestedReplyLoading(replyId)
+      const res = await fetch(`/api/community/replies/${replyId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: editNestedReplyContent })
+      })
+      
+      if (res.ok) {
+        const { reply: updatedReply } = await res.json()
+        setPost((prev: any) => ({
+          ...prev,
+          repliesList: prev.repliesList.map((r: any) => {
+            if (r.replies) {
+              const updatedReplies = r.replies.map((nr: any) => 
+                nr.id === replyId ? { ...nr, content: updatedReply.content } : nr
+              )
+              return { ...r, replies: updatedReplies }
+            }
+            return r
+          })
+        }))
+        setEditingNestedReply(null)
+        setEditNestedReplyContent("")
+        toast({
+          title: "Nested reply updated!",
+          description: "Your nested reply has been updated.",
+        })
+      } else {
+        throw new Error(`Failed to edit nested reply: ${res.status}`)
+      }
+    } catch (error: any) {
+      console.error("Failed to edit nested reply:", error)
+      toast({
+        title: "Error updating nested reply",
+        description: error?.message || "An error occurred",
+        variant: "destructive",
+      })
+    } finally {
+      setEditingNestedReplyLoading(null)
+    }
+  }
+
+  async function handleDeleteNestedReply(replyId: string) {
+    if (!confirm("Are you sure you want to delete this reply?")) {
+      return
+    }
+    
+    try {
+      setDeletingNestedReply(replyId)
+      const res = await fetch(`/api/community/replies/${replyId}`, {
+        method: 'DELETE'
+      })
+      
+      if (res.ok) {
+        setPost((prev: any) => ({
+          ...prev,
+          repliesList: prev.repliesList.map((r: any) => {
+            if (r.replies) {
+              const updatedReplies = r.replies.filter((nr: any) => nr.id !== replyId)
+              return { ...r, replies: updatedReplies }
+            }
+            return r
+          })
+        }))
+        toast({
+          title: "Nested reply deleted!",
+          description: "Your nested reply has been deleted.",
+        })
+      } else {
+        throw new Error(`Failed to delete nested reply: ${res.status}`)
+      }
+    } catch (error: any) {
+      console.error("Failed to delete nested reply:", error)
+      toast({
+        title: "Error deleting nested reply",
+        description: error?.message || "An error occurred",
+        variant: "destructive",
+      })
+    } finally {
+      setDeletingNestedReply(null)
     }
   }
 
@@ -137,12 +442,79 @@ export default function CommunityPostDetailPage() {
     return <div className="min-h-screen flex items-center justify-center">Not found</div>
   }
 
+  const isAuthor = post.currentUserId && post.authorId === post.currentUserId
+
   return (
     <div className="min-h-screen bg-gray-50">
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4">
         <Card>
           <CardHeader>
-            <CardTitle className="text-xl">{post.title}</CardTitle>
+            <div className="flex items-center justify-between">
+              {editingPost ? (
+                <div className="flex-1 space-y-3">
+                  <Input
+                    value={editPostTitle}
+                    onChange={(e) => setEditPostTitle(e.target.value)}
+                    className="text-xl font-semibold"
+                  />
+                  <div className="flex space-x-2">
+                    <select
+                      value={editPostCategory}
+                      onChange={(e) => setEditPostCategory(e.target.value)}
+                      className="p-2 border rounded-md text-sm"
+                    >
+                      <option value="Planting">Planting</option>
+                      <option value="Pest Control">Pest Control</option>
+                      <option value="Disease Management">Disease Management</option>
+                      <option value="Harvesting">Harvesting</option>
+                      <option value="Marketing">Marketing</option>
+                      <option value="Weather">Weather</option>
+                    </select>
+                    <Input
+                      value={editPostCrop}
+                      onChange={(e) => setEditPostCrop(e.target.value)}
+                      placeholder="Crop type"
+                      className="text-sm"
+                    />
+                  </div>
+                </div>
+              ) : (
+                <CardTitle className="text-xl">{post.title}</CardTitle>
+              )}
+              
+              {isAuthor && (
+                <div className="flex items-center space-x-2">
+                  {editingPost ? (
+                    <>
+                      <Button size="sm" onClick={handleEditPost} disabled={editingPostLoading}>
+                        {editingPostLoading ? 'Saving...' : <Check className="h-4 w-4" />}
+                      </Button>
+                      <Button size="sm" variant="outline" onClick={() => setEditingPost(false)} disabled={editingPostLoading}>
+                        {editingPostLoading ? 'Cancelling...' : <X className="h-4 w-4" />}
+                      </Button>
+                    </>
+                  ) : (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="sm">
+                          <MoreVertical className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuItem onClick={() => setEditingPost(true)}>
+                          <Edit2 className="h-4 w-4 mr-2" />
+                          Edit Post
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={handleDeletePost} className="text-red-600" disabled={deleting}>
+                          {deleting ? 'Deleting...' : <Trash2 className="h-4 w-4 mr-2" />}
+                          Delete Post
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  )}
+                </div>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
             <div className="flex items-center space-x-3 mb-4">
@@ -157,10 +529,20 @@ export default function CommunityPostDetailPage() {
                 <div className="text-xs text-gray-500">{post.category} • {post.crop}</div>
               </div>
             </div>
-            <div
-              className="text-gray-700 prose prose-sm sm:prose max-w-none"
-              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content || "") }}
-            />
+            
+            {editingPost ? (
+              <Textarea
+                value={editPostContent}
+                onChange={(e) => setEditPostContent(e.target.value)}
+                rows={6}
+                className="mb-4"
+              />
+            ) : (
+              <div
+                className="text-gray-700 prose prose-sm sm:prose max-w-none"
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content || "") }}
+              />
+            )}
           </CardContent>
         </Card>
 
@@ -179,10 +561,62 @@ export default function CommunityPostDetailPage() {
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
-                    <div className="text-sm font-medium">
-                      {r.author}{r.isExpert && <span className="ml-2 text-xs text-green-700">(Expert)</span>}
+                    <div className="flex items-center justify-between">
+                      <div className="text-sm font-medium">
+                        {r.author}{r.isExpert && <span className="ml-2 text-xs text-green-700">(Expert)</span>}
+                      </div>
+                      
+                      {post.currentUserId === r.authorId && (
+                        <div className="flex items-center space-x-2">
+                          {editingReply === r.id ? (
+                            <>
+                              <Button size="sm" onClick={() => handleEditReply(r.id)} disabled={editingReplyLoading === r.id}>
+                                {editingReplyLoading === r.id ? 'Saving...' : <Check className="h-3 w-3" />}
+                              </Button>
+                              <Button size="sm" variant="outline" onClick={() => {
+                                setEditingReply(null)
+                                setEditReplyContent("")
+                              }} disabled={editingReplyLoading === r.id}>
+                                {editingReplyLoading === r.id ? 'Cancelling...' : <X className="h-3 w-3" />}
+                              </Button>
+                            </>
+                          ) : (
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="sm">
+                                  <MoreVertical className="h-3 w-3" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent>
+                                <DropdownMenuItem onClick={() => {
+                                  setEditingReply(r.id)
+                                  setEditReplyContent(r.content)
+                                }}>
+                                  <Edit2 className="h-3 w-3 mr-2" />
+                                  Edit
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => handleDeleteReply(r.id)} className="text-red-600" disabled={deletingReply === r.id}>
+                                  {deletingReply === r.id ? 'Deleting...' : <Trash2 className="h-3 w-3 mr-2" />}
+                                  Delete
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          )}
+                        </div>
+                      )}
                     </div>
-                    <div className="text-sm text-gray-700 whitespace-pre-wrap">{r.content}</div>
+                    
+                    {editingReply === r.id ? (
+                      <Textarea
+                        value={editReplyContent}
+                        onChange={(e) => setEditReplyContent(e.target.value)}
+                        rows={3}
+                        className="mt-2"
+                      />
+                    ) : (
+                      <div className="text-sm text-gray-700 whitespace-pre-wrap">{r.content}</div>
+                    )}
+                    
                     <div className="flex items-center space-x-4 mt-2">
                       <button
                         onClick={() => toggleReplyLike(r.id, r.likes || 0)}
@@ -215,10 +649,62 @@ export default function CommunityPostDetailPage() {
                           </AvatarFallback>
                         </Avatar>
                         <div className="flex-1">
-                          <div className="text-sm font-medium">
-                            {nestedReply.author}{nestedReply.isExpert && <span className="ml-2 text-xs text-green-700">(Expert)</span>}
+                          <div className="flex items-center justify-between">
+                            <div className="text-sm font-medium">
+                              {nestedReply.author}{nestedReply.isExpert && <span className="ml-2 text-xs text-green-700">(Expert)</span>}
+                            </div>
+                            
+                            {post.currentUserId === nestedReply.authorId && (
+                              <div className="flex items-center space-x-2">
+                                {editingNestedReply === nestedReply.id ? (
+                                  <>
+                                    <Button size="sm" onClick={() => handleEditNestedReply(nestedReply.id)} disabled={editingNestedReplyLoading === nestedReply.id}>
+                                      {editingNestedReplyLoading === nestedReply.id ? 'Saving...' : <Check className="h-3 w-3" />}
+                                    </Button>
+                                    <Button size="sm" variant="outline" onClick={() => {
+                                      setEditingNestedReply(null)
+                                      setEditNestedReplyContent("")
+                                    }} disabled={editingNestedReplyLoading === nestedReply.id}>
+                                      {editingNestedReplyLoading === nestedReply.id ? 'Cancelling...' : <X className="h-3 w-3" />}
+                                    </Button>
+                                  </>
+                                ) : (
+                                  <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                      <Button variant="ghost" size="sm">
+                                        <MoreVertical className="h-3 w-3" />
+                                      </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent>
+                                      <DropdownMenuItem onClick={() => {
+                                        setEditingNestedReply(nestedReply.id)
+                                        setEditNestedReplyContent(nestedReply.content)
+                                      }}>
+                                        <Edit2 className="h-3 w-3 mr-2" />
+                                        Edit
+                                      </DropdownMenuItem>
+                                      <DropdownMenuItem onClick={() => handleDeleteNestedReply(nestedReply.id)} className="text-red-600" disabled={deletingNestedReply === nestedReply.id}>
+                                        {deletingNestedReply === nestedReply.id ? 'Deleting...' : <Trash2 className="h-3 w-3 mr-2" />}
+                                        Delete
+                                      </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                  </DropdownMenu>
+                                )}
+                              </div>
+                            )}
                           </div>
-                          <div className="text-sm text-gray-700 whitespace-pre-wrap">{nestedReply.content}</div>
+                          
+                          {editingNestedReply === nestedReply.id ? (
+                            <Textarea
+                              value={editNestedReplyContent}
+                              onChange={(e) => setEditNestedReplyContent(e.target.value)}
+                              rows={2}
+                              className="mt-2"
+                            />
+                          ) : (
+                            <div className="text-sm text-gray-700 whitespace-pre-wrap">{nestedReply.content}</div>
+                          )}
+                          
                           <div className="flex items-center space-x-4 mt-2">
                             <button
                               onClick={() => toggleReplyLike(nestedReply.id, nestedReply.likes || 0)}
@@ -286,6 +772,7 @@ export default function CommunityPostDetailPage() {
           </CardContent>
         </Card>
       </main>
+      <Toaster />
     </div>
   )
 }

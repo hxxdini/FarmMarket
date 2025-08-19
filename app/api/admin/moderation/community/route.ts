@@ -12,14 +12,19 @@ export async function GET(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url)
-    const status = (searchParams.get('status') || 'pending').toUpperCase()
+    const status = searchParams.get('status') || 'pending'
     const q = searchParams.get('search') || ''
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '20')
     const skip = (page - 1) * limit
 
     const where: any = {}
-    if (status !== 'ALL') where.status = status
+    
+    // Only apply status filter if not 'all'
+    if (status !== 'all') {
+      where.status = status.toUpperCase()
+    }
+    
     if (q) {
       where.OR = [
         { title: { contains: q, mode: 'insensitive' } },
@@ -30,7 +35,20 @@ export async function GET(request: NextRequest) {
     const [posts, total] = await Promise.all([
       prisma.communityPost.findMany({
         where,
-        include: { author: { select: { id: true, name: true, email: true, avatar: true } } },
+        select: {
+          id: true,
+          title: true,
+          content: true,
+          type: true,
+          category: true,
+          crop: true,
+          status: true,
+          createdAt: true,
+          updatedAt: true,
+          author: {
+            select: { id: true, name: true, email: true, avatar: true }
+          }
+        },
         orderBy: { createdAt: 'desc' },
         skip,
         take: limit,
