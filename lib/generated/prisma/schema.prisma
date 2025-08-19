@@ -246,55 +246,56 @@ model Session {
 }
 
 model User {
-  id                                         String              @id
-  phone                                      String?             @unique
+  id                                         String               @id
+  phone                                      String?              @unique
   name                                       String?
   location                                   String?
   roleId                                     String
-  createdAt                                  DateTime            @default(now())
+  createdAt                                  DateTime             @default(now())
   updatedAt                                  DateTime
-  email                                      String              @unique
+  email                                      String               @unique
   password                                   String
   avatar                                     String?
   billingAddress                             String?
   bio                                        String?
   dateOfBirth                                DateTime?
-  emailNotifications                         Boolean             @default(true)
+  emailNotifications                         Boolean              @default(true)
   gender                                     String?
-  isEmailVerified                            Boolean             @default(false)
-  isPhoneVerified                            Boolean             @default(false)
+  isEmailVerified                            Boolean              @default(false)
+  isPhoneVerified                            Boolean              @default(false)
   lastLoginAt                                DateTime?
-  loginCount                                 Int                 @default(0)
-  marketingEmails                            Boolean             @default(false)
-  preferredLanguage                          String              @default("en")
-  pushNotifications                          Boolean             @default(true)
-  smsNotifications                           Boolean             @default(true)
+  loginCount                                 Int                  @default(0)
+  marketingEmails                            Boolean              @default(false)
+  preferredLanguage                          String               @default("en")
+  pushNotifications                          Boolean              @default(true)
+  smsNotifications                           Boolean              @default(true)
   subscriptionEndsAt                         DateTime?
-  subscriptionPlan                           String              @default("free")
-  subscriptionStatus                         String              @default("active")
+  subscriptionPlan                           String               @default("free")
+  subscriptionStatus                         String               @default("active")
   taxId                                      String?
-  timezone                                   String              @default("UTC")
-  twoFactorEnabled                           Boolean             @default(false)
-  status                                     UserStatus          @default(ACTIVE)
+  timezone                                   String               @default("UTC")
+  twoFactorEnabled                           Boolean              @default(false)
+  status                                     UserStatus           @default(ACTIVE)
   AdminActionLog                             AdminActionLog[]
   AlertNotification                          AlertNotification[]
-  Conversation_Conversation_user1IdToUser    Conversation[]      @relation("Conversation_user1IdToUser")
-  Conversation_Conversation_user2IdToUser    Conversation[]      @relation("Conversation_user2IdToUser")
-  MarketPrice_MarketPrice_reviewedByToUser   MarketPrice[]       @relation("MarketPrice_reviewedByToUser")
-  MarketPrice_MarketPrice_submittedByToUser  MarketPrice[]       @relation("MarketPrice_submittedByToUser")
-  Message_Message_receiverIdToUser           Message[]           @relation("Message_receiverIdToUser")
-  Message_Message_senderIdToUser             Message[]           @relation("Message_senderIdToUser")
+  Conversation_Conversation_user1IdToUser    Conversation[]       @relation("Conversation_user1IdToUser")
+  Conversation_Conversation_user2IdToUser    Conversation[]       @relation("Conversation_user2IdToUser")
+  MarketPrice_MarketPrice_reviewedByToUser   MarketPrice[]        @relation("MarketPrice_reviewedByToUser")
+  MarketPrice_MarketPrice_submittedByToUser  MarketPrice[]        @relation("MarketPrice_submittedByToUser")
+  Message_Message_receiverIdToUser           Message[]            @relation("Message_receiverIdToUser")
+  Message_Message_senderIdToUser             Message[]            @relation("Message_senderIdToUser")
   PriceAlert                                 PriceAlert[]
   ProductListing                             ProductListing[]
-  Review_Review_reviewedIdToUser             Review[]            @relation("Review_reviewedIdToUser")
-  Review_Review_reviewerIdToUser             Review[]            @relation("Review_reviewerIdToUser")
+  Review_Review_reviewedIdToUser             Review[]             @relation("Review_reviewedIdToUser")
+  Review_Review_reviewerIdToUser             Review[]             @relation("Review_reviewerIdToUser")
   Session                                    Session[]
-  Role                                       Role                @relation(fields: [roleId], references: [id])
+  Role                                       Role                 @relation(fields: [roleId], references: [id])
   Permission                                 Permission[]
   ExpertProfile                              ExpertProfile?
-  CommunityPost_CommunityPost_authorToUser   CommunityPost[]     @relation("CommunityPost_authorToUser")
-  CommunityReply_CommunityReply_authorToUser CommunityReply[]    @relation("CommunityReply_authorToUser")
-  CommunityPostLike_userToUser               CommunityPostLike[] @relation("CommunityPostLike_userToUser")
+  CommunityPost_CommunityPost_authorToUser   CommunityPost[]      @relation("CommunityPost_authorToUser")
+  CommunityReply_CommunityReply_authorToUser CommunityReply[]     @relation("CommunityReply_authorToUser")
+  CommunityPostLike_userToUser               CommunityPostLike[]  @relation("CommunityPostLike_userToUser")
+  CommunityReplyLike_userToUser              CommunityReplyLike[] @relation("CommunityReplyLike_userToUser")
 }
 
 model CommunityPost {
@@ -322,18 +323,24 @@ model CommunityPost {
 }
 
 model CommunityReply {
-  id        String        @id
+  id        String               @id
   postId    String
   authorId  String
   content   String
-  isExpert  Boolean       @default(false)
-  createdAt DateTime      @default(now())
+  isExpert  Boolean              @default(false)
+  replyToId String? // For replying to replies
+  likes     Int                  @default(0)
+  createdAt DateTime             @default(now())
   updatedAt DateTime
-  post      CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
-  author    User          @relation("CommunityReply_authorToUser", fields: [authorId], references: [id], onDelete: Cascade)
+  post      CommunityPost        @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author    User                 @relation("CommunityReply_authorToUser", fields: [authorId], references: [id], onDelete: Cascade)
+  replyTo   CommunityReply?      @relation("CommunityReplyToReply", fields: [replyToId], references: [id], onDelete: Cascade)
+  replies   CommunityReply[]     @relation("CommunityReplyToReply")
+  likesList CommunityReplyLike[]
 
   @@index([postId, createdAt])
   @@index([authorId, createdAt])
+  @@index([replyToId])
 }
 
 model CommunityPostLike {
@@ -345,6 +352,18 @@ model CommunityPostLike {
 
   @@id([userId, postId])
   @@index([postId])
+  @@index([userId])
+}
+
+model CommunityReplyLike {
+  userId    String
+  replyId   String
+  createdAt DateTime       @default(now())
+  user      User           @relation("CommunityReplyLike_userToUser", fields: [userId], references: [id], onDelete: Cascade)
+  reply     CommunityReply @relation(fields: [replyId], references: [id], onDelete: Cascade)
+
+  @@id([userId, replyId])
+  @@index([replyId])
   @@index([userId])
 }
 

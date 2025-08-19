@@ -10,8 +10,7 @@ export async function GET(request: NextRequest) {
     const popularTopics = await prisma.communityPost.groupBy({
       by: ['category'],
       where: { 
-        status: "APPROVED",
-        category: { not: null }
+        status: "APPROVED"
       },
       _count: { category: true },
       _sum: { likes: true, repliesCount: true },
@@ -26,8 +25,7 @@ export async function GET(request: NextRequest) {
     const popularCrops = await prisma.communityPost.groupBy({
       by: ['crop'],
       where: { 
-        status: "APPROVED",
-        crop: { not: null }
+        status: "APPROVED"
       },
       _count: { crop: true },
       _sum: { likes: true, repliesCount: true },
@@ -44,7 +42,6 @@ export async function GET(request: NextRequest) {
       by: ['category'],
       where: { 
         status: "APPROVED",
-        category: { not: null },
         createdAt: { gte: sevenDaysAgo }
       },
       _count: { category: true },

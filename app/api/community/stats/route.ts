@@ -42,8 +42,7 @@ export async function GET(request: NextRequest) {
       prisma.communityPost.groupBy({
         by: ['crop'],
         where: { 
-          status: "APPROVED",
-          crop: { not: null }
+          status: "APPROVED"
         },
         _count: { crop: true },
         orderBy: { _count: { crop: 'desc' } },
