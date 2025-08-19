@@ -62,6 +62,8 @@ export default function UserManagementPage() {
     status: 'all',
     verification: 'all'
   })
+  const [promoting, setPromoting] = useState<string | null>(null)
+  const [promoteType, setPromoteType] = useState<'EXPERT' | 'EXTENSION_OFFICER'>('EXPERT')
 
   // Debounced search effect
   useEffect(() => {
@@ -499,6 +501,27 @@ export default function UserManagementPage() {
                                 <SelectItem value="farmer">Farmer</SelectItem>
                                 <SelectItem value="admin">Admin</SelectItem>
                                 <SelectItem value="superadmin">Super Admin</SelectItem>
+                              </SelectContent>
+                            </Select>
+
+                            {/* Promote to Expert / Extension Officer */}
+                            <Select onValueChange={(v)=>{
+                              const t = (v === 'EXTENSION_OFFICER' ? 'EXTENSION_OFFICER' : 'EXPERT') as 'EXPERT' | 'EXTENSION_OFFICER'
+                              setPromoteType(t)
+                              setPromoting(user.id)
+                              ;(async ()=>{
+                                try {
+                                  const res = await fetch('/api/admin/moderation/experts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId: user.id, type: t, verify: true }) })
+                                  if (res.ok) { toast.success(t === 'EXTENSION_OFFICER' ? 'Promoted to Extension Officer' : 'Promoted to Expert') } else { const e = await res.json(); toast.error(e.error || 'Failed to promote') }
+                                } catch (e) { toast.error('Failed to promote') } finally { setPromoting(null) }
+                              })()
+                            }}>
+                              <SelectTrigger className="h-7 w-[190px] text-xs">
+                                <SelectValue placeholder="Promote to Expert..." />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="EXPERT">Set as Expert</SelectItem>
+                                <SelectItem value="EXTENSION_OFFICER">Set as Extension Officer</SelectItem>
                               </SelectContent>
                             </Select>
                             

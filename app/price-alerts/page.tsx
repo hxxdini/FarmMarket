@@ -30,6 +30,7 @@ import {
   RefreshCw
 } from "lucide-react"
 import { usePriceAlertNotifications } from "@/hooks/use-price-alert-notifications"
+import { useRealTimeNotifications } from "@/hooks/use-real-time-notifications"
 
 interface PriceAlert {
   id: string
@@ -87,15 +88,8 @@ export default function PriceAlertsPage() {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [showNotifications, setShowNotifications] = useState(false)
   
-  // Price alert notifications hook
-  const {
-    notifications,
-    isMonitoring,
-    lastCheck,
-    manualCheck,
-    clearNotifications,
-    unreadCount
-  } = usePriceAlertNotifications()
+  // Real-time notifications hook (replaces old hook)
+  const { priceAlerts, notifications: realTimeNotifications, clearPriceAlerts } = useRealTimeNotifications()
   
   const [formData, setFormData] = useState<AlertFormData>({
     cropType: '',
@@ -515,18 +509,20 @@ export default function PriceAlertsPage() {
                 <CardTitle className="flex items-center space-x-2">
                   <History className="h-5 w-5" />
                   <span>Notification History</span>
-                  {unreadCount > 0 && (
+                  {/* The unreadCount is no longer available from the new hook */}
+                  {/* {unreadCount > 0 && (
                     <Badge variant="destructive" className="ml-2">
                       {unreadCount} new
                     </Badge>
-                  )}
+                  )} */}
                 </CardTitle>
                 <CardDescription>
                   Recent price alert notifications and system status
                 </CardDescription>
               </div>
               <div className="flex items-center space-x-2">
-                <Button
+                {/* The manualCheck and isMonitoring are no longer available from the new hook */}
+                {/* <Button
                   variant="outline"
                   size="sm"
                   onClick={manualCheck}
@@ -535,7 +531,7 @@ export default function PriceAlertsPage() {
                 >
                   <RefreshCw className="h-4 w-4" />
                   <span>Check Now</span>
-                </Button>
+                </Button> */}
                 <Button
                   variant="outline"
                   size="sm"
@@ -586,7 +582,8 @@ export default function PriceAlertsPage() {
                 >
                   Test Alerts
                 </Button>
-                {notifications.length > 0 && (
+                {/* The clearNotifications function is no longer available from the new hook */}
+                {/* {notifications.length > 0 && (
                   <Button
                     variant="outline"
                     size="sm"
@@ -594,7 +591,7 @@ export default function PriceAlertsPage() {
                   >
                     Clear All
                   </Button>
-                )}
+                )} */}
               </div>
             </div>
           </CardHeader>
@@ -605,51 +602,43 @@ export default function PriceAlertsPage() {
                 {/* System Status */}
                 <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                   <div className="flex items-center space-x-2">
-                    <div className={`w-3 h-3 rounded-full ${isMonitoring ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                    <div className={`w-3 h-3 rounded-full ${/* isMonitoring ? 'bg-green-500' : 'bg-red-500' */ 'bg-gray-400'}`}></div>
                     <span className="text-sm font-medium">
-                      Monitoring Status: {isMonitoring ? 'Active' : 'Inactive'}
+                      Monitoring Status: {/* isMonitoring ? 'Active' : 'Inactive' */ 'Inactive'}
                     </span>
                   </div>
                   <div className="text-sm text-gray-500">
-                    Last check: {lastCheck ? lastCheck.toLocaleString() : 'Never'}
+                    Last check: {/* lastCheck ? lastCheck.toLocaleString() : 'Never' */ 'Never'}
                   </div>
                 </div>
 
                 {/* Notifications List */}
-                {notifications.length === 0 ? (
+                {realTimeNotifications.length === 0 ? (
                   <div className="text-center py-8 text-gray-500">
                     <Bell className="h-12 w-12 mx-auto mb-4 text-gray-300" />
                     <p>No notifications yet</p>
-                    <p className="text-sm">Notifications will appear here when price alerts are triggered</p>
+                    <p className="text-sm">You'll see price alerts and other notifications here</p>
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    {notifications.map((notification) => (
-                      <div key={notification.id} className="p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+                    {realTimeNotifications.map((notification) => (
+                      <div key={notification.notificationId} className="p-4 border rounded-lg hover:bg-gray-50 transition-colors">
                         <div className="flex items-start justify-between mb-2">
-                          <h4 className="font-medium text-gray-900">{notification.title}</h4>
                           <div className="flex items-center space-x-2">
-                            <Badge variant="outline" className="text-xs">
-                              {notification.type.replace('_', ' ')}
-                            </Badge>
-                            <span className="text-xs text-gray-500">
-                              {notification.timestamp.toLocaleString()}
+                            <Bell className="h-4 w-4 text-blue-500" />
+                            <span className="font-medium text-gray-900">
+                              {notification.type}
                             </span>
                           </div>
+                          <span className="text-xs text-gray-500">
+                            {new Date(notification.timestamp).toLocaleString()}
+                          </span>
                         </div>
-                        <p className="text-sm text-gray-600 mb-2">{notification.message}</p>
-                        <div className="flex items-center space-x-2 text-xs text-gray-500">
-                          <span>{notification.cropType}</span>
-                          <span>•</span>
-                          <span>{notification.location}</span>
-                          {notification.priceChange && (
-                            <>
-                              <span>•</span>
-                              <span className={`font-medium ${notification.priceChange > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                {notification.priceChange > 0 ? '+' : ''}{notification.priceChange.toFixed(1)}%
-                              </span>
-                            </>
-                          )}
+                        <p className="text-gray-700 mb-2">
+                          {notification.message}
+                        </p>
+                        <div className="flex items-center justify-between text-sm text-gray-600">
+                          <span>Notification ID: {notification.notificationId}</span>
                         </div>
                       </div>
                     ))}

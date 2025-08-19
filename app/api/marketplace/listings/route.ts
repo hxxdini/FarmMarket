@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/authOptions"
 import { prisma } from "@/lib/prisma"
-import { emitListingCreated } from "@/lib/socket"
+import { emitListingCreated, emitMarketplaceUpdated } from "@/lib/socket"
 
 export async function GET(req: NextRequest) {
   try {
@@ -219,6 +219,10 @@ export async function POST(req: NextRequest) {
     // Emit real-time analytics event
     try {
       emitListingCreated(listing.id)
+      
+      // Get current total listings count for marketplace update
+      const totalListings = await prisma.productListing.count({ where: { status: 'ACTIVE' } })
+      emitMarketplaceUpdated(1, totalListings) // 1 new listing, total count
     } catch (socketError) {
       console.error('Failed to emit listing created event:', socketError)
       // Don't fail the listing creation if socket emission fails

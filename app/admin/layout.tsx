@@ -67,10 +67,16 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       current: pathname.startsWith('/admin/users')
     },
     {
+      name: 'Community Moderation',
+      href: '/admin/moderation/community',
+      icon: Shield,
+      current: pathname.startsWith('/admin/moderation/community')
+    },
+    {
       name: 'Review Moderation',
       href: '/admin/moderation/reviews',
       icon: Star,
-      current: pathname.startsWith('/admin/moderation')
+      current: pathname.startsWith('/admin/moderation/reviews')
     },
     {
       name: 'Market Prices',

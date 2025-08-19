@@ -19,6 +19,13 @@ export interface ServerToClientEvents {
   market_price_submitted: (data: { priceId: string; timestamp: Date }) => void
   review_submitted: (data: { reviewId: string; timestamp: Date }) => void
   message_sent: (data: { messageId: string; timestamp: Date }) => void
+  community_post_created: (data: { postId: string; type: string; timestamp: Date }) => void
+  community_reply_created: (data: { replyId: string; postId: string; timestamp: Date }) => void
+  // New real-time events to replace auto-refresh
+  marketplace_updated: (data: { newListings: number; totalListings: number; timestamp: Date }) => void
+  price_alert_triggered: (data: { alertId: string; cropType: string; location: string; threshold: number; currentPrice: number; timestamp: Date }) => void
+  notification_received: (data: { notificationId: string; type: string; message: string; timestamp: Date }) => void
+  unread_messages_updated: (data: { unreadCount: number; conversationId?: string; timestamp: Date }) => void
 }
 
 export interface ClientToServerEvents {
@@ -26,6 +33,8 @@ export interface ClientToServerEvents {
   leave_conversation: (conversationId: string) => void
   typing: (conversationId: string) => void
   stop_typing: (conversationId: string) => void
+  join_experts: () => void
+  leave_experts: () => void
   send_message: (data: {
     conversationId: string
     content: string
@@ -35,6 +44,11 @@ export interface ClientToServerEvents {
   // Analytics events
   join_analytics: () => void
   leave_analytics: () => void
+  // New events to replace auto-refresh
+  join_marketplace: () => void
+  leave_marketplace: () => void
+  join_notifications: () => void
+  leave_notifications: () => void
 }
 
 export interface InterServerEvents {
@@ -142,6 +156,58 @@ export const initializeSocket = (server: HTTPServer) => {
       socket.on('leave_analytics', () => {
         socket.leave('analytics')
         console.log(`User ${socket.data.userName} left analytics room`)
+      })
+
+      // Join marketplace room (for all authenticated users)
+      socket.on('join_marketplace', () => {
+        socket.join('marketplace')
+        console.log(`User ${socket.data.userName} joined marketplace room`)
+      })
+
+      // Leave marketplace room
+      socket.on('leave_marketplace', () => {
+        socket.leave('marketplace')
+        console.log(`User ${socket.data.userName} left marketplace room`)
+      })
+
+      // Join notifications room (for all authenticated users)
+      socket.on('join_notifications', () => {
+        socket.join('notifications')
+        console.log(`User ${socket.data.userName} joined notifications room`)
+      })
+
+      // Leave notifications room
+      socket.on('leave_notifications', () => {
+        socket.leave('notifications')
+        console.log(`User ${socket.data.userName} left notifications room`)
+      })
+
+      // Join experts room (for verified experts/officers)
+      socket.on('join_experts', async () => {
+        try {
+          const user = await prisma.user.findUnique({
+            where: { id: socket.data.userId },
+            include: {
+              Role: true,
+              ExpertProfile: { select: { isVerified: true } }
+            }
+          })
+          // Allow experts or extension officers with verified profile
+          const roleName = user?.Role?.name
+          const isExpertRole = roleName === 'expert' || roleName === 'extension_officer'
+          const isVerified = user?.ExpertProfile?.isVerified
+          if (isExpertRole && isVerified) {
+            socket.join('experts')
+            console.log(`Expert user ${socket.data.userName} joined experts room`)
+          }
+        } catch (error) {
+          console.error('Error joining experts room:', error)
+        }
+      })
+
+      socket.on('leave_experts', () => {
+        socket.leave('experts')
+        console.log(`User ${socket.data.userName} left experts room`)
       })
 
       // Handle typing indicators
@@ -309,5 +375,63 @@ export const emitReviewSubmitted = (reviewId: string) => {
 export const emitMessageSent = (messageId: string) => {
   if (io) {
     io.to('analytics').emit('message_sent', { messageId, timestamp: new Date() })
+  }
+}
+
+export const emitCommunityPostCreated = (postId: string, type: string) => {
+  if (io) {
+    io.to('analytics').emit('community_post_created', { postId, type, timestamp: new Date() })
+    io.to('experts').emit('community_post_created', { postId, type, timestamp: new Date() })
+  }
+}
+
+export const emitCommunityReplyCreated = (replyId: string, postId: string) => {
+  if (io) {
+    io.to('analytics').emit('community_reply_created', { replyId, postId, timestamp: new Date() })
+  }
+}
+
+// New helper functions for real-time updates to replace auto-refresh
+export const emitMarketplaceUpdated = (newListings: number, totalListings: number) => {
+  if (io) {
+    io.to('marketplace').emit('marketplace_updated', { 
+      newListings, 
+      totalListings, 
+      timestamp: new Date() 
+    })
+  }
+}
+
+export const emitPriceAlertTriggered = (alertId: string, cropType: string, location: string, threshold: number, currentPrice: number) => {
+  if (io) {
+    io.to('notifications').emit('price_alert_triggered', { 
+      alertId, 
+      cropType, 
+      location, 
+      threshold, 
+      currentPrice, 
+      timestamp: new Date() 
+    })
+  }
+}
+
+export const emitNotificationReceived = (notificationId: string, type: string, message: string) => {
+  if (io) {
+    io.to('notifications').emit('notification_received', { 
+      notificationId, 
+      type, 
+      message, 
+      timestamp: new Date() 
+    })
+  }
+}
+
+export const emitUnreadMessagesUpdated = (unreadCount: number, conversationId?: string) => {
+  if (io) {
+    io.to('notifications').emit('unread_messages_updated', { 
+      unreadCount, 
+      conversationId, 
+      timestamp: new Date() 
+    })
   }
 }

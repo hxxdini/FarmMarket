@@ -1,4 +1,5 @@
 import { toast } from 'sonner'
+import { emitPriceAlertTriggered } from '@/lib/socket'
 
 export interface PriceAlertNotification {
   id: string
@@ -222,8 +223,20 @@ class PriceAlertNotificationService {
         timestamp: new Date()
       }
 
-      // Show toast notification
-      this.showNotification(notification)
+      // Emit WebSocket event for real-time notification
+      try {
+        emitPriceAlertTriggered(
+          alert.id,
+          alert.cropType,
+          alert.location,
+          alert.threshold,
+          latestPrice.pricePerUnit
+        )
+      } catch (socketError) {
+        console.error('Failed to emit price alert event:', socketError)
+        // Fall back to toast notification if WebSocket fails
+        this.showNotification(notification)
+      }
 
       // Update alert last triggered time
       await this.updateAlertLastTriggered(alert.id)

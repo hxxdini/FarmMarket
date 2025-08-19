@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/authOptions'
-import prisma from '@/lib/prisma'
+import { prisma } from '@/lib/prisma'
 
 // GET /api/reviews/[id] - Fetch a single review
 export async function GET(

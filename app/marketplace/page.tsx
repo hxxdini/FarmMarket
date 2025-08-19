@@ -89,16 +89,7 @@ export default function MarketplacePage() {
     }
   }, [searchTerm, selectedCategory, selectedLocation, selectedQuality, minPrice, maxPrice, pagination.page])
 
-  // Auto-refresh every 30 seconds to show new listings
-  useEffect(() => {
-    if (status === "authenticated") {
-      const interval = setInterval(() => {
-        fetchListings(false) // Silent refresh
-      }, 30000) // 30 seconds
-
-      return () => clearInterval(interval)
-    }
-  }, [status])
+  // Removed auto-refresh - now using WebSocket for real-time updates
 
   const fetchListings = async (showLoading = true) => {
     try {

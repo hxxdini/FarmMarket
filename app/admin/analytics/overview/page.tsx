@@ -117,12 +117,7 @@ export default function AnalyticsOverviewPage() {
       }
       fetchAnalytics()
       
-      // Set up real-time updates every 30 seconds
-      const interval = setInterval(() => {
-        fetchAnalytics(true) // Silent refresh
-      }, 30000)
-      
-      return () => clearInterval(interval)
+      // Removed auto-refresh - now using WebSocket for real-time updates
     }
   }, [status, session, router, timeRange])
 

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/authOptions"
 import { prisma } from "@/lib/prisma"
+import { emitUnreadMessagesUpdated } from "@/lib/socket"
 
 // GET /api/conversations - Get all conversations for the authenticated user
 export async function GET(req: NextRequest) {
@@ -236,6 +237,20 @@ export async function POST(req: NextRequest) {
           lastMessageAt: message.createdAt
         }
       })
+
+      // Emit WebSocket event for unread message update
+      try {
+        const unreadCount = await prisma.message.count({
+          where: {
+            receiverId: otherUserId,
+            status: { in: ['SENT', 'DELIVERED'] }
+          }
+        })
+        emitUnreadMessagesUpdated(unreadCount, conversation.id)
+      } catch (socketError) {
+        console.error('Failed to emit unread messages update:', socketError)
+        // Don't fail the conversation creation if socket emission fails
+      }
     }
 
     // Transform response

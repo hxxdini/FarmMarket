@@ -246,51 +246,141 @@ model Session {
 }
 
 model User {
-  id                                        String              @id
-  phone                                     String?             @unique
-  name                                      String?
-  location                                  String?
-  roleId                                    String
-  createdAt                                 DateTime            @default(now())
-  updatedAt                                 DateTime
-  email                                     String              @unique
-  password                                  String
-  avatar                                    String?
-  billingAddress                            String?
-  bio                                       String?
-  dateOfBirth                               DateTime?
-  emailNotifications                        Boolean             @default(true)
-  gender                                    String?
-  isEmailVerified                           Boolean             @default(false)
-  isPhoneVerified                           Boolean             @default(false)
-  lastLoginAt                               DateTime?
-  loginCount                                Int                 @default(0)
-  marketingEmails                           Boolean             @default(false)
-  preferredLanguage                         String              @default("en")
-  pushNotifications                         Boolean             @default(true)
-  smsNotifications                          Boolean             @default(true)
-  subscriptionEndsAt                        DateTime?
-  subscriptionPlan                          String              @default("free")
-  subscriptionStatus                        String              @default("active")
-  taxId                                     String?
-  timezone                                  String              @default("UTC")
-  twoFactorEnabled                          Boolean             @default(false)
-  status                                    UserStatus          @default(ACTIVE)
-  AdminActionLog                            AdminActionLog[]
-  AlertNotification                         AlertNotification[]
-  Conversation_Conversation_user1IdToUser   Conversation[]      @relation("Conversation_user1IdToUser")
-  Conversation_Conversation_user2IdToUser   Conversation[]      @relation("Conversation_user2IdToUser")
-  MarketPrice_MarketPrice_reviewedByToUser  MarketPrice[]       @relation("MarketPrice_reviewedByToUser")
-  MarketPrice_MarketPrice_submittedByToUser MarketPrice[]       @relation("MarketPrice_submittedByToUser")
-  Message_Message_receiverIdToUser          Message[]           @relation("Message_receiverIdToUser")
-  Message_Message_senderIdToUser            Message[]           @relation("Message_senderIdToUser")
-  PriceAlert                                PriceAlert[]
-  ProductListing                            ProductListing[]
-  Review_Review_reviewedIdToUser            Review[]            @relation("Review_reviewedIdToUser")
-  Review_Review_reviewerIdToUser            Review[]            @relation("Review_reviewerIdToUser")
-  Session                                   Session[]
-  Role                                      Role                @relation(fields: [roleId], references: [id])
-  Permission                                Permission[]
+  id                                         String              @id
+  phone                                      String?             @unique
+  name                                       String?
+  location                                   String?
+  roleId                                     String
+  createdAt                                  DateTime            @default(now())
+  updatedAt                                  DateTime
+  email                                      String              @unique
+  password                                   String
+  avatar                                     String?
+  billingAddress                             String?
+  bio                                        String?
+  dateOfBirth                                DateTime?
+  emailNotifications                         Boolean             @default(true)
+  gender                                     String?
+  isEmailVerified                            Boolean             @default(false)
+  isPhoneVerified                            Boolean             @default(false)
+  lastLoginAt                                DateTime?
+  loginCount                                 Int                 @default(0)
+  marketingEmails                            Boolean             @default(false)
+  preferredLanguage                          String              @default("en")
+  pushNotifications                          Boolean             @default(true)
+  smsNotifications                           Boolean             @default(true)
+  subscriptionEndsAt                         DateTime?
+  subscriptionPlan                           String              @default("free")
+  subscriptionStatus                         String              @default("active")
+  taxId                                      String?
+  timezone                                   String              @default("UTC")
+  twoFactorEnabled                           Boolean             @default(false)
+  status                                     UserStatus          @default(ACTIVE)
+  AdminActionLog                             AdminActionLog[]
+  AlertNotification                          AlertNotification[]
+  Conversation_Conversation_user1IdToUser    Conversation[]      @relation("Conversation_user1IdToUser")
+  Conversation_Conversation_user2IdToUser    Conversation[]      @relation("Conversation_user2IdToUser")
+  MarketPrice_MarketPrice_reviewedByToUser   MarketPrice[]       @relation("MarketPrice_reviewedByToUser")
+  MarketPrice_MarketPrice_submittedByToUser  MarketPrice[]       @relation("MarketPrice_submittedByToUser")
+  Message_Message_receiverIdToUser           Message[]           @relation("Message_receiverIdToUser")
+  Message_Message_senderIdToUser             Message[]           @relation("Message_senderIdToUser")
+  PriceAlert                                 PriceAlert[]
+  ProductListing                             ProductListing[]
+  Review_Review_reviewedIdToUser             Review[]            @relation("Review_reviewedIdToUser")
+  Review_Review_reviewerIdToUser             Review[]            @relation("Review_reviewerIdToUser")
+  Session                                    Session[]
+  Role                                       Role                @relation(fields: [roleId], references: [id])
+  Permission                                 Permission[]
+  ExpertProfile                              ExpertProfile?
+  CommunityPost_CommunityPost_authorToUser   CommunityPost[]     @relation("CommunityPost_authorToUser")
+  CommunityReply_CommunityReply_authorToUser CommunityReply[]    @relation("CommunityReply_authorToUser")
+  CommunityPostLike_userToUser               CommunityPostLike[] @relation("CommunityPostLike_userToUser")
+}
+
+model CommunityPost {
+  id           String              @id
+  authorId     String
+  title        String
+  content      String
+  type         CommunityPostType   @default(QUESTION)
+  category     String
+  crop         String
+  location     String?
+  likes        Int                 @default(0)
+  repliesCount Int                 @default(0)
+  status       CommunityPostStatus @default(PENDING)
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime
+  author       User                @relation("CommunityPost_authorToUser", fields: [authorId], references: [id], onDelete: Cascade)
+  replies      CommunityReply[]
+  likesList    CommunityPostLike[] @relation("CommunityPostLike_postToCommunityPost")
+
+  @@index([type, status, createdAt])
+  @@index([crop, location, createdAt])
+  @@index([category, createdAt])
+  @@index([authorId, createdAt])
+}
+
+model CommunityReply {
+  id        String        @id
+  postId    String
+  authorId  String
+  content   String
+  isExpert  Boolean       @default(false)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime
+  post      CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author    User          @relation("CommunityReply_authorToUser", fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([postId, createdAt])
+  @@index([authorId, createdAt])
+}
+
+model CommunityPostLike {
+  userId    String
+  postId    String
+  createdAt DateTime      @default(now())
+  user      User          @relation("CommunityPostLike_userToUser", fields: [userId], references: [id], onDelete: Cascade)
+  post      CommunityPost @relation("CommunityPostLike_postToCommunityPost", fields: [postId], references: [id], onDelete: Cascade)
+
+  @@id([userId, postId])
+  @@index([postId])
+  @@index([userId])
+}
+
+model ExpertProfile {
+  id             String     @id
+  userId         String     @unique
+  type           ExpertType @default(EXPERT)
+  title          String?
+  specialization String?
+  location       String?
+  rating         Float      @default(0)
+  responses      Int        @default(0)
+  isVerified     Boolean    @default(false)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime
+  user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([type, isVerified])
+}
+
+enum CommunityPostType {
+  QUESTION
+  ADVICE
+  ALERT
+  SUCCESS
+}
+
+enum CommunityPostStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum ExpertType {
+  EXPERT
+  EXTENSION_OFFICER
 }
 
 enum AlertFrequency {

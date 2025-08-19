@@ -291,6 +291,10 @@ model User {
   Session                                   Session[]
   Role                                      Role                @relation(fields: [roleId], references: [id])
   Permission                                Permission[]
+  ExpertProfile                              ExpertProfile?
+  CommunityPost_CommunityPost_authorToUser  CommunityPost[]     @relation("CommunityPost_authorToUser")
+  CommunityReply_CommunityReply_authorToUser CommunityReply[]   @relation("CommunityReply_authorToUser")
+  CommunityPostLike_userToUser              CommunityPostLike[] @relation("CommunityPostLike_userToUser")
 }
 
 model CommunityPost {
@@ -307,8 +311,9 @@ model CommunityPost {
   status        CommunityPostStatus    @default(PENDING)
   createdAt     DateTime               @default(now())
   updatedAt     DateTime
-  author        User                   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author        User                   @relation("CommunityPost_authorToUser", fields: [authorId], references: [id], onDelete: Cascade)
   replies       CommunityReply[]
+  likesList    CommunityPostLike[] @relation("CommunityPostLike_postToCommunityPost")
 
   @@index([type, status, createdAt])
   @@index([crop, location, createdAt])
@@ -325,10 +330,22 @@ model CommunityReply {
   createdAt  DateTime    @default(now())
   updatedAt  DateTime
   post       CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
-  author     User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author     User        @relation("CommunityReply_authorToUser", fields: [authorId], references: [id], onDelete: Cascade)
 
   @@index([postId, createdAt])
   @@index([authorId, createdAt])
+}
+
+model CommunityPostLike {
+  userId     String
+  postId     String
+  createdAt  DateTime    @default(now())
+  user       User        @relation("CommunityPostLike_userToUser", fields: [userId], references: [id], onDelete: Cascade)
+  post       CommunityPost @relation("CommunityPostLike_postToCommunityPost", fields: [postId], references: [id], onDelete: Cascade)
+
+  @@id([userId, postId])
+  @@index([postId])
+  @@index([userId])
 }
 
 model ExpertProfile {

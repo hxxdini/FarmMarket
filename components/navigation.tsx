@@ -33,8 +33,7 @@ import {
 } from "@/components/ui/popover"
 import { useSession } from "next-auth/react"
 import { signOut } from "next-auth/react"
-import { useUnreadMessages } from "@/hooks/use-unread-messages"
-import { usePriceAlertNotifications } from "@/hooks/use-price-alert-notifications"
+import { useRealTimeNotifications } from "@/hooks/use-real-time-notifications"
 import { useRef } from "react"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
@@ -48,15 +47,14 @@ export function Navigation() {
   const userRole = (session?.user as any)?.role || 'user'
   const userId = (session?.user as any)?.id
   const notificationCount = 0 // Placeholder, actual count would need to be fetched
-  const { unreadCount } = useUnreadMessages()
   const lastUnreadRef = useRef(0)
 
   const [isOpen, setIsOpen] = useState(false)
   const [recentUnreadMessages, setRecentUnreadMessages] = useState<any[]>([])
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   
-  // Price alert notifications hook
-  const { unreadCount: priceAlertCount } = usePriceAlertNotifications()
+  // Real-time notifications hook (replaces old hooks)
+  const { unreadCount, priceAlerts, notifications } = useRealTimeNotifications()
 
   // Close mobile menu on auth state change
   useEffect(() => {
@@ -143,6 +141,8 @@ export function Navigation() {
         description: "Manage your products",
       },
     ] : []),
+
+    // Admin links removed from main navigation; available in Admin sidebar
     
     // Market price submission for all authenticated users
     // Removed from main navigation - now available on dashboards
@@ -233,9 +233,9 @@ export function Navigation() {
               <div className="flex-1">
                 <div className="font-medium text-gray-900 flex items-center justify-between">
                   Price Alerts
-                  {priceAlertCount > 0 && (
+                  {priceAlerts.length > 0 && (
                     <Badge className="h-5 w-5 flex items-center justify-center p-0 text-xs bg-blue-500">
-                      {priceAlertCount > 99 ? "99+" : priceAlertCount}
+                      {priceAlerts.length} new
                     </Badge>
                   )}
                 </div>
@@ -328,9 +328,9 @@ export function Navigation() {
                   <PopoverTrigger asChild>
                     <Button variant="outline" size="sm" className="relative bg-transparent">
                       <Bell className="h-4 w-4" />
-                      {(unreadCount > 0 || priceAlertCount > 0) && (
+                      {(unreadCount > 0 || priceAlerts.length > 0) && (
                         <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs bg-red-500">
-                          {(unreadCount + priceAlertCount) > 99 ? "99+" : (unreadCount + priceAlertCount)}
+                          {(unreadCount + priceAlerts.length) > 99 ? "99+" : (unreadCount + priceAlerts.length)}
                         </Badge>
                       )}
                     </Button>
@@ -342,12 +342,12 @@ export function Navigation() {
                     </div>
                     <div className="max-h-96 overflow-y-auto">
                       {/* Price Alert Notifications */}
-                      {priceAlertCount > 0 && (
+                      {priceAlerts.length > 0 && (
                         <div className="p-3 bg-blue-50 border-b">
                           <div className="flex items-center justify-between">
                             <h4 className="text-sm font-medium text-blue-900">Price Alerts</h4>
                             <Badge variant="outline" className="text-xs bg-blue-100 text-blue-800">
-                              {priceAlertCount} new
+                              {priceAlerts.length} new
                             </Badge>
                           </div>
                           <Link
@@ -408,7 +408,7 @@ export function Navigation() {
                         ))
                       )}
                     </div>
-                    {(recentUnreadMessages.length > 0 || priceAlertCount > 0) && (
+                    {(recentUnreadMessages.length > 0 || priceAlerts.length > 0) && (
                       <div className="p-3 border-t bg-gray-50">
                         <div className="flex items-center justify-between">
                           <Link
@@ -418,7 +418,7 @@ export function Navigation() {
                           >
                             View all messages →
                           </Link>
-                          {priceAlertCount > 0 && (
+                          {priceAlerts.length > 0 && (
                             <Link
                               href="/price-alerts"
                               className="text-sm text-blue-600 hover:text-blue-800 font-medium"
@@ -470,9 +470,9 @@ export function Navigation() {
                       <Link href="/price-alerts" className="flex items-center">
                         <Bell className="h-4 w-4 mr-2" />
                         Price Alerts
-                        {priceAlertCount > 0 && (
+                        {priceAlerts.length > 0 && (
                           <Badge className="h-5 w-5 flex items-center justify-center p-0 text-xs bg-blue-500">
-                            {priceAlertCount > 99 ? "99+" : priceAlertCount}
+                            {priceAlerts.length} new
                           </Badge>
                         )}
                       </Link>
@@ -524,9 +524,9 @@ export function Navigation() {
                 <PopoverTrigger asChild>
                   <Button variant="outline" size="sm" className="relative bg-transparent">
                     <Bell className="h-4 w-4" />
-                    {(unreadCount > 0 || priceAlertCount > 0) && (
+                    {(unreadCount > 0 || priceAlerts.length > 0) && (
                       <Badge className="absolute -top-2 -right-2 h-4 w-4 flex items-center justify-center p-0 text-xs bg-red-500">
-                        {(unreadCount + priceAlertCount) > 99 ? "99+" : (unreadCount + priceAlertCount)}
+                        {(unreadCount + priceAlerts.length) > 99 ? "99+" : (unreadCount + priceAlerts.length)}
                       </Badge>
                     )}
                   </Button>
@@ -538,12 +538,12 @@ export function Navigation() {
                   </div>
                   <div className="max-h-96 overflow-y-auto">
                     {/* Price Alert Notifications */}
-                    {priceAlertCount > 0 && (
+                    {priceAlerts.length > 0 && (
                       <div className="p-3 bg-blue-50 border-b">
                         <div className="flex items-center justify-between">
                           <h4 className="text-sm font-medium text-blue-900">Price Alerts</h4>
                           <Badge variant="outline" className="text-xs bg-blue-100 text-blue-800">
-                            {priceAlertCount} new
+                            {priceAlerts.length} new
                           </Badge>
                         </div>
                         <Link
@@ -604,7 +604,7 @@ export function Navigation() {
                       ))
                     )}
                   </div>
-                  {(recentUnreadMessages.length > 0 || priceAlertCount > 0) && (
+                  {(recentUnreadMessages.length > 0 || priceAlerts.length > 0) && (
                     <div className="p-3 border-t bg-gray-50">
                       <div className="flex items-center justify-between">
                         <Link
@@ -614,7 +614,7 @@ export function Navigation() {
                         >
                           View all messages →
                         </Link>
-                        {priceAlertCount > 0 && (
+                        {priceAlerts.length > 0 && (
                           <Link
                             href="/price-alerts"
                             className="text-sm text-blue-600 hover:text-blue-800 font-medium"

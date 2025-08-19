@@ -78,12 +78,59 @@ export type Session = $Result.DefaultSelection<Prisma.$SessionPayload>
  * 
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
+/**
+ * Model CommunityPost
+ * 
+ */
+export type CommunityPost = $Result.DefaultSelection<Prisma.$CommunityPostPayload>
+/**
+ * Model CommunityReply
+ * 
+ */
+export type CommunityReply = $Result.DefaultSelection<Prisma.$CommunityReplyPayload>
+/**
+ * Model CommunityPostLike
+ * 
+ */
+export type CommunityPostLike = $Result.DefaultSelection<Prisma.$CommunityPostLikePayload>
+/**
+ * Model ExpertProfile
+ * 
+ */
+export type ExpertProfile = $Result.DefaultSelection<Prisma.$ExpertProfilePayload>
 
 /**
  * Enums
  */
 export namespace $Enums {
-  export const AlertFrequency: {
+  export const CommunityPostType: {
+  QUESTION: 'QUESTION',
+  ADVICE: 'ADVICE',
+  ALERT: 'ALERT',
+  SUCCESS: 'SUCCESS'
+};
+
+export type CommunityPostType = (typeof CommunityPostType)[keyof typeof CommunityPostType]
+
+
+export const CommunityPostStatus: {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
+
+export type CommunityPostStatus = (typeof CommunityPostStatus)[keyof typeof CommunityPostStatus]
+
+
+export const ExpertType: {
+  EXPERT: 'EXPERT',
+  EXTENSION_OFFICER: 'EXTENSION_OFFICER'
+};
+
+export type ExpertType = (typeof ExpertType)[keyof typeof ExpertType]
+
+
+export const AlertFrequency: {
   IMMEDIATE: 'IMMEDIATE',
   DAILY: 'DAILY',
   WEEKLY: 'WEEKLY',
@@ -196,6 +243,18 @@ export const UserStatus: {
 export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
 
 }
+
+export type CommunityPostType = $Enums.CommunityPostType
+
+export const CommunityPostType: typeof $Enums.CommunityPostType
+
+export type CommunityPostStatus = $Enums.CommunityPostStatus
+
+export const CommunityPostStatus: typeof $Enums.CommunityPostStatus
+
+export type ExpertType = $Enums.ExpertType
+
+export const ExpertType: typeof $Enums.ExpertType
 
 export type AlertFrequency = $Enums.AlertFrequency
 
@@ -495,6 +554,46 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.communityPost`: Exposes CRUD operations for the **CommunityPost** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CommunityPosts
+    * const communityPosts = await prisma.communityPost.findMany()
+    * ```
+    */
+  get communityPost(): Prisma.CommunityPostDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.communityReply`: Exposes CRUD operations for the **CommunityReply** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CommunityReplies
+    * const communityReplies = await prisma.communityReply.findMany()
+    * ```
+    */
+  get communityReply(): Prisma.CommunityReplyDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.communityPostLike`: Exposes CRUD operations for the **CommunityPostLike** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CommunityPostLikes
+    * const communityPostLikes = await prisma.communityPostLike.findMany()
+    * ```
+    */
+  get communityPostLike(): Prisma.CommunityPostLikeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.expertProfile`: Exposes CRUD operations for the **ExpertProfile** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ExpertProfiles
+    * const expertProfiles = await prisma.expertProfile.findMany()
+    * ```
+    */
+  get expertProfile(): Prisma.ExpertProfileDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -947,7 +1046,11 @@ export namespace Prisma {
     Review: 'Review',
     Role: 'Role',
     Session: 'Session',
-    User: 'User'
+    User: 'User',
+    CommunityPost: 'CommunityPost',
+    CommunityReply: 'CommunityReply',
+    CommunityPostLike: 'CommunityPostLike',
+    ExpertProfile: 'ExpertProfile'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -966,7 +1069,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "adminActionLog" | "alertNotification" | "conversation" | "marketPrice" | "message" | "permission" | "priceAlert" | "productImage" | "productListing" | "review" | "role" | "session" | "user"
+      modelProps: "adminActionLog" | "alertNotification" | "conversation" | "marketPrice" | "message" | "permission" | "priceAlert" | "productImage" | "productListing" | "review" | "role" | "session" | "user" | "communityPost" | "communityReply" | "communityPostLike" | "expertProfile"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1932,6 +2035,302 @@ export namespace Prisma {
           }
         }
       }
+      CommunityPost: {
+        payload: Prisma.$CommunityPostPayload<ExtArgs>
+        fields: Prisma.CommunityPostFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CommunityPostFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityPostPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CommunityPostFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityPostPayload>
+          }
+          findFirst: {
+            args: Prisma.CommunityPostFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityPostPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CommunityPostFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityPostPayload>
+          }
+          findMany: {
+            args: Prisma.CommunityPostFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityPostPayload>[]
+          }
+          create: {
+            args: Prisma.CommunityPostCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityPostPayload>
+          }
+          createMany: {
+            args: Prisma.CommunityPostCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CommunityPostCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityPostPayload>[]
+          }
+          delete: {
+            args: Prisma.CommunityPostDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityPostPayload>
+          }
+          update: {
+            args: Prisma.CommunityPostUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityPostPayload>
+          }
+          deleteMany: {
+            args: Prisma.CommunityPostDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CommunityPostUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CommunityPostUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityPostPayload>[]
+          }
+          upsert: {
+            args: Prisma.CommunityPostUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityPostPayload>
+          }
+          aggregate: {
+            args: Prisma.CommunityPostAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCommunityPost>
+          }
+          groupBy: {
+            args: Prisma.CommunityPostGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CommunityPostGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CommunityPostCountArgs<ExtArgs>
+            result: $Utils.Optional<CommunityPostCountAggregateOutputType> | number
+          }
+        }
+      }
+      CommunityReply: {
+        payload: Prisma.$CommunityReplyPayload<ExtArgs>
+        fields: Prisma.CommunityReplyFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CommunityReplyFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityReplyPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CommunityReplyFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityReplyPayload>
+          }
+          findFirst: {
+            args: Prisma.CommunityReplyFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityReplyPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CommunityReplyFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityReplyPayload>
+          }
+          findMany: {
+            args: Prisma.CommunityReplyFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityReplyPayload>[]
+          }
+          create: {
+            args: Prisma.CommunityReplyCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityReplyPayload>
+          }
+          createMany: {
+            args: Prisma.CommunityReplyCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CommunityReplyCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityReplyPayload>[]
+          }
+          delete: {
+            args: Prisma.CommunityReplyDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityReplyPayload>
+          }
+          update: {
+            args: Prisma.CommunityReplyUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityReplyPayload>
+          }
+          deleteMany: {
+            args: Prisma.CommunityReplyDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CommunityReplyUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CommunityReplyUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityReplyPayload>[]
+          }
+          upsert: {
+            args: Prisma.CommunityReplyUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityReplyPayload>
+          }
+          aggregate: {
+            args: Prisma.CommunityReplyAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCommunityReply>
+          }
+          groupBy: {
+            args: Prisma.CommunityReplyGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CommunityReplyGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CommunityReplyCountArgs<ExtArgs>
+            result: $Utils.Optional<CommunityReplyCountAggregateOutputType> | number
+          }
+        }
+      }
+      CommunityPostLike: {
+        payload: Prisma.$CommunityPostLikePayload<ExtArgs>
+        fields: Prisma.CommunityPostLikeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CommunityPostLikeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityPostLikePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CommunityPostLikeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityPostLikePayload>
+          }
+          findFirst: {
+            args: Prisma.CommunityPostLikeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityPostLikePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CommunityPostLikeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityPostLikePayload>
+          }
+          findMany: {
+            args: Prisma.CommunityPostLikeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityPostLikePayload>[]
+          }
+          create: {
+            args: Prisma.CommunityPostLikeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityPostLikePayload>
+          }
+          createMany: {
+            args: Prisma.CommunityPostLikeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CommunityPostLikeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityPostLikePayload>[]
+          }
+          delete: {
+            args: Prisma.CommunityPostLikeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityPostLikePayload>
+          }
+          update: {
+            args: Prisma.CommunityPostLikeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityPostLikePayload>
+          }
+          deleteMany: {
+            args: Prisma.CommunityPostLikeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CommunityPostLikeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CommunityPostLikeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityPostLikePayload>[]
+          }
+          upsert: {
+            args: Prisma.CommunityPostLikeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityPostLikePayload>
+          }
+          aggregate: {
+            args: Prisma.CommunityPostLikeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCommunityPostLike>
+          }
+          groupBy: {
+            args: Prisma.CommunityPostLikeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CommunityPostLikeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CommunityPostLikeCountArgs<ExtArgs>
+            result: $Utils.Optional<CommunityPostLikeCountAggregateOutputType> | number
+          }
+        }
+      }
+      ExpertProfile: {
+        payload: Prisma.$ExpertProfilePayload<ExtArgs>
+        fields: Prisma.ExpertProfileFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ExpertProfileFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpertProfilePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ExpertProfileFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpertProfilePayload>
+          }
+          findFirst: {
+            args: Prisma.ExpertProfileFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpertProfilePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ExpertProfileFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpertProfilePayload>
+          }
+          findMany: {
+            args: Prisma.ExpertProfileFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpertProfilePayload>[]
+          }
+          create: {
+            args: Prisma.ExpertProfileCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpertProfilePayload>
+          }
+          createMany: {
+            args: Prisma.ExpertProfileCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ExpertProfileCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpertProfilePayload>[]
+          }
+          delete: {
+            args: Prisma.ExpertProfileDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpertProfilePayload>
+          }
+          update: {
+            args: Prisma.ExpertProfileUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpertProfilePayload>
+          }
+          deleteMany: {
+            args: Prisma.ExpertProfileDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ExpertProfileUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ExpertProfileUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpertProfilePayload>[]
+          }
+          upsert: {
+            args: Prisma.ExpertProfileUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpertProfilePayload>
+          }
+          aggregate: {
+            args: Prisma.ExpertProfileAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateExpertProfile>
+          }
+          groupBy: {
+            args: Prisma.ExpertProfileGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ExpertProfileGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ExpertProfileCountArgs<ExtArgs>
+            result: $Utils.Optional<ExpertProfileCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2029,6 +2428,10 @@ export namespace Prisma {
     role?: RoleOmit
     session?: SessionOmit
     user?: UserOmit
+    communityPost?: CommunityPostOmit
+    communityReply?: CommunityReplyOmit
+    communityPostLike?: CommunityPostLikeOmit
+    expertProfile?: ExpertProfileOmit
   }
 
   /* Types for Logging */
@@ -2359,6 +2762,9 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser: number
     Session: number
     Permission: number
+    CommunityPost_CommunityPost_authorToUser: number
+    CommunityReply_CommunityReply_authorToUser: number
+    CommunityPostLike_userToUser: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2376,6 +2782,9 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: boolean | UserCountOutputTypeCountReview_Review_reviewerIdToUserArgs
     Session?: boolean | UserCountOutputTypeCountSessionArgs
     Permission?: boolean | UserCountOutputTypeCountPermissionArgs
+    CommunityPost_CommunityPost_authorToUser?: boolean | UserCountOutputTypeCountCommunityPost_CommunityPost_authorToUserArgs
+    CommunityReply_CommunityReply_authorToUser?: boolean | UserCountOutputTypeCountCommunityReply_CommunityReply_authorToUserArgs
+    CommunityPostLike_userToUser?: boolean | UserCountOutputTypeCountCommunityPostLike_userToUserArgs
   }
 
   // Custom InputTypes
@@ -2485,6 +2894,67 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountPermissionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PermissionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCommunityPost_CommunityPost_authorToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommunityPostWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCommunityReply_CommunityReply_authorToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommunityReplyWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCommunityPostLike_userToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommunityPostLikeWhereInput
+  }
+
+
+  /**
+   * Count Type CommunityPostCountOutputType
+   */
+
+  export type CommunityPostCountOutputType = {
+    replies: number
+    likesList: number
+  }
+
+  export type CommunityPostCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    replies?: boolean | CommunityPostCountOutputTypeCountRepliesArgs
+    likesList?: boolean | CommunityPostCountOutputTypeCountLikesListArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CommunityPostCountOutputType without action
+   */
+  export type CommunityPostCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPostCountOutputType
+     */
+    select?: CommunityPostCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CommunityPostCountOutputType without action
+   */
+  export type CommunityPostCountOutputTypeCountRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommunityReplyWhereInput
+  }
+
+  /**
+   * CommunityPostCountOutputType without action
+   */
+  export type CommunityPostCountOutputTypeCountLikesListArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommunityPostLikeWhereInput
   }
 
 
@@ -17180,6 +17650,10 @@ export namespace Prisma {
     Session?: boolean | User$SessionArgs<ExtArgs>
     Role?: boolean | RoleDefaultArgs<ExtArgs>
     Permission?: boolean | User$PermissionArgs<ExtArgs>
+    ExpertProfile?: boolean | User$ExpertProfileArgs<ExtArgs>
+    CommunityPost_CommunityPost_authorToUser?: boolean | User$CommunityPost_CommunityPost_authorToUserArgs<ExtArgs>
+    CommunityReply_CommunityReply_authorToUser?: boolean | User$CommunityReply_CommunityReply_authorToUserArgs<ExtArgs>
+    CommunityPostLike_userToUser?: boolean | User$CommunityPostLike_userToUserArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -17301,6 +17775,10 @@ export namespace Prisma {
     Session?: boolean | User$SessionArgs<ExtArgs>
     Role?: boolean | RoleDefaultArgs<ExtArgs>
     Permission?: boolean | User$PermissionArgs<ExtArgs>
+    ExpertProfile?: boolean | User$ExpertProfileArgs<ExtArgs>
+    CommunityPost_CommunityPost_authorToUser?: boolean | User$CommunityPost_CommunityPost_authorToUserArgs<ExtArgs>
+    CommunityReply_CommunityReply_authorToUser?: boolean | User$CommunityReply_CommunityReply_authorToUserArgs<ExtArgs>
+    CommunityPostLike_userToUser?: boolean | User$CommunityPostLike_userToUserArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -17328,6 +17806,10 @@ export namespace Prisma {
       Session: Prisma.$SessionPayload<ExtArgs>[]
       Role: Prisma.$RolePayload<ExtArgs>
       Permission: Prisma.$PermissionPayload<ExtArgs>[]
+      ExpertProfile: Prisma.$ExpertProfilePayload<ExtArgs> | null
+      CommunityPost_CommunityPost_authorToUser: Prisma.$CommunityPostPayload<ExtArgs>[]
+      CommunityReply_CommunityReply_authorToUser: Prisma.$CommunityReplyPayload<ExtArgs>[]
+      CommunityPostLike_userToUser: Prisma.$CommunityPostLikePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -17769,6 +18251,10 @@ export namespace Prisma {
     Session<T extends User$SessionArgs<ExtArgs> = {}>(args?: Subset<T, User$SessionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Role<T extends RoleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoleDefaultArgs<ExtArgs>>): Prisma__RoleClient<$Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     Permission<T extends User$PermissionArgs<ExtArgs> = {}>(args?: Subset<T, User$PermissionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ExpertProfile<T extends User$ExpertProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$ExpertProfileArgs<ExtArgs>>): Prisma__ExpertProfileClient<$Result.GetResult<Prisma.$ExpertProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    CommunityPost_CommunityPost_authorToUser<T extends User$CommunityPost_CommunityPost_authorToUserArgs<ExtArgs> = {}>(args?: Subset<T, User$CommunityPost_CommunityPost_authorToUserArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    CommunityReply_CommunityReply_authorToUser<T extends User$CommunityReply_CommunityReply_authorToUserArgs<ExtArgs> = {}>(args?: Subset<T, User$CommunityReply_CommunityReply_authorToUserArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityReplyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    CommunityPostLike_userToUser<T extends User$CommunityPostLike_userToUserArgs<ExtArgs> = {}>(args?: Subset<T, User$CommunityPostLike_userToUserArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityPostLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -18560,6 +19046,97 @@ export namespace Prisma {
   }
 
   /**
+   * User.ExpertProfile
+   */
+  export type User$ExpertProfileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpertProfile
+     */
+    select?: ExpertProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpertProfile
+     */
+    omit?: ExpertProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertProfileInclude<ExtArgs> | null
+    where?: ExpertProfileWhereInput
+  }
+
+  /**
+   * User.CommunityPost_CommunityPost_authorToUser
+   */
+  export type User$CommunityPost_CommunityPost_authorToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPost
+     */
+    select?: CommunityPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPost
+     */
+    omit?: CommunityPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostInclude<ExtArgs> | null
+    where?: CommunityPostWhereInput
+    orderBy?: CommunityPostOrderByWithRelationInput | CommunityPostOrderByWithRelationInput[]
+    cursor?: CommunityPostWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CommunityPostScalarFieldEnum | CommunityPostScalarFieldEnum[]
+  }
+
+  /**
+   * User.CommunityReply_CommunityReply_authorToUser
+   */
+  export type User$CommunityReply_CommunityReply_authorToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityReply
+     */
+    select?: CommunityReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityReply
+     */
+    omit?: CommunityReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityReplyInclude<ExtArgs> | null
+    where?: CommunityReplyWhereInput
+    orderBy?: CommunityReplyOrderByWithRelationInput | CommunityReplyOrderByWithRelationInput[]
+    cursor?: CommunityReplyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CommunityReplyScalarFieldEnum | CommunityReplyScalarFieldEnum[]
+  }
+
+  /**
+   * User.CommunityPostLike_userToUser
+   */
+  export type User$CommunityPostLike_userToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPostLike
+     */
+    select?: CommunityPostLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPostLike
+     */
+    omit?: CommunityPostLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostLikeInclude<ExtArgs> | null
+    where?: CommunityPostLikeWhereInput
+    orderBy?: CommunityPostLikeOrderByWithRelationInput | CommunityPostLikeOrderByWithRelationInput[]
+    cursor?: CommunityPostLikeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CommunityPostLikeScalarFieldEnum | CommunityPostLikeScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -18575,6 +19152,4570 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CommunityPost
+   */
+
+  export type AggregateCommunityPost = {
+    _count: CommunityPostCountAggregateOutputType | null
+    _avg: CommunityPostAvgAggregateOutputType | null
+    _sum: CommunityPostSumAggregateOutputType | null
+    _min: CommunityPostMinAggregateOutputType | null
+    _max: CommunityPostMaxAggregateOutputType | null
+  }
+
+  export type CommunityPostAvgAggregateOutputType = {
+    likes: number | null
+    repliesCount: number | null
+  }
+
+  export type CommunityPostSumAggregateOutputType = {
+    likes: number | null
+    repliesCount: number | null
+  }
+
+  export type CommunityPostMinAggregateOutputType = {
+    id: string | null
+    authorId: string | null
+    title: string | null
+    content: string | null
+    type: $Enums.CommunityPostType | null
+    category: string | null
+    crop: string | null
+    location: string | null
+    likes: number | null
+    repliesCount: number | null
+    status: $Enums.CommunityPostStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CommunityPostMaxAggregateOutputType = {
+    id: string | null
+    authorId: string | null
+    title: string | null
+    content: string | null
+    type: $Enums.CommunityPostType | null
+    category: string | null
+    crop: string | null
+    location: string | null
+    likes: number | null
+    repliesCount: number | null
+    status: $Enums.CommunityPostStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CommunityPostCountAggregateOutputType = {
+    id: number
+    authorId: number
+    title: number
+    content: number
+    type: number
+    category: number
+    crop: number
+    location: number
+    likes: number
+    repliesCount: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CommunityPostAvgAggregateInputType = {
+    likes?: true
+    repliesCount?: true
+  }
+
+  export type CommunityPostSumAggregateInputType = {
+    likes?: true
+    repliesCount?: true
+  }
+
+  export type CommunityPostMinAggregateInputType = {
+    id?: true
+    authorId?: true
+    title?: true
+    content?: true
+    type?: true
+    category?: true
+    crop?: true
+    location?: true
+    likes?: true
+    repliesCount?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CommunityPostMaxAggregateInputType = {
+    id?: true
+    authorId?: true
+    title?: true
+    content?: true
+    type?: true
+    category?: true
+    crop?: true
+    location?: true
+    likes?: true
+    repliesCount?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CommunityPostCountAggregateInputType = {
+    id?: true
+    authorId?: true
+    title?: true
+    content?: true
+    type?: true
+    category?: true
+    crop?: true
+    location?: true
+    likes?: true
+    repliesCount?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CommunityPostAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CommunityPost to aggregate.
+     */
+    where?: CommunityPostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommunityPosts to fetch.
+     */
+    orderBy?: CommunityPostOrderByWithRelationInput | CommunityPostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CommunityPostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommunityPosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommunityPosts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CommunityPosts
+    **/
+    _count?: true | CommunityPostCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CommunityPostAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CommunityPostSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CommunityPostMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CommunityPostMaxAggregateInputType
+  }
+
+  export type GetCommunityPostAggregateType<T extends CommunityPostAggregateArgs> = {
+        [P in keyof T & keyof AggregateCommunityPost]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCommunityPost[P]>
+      : GetScalarType<T[P], AggregateCommunityPost[P]>
+  }
+
+
+
+
+  export type CommunityPostGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommunityPostWhereInput
+    orderBy?: CommunityPostOrderByWithAggregationInput | CommunityPostOrderByWithAggregationInput[]
+    by: CommunityPostScalarFieldEnum[] | CommunityPostScalarFieldEnum
+    having?: CommunityPostScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CommunityPostCountAggregateInputType | true
+    _avg?: CommunityPostAvgAggregateInputType
+    _sum?: CommunityPostSumAggregateInputType
+    _min?: CommunityPostMinAggregateInputType
+    _max?: CommunityPostMaxAggregateInputType
+  }
+
+  export type CommunityPostGroupByOutputType = {
+    id: string
+    authorId: string
+    title: string
+    content: string
+    type: $Enums.CommunityPostType
+    category: string
+    crop: string
+    location: string | null
+    likes: number
+    repliesCount: number
+    status: $Enums.CommunityPostStatus
+    createdAt: Date
+    updatedAt: Date
+    _count: CommunityPostCountAggregateOutputType | null
+    _avg: CommunityPostAvgAggregateOutputType | null
+    _sum: CommunityPostSumAggregateOutputType | null
+    _min: CommunityPostMinAggregateOutputType | null
+    _max: CommunityPostMaxAggregateOutputType | null
+  }
+
+  type GetCommunityPostGroupByPayload<T extends CommunityPostGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CommunityPostGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CommunityPostGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CommunityPostGroupByOutputType[P]>
+            : GetScalarType<T[P], CommunityPostGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CommunityPostSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    authorId?: boolean
+    title?: boolean
+    content?: boolean
+    type?: boolean
+    category?: boolean
+    crop?: boolean
+    location?: boolean
+    likes?: boolean
+    repliesCount?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    replies?: boolean | CommunityPost$repliesArgs<ExtArgs>
+    likesList?: boolean | CommunityPost$likesListArgs<ExtArgs>
+    _count?: boolean | CommunityPostCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["communityPost"]>
+
+  export type CommunityPostSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    authorId?: boolean
+    title?: boolean
+    content?: boolean
+    type?: boolean
+    category?: boolean
+    crop?: boolean
+    location?: boolean
+    likes?: boolean
+    repliesCount?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["communityPost"]>
+
+  export type CommunityPostSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    authorId?: boolean
+    title?: boolean
+    content?: boolean
+    type?: boolean
+    category?: boolean
+    crop?: boolean
+    location?: boolean
+    likes?: boolean
+    repliesCount?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["communityPost"]>
+
+  export type CommunityPostSelectScalar = {
+    id?: boolean
+    authorId?: boolean
+    title?: boolean
+    content?: boolean
+    type?: boolean
+    category?: boolean
+    crop?: boolean
+    location?: boolean
+    likes?: boolean
+    repliesCount?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CommunityPostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "authorId" | "title" | "content" | "type" | "category" | "crop" | "location" | "likes" | "repliesCount" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["communityPost"]>
+  export type CommunityPostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    replies?: boolean | CommunityPost$repliesArgs<ExtArgs>
+    likesList?: boolean | CommunityPost$likesListArgs<ExtArgs>
+    _count?: boolean | CommunityPostCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type CommunityPostIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type CommunityPostIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $CommunityPostPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CommunityPost"
+    objects: {
+      author: Prisma.$UserPayload<ExtArgs>
+      replies: Prisma.$CommunityReplyPayload<ExtArgs>[]
+      likesList: Prisma.$CommunityPostLikePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      authorId: string
+      title: string
+      content: string
+      type: $Enums.CommunityPostType
+      category: string
+      crop: string
+      location: string | null
+      likes: number
+      repliesCount: number
+      status: $Enums.CommunityPostStatus
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["communityPost"]>
+    composites: {}
+  }
+
+  type CommunityPostGetPayload<S extends boolean | null | undefined | CommunityPostDefaultArgs> = $Result.GetResult<Prisma.$CommunityPostPayload, S>
+
+  type CommunityPostCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CommunityPostFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CommunityPostCountAggregateInputType | true
+    }
+
+  export interface CommunityPostDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CommunityPost'], meta: { name: 'CommunityPost' } }
+    /**
+     * Find zero or one CommunityPost that matches the filter.
+     * @param {CommunityPostFindUniqueArgs} args - Arguments to find a CommunityPost
+     * @example
+     * // Get one CommunityPost
+     * const communityPost = await prisma.communityPost.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CommunityPostFindUniqueArgs>(args: SelectSubset<T, CommunityPostFindUniqueArgs<ExtArgs>>): Prisma__CommunityPostClient<$Result.GetResult<Prisma.$CommunityPostPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CommunityPost that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CommunityPostFindUniqueOrThrowArgs} args - Arguments to find a CommunityPost
+     * @example
+     * // Get one CommunityPost
+     * const communityPost = await prisma.communityPost.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CommunityPostFindUniqueOrThrowArgs>(args: SelectSubset<T, CommunityPostFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CommunityPostClient<$Result.GetResult<Prisma.$CommunityPostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CommunityPost that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityPostFindFirstArgs} args - Arguments to find a CommunityPost
+     * @example
+     * // Get one CommunityPost
+     * const communityPost = await prisma.communityPost.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CommunityPostFindFirstArgs>(args?: SelectSubset<T, CommunityPostFindFirstArgs<ExtArgs>>): Prisma__CommunityPostClient<$Result.GetResult<Prisma.$CommunityPostPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CommunityPost that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityPostFindFirstOrThrowArgs} args - Arguments to find a CommunityPost
+     * @example
+     * // Get one CommunityPost
+     * const communityPost = await prisma.communityPost.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CommunityPostFindFirstOrThrowArgs>(args?: SelectSubset<T, CommunityPostFindFirstOrThrowArgs<ExtArgs>>): Prisma__CommunityPostClient<$Result.GetResult<Prisma.$CommunityPostPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CommunityPosts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityPostFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CommunityPosts
+     * const communityPosts = await prisma.communityPost.findMany()
+     * 
+     * // Get first 10 CommunityPosts
+     * const communityPosts = await prisma.communityPost.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const communityPostWithIdOnly = await prisma.communityPost.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CommunityPostFindManyArgs>(args?: SelectSubset<T, CommunityPostFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CommunityPost.
+     * @param {CommunityPostCreateArgs} args - Arguments to create a CommunityPost.
+     * @example
+     * // Create one CommunityPost
+     * const CommunityPost = await prisma.communityPost.create({
+     *   data: {
+     *     // ... data to create a CommunityPost
+     *   }
+     * })
+     * 
+     */
+    create<T extends CommunityPostCreateArgs>(args: SelectSubset<T, CommunityPostCreateArgs<ExtArgs>>): Prisma__CommunityPostClient<$Result.GetResult<Prisma.$CommunityPostPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CommunityPosts.
+     * @param {CommunityPostCreateManyArgs} args - Arguments to create many CommunityPosts.
+     * @example
+     * // Create many CommunityPosts
+     * const communityPost = await prisma.communityPost.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CommunityPostCreateManyArgs>(args?: SelectSubset<T, CommunityPostCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CommunityPosts and returns the data saved in the database.
+     * @param {CommunityPostCreateManyAndReturnArgs} args - Arguments to create many CommunityPosts.
+     * @example
+     * // Create many CommunityPosts
+     * const communityPost = await prisma.communityPost.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CommunityPosts and only return the `id`
+     * const communityPostWithIdOnly = await prisma.communityPost.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CommunityPostCreateManyAndReturnArgs>(args?: SelectSubset<T, CommunityPostCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityPostPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CommunityPost.
+     * @param {CommunityPostDeleteArgs} args - Arguments to delete one CommunityPost.
+     * @example
+     * // Delete one CommunityPost
+     * const CommunityPost = await prisma.communityPost.delete({
+     *   where: {
+     *     // ... filter to delete one CommunityPost
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CommunityPostDeleteArgs>(args: SelectSubset<T, CommunityPostDeleteArgs<ExtArgs>>): Prisma__CommunityPostClient<$Result.GetResult<Prisma.$CommunityPostPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CommunityPost.
+     * @param {CommunityPostUpdateArgs} args - Arguments to update one CommunityPost.
+     * @example
+     * // Update one CommunityPost
+     * const communityPost = await prisma.communityPost.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CommunityPostUpdateArgs>(args: SelectSubset<T, CommunityPostUpdateArgs<ExtArgs>>): Prisma__CommunityPostClient<$Result.GetResult<Prisma.$CommunityPostPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CommunityPosts.
+     * @param {CommunityPostDeleteManyArgs} args - Arguments to filter CommunityPosts to delete.
+     * @example
+     * // Delete a few CommunityPosts
+     * const { count } = await prisma.communityPost.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CommunityPostDeleteManyArgs>(args?: SelectSubset<T, CommunityPostDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CommunityPosts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityPostUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CommunityPosts
+     * const communityPost = await prisma.communityPost.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CommunityPostUpdateManyArgs>(args: SelectSubset<T, CommunityPostUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CommunityPosts and returns the data updated in the database.
+     * @param {CommunityPostUpdateManyAndReturnArgs} args - Arguments to update many CommunityPosts.
+     * @example
+     * // Update many CommunityPosts
+     * const communityPost = await prisma.communityPost.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CommunityPosts and only return the `id`
+     * const communityPostWithIdOnly = await prisma.communityPost.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CommunityPostUpdateManyAndReturnArgs>(args: SelectSubset<T, CommunityPostUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityPostPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CommunityPost.
+     * @param {CommunityPostUpsertArgs} args - Arguments to update or create a CommunityPost.
+     * @example
+     * // Update or create a CommunityPost
+     * const communityPost = await prisma.communityPost.upsert({
+     *   create: {
+     *     // ... data to create a CommunityPost
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CommunityPost we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CommunityPostUpsertArgs>(args: SelectSubset<T, CommunityPostUpsertArgs<ExtArgs>>): Prisma__CommunityPostClient<$Result.GetResult<Prisma.$CommunityPostPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CommunityPosts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityPostCountArgs} args - Arguments to filter CommunityPosts to count.
+     * @example
+     * // Count the number of CommunityPosts
+     * const count = await prisma.communityPost.count({
+     *   where: {
+     *     // ... the filter for the CommunityPosts we want to count
+     *   }
+     * })
+    **/
+    count<T extends CommunityPostCountArgs>(
+      args?: Subset<T, CommunityPostCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CommunityPostCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CommunityPost.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityPostAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CommunityPostAggregateArgs>(args: Subset<T, CommunityPostAggregateArgs>): Prisma.PrismaPromise<GetCommunityPostAggregateType<T>>
+
+    /**
+     * Group by CommunityPost.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityPostGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CommunityPostGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CommunityPostGroupByArgs['orderBy'] }
+        : { orderBy?: CommunityPostGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CommunityPostGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCommunityPostGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CommunityPost model
+   */
+  readonly fields: CommunityPostFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CommunityPost.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CommunityPostClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    replies<T extends CommunityPost$repliesArgs<ExtArgs> = {}>(args?: Subset<T, CommunityPost$repliesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityReplyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    likesList<T extends CommunityPost$likesListArgs<ExtArgs> = {}>(args?: Subset<T, CommunityPost$likesListArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityPostLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CommunityPost model
+   */
+  interface CommunityPostFieldRefs {
+    readonly id: FieldRef<"CommunityPost", 'String'>
+    readonly authorId: FieldRef<"CommunityPost", 'String'>
+    readonly title: FieldRef<"CommunityPost", 'String'>
+    readonly content: FieldRef<"CommunityPost", 'String'>
+    readonly type: FieldRef<"CommunityPost", 'CommunityPostType'>
+    readonly category: FieldRef<"CommunityPost", 'String'>
+    readonly crop: FieldRef<"CommunityPost", 'String'>
+    readonly location: FieldRef<"CommunityPost", 'String'>
+    readonly likes: FieldRef<"CommunityPost", 'Int'>
+    readonly repliesCount: FieldRef<"CommunityPost", 'Int'>
+    readonly status: FieldRef<"CommunityPost", 'CommunityPostStatus'>
+    readonly createdAt: FieldRef<"CommunityPost", 'DateTime'>
+    readonly updatedAt: FieldRef<"CommunityPost", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CommunityPost findUnique
+   */
+  export type CommunityPostFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPost
+     */
+    select?: CommunityPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPost
+     */
+    omit?: CommunityPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityPost to fetch.
+     */
+    where: CommunityPostWhereUniqueInput
+  }
+
+  /**
+   * CommunityPost findUniqueOrThrow
+   */
+  export type CommunityPostFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPost
+     */
+    select?: CommunityPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPost
+     */
+    omit?: CommunityPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityPost to fetch.
+     */
+    where: CommunityPostWhereUniqueInput
+  }
+
+  /**
+   * CommunityPost findFirst
+   */
+  export type CommunityPostFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPost
+     */
+    select?: CommunityPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPost
+     */
+    omit?: CommunityPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityPost to fetch.
+     */
+    where?: CommunityPostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommunityPosts to fetch.
+     */
+    orderBy?: CommunityPostOrderByWithRelationInput | CommunityPostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CommunityPosts.
+     */
+    cursor?: CommunityPostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommunityPosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommunityPosts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CommunityPosts.
+     */
+    distinct?: CommunityPostScalarFieldEnum | CommunityPostScalarFieldEnum[]
+  }
+
+  /**
+   * CommunityPost findFirstOrThrow
+   */
+  export type CommunityPostFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPost
+     */
+    select?: CommunityPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPost
+     */
+    omit?: CommunityPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityPost to fetch.
+     */
+    where?: CommunityPostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommunityPosts to fetch.
+     */
+    orderBy?: CommunityPostOrderByWithRelationInput | CommunityPostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CommunityPosts.
+     */
+    cursor?: CommunityPostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommunityPosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommunityPosts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CommunityPosts.
+     */
+    distinct?: CommunityPostScalarFieldEnum | CommunityPostScalarFieldEnum[]
+  }
+
+  /**
+   * CommunityPost findMany
+   */
+  export type CommunityPostFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPost
+     */
+    select?: CommunityPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPost
+     */
+    omit?: CommunityPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityPosts to fetch.
+     */
+    where?: CommunityPostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommunityPosts to fetch.
+     */
+    orderBy?: CommunityPostOrderByWithRelationInput | CommunityPostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CommunityPosts.
+     */
+    cursor?: CommunityPostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommunityPosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommunityPosts.
+     */
+    skip?: number
+    distinct?: CommunityPostScalarFieldEnum | CommunityPostScalarFieldEnum[]
+  }
+
+  /**
+   * CommunityPost create
+   */
+  export type CommunityPostCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPost
+     */
+    select?: CommunityPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPost
+     */
+    omit?: CommunityPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CommunityPost.
+     */
+    data: XOR<CommunityPostCreateInput, CommunityPostUncheckedCreateInput>
+  }
+
+  /**
+   * CommunityPost createMany
+   */
+  export type CommunityPostCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CommunityPosts.
+     */
+    data: CommunityPostCreateManyInput | CommunityPostCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CommunityPost createManyAndReturn
+   */
+  export type CommunityPostCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPost
+     */
+    select?: CommunityPostSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPost
+     */
+    omit?: CommunityPostOmit<ExtArgs> | null
+    /**
+     * The data used to create many CommunityPosts.
+     */
+    data: CommunityPostCreateManyInput | CommunityPostCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CommunityPost update
+   */
+  export type CommunityPostUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPost
+     */
+    select?: CommunityPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPost
+     */
+    omit?: CommunityPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CommunityPost.
+     */
+    data: XOR<CommunityPostUpdateInput, CommunityPostUncheckedUpdateInput>
+    /**
+     * Choose, which CommunityPost to update.
+     */
+    where: CommunityPostWhereUniqueInput
+  }
+
+  /**
+   * CommunityPost updateMany
+   */
+  export type CommunityPostUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CommunityPosts.
+     */
+    data: XOR<CommunityPostUpdateManyMutationInput, CommunityPostUncheckedUpdateManyInput>
+    /**
+     * Filter which CommunityPosts to update
+     */
+    where?: CommunityPostWhereInput
+    /**
+     * Limit how many CommunityPosts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CommunityPost updateManyAndReturn
+   */
+  export type CommunityPostUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPost
+     */
+    select?: CommunityPostSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPost
+     */
+    omit?: CommunityPostOmit<ExtArgs> | null
+    /**
+     * The data used to update CommunityPosts.
+     */
+    data: XOR<CommunityPostUpdateManyMutationInput, CommunityPostUncheckedUpdateManyInput>
+    /**
+     * Filter which CommunityPosts to update
+     */
+    where?: CommunityPostWhereInput
+    /**
+     * Limit how many CommunityPosts to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CommunityPost upsert
+   */
+  export type CommunityPostUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPost
+     */
+    select?: CommunityPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPost
+     */
+    omit?: CommunityPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CommunityPost to update in case it exists.
+     */
+    where: CommunityPostWhereUniqueInput
+    /**
+     * In case the CommunityPost found by the `where` argument doesn't exist, create a new CommunityPost with this data.
+     */
+    create: XOR<CommunityPostCreateInput, CommunityPostUncheckedCreateInput>
+    /**
+     * In case the CommunityPost was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CommunityPostUpdateInput, CommunityPostUncheckedUpdateInput>
+  }
+
+  /**
+   * CommunityPost delete
+   */
+  export type CommunityPostDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPost
+     */
+    select?: CommunityPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPost
+     */
+    omit?: CommunityPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostInclude<ExtArgs> | null
+    /**
+     * Filter which CommunityPost to delete.
+     */
+    where: CommunityPostWhereUniqueInput
+  }
+
+  /**
+   * CommunityPost deleteMany
+   */
+  export type CommunityPostDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CommunityPosts to delete
+     */
+    where?: CommunityPostWhereInput
+    /**
+     * Limit how many CommunityPosts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CommunityPost.replies
+   */
+  export type CommunityPost$repliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityReply
+     */
+    select?: CommunityReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityReply
+     */
+    omit?: CommunityReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityReplyInclude<ExtArgs> | null
+    where?: CommunityReplyWhereInput
+    orderBy?: CommunityReplyOrderByWithRelationInput | CommunityReplyOrderByWithRelationInput[]
+    cursor?: CommunityReplyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CommunityReplyScalarFieldEnum | CommunityReplyScalarFieldEnum[]
+  }
+
+  /**
+   * CommunityPost.likesList
+   */
+  export type CommunityPost$likesListArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPostLike
+     */
+    select?: CommunityPostLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPostLike
+     */
+    omit?: CommunityPostLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostLikeInclude<ExtArgs> | null
+    where?: CommunityPostLikeWhereInput
+    orderBy?: CommunityPostLikeOrderByWithRelationInput | CommunityPostLikeOrderByWithRelationInput[]
+    cursor?: CommunityPostLikeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CommunityPostLikeScalarFieldEnum | CommunityPostLikeScalarFieldEnum[]
+  }
+
+  /**
+   * CommunityPost without action
+   */
+  export type CommunityPostDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPost
+     */
+    select?: CommunityPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPost
+     */
+    omit?: CommunityPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CommunityReply
+   */
+
+  export type AggregateCommunityReply = {
+    _count: CommunityReplyCountAggregateOutputType | null
+    _min: CommunityReplyMinAggregateOutputType | null
+    _max: CommunityReplyMaxAggregateOutputType | null
+  }
+
+  export type CommunityReplyMinAggregateOutputType = {
+    id: string | null
+    postId: string | null
+    authorId: string | null
+    content: string | null
+    isExpert: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CommunityReplyMaxAggregateOutputType = {
+    id: string | null
+    postId: string | null
+    authorId: string | null
+    content: string | null
+    isExpert: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CommunityReplyCountAggregateOutputType = {
+    id: number
+    postId: number
+    authorId: number
+    content: number
+    isExpert: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CommunityReplyMinAggregateInputType = {
+    id?: true
+    postId?: true
+    authorId?: true
+    content?: true
+    isExpert?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CommunityReplyMaxAggregateInputType = {
+    id?: true
+    postId?: true
+    authorId?: true
+    content?: true
+    isExpert?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CommunityReplyCountAggregateInputType = {
+    id?: true
+    postId?: true
+    authorId?: true
+    content?: true
+    isExpert?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CommunityReplyAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CommunityReply to aggregate.
+     */
+    where?: CommunityReplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommunityReplies to fetch.
+     */
+    orderBy?: CommunityReplyOrderByWithRelationInput | CommunityReplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CommunityReplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommunityReplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommunityReplies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CommunityReplies
+    **/
+    _count?: true | CommunityReplyCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CommunityReplyMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CommunityReplyMaxAggregateInputType
+  }
+
+  export type GetCommunityReplyAggregateType<T extends CommunityReplyAggregateArgs> = {
+        [P in keyof T & keyof AggregateCommunityReply]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCommunityReply[P]>
+      : GetScalarType<T[P], AggregateCommunityReply[P]>
+  }
+
+
+
+
+  export type CommunityReplyGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommunityReplyWhereInput
+    orderBy?: CommunityReplyOrderByWithAggregationInput | CommunityReplyOrderByWithAggregationInput[]
+    by: CommunityReplyScalarFieldEnum[] | CommunityReplyScalarFieldEnum
+    having?: CommunityReplyScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CommunityReplyCountAggregateInputType | true
+    _min?: CommunityReplyMinAggregateInputType
+    _max?: CommunityReplyMaxAggregateInputType
+  }
+
+  export type CommunityReplyGroupByOutputType = {
+    id: string
+    postId: string
+    authorId: string
+    content: string
+    isExpert: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: CommunityReplyCountAggregateOutputType | null
+    _min: CommunityReplyMinAggregateOutputType | null
+    _max: CommunityReplyMaxAggregateOutputType | null
+  }
+
+  type GetCommunityReplyGroupByPayload<T extends CommunityReplyGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CommunityReplyGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CommunityReplyGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CommunityReplyGroupByOutputType[P]>
+            : GetScalarType<T[P], CommunityReplyGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CommunityReplySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    postId?: boolean
+    authorId?: boolean
+    content?: boolean
+    isExpert?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["communityReply"]>
+
+  export type CommunityReplySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    postId?: boolean
+    authorId?: boolean
+    content?: boolean
+    isExpert?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["communityReply"]>
+
+  export type CommunityReplySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    postId?: boolean
+    authorId?: boolean
+    content?: boolean
+    isExpert?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["communityReply"]>
+
+  export type CommunityReplySelectScalar = {
+    id?: boolean
+    postId?: boolean
+    authorId?: boolean
+    content?: boolean
+    isExpert?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CommunityReplyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "postId" | "authorId" | "content" | "isExpert" | "createdAt" | "updatedAt", ExtArgs["result"]["communityReply"]>
+  export type CommunityReplyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type CommunityReplyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type CommunityReplyIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
+    author?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $CommunityReplyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CommunityReply"
+    objects: {
+      post: Prisma.$CommunityPostPayload<ExtArgs>
+      author: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      postId: string
+      authorId: string
+      content: string
+      isExpert: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["communityReply"]>
+    composites: {}
+  }
+
+  type CommunityReplyGetPayload<S extends boolean | null | undefined | CommunityReplyDefaultArgs> = $Result.GetResult<Prisma.$CommunityReplyPayload, S>
+
+  type CommunityReplyCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CommunityReplyFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CommunityReplyCountAggregateInputType | true
+    }
+
+  export interface CommunityReplyDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CommunityReply'], meta: { name: 'CommunityReply' } }
+    /**
+     * Find zero or one CommunityReply that matches the filter.
+     * @param {CommunityReplyFindUniqueArgs} args - Arguments to find a CommunityReply
+     * @example
+     * // Get one CommunityReply
+     * const communityReply = await prisma.communityReply.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CommunityReplyFindUniqueArgs>(args: SelectSubset<T, CommunityReplyFindUniqueArgs<ExtArgs>>): Prisma__CommunityReplyClient<$Result.GetResult<Prisma.$CommunityReplyPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CommunityReply that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CommunityReplyFindUniqueOrThrowArgs} args - Arguments to find a CommunityReply
+     * @example
+     * // Get one CommunityReply
+     * const communityReply = await prisma.communityReply.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CommunityReplyFindUniqueOrThrowArgs>(args: SelectSubset<T, CommunityReplyFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CommunityReplyClient<$Result.GetResult<Prisma.$CommunityReplyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CommunityReply that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityReplyFindFirstArgs} args - Arguments to find a CommunityReply
+     * @example
+     * // Get one CommunityReply
+     * const communityReply = await prisma.communityReply.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CommunityReplyFindFirstArgs>(args?: SelectSubset<T, CommunityReplyFindFirstArgs<ExtArgs>>): Prisma__CommunityReplyClient<$Result.GetResult<Prisma.$CommunityReplyPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CommunityReply that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityReplyFindFirstOrThrowArgs} args - Arguments to find a CommunityReply
+     * @example
+     * // Get one CommunityReply
+     * const communityReply = await prisma.communityReply.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CommunityReplyFindFirstOrThrowArgs>(args?: SelectSubset<T, CommunityReplyFindFirstOrThrowArgs<ExtArgs>>): Prisma__CommunityReplyClient<$Result.GetResult<Prisma.$CommunityReplyPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CommunityReplies that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityReplyFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CommunityReplies
+     * const communityReplies = await prisma.communityReply.findMany()
+     * 
+     * // Get first 10 CommunityReplies
+     * const communityReplies = await prisma.communityReply.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const communityReplyWithIdOnly = await prisma.communityReply.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CommunityReplyFindManyArgs>(args?: SelectSubset<T, CommunityReplyFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityReplyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CommunityReply.
+     * @param {CommunityReplyCreateArgs} args - Arguments to create a CommunityReply.
+     * @example
+     * // Create one CommunityReply
+     * const CommunityReply = await prisma.communityReply.create({
+     *   data: {
+     *     // ... data to create a CommunityReply
+     *   }
+     * })
+     * 
+     */
+    create<T extends CommunityReplyCreateArgs>(args: SelectSubset<T, CommunityReplyCreateArgs<ExtArgs>>): Prisma__CommunityReplyClient<$Result.GetResult<Prisma.$CommunityReplyPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CommunityReplies.
+     * @param {CommunityReplyCreateManyArgs} args - Arguments to create many CommunityReplies.
+     * @example
+     * // Create many CommunityReplies
+     * const communityReply = await prisma.communityReply.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CommunityReplyCreateManyArgs>(args?: SelectSubset<T, CommunityReplyCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CommunityReplies and returns the data saved in the database.
+     * @param {CommunityReplyCreateManyAndReturnArgs} args - Arguments to create many CommunityReplies.
+     * @example
+     * // Create many CommunityReplies
+     * const communityReply = await prisma.communityReply.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CommunityReplies and only return the `id`
+     * const communityReplyWithIdOnly = await prisma.communityReply.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CommunityReplyCreateManyAndReturnArgs>(args?: SelectSubset<T, CommunityReplyCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityReplyPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CommunityReply.
+     * @param {CommunityReplyDeleteArgs} args - Arguments to delete one CommunityReply.
+     * @example
+     * // Delete one CommunityReply
+     * const CommunityReply = await prisma.communityReply.delete({
+     *   where: {
+     *     // ... filter to delete one CommunityReply
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CommunityReplyDeleteArgs>(args: SelectSubset<T, CommunityReplyDeleteArgs<ExtArgs>>): Prisma__CommunityReplyClient<$Result.GetResult<Prisma.$CommunityReplyPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CommunityReply.
+     * @param {CommunityReplyUpdateArgs} args - Arguments to update one CommunityReply.
+     * @example
+     * // Update one CommunityReply
+     * const communityReply = await prisma.communityReply.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CommunityReplyUpdateArgs>(args: SelectSubset<T, CommunityReplyUpdateArgs<ExtArgs>>): Prisma__CommunityReplyClient<$Result.GetResult<Prisma.$CommunityReplyPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CommunityReplies.
+     * @param {CommunityReplyDeleteManyArgs} args - Arguments to filter CommunityReplies to delete.
+     * @example
+     * // Delete a few CommunityReplies
+     * const { count } = await prisma.communityReply.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CommunityReplyDeleteManyArgs>(args?: SelectSubset<T, CommunityReplyDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CommunityReplies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityReplyUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CommunityReplies
+     * const communityReply = await prisma.communityReply.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CommunityReplyUpdateManyArgs>(args: SelectSubset<T, CommunityReplyUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CommunityReplies and returns the data updated in the database.
+     * @param {CommunityReplyUpdateManyAndReturnArgs} args - Arguments to update many CommunityReplies.
+     * @example
+     * // Update many CommunityReplies
+     * const communityReply = await prisma.communityReply.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CommunityReplies and only return the `id`
+     * const communityReplyWithIdOnly = await prisma.communityReply.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CommunityReplyUpdateManyAndReturnArgs>(args: SelectSubset<T, CommunityReplyUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityReplyPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CommunityReply.
+     * @param {CommunityReplyUpsertArgs} args - Arguments to update or create a CommunityReply.
+     * @example
+     * // Update or create a CommunityReply
+     * const communityReply = await prisma.communityReply.upsert({
+     *   create: {
+     *     // ... data to create a CommunityReply
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CommunityReply we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CommunityReplyUpsertArgs>(args: SelectSubset<T, CommunityReplyUpsertArgs<ExtArgs>>): Prisma__CommunityReplyClient<$Result.GetResult<Prisma.$CommunityReplyPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CommunityReplies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityReplyCountArgs} args - Arguments to filter CommunityReplies to count.
+     * @example
+     * // Count the number of CommunityReplies
+     * const count = await prisma.communityReply.count({
+     *   where: {
+     *     // ... the filter for the CommunityReplies we want to count
+     *   }
+     * })
+    **/
+    count<T extends CommunityReplyCountArgs>(
+      args?: Subset<T, CommunityReplyCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CommunityReplyCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CommunityReply.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityReplyAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CommunityReplyAggregateArgs>(args: Subset<T, CommunityReplyAggregateArgs>): Prisma.PrismaPromise<GetCommunityReplyAggregateType<T>>
+
+    /**
+     * Group by CommunityReply.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityReplyGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CommunityReplyGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CommunityReplyGroupByArgs['orderBy'] }
+        : { orderBy?: CommunityReplyGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CommunityReplyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCommunityReplyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CommunityReply model
+   */
+  readonly fields: CommunityReplyFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CommunityReply.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CommunityReplyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    post<T extends CommunityPostDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CommunityPostDefaultArgs<ExtArgs>>): Prisma__CommunityPostClient<$Result.GetResult<Prisma.$CommunityPostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CommunityReply model
+   */
+  interface CommunityReplyFieldRefs {
+    readonly id: FieldRef<"CommunityReply", 'String'>
+    readonly postId: FieldRef<"CommunityReply", 'String'>
+    readonly authorId: FieldRef<"CommunityReply", 'String'>
+    readonly content: FieldRef<"CommunityReply", 'String'>
+    readonly isExpert: FieldRef<"CommunityReply", 'Boolean'>
+    readonly createdAt: FieldRef<"CommunityReply", 'DateTime'>
+    readonly updatedAt: FieldRef<"CommunityReply", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CommunityReply findUnique
+   */
+  export type CommunityReplyFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityReply
+     */
+    select?: CommunityReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityReply
+     */
+    omit?: CommunityReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityReply to fetch.
+     */
+    where: CommunityReplyWhereUniqueInput
+  }
+
+  /**
+   * CommunityReply findUniqueOrThrow
+   */
+  export type CommunityReplyFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityReply
+     */
+    select?: CommunityReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityReply
+     */
+    omit?: CommunityReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityReply to fetch.
+     */
+    where: CommunityReplyWhereUniqueInput
+  }
+
+  /**
+   * CommunityReply findFirst
+   */
+  export type CommunityReplyFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityReply
+     */
+    select?: CommunityReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityReply
+     */
+    omit?: CommunityReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityReply to fetch.
+     */
+    where?: CommunityReplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommunityReplies to fetch.
+     */
+    orderBy?: CommunityReplyOrderByWithRelationInput | CommunityReplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CommunityReplies.
+     */
+    cursor?: CommunityReplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommunityReplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommunityReplies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CommunityReplies.
+     */
+    distinct?: CommunityReplyScalarFieldEnum | CommunityReplyScalarFieldEnum[]
+  }
+
+  /**
+   * CommunityReply findFirstOrThrow
+   */
+  export type CommunityReplyFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityReply
+     */
+    select?: CommunityReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityReply
+     */
+    omit?: CommunityReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityReply to fetch.
+     */
+    where?: CommunityReplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommunityReplies to fetch.
+     */
+    orderBy?: CommunityReplyOrderByWithRelationInput | CommunityReplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CommunityReplies.
+     */
+    cursor?: CommunityReplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommunityReplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommunityReplies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CommunityReplies.
+     */
+    distinct?: CommunityReplyScalarFieldEnum | CommunityReplyScalarFieldEnum[]
+  }
+
+  /**
+   * CommunityReply findMany
+   */
+  export type CommunityReplyFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityReply
+     */
+    select?: CommunityReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityReply
+     */
+    omit?: CommunityReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityReplies to fetch.
+     */
+    where?: CommunityReplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommunityReplies to fetch.
+     */
+    orderBy?: CommunityReplyOrderByWithRelationInput | CommunityReplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CommunityReplies.
+     */
+    cursor?: CommunityReplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommunityReplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommunityReplies.
+     */
+    skip?: number
+    distinct?: CommunityReplyScalarFieldEnum | CommunityReplyScalarFieldEnum[]
+  }
+
+  /**
+   * CommunityReply create
+   */
+  export type CommunityReplyCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityReply
+     */
+    select?: CommunityReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityReply
+     */
+    omit?: CommunityReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityReplyInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CommunityReply.
+     */
+    data: XOR<CommunityReplyCreateInput, CommunityReplyUncheckedCreateInput>
+  }
+
+  /**
+   * CommunityReply createMany
+   */
+  export type CommunityReplyCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CommunityReplies.
+     */
+    data: CommunityReplyCreateManyInput | CommunityReplyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CommunityReply createManyAndReturn
+   */
+  export type CommunityReplyCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityReply
+     */
+    select?: CommunityReplySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityReply
+     */
+    omit?: CommunityReplyOmit<ExtArgs> | null
+    /**
+     * The data used to create many CommunityReplies.
+     */
+    data: CommunityReplyCreateManyInput | CommunityReplyCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityReplyIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CommunityReply update
+   */
+  export type CommunityReplyUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityReply
+     */
+    select?: CommunityReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityReply
+     */
+    omit?: CommunityReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityReplyInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CommunityReply.
+     */
+    data: XOR<CommunityReplyUpdateInput, CommunityReplyUncheckedUpdateInput>
+    /**
+     * Choose, which CommunityReply to update.
+     */
+    where: CommunityReplyWhereUniqueInput
+  }
+
+  /**
+   * CommunityReply updateMany
+   */
+  export type CommunityReplyUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CommunityReplies.
+     */
+    data: XOR<CommunityReplyUpdateManyMutationInput, CommunityReplyUncheckedUpdateManyInput>
+    /**
+     * Filter which CommunityReplies to update
+     */
+    where?: CommunityReplyWhereInput
+    /**
+     * Limit how many CommunityReplies to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CommunityReply updateManyAndReturn
+   */
+  export type CommunityReplyUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityReply
+     */
+    select?: CommunityReplySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityReply
+     */
+    omit?: CommunityReplyOmit<ExtArgs> | null
+    /**
+     * The data used to update CommunityReplies.
+     */
+    data: XOR<CommunityReplyUpdateManyMutationInput, CommunityReplyUncheckedUpdateManyInput>
+    /**
+     * Filter which CommunityReplies to update
+     */
+    where?: CommunityReplyWhereInput
+    /**
+     * Limit how many CommunityReplies to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityReplyIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CommunityReply upsert
+   */
+  export type CommunityReplyUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityReply
+     */
+    select?: CommunityReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityReply
+     */
+    omit?: CommunityReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityReplyInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CommunityReply to update in case it exists.
+     */
+    where: CommunityReplyWhereUniqueInput
+    /**
+     * In case the CommunityReply found by the `where` argument doesn't exist, create a new CommunityReply with this data.
+     */
+    create: XOR<CommunityReplyCreateInput, CommunityReplyUncheckedCreateInput>
+    /**
+     * In case the CommunityReply was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CommunityReplyUpdateInput, CommunityReplyUncheckedUpdateInput>
+  }
+
+  /**
+   * CommunityReply delete
+   */
+  export type CommunityReplyDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityReply
+     */
+    select?: CommunityReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityReply
+     */
+    omit?: CommunityReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityReplyInclude<ExtArgs> | null
+    /**
+     * Filter which CommunityReply to delete.
+     */
+    where: CommunityReplyWhereUniqueInput
+  }
+
+  /**
+   * CommunityReply deleteMany
+   */
+  export type CommunityReplyDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CommunityReplies to delete
+     */
+    where?: CommunityReplyWhereInput
+    /**
+     * Limit how many CommunityReplies to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CommunityReply without action
+   */
+  export type CommunityReplyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityReply
+     */
+    select?: CommunityReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityReply
+     */
+    omit?: CommunityReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityReplyInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CommunityPostLike
+   */
+
+  export type AggregateCommunityPostLike = {
+    _count: CommunityPostLikeCountAggregateOutputType | null
+    _min: CommunityPostLikeMinAggregateOutputType | null
+    _max: CommunityPostLikeMaxAggregateOutputType | null
+  }
+
+  export type CommunityPostLikeMinAggregateOutputType = {
+    userId: string | null
+    postId: string | null
+    createdAt: Date | null
+  }
+
+  export type CommunityPostLikeMaxAggregateOutputType = {
+    userId: string | null
+    postId: string | null
+    createdAt: Date | null
+  }
+
+  export type CommunityPostLikeCountAggregateOutputType = {
+    userId: number
+    postId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type CommunityPostLikeMinAggregateInputType = {
+    userId?: true
+    postId?: true
+    createdAt?: true
+  }
+
+  export type CommunityPostLikeMaxAggregateInputType = {
+    userId?: true
+    postId?: true
+    createdAt?: true
+  }
+
+  export type CommunityPostLikeCountAggregateInputType = {
+    userId?: true
+    postId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type CommunityPostLikeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CommunityPostLike to aggregate.
+     */
+    where?: CommunityPostLikeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommunityPostLikes to fetch.
+     */
+    orderBy?: CommunityPostLikeOrderByWithRelationInput | CommunityPostLikeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CommunityPostLikeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommunityPostLikes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommunityPostLikes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CommunityPostLikes
+    **/
+    _count?: true | CommunityPostLikeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CommunityPostLikeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CommunityPostLikeMaxAggregateInputType
+  }
+
+  export type GetCommunityPostLikeAggregateType<T extends CommunityPostLikeAggregateArgs> = {
+        [P in keyof T & keyof AggregateCommunityPostLike]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCommunityPostLike[P]>
+      : GetScalarType<T[P], AggregateCommunityPostLike[P]>
+  }
+
+
+
+
+  export type CommunityPostLikeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommunityPostLikeWhereInput
+    orderBy?: CommunityPostLikeOrderByWithAggregationInput | CommunityPostLikeOrderByWithAggregationInput[]
+    by: CommunityPostLikeScalarFieldEnum[] | CommunityPostLikeScalarFieldEnum
+    having?: CommunityPostLikeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CommunityPostLikeCountAggregateInputType | true
+    _min?: CommunityPostLikeMinAggregateInputType
+    _max?: CommunityPostLikeMaxAggregateInputType
+  }
+
+  export type CommunityPostLikeGroupByOutputType = {
+    userId: string
+    postId: string
+    createdAt: Date
+    _count: CommunityPostLikeCountAggregateOutputType | null
+    _min: CommunityPostLikeMinAggregateOutputType | null
+    _max: CommunityPostLikeMaxAggregateOutputType | null
+  }
+
+  type GetCommunityPostLikeGroupByPayload<T extends CommunityPostLikeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CommunityPostLikeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CommunityPostLikeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CommunityPostLikeGroupByOutputType[P]>
+            : GetScalarType<T[P], CommunityPostLikeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CommunityPostLikeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    postId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["communityPostLike"]>
+
+  export type CommunityPostLikeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    postId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["communityPostLike"]>
+
+  export type CommunityPostLikeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
+    postId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["communityPostLike"]>
+
+  export type CommunityPostLikeSelectScalar = {
+    userId?: boolean
+    postId?: boolean
+    createdAt?: boolean
+  }
+
+  export type CommunityPostLikeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "postId" | "createdAt", ExtArgs["result"]["communityPostLike"]>
+  export type CommunityPostLikeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
+  }
+  export type CommunityPostLikeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
+  }
+  export type CommunityPostLikeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
+  }
+
+  export type $CommunityPostLikePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CommunityPostLike"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      post: Prisma.$CommunityPostPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      userId: string
+      postId: string
+      createdAt: Date
+    }, ExtArgs["result"]["communityPostLike"]>
+    composites: {}
+  }
+
+  type CommunityPostLikeGetPayload<S extends boolean | null | undefined | CommunityPostLikeDefaultArgs> = $Result.GetResult<Prisma.$CommunityPostLikePayload, S>
+
+  type CommunityPostLikeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CommunityPostLikeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CommunityPostLikeCountAggregateInputType | true
+    }
+
+  export interface CommunityPostLikeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CommunityPostLike'], meta: { name: 'CommunityPostLike' } }
+    /**
+     * Find zero or one CommunityPostLike that matches the filter.
+     * @param {CommunityPostLikeFindUniqueArgs} args - Arguments to find a CommunityPostLike
+     * @example
+     * // Get one CommunityPostLike
+     * const communityPostLike = await prisma.communityPostLike.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CommunityPostLikeFindUniqueArgs>(args: SelectSubset<T, CommunityPostLikeFindUniqueArgs<ExtArgs>>): Prisma__CommunityPostLikeClient<$Result.GetResult<Prisma.$CommunityPostLikePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CommunityPostLike that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CommunityPostLikeFindUniqueOrThrowArgs} args - Arguments to find a CommunityPostLike
+     * @example
+     * // Get one CommunityPostLike
+     * const communityPostLike = await prisma.communityPostLike.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CommunityPostLikeFindUniqueOrThrowArgs>(args: SelectSubset<T, CommunityPostLikeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CommunityPostLikeClient<$Result.GetResult<Prisma.$CommunityPostLikePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CommunityPostLike that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityPostLikeFindFirstArgs} args - Arguments to find a CommunityPostLike
+     * @example
+     * // Get one CommunityPostLike
+     * const communityPostLike = await prisma.communityPostLike.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CommunityPostLikeFindFirstArgs>(args?: SelectSubset<T, CommunityPostLikeFindFirstArgs<ExtArgs>>): Prisma__CommunityPostLikeClient<$Result.GetResult<Prisma.$CommunityPostLikePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CommunityPostLike that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityPostLikeFindFirstOrThrowArgs} args - Arguments to find a CommunityPostLike
+     * @example
+     * // Get one CommunityPostLike
+     * const communityPostLike = await prisma.communityPostLike.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CommunityPostLikeFindFirstOrThrowArgs>(args?: SelectSubset<T, CommunityPostLikeFindFirstOrThrowArgs<ExtArgs>>): Prisma__CommunityPostLikeClient<$Result.GetResult<Prisma.$CommunityPostLikePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CommunityPostLikes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityPostLikeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CommunityPostLikes
+     * const communityPostLikes = await prisma.communityPostLike.findMany()
+     * 
+     * // Get first 10 CommunityPostLikes
+     * const communityPostLikes = await prisma.communityPostLike.findMany({ take: 10 })
+     * 
+     * // Only select the `userId`
+     * const communityPostLikeWithUserIdOnly = await prisma.communityPostLike.findMany({ select: { userId: true } })
+     * 
+     */
+    findMany<T extends CommunityPostLikeFindManyArgs>(args?: SelectSubset<T, CommunityPostLikeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityPostLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CommunityPostLike.
+     * @param {CommunityPostLikeCreateArgs} args - Arguments to create a CommunityPostLike.
+     * @example
+     * // Create one CommunityPostLike
+     * const CommunityPostLike = await prisma.communityPostLike.create({
+     *   data: {
+     *     // ... data to create a CommunityPostLike
+     *   }
+     * })
+     * 
+     */
+    create<T extends CommunityPostLikeCreateArgs>(args: SelectSubset<T, CommunityPostLikeCreateArgs<ExtArgs>>): Prisma__CommunityPostLikeClient<$Result.GetResult<Prisma.$CommunityPostLikePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CommunityPostLikes.
+     * @param {CommunityPostLikeCreateManyArgs} args - Arguments to create many CommunityPostLikes.
+     * @example
+     * // Create many CommunityPostLikes
+     * const communityPostLike = await prisma.communityPostLike.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CommunityPostLikeCreateManyArgs>(args?: SelectSubset<T, CommunityPostLikeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CommunityPostLikes and returns the data saved in the database.
+     * @param {CommunityPostLikeCreateManyAndReturnArgs} args - Arguments to create many CommunityPostLikes.
+     * @example
+     * // Create many CommunityPostLikes
+     * const communityPostLike = await prisma.communityPostLike.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CommunityPostLikes and only return the `userId`
+     * const communityPostLikeWithUserIdOnly = await prisma.communityPostLike.createManyAndReturn({
+     *   select: { userId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CommunityPostLikeCreateManyAndReturnArgs>(args?: SelectSubset<T, CommunityPostLikeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityPostLikePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CommunityPostLike.
+     * @param {CommunityPostLikeDeleteArgs} args - Arguments to delete one CommunityPostLike.
+     * @example
+     * // Delete one CommunityPostLike
+     * const CommunityPostLike = await prisma.communityPostLike.delete({
+     *   where: {
+     *     // ... filter to delete one CommunityPostLike
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CommunityPostLikeDeleteArgs>(args: SelectSubset<T, CommunityPostLikeDeleteArgs<ExtArgs>>): Prisma__CommunityPostLikeClient<$Result.GetResult<Prisma.$CommunityPostLikePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CommunityPostLike.
+     * @param {CommunityPostLikeUpdateArgs} args - Arguments to update one CommunityPostLike.
+     * @example
+     * // Update one CommunityPostLike
+     * const communityPostLike = await prisma.communityPostLike.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CommunityPostLikeUpdateArgs>(args: SelectSubset<T, CommunityPostLikeUpdateArgs<ExtArgs>>): Prisma__CommunityPostLikeClient<$Result.GetResult<Prisma.$CommunityPostLikePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CommunityPostLikes.
+     * @param {CommunityPostLikeDeleteManyArgs} args - Arguments to filter CommunityPostLikes to delete.
+     * @example
+     * // Delete a few CommunityPostLikes
+     * const { count } = await prisma.communityPostLike.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CommunityPostLikeDeleteManyArgs>(args?: SelectSubset<T, CommunityPostLikeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CommunityPostLikes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityPostLikeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CommunityPostLikes
+     * const communityPostLike = await prisma.communityPostLike.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CommunityPostLikeUpdateManyArgs>(args: SelectSubset<T, CommunityPostLikeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CommunityPostLikes and returns the data updated in the database.
+     * @param {CommunityPostLikeUpdateManyAndReturnArgs} args - Arguments to update many CommunityPostLikes.
+     * @example
+     * // Update many CommunityPostLikes
+     * const communityPostLike = await prisma.communityPostLike.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CommunityPostLikes and only return the `userId`
+     * const communityPostLikeWithUserIdOnly = await prisma.communityPostLike.updateManyAndReturn({
+     *   select: { userId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CommunityPostLikeUpdateManyAndReturnArgs>(args: SelectSubset<T, CommunityPostLikeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityPostLikePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CommunityPostLike.
+     * @param {CommunityPostLikeUpsertArgs} args - Arguments to update or create a CommunityPostLike.
+     * @example
+     * // Update or create a CommunityPostLike
+     * const communityPostLike = await prisma.communityPostLike.upsert({
+     *   create: {
+     *     // ... data to create a CommunityPostLike
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CommunityPostLike we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CommunityPostLikeUpsertArgs>(args: SelectSubset<T, CommunityPostLikeUpsertArgs<ExtArgs>>): Prisma__CommunityPostLikeClient<$Result.GetResult<Prisma.$CommunityPostLikePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CommunityPostLikes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityPostLikeCountArgs} args - Arguments to filter CommunityPostLikes to count.
+     * @example
+     * // Count the number of CommunityPostLikes
+     * const count = await prisma.communityPostLike.count({
+     *   where: {
+     *     // ... the filter for the CommunityPostLikes we want to count
+     *   }
+     * })
+    **/
+    count<T extends CommunityPostLikeCountArgs>(
+      args?: Subset<T, CommunityPostLikeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CommunityPostLikeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CommunityPostLike.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityPostLikeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CommunityPostLikeAggregateArgs>(args: Subset<T, CommunityPostLikeAggregateArgs>): Prisma.PrismaPromise<GetCommunityPostLikeAggregateType<T>>
+
+    /**
+     * Group by CommunityPostLike.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityPostLikeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CommunityPostLikeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CommunityPostLikeGroupByArgs['orderBy'] }
+        : { orderBy?: CommunityPostLikeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CommunityPostLikeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCommunityPostLikeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CommunityPostLike model
+   */
+  readonly fields: CommunityPostLikeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CommunityPostLike.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CommunityPostLikeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    post<T extends CommunityPostDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CommunityPostDefaultArgs<ExtArgs>>): Prisma__CommunityPostClient<$Result.GetResult<Prisma.$CommunityPostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CommunityPostLike model
+   */
+  interface CommunityPostLikeFieldRefs {
+    readonly userId: FieldRef<"CommunityPostLike", 'String'>
+    readonly postId: FieldRef<"CommunityPostLike", 'String'>
+    readonly createdAt: FieldRef<"CommunityPostLike", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CommunityPostLike findUnique
+   */
+  export type CommunityPostLikeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPostLike
+     */
+    select?: CommunityPostLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPostLike
+     */
+    omit?: CommunityPostLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostLikeInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityPostLike to fetch.
+     */
+    where: CommunityPostLikeWhereUniqueInput
+  }
+
+  /**
+   * CommunityPostLike findUniqueOrThrow
+   */
+  export type CommunityPostLikeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPostLike
+     */
+    select?: CommunityPostLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPostLike
+     */
+    omit?: CommunityPostLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostLikeInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityPostLike to fetch.
+     */
+    where: CommunityPostLikeWhereUniqueInput
+  }
+
+  /**
+   * CommunityPostLike findFirst
+   */
+  export type CommunityPostLikeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPostLike
+     */
+    select?: CommunityPostLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPostLike
+     */
+    omit?: CommunityPostLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostLikeInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityPostLike to fetch.
+     */
+    where?: CommunityPostLikeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommunityPostLikes to fetch.
+     */
+    orderBy?: CommunityPostLikeOrderByWithRelationInput | CommunityPostLikeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CommunityPostLikes.
+     */
+    cursor?: CommunityPostLikeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommunityPostLikes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommunityPostLikes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CommunityPostLikes.
+     */
+    distinct?: CommunityPostLikeScalarFieldEnum | CommunityPostLikeScalarFieldEnum[]
+  }
+
+  /**
+   * CommunityPostLike findFirstOrThrow
+   */
+  export type CommunityPostLikeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPostLike
+     */
+    select?: CommunityPostLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPostLike
+     */
+    omit?: CommunityPostLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostLikeInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityPostLike to fetch.
+     */
+    where?: CommunityPostLikeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommunityPostLikes to fetch.
+     */
+    orderBy?: CommunityPostLikeOrderByWithRelationInput | CommunityPostLikeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CommunityPostLikes.
+     */
+    cursor?: CommunityPostLikeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommunityPostLikes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommunityPostLikes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CommunityPostLikes.
+     */
+    distinct?: CommunityPostLikeScalarFieldEnum | CommunityPostLikeScalarFieldEnum[]
+  }
+
+  /**
+   * CommunityPostLike findMany
+   */
+  export type CommunityPostLikeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPostLike
+     */
+    select?: CommunityPostLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPostLike
+     */
+    omit?: CommunityPostLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostLikeInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityPostLikes to fetch.
+     */
+    where?: CommunityPostLikeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommunityPostLikes to fetch.
+     */
+    orderBy?: CommunityPostLikeOrderByWithRelationInput | CommunityPostLikeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CommunityPostLikes.
+     */
+    cursor?: CommunityPostLikeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommunityPostLikes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommunityPostLikes.
+     */
+    skip?: number
+    distinct?: CommunityPostLikeScalarFieldEnum | CommunityPostLikeScalarFieldEnum[]
+  }
+
+  /**
+   * CommunityPostLike create
+   */
+  export type CommunityPostLikeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPostLike
+     */
+    select?: CommunityPostLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPostLike
+     */
+    omit?: CommunityPostLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostLikeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CommunityPostLike.
+     */
+    data: XOR<CommunityPostLikeCreateInput, CommunityPostLikeUncheckedCreateInput>
+  }
+
+  /**
+   * CommunityPostLike createMany
+   */
+  export type CommunityPostLikeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CommunityPostLikes.
+     */
+    data: CommunityPostLikeCreateManyInput | CommunityPostLikeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CommunityPostLike createManyAndReturn
+   */
+  export type CommunityPostLikeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPostLike
+     */
+    select?: CommunityPostLikeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPostLike
+     */
+    omit?: CommunityPostLikeOmit<ExtArgs> | null
+    /**
+     * The data used to create many CommunityPostLikes.
+     */
+    data: CommunityPostLikeCreateManyInput | CommunityPostLikeCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostLikeIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CommunityPostLike update
+   */
+  export type CommunityPostLikeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPostLike
+     */
+    select?: CommunityPostLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPostLike
+     */
+    omit?: CommunityPostLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostLikeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CommunityPostLike.
+     */
+    data: XOR<CommunityPostLikeUpdateInput, CommunityPostLikeUncheckedUpdateInput>
+    /**
+     * Choose, which CommunityPostLike to update.
+     */
+    where: CommunityPostLikeWhereUniqueInput
+  }
+
+  /**
+   * CommunityPostLike updateMany
+   */
+  export type CommunityPostLikeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CommunityPostLikes.
+     */
+    data: XOR<CommunityPostLikeUpdateManyMutationInput, CommunityPostLikeUncheckedUpdateManyInput>
+    /**
+     * Filter which CommunityPostLikes to update
+     */
+    where?: CommunityPostLikeWhereInput
+    /**
+     * Limit how many CommunityPostLikes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CommunityPostLike updateManyAndReturn
+   */
+  export type CommunityPostLikeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPostLike
+     */
+    select?: CommunityPostLikeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPostLike
+     */
+    omit?: CommunityPostLikeOmit<ExtArgs> | null
+    /**
+     * The data used to update CommunityPostLikes.
+     */
+    data: XOR<CommunityPostLikeUpdateManyMutationInput, CommunityPostLikeUncheckedUpdateManyInput>
+    /**
+     * Filter which CommunityPostLikes to update
+     */
+    where?: CommunityPostLikeWhereInput
+    /**
+     * Limit how many CommunityPostLikes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostLikeIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CommunityPostLike upsert
+   */
+  export type CommunityPostLikeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPostLike
+     */
+    select?: CommunityPostLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPostLike
+     */
+    omit?: CommunityPostLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostLikeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CommunityPostLike to update in case it exists.
+     */
+    where: CommunityPostLikeWhereUniqueInput
+    /**
+     * In case the CommunityPostLike found by the `where` argument doesn't exist, create a new CommunityPostLike with this data.
+     */
+    create: XOR<CommunityPostLikeCreateInput, CommunityPostLikeUncheckedCreateInput>
+    /**
+     * In case the CommunityPostLike was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CommunityPostLikeUpdateInput, CommunityPostLikeUncheckedUpdateInput>
+  }
+
+  /**
+   * CommunityPostLike delete
+   */
+  export type CommunityPostLikeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPostLike
+     */
+    select?: CommunityPostLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPostLike
+     */
+    omit?: CommunityPostLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostLikeInclude<ExtArgs> | null
+    /**
+     * Filter which CommunityPostLike to delete.
+     */
+    where: CommunityPostLikeWhereUniqueInput
+  }
+
+  /**
+   * CommunityPostLike deleteMany
+   */
+  export type CommunityPostLikeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CommunityPostLikes to delete
+     */
+    where?: CommunityPostLikeWhereInput
+    /**
+     * Limit how many CommunityPostLikes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CommunityPostLike without action
+   */
+  export type CommunityPostLikeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPostLike
+     */
+    select?: CommunityPostLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPostLike
+     */
+    omit?: CommunityPostLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostLikeInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ExpertProfile
+   */
+
+  export type AggregateExpertProfile = {
+    _count: ExpertProfileCountAggregateOutputType | null
+    _avg: ExpertProfileAvgAggregateOutputType | null
+    _sum: ExpertProfileSumAggregateOutputType | null
+    _min: ExpertProfileMinAggregateOutputType | null
+    _max: ExpertProfileMaxAggregateOutputType | null
+  }
+
+  export type ExpertProfileAvgAggregateOutputType = {
+    rating: number | null
+    responses: number | null
+  }
+
+  export type ExpertProfileSumAggregateOutputType = {
+    rating: number | null
+    responses: number | null
+  }
+
+  export type ExpertProfileMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    type: $Enums.ExpertType | null
+    title: string | null
+    specialization: string | null
+    location: string | null
+    rating: number | null
+    responses: number | null
+    isVerified: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ExpertProfileMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    type: $Enums.ExpertType | null
+    title: string | null
+    specialization: string | null
+    location: string | null
+    rating: number | null
+    responses: number | null
+    isVerified: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ExpertProfileCountAggregateOutputType = {
+    id: number
+    userId: number
+    type: number
+    title: number
+    specialization: number
+    location: number
+    rating: number
+    responses: number
+    isVerified: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ExpertProfileAvgAggregateInputType = {
+    rating?: true
+    responses?: true
+  }
+
+  export type ExpertProfileSumAggregateInputType = {
+    rating?: true
+    responses?: true
+  }
+
+  export type ExpertProfileMinAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    title?: true
+    specialization?: true
+    location?: true
+    rating?: true
+    responses?: true
+    isVerified?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ExpertProfileMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    title?: true
+    specialization?: true
+    location?: true
+    rating?: true
+    responses?: true
+    isVerified?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ExpertProfileCountAggregateInputType = {
+    id?: true
+    userId?: true
+    type?: true
+    title?: true
+    specialization?: true
+    location?: true
+    rating?: true
+    responses?: true
+    isVerified?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ExpertProfileAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ExpertProfile to aggregate.
+     */
+    where?: ExpertProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExpertProfiles to fetch.
+     */
+    orderBy?: ExpertProfileOrderByWithRelationInput | ExpertProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ExpertProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExpertProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExpertProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ExpertProfiles
+    **/
+    _count?: true | ExpertProfileCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ExpertProfileAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ExpertProfileSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ExpertProfileMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ExpertProfileMaxAggregateInputType
+  }
+
+  export type GetExpertProfileAggregateType<T extends ExpertProfileAggregateArgs> = {
+        [P in keyof T & keyof AggregateExpertProfile]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateExpertProfile[P]>
+      : GetScalarType<T[P], AggregateExpertProfile[P]>
+  }
+
+
+
+
+  export type ExpertProfileGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExpertProfileWhereInput
+    orderBy?: ExpertProfileOrderByWithAggregationInput | ExpertProfileOrderByWithAggregationInput[]
+    by: ExpertProfileScalarFieldEnum[] | ExpertProfileScalarFieldEnum
+    having?: ExpertProfileScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ExpertProfileCountAggregateInputType | true
+    _avg?: ExpertProfileAvgAggregateInputType
+    _sum?: ExpertProfileSumAggregateInputType
+    _min?: ExpertProfileMinAggregateInputType
+    _max?: ExpertProfileMaxAggregateInputType
+  }
+
+  export type ExpertProfileGroupByOutputType = {
+    id: string
+    userId: string
+    type: $Enums.ExpertType
+    title: string | null
+    specialization: string | null
+    location: string | null
+    rating: number
+    responses: number
+    isVerified: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: ExpertProfileCountAggregateOutputType | null
+    _avg: ExpertProfileAvgAggregateOutputType | null
+    _sum: ExpertProfileSumAggregateOutputType | null
+    _min: ExpertProfileMinAggregateOutputType | null
+    _max: ExpertProfileMaxAggregateOutputType | null
+  }
+
+  type GetExpertProfileGroupByPayload<T extends ExpertProfileGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ExpertProfileGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ExpertProfileGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ExpertProfileGroupByOutputType[P]>
+            : GetScalarType<T[P], ExpertProfileGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ExpertProfileSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    title?: boolean
+    specialization?: boolean
+    location?: boolean
+    rating?: boolean
+    responses?: boolean
+    isVerified?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["expertProfile"]>
+
+  export type ExpertProfileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    title?: boolean
+    specialization?: boolean
+    location?: boolean
+    rating?: boolean
+    responses?: boolean
+    isVerified?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["expertProfile"]>
+
+  export type ExpertProfileSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    title?: boolean
+    specialization?: boolean
+    location?: boolean
+    rating?: boolean
+    responses?: boolean
+    isVerified?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["expertProfile"]>
+
+  export type ExpertProfileSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    type?: boolean
+    title?: boolean
+    specialization?: boolean
+    location?: boolean
+    rating?: boolean
+    responses?: boolean
+    isVerified?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ExpertProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "title" | "specialization" | "location" | "rating" | "responses" | "isVerified" | "createdAt" | "updatedAt", ExtArgs["result"]["expertProfile"]>
+  export type ExpertProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ExpertProfileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ExpertProfileIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ExpertProfilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ExpertProfile"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      type: $Enums.ExpertType
+      title: string | null
+      specialization: string | null
+      location: string | null
+      rating: number
+      responses: number
+      isVerified: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["expertProfile"]>
+    composites: {}
+  }
+
+  type ExpertProfileGetPayload<S extends boolean | null | undefined | ExpertProfileDefaultArgs> = $Result.GetResult<Prisma.$ExpertProfilePayload, S>
+
+  type ExpertProfileCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ExpertProfileFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ExpertProfileCountAggregateInputType | true
+    }
+
+  export interface ExpertProfileDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ExpertProfile'], meta: { name: 'ExpertProfile' } }
+    /**
+     * Find zero or one ExpertProfile that matches the filter.
+     * @param {ExpertProfileFindUniqueArgs} args - Arguments to find a ExpertProfile
+     * @example
+     * // Get one ExpertProfile
+     * const expertProfile = await prisma.expertProfile.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ExpertProfileFindUniqueArgs>(args: SelectSubset<T, ExpertProfileFindUniqueArgs<ExtArgs>>): Prisma__ExpertProfileClient<$Result.GetResult<Prisma.$ExpertProfilePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ExpertProfile that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ExpertProfileFindUniqueOrThrowArgs} args - Arguments to find a ExpertProfile
+     * @example
+     * // Get one ExpertProfile
+     * const expertProfile = await prisma.expertProfile.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ExpertProfileFindUniqueOrThrowArgs>(args: SelectSubset<T, ExpertProfileFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ExpertProfileClient<$Result.GetResult<Prisma.$ExpertProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ExpertProfile that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExpertProfileFindFirstArgs} args - Arguments to find a ExpertProfile
+     * @example
+     * // Get one ExpertProfile
+     * const expertProfile = await prisma.expertProfile.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ExpertProfileFindFirstArgs>(args?: SelectSubset<T, ExpertProfileFindFirstArgs<ExtArgs>>): Prisma__ExpertProfileClient<$Result.GetResult<Prisma.$ExpertProfilePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ExpertProfile that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExpertProfileFindFirstOrThrowArgs} args - Arguments to find a ExpertProfile
+     * @example
+     * // Get one ExpertProfile
+     * const expertProfile = await prisma.expertProfile.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ExpertProfileFindFirstOrThrowArgs>(args?: SelectSubset<T, ExpertProfileFindFirstOrThrowArgs<ExtArgs>>): Prisma__ExpertProfileClient<$Result.GetResult<Prisma.$ExpertProfilePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ExpertProfiles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExpertProfileFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ExpertProfiles
+     * const expertProfiles = await prisma.expertProfile.findMany()
+     * 
+     * // Get first 10 ExpertProfiles
+     * const expertProfiles = await prisma.expertProfile.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const expertProfileWithIdOnly = await prisma.expertProfile.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ExpertProfileFindManyArgs>(args?: SelectSubset<T, ExpertProfileFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpertProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ExpertProfile.
+     * @param {ExpertProfileCreateArgs} args - Arguments to create a ExpertProfile.
+     * @example
+     * // Create one ExpertProfile
+     * const ExpertProfile = await prisma.expertProfile.create({
+     *   data: {
+     *     // ... data to create a ExpertProfile
+     *   }
+     * })
+     * 
+     */
+    create<T extends ExpertProfileCreateArgs>(args: SelectSubset<T, ExpertProfileCreateArgs<ExtArgs>>): Prisma__ExpertProfileClient<$Result.GetResult<Prisma.$ExpertProfilePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ExpertProfiles.
+     * @param {ExpertProfileCreateManyArgs} args - Arguments to create many ExpertProfiles.
+     * @example
+     * // Create many ExpertProfiles
+     * const expertProfile = await prisma.expertProfile.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ExpertProfileCreateManyArgs>(args?: SelectSubset<T, ExpertProfileCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ExpertProfiles and returns the data saved in the database.
+     * @param {ExpertProfileCreateManyAndReturnArgs} args - Arguments to create many ExpertProfiles.
+     * @example
+     * // Create many ExpertProfiles
+     * const expertProfile = await prisma.expertProfile.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ExpertProfiles and only return the `id`
+     * const expertProfileWithIdOnly = await prisma.expertProfile.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ExpertProfileCreateManyAndReturnArgs>(args?: SelectSubset<T, ExpertProfileCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpertProfilePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ExpertProfile.
+     * @param {ExpertProfileDeleteArgs} args - Arguments to delete one ExpertProfile.
+     * @example
+     * // Delete one ExpertProfile
+     * const ExpertProfile = await prisma.expertProfile.delete({
+     *   where: {
+     *     // ... filter to delete one ExpertProfile
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ExpertProfileDeleteArgs>(args: SelectSubset<T, ExpertProfileDeleteArgs<ExtArgs>>): Prisma__ExpertProfileClient<$Result.GetResult<Prisma.$ExpertProfilePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ExpertProfile.
+     * @param {ExpertProfileUpdateArgs} args - Arguments to update one ExpertProfile.
+     * @example
+     * // Update one ExpertProfile
+     * const expertProfile = await prisma.expertProfile.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ExpertProfileUpdateArgs>(args: SelectSubset<T, ExpertProfileUpdateArgs<ExtArgs>>): Prisma__ExpertProfileClient<$Result.GetResult<Prisma.$ExpertProfilePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ExpertProfiles.
+     * @param {ExpertProfileDeleteManyArgs} args - Arguments to filter ExpertProfiles to delete.
+     * @example
+     * // Delete a few ExpertProfiles
+     * const { count } = await prisma.expertProfile.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ExpertProfileDeleteManyArgs>(args?: SelectSubset<T, ExpertProfileDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ExpertProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExpertProfileUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ExpertProfiles
+     * const expertProfile = await prisma.expertProfile.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ExpertProfileUpdateManyArgs>(args: SelectSubset<T, ExpertProfileUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ExpertProfiles and returns the data updated in the database.
+     * @param {ExpertProfileUpdateManyAndReturnArgs} args - Arguments to update many ExpertProfiles.
+     * @example
+     * // Update many ExpertProfiles
+     * const expertProfile = await prisma.expertProfile.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ExpertProfiles and only return the `id`
+     * const expertProfileWithIdOnly = await prisma.expertProfile.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ExpertProfileUpdateManyAndReturnArgs>(args: SelectSubset<T, ExpertProfileUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpertProfilePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ExpertProfile.
+     * @param {ExpertProfileUpsertArgs} args - Arguments to update or create a ExpertProfile.
+     * @example
+     * // Update or create a ExpertProfile
+     * const expertProfile = await prisma.expertProfile.upsert({
+     *   create: {
+     *     // ... data to create a ExpertProfile
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ExpertProfile we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ExpertProfileUpsertArgs>(args: SelectSubset<T, ExpertProfileUpsertArgs<ExtArgs>>): Prisma__ExpertProfileClient<$Result.GetResult<Prisma.$ExpertProfilePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ExpertProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExpertProfileCountArgs} args - Arguments to filter ExpertProfiles to count.
+     * @example
+     * // Count the number of ExpertProfiles
+     * const count = await prisma.expertProfile.count({
+     *   where: {
+     *     // ... the filter for the ExpertProfiles we want to count
+     *   }
+     * })
+    **/
+    count<T extends ExpertProfileCountArgs>(
+      args?: Subset<T, ExpertProfileCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ExpertProfileCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ExpertProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExpertProfileAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ExpertProfileAggregateArgs>(args: Subset<T, ExpertProfileAggregateArgs>): Prisma.PrismaPromise<GetExpertProfileAggregateType<T>>
+
+    /**
+     * Group by ExpertProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExpertProfileGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ExpertProfileGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ExpertProfileGroupByArgs['orderBy'] }
+        : { orderBy?: ExpertProfileGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ExpertProfileGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetExpertProfileGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ExpertProfile model
+   */
+  readonly fields: ExpertProfileFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ExpertProfile.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ExpertProfileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ExpertProfile model
+   */
+  interface ExpertProfileFieldRefs {
+    readonly id: FieldRef<"ExpertProfile", 'String'>
+    readonly userId: FieldRef<"ExpertProfile", 'String'>
+    readonly type: FieldRef<"ExpertProfile", 'ExpertType'>
+    readonly title: FieldRef<"ExpertProfile", 'String'>
+    readonly specialization: FieldRef<"ExpertProfile", 'String'>
+    readonly location: FieldRef<"ExpertProfile", 'String'>
+    readonly rating: FieldRef<"ExpertProfile", 'Float'>
+    readonly responses: FieldRef<"ExpertProfile", 'Int'>
+    readonly isVerified: FieldRef<"ExpertProfile", 'Boolean'>
+    readonly createdAt: FieldRef<"ExpertProfile", 'DateTime'>
+    readonly updatedAt: FieldRef<"ExpertProfile", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ExpertProfile findUnique
+   */
+  export type ExpertProfileFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpertProfile
+     */
+    select?: ExpertProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpertProfile
+     */
+    omit?: ExpertProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which ExpertProfile to fetch.
+     */
+    where: ExpertProfileWhereUniqueInput
+  }
+
+  /**
+   * ExpertProfile findUniqueOrThrow
+   */
+  export type ExpertProfileFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpertProfile
+     */
+    select?: ExpertProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpertProfile
+     */
+    omit?: ExpertProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which ExpertProfile to fetch.
+     */
+    where: ExpertProfileWhereUniqueInput
+  }
+
+  /**
+   * ExpertProfile findFirst
+   */
+  export type ExpertProfileFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpertProfile
+     */
+    select?: ExpertProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpertProfile
+     */
+    omit?: ExpertProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which ExpertProfile to fetch.
+     */
+    where?: ExpertProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExpertProfiles to fetch.
+     */
+    orderBy?: ExpertProfileOrderByWithRelationInput | ExpertProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ExpertProfiles.
+     */
+    cursor?: ExpertProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExpertProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExpertProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ExpertProfiles.
+     */
+    distinct?: ExpertProfileScalarFieldEnum | ExpertProfileScalarFieldEnum[]
+  }
+
+  /**
+   * ExpertProfile findFirstOrThrow
+   */
+  export type ExpertProfileFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpertProfile
+     */
+    select?: ExpertProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpertProfile
+     */
+    omit?: ExpertProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which ExpertProfile to fetch.
+     */
+    where?: ExpertProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExpertProfiles to fetch.
+     */
+    orderBy?: ExpertProfileOrderByWithRelationInput | ExpertProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ExpertProfiles.
+     */
+    cursor?: ExpertProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExpertProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExpertProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ExpertProfiles.
+     */
+    distinct?: ExpertProfileScalarFieldEnum | ExpertProfileScalarFieldEnum[]
+  }
+
+  /**
+   * ExpertProfile findMany
+   */
+  export type ExpertProfileFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpertProfile
+     */
+    select?: ExpertProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpertProfile
+     */
+    omit?: ExpertProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which ExpertProfiles to fetch.
+     */
+    where?: ExpertProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExpertProfiles to fetch.
+     */
+    orderBy?: ExpertProfileOrderByWithRelationInput | ExpertProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ExpertProfiles.
+     */
+    cursor?: ExpertProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExpertProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExpertProfiles.
+     */
+    skip?: number
+    distinct?: ExpertProfileScalarFieldEnum | ExpertProfileScalarFieldEnum[]
+  }
+
+  /**
+   * ExpertProfile create
+   */
+  export type ExpertProfileCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpertProfile
+     */
+    select?: ExpertProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpertProfile
+     */
+    omit?: ExpertProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertProfileInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ExpertProfile.
+     */
+    data: XOR<ExpertProfileCreateInput, ExpertProfileUncheckedCreateInput>
+  }
+
+  /**
+   * ExpertProfile createMany
+   */
+  export type ExpertProfileCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ExpertProfiles.
+     */
+    data: ExpertProfileCreateManyInput | ExpertProfileCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ExpertProfile createManyAndReturn
+   */
+  export type ExpertProfileCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpertProfile
+     */
+    select?: ExpertProfileSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpertProfile
+     */
+    omit?: ExpertProfileOmit<ExtArgs> | null
+    /**
+     * The data used to create many ExpertProfiles.
+     */
+    data: ExpertProfileCreateManyInput | ExpertProfileCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertProfileIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ExpertProfile update
+   */
+  export type ExpertProfileUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpertProfile
+     */
+    select?: ExpertProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpertProfile
+     */
+    omit?: ExpertProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertProfileInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ExpertProfile.
+     */
+    data: XOR<ExpertProfileUpdateInput, ExpertProfileUncheckedUpdateInput>
+    /**
+     * Choose, which ExpertProfile to update.
+     */
+    where: ExpertProfileWhereUniqueInput
+  }
+
+  /**
+   * ExpertProfile updateMany
+   */
+  export type ExpertProfileUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ExpertProfiles.
+     */
+    data: XOR<ExpertProfileUpdateManyMutationInput, ExpertProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which ExpertProfiles to update
+     */
+    where?: ExpertProfileWhereInput
+    /**
+     * Limit how many ExpertProfiles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ExpertProfile updateManyAndReturn
+   */
+  export type ExpertProfileUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpertProfile
+     */
+    select?: ExpertProfileSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpertProfile
+     */
+    omit?: ExpertProfileOmit<ExtArgs> | null
+    /**
+     * The data used to update ExpertProfiles.
+     */
+    data: XOR<ExpertProfileUpdateManyMutationInput, ExpertProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which ExpertProfiles to update
+     */
+    where?: ExpertProfileWhereInput
+    /**
+     * Limit how many ExpertProfiles to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertProfileIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ExpertProfile upsert
+   */
+  export type ExpertProfileUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpertProfile
+     */
+    select?: ExpertProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpertProfile
+     */
+    omit?: ExpertProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertProfileInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ExpertProfile to update in case it exists.
+     */
+    where: ExpertProfileWhereUniqueInput
+    /**
+     * In case the ExpertProfile found by the `where` argument doesn't exist, create a new ExpertProfile with this data.
+     */
+    create: XOR<ExpertProfileCreateInput, ExpertProfileUncheckedCreateInput>
+    /**
+     * In case the ExpertProfile was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ExpertProfileUpdateInput, ExpertProfileUncheckedUpdateInput>
+  }
+
+  /**
+   * ExpertProfile delete
+   */
+  export type ExpertProfileDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpertProfile
+     */
+    select?: ExpertProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpertProfile
+     */
+    omit?: ExpertProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertProfileInclude<ExtArgs> | null
+    /**
+     * Filter which ExpertProfile to delete.
+     */
+    where: ExpertProfileWhereUniqueInput
+  }
+
+  /**
+   * ExpertProfile deleteMany
+   */
+  export type ExpertProfileDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ExpertProfiles to delete
+     */
+    where?: ExpertProfileWhereInput
+    /**
+     * Limit how many ExpertProfiles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ExpertProfile without action
+   */
+  export type ExpertProfileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpertProfile
+     */
+    select?: ExpertProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpertProfile
+     */
+    omit?: ExpertProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertProfileInclude<ExtArgs> | null
   }
 
 
@@ -18827,6 +23968,64 @@ export namespace Prisma {
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const CommunityPostScalarFieldEnum: {
+    id: 'id',
+    authorId: 'authorId',
+    title: 'title',
+    content: 'content',
+    type: 'type',
+    category: 'category',
+    crop: 'crop',
+    location: 'location',
+    likes: 'likes',
+    repliesCount: 'repliesCount',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CommunityPostScalarFieldEnum = (typeof CommunityPostScalarFieldEnum)[keyof typeof CommunityPostScalarFieldEnum]
+
+
+  export const CommunityReplyScalarFieldEnum: {
+    id: 'id',
+    postId: 'postId',
+    authorId: 'authorId',
+    content: 'content',
+    isExpert: 'isExpert',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CommunityReplyScalarFieldEnum = (typeof CommunityReplyScalarFieldEnum)[keyof typeof CommunityReplyScalarFieldEnum]
+
+
+  export const CommunityPostLikeScalarFieldEnum: {
+    userId: 'userId',
+    postId: 'postId',
+    createdAt: 'createdAt'
+  };
+
+  export type CommunityPostLikeScalarFieldEnum = (typeof CommunityPostLikeScalarFieldEnum)[keyof typeof CommunityPostLikeScalarFieldEnum]
+
+
+  export const ExpertProfileScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    type: 'type',
+    title: 'title',
+    specialization: 'specialization',
+    location: 'location',
+    rating: 'rating',
+    responses: 'responses',
+    isVerified: 'isVerified',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ExpertProfileScalarFieldEnum = (typeof ExpertProfileScalarFieldEnum)[keyof typeof ExpertProfileScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -19102,6 +24301,48 @@ export namespace Prisma {
    * Reference to a field of type 'UserStatus[]'
    */
   export type ListEnumUserStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'CommunityPostType'
+   */
+  export type EnumCommunityPostTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CommunityPostType'>
+    
+
+
+  /**
+   * Reference to a field of type 'CommunityPostType[]'
+   */
+  export type ListEnumCommunityPostTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CommunityPostType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'CommunityPostStatus'
+   */
+  export type EnumCommunityPostStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CommunityPostStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'CommunityPostStatus[]'
+   */
+  export type ListEnumCommunityPostStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CommunityPostStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ExpertType'
+   */
+  export type EnumExpertTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ExpertType'>
+    
+
+
+  /**
+   * Reference to a field of type 'ExpertType[]'
+   */
+  export type ListEnumExpertTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ExpertType[]'>
     
   /**
    * Deep Input Types
@@ -20234,6 +25475,10 @@ export namespace Prisma {
     Session?: SessionListRelationFilter
     Role?: XOR<RoleScalarRelationFilter, RoleWhereInput>
     Permission?: PermissionListRelationFilter
+    ExpertProfile?: XOR<ExpertProfileNullableScalarRelationFilter, ExpertProfileWhereInput> | null
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostListRelationFilter
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyListRelationFilter
+    CommunityPostLike_userToUser?: CommunityPostLikeListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -20282,6 +25527,10 @@ export namespace Prisma {
     Session?: SessionOrderByRelationAggregateInput
     Role?: RoleOrderByWithRelationInput
     Permission?: PermissionOrderByRelationAggregateInput
+    ExpertProfile?: ExpertProfileOrderByWithRelationInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostOrderByRelationAggregateInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyOrderByRelationAggregateInput
+    CommunityPostLike_userToUser?: CommunityPostLikeOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -20333,6 +25582,10 @@ export namespace Prisma {
     Session?: SessionListRelationFilter
     Role?: XOR<RoleScalarRelationFilter, RoleWhereInput>
     Permission?: PermissionListRelationFilter
+    ExpertProfile?: XOR<ExpertProfileNullableScalarRelationFilter, ExpertProfileWhereInput> | null
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostListRelationFilter
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyListRelationFilter
+    CommunityPostLike_userToUser?: CommunityPostLikeListRelationFilter
   }, "id" | "phone" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -20407,6 +25660,313 @@ export namespace Prisma {
     timezone?: StringWithAggregatesFilter<"User"> | string
     twoFactorEnabled?: BoolWithAggregatesFilter<"User"> | boolean
     status?: EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
+  }
+
+  export type CommunityPostWhereInput = {
+    AND?: CommunityPostWhereInput | CommunityPostWhereInput[]
+    OR?: CommunityPostWhereInput[]
+    NOT?: CommunityPostWhereInput | CommunityPostWhereInput[]
+    id?: StringFilter<"CommunityPost"> | string
+    authorId?: StringFilter<"CommunityPost"> | string
+    title?: StringFilter<"CommunityPost"> | string
+    content?: StringFilter<"CommunityPost"> | string
+    type?: EnumCommunityPostTypeFilter<"CommunityPost"> | $Enums.CommunityPostType
+    category?: StringFilter<"CommunityPost"> | string
+    crop?: StringFilter<"CommunityPost"> | string
+    location?: StringNullableFilter<"CommunityPost"> | string | null
+    likes?: IntFilter<"CommunityPost"> | number
+    repliesCount?: IntFilter<"CommunityPost"> | number
+    status?: EnumCommunityPostStatusFilter<"CommunityPost"> | $Enums.CommunityPostStatus
+    createdAt?: DateTimeFilter<"CommunityPost"> | Date | string
+    updatedAt?: DateTimeFilter<"CommunityPost"> | Date | string
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+    replies?: CommunityReplyListRelationFilter
+    likesList?: CommunityPostLikeListRelationFilter
+  }
+
+  export type CommunityPostOrderByWithRelationInput = {
+    id?: SortOrder
+    authorId?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    type?: SortOrder
+    category?: SortOrder
+    crop?: SortOrder
+    location?: SortOrderInput | SortOrder
+    likes?: SortOrder
+    repliesCount?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    author?: UserOrderByWithRelationInput
+    replies?: CommunityReplyOrderByRelationAggregateInput
+    likesList?: CommunityPostLikeOrderByRelationAggregateInput
+  }
+
+  export type CommunityPostWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CommunityPostWhereInput | CommunityPostWhereInput[]
+    OR?: CommunityPostWhereInput[]
+    NOT?: CommunityPostWhereInput | CommunityPostWhereInput[]
+    authorId?: StringFilter<"CommunityPost"> | string
+    title?: StringFilter<"CommunityPost"> | string
+    content?: StringFilter<"CommunityPost"> | string
+    type?: EnumCommunityPostTypeFilter<"CommunityPost"> | $Enums.CommunityPostType
+    category?: StringFilter<"CommunityPost"> | string
+    crop?: StringFilter<"CommunityPost"> | string
+    location?: StringNullableFilter<"CommunityPost"> | string | null
+    likes?: IntFilter<"CommunityPost"> | number
+    repliesCount?: IntFilter<"CommunityPost"> | number
+    status?: EnumCommunityPostStatusFilter<"CommunityPost"> | $Enums.CommunityPostStatus
+    createdAt?: DateTimeFilter<"CommunityPost"> | Date | string
+    updatedAt?: DateTimeFilter<"CommunityPost"> | Date | string
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+    replies?: CommunityReplyListRelationFilter
+    likesList?: CommunityPostLikeListRelationFilter
+  }, "id">
+
+  export type CommunityPostOrderByWithAggregationInput = {
+    id?: SortOrder
+    authorId?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    type?: SortOrder
+    category?: SortOrder
+    crop?: SortOrder
+    location?: SortOrderInput | SortOrder
+    likes?: SortOrder
+    repliesCount?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CommunityPostCountOrderByAggregateInput
+    _avg?: CommunityPostAvgOrderByAggregateInput
+    _max?: CommunityPostMaxOrderByAggregateInput
+    _min?: CommunityPostMinOrderByAggregateInput
+    _sum?: CommunityPostSumOrderByAggregateInput
+  }
+
+  export type CommunityPostScalarWhereWithAggregatesInput = {
+    AND?: CommunityPostScalarWhereWithAggregatesInput | CommunityPostScalarWhereWithAggregatesInput[]
+    OR?: CommunityPostScalarWhereWithAggregatesInput[]
+    NOT?: CommunityPostScalarWhereWithAggregatesInput | CommunityPostScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CommunityPost"> | string
+    authorId?: StringWithAggregatesFilter<"CommunityPost"> | string
+    title?: StringWithAggregatesFilter<"CommunityPost"> | string
+    content?: StringWithAggregatesFilter<"CommunityPost"> | string
+    type?: EnumCommunityPostTypeWithAggregatesFilter<"CommunityPost"> | $Enums.CommunityPostType
+    category?: StringWithAggregatesFilter<"CommunityPost"> | string
+    crop?: StringWithAggregatesFilter<"CommunityPost"> | string
+    location?: StringNullableWithAggregatesFilter<"CommunityPost"> | string | null
+    likes?: IntWithAggregatesFilter<"CommunityPost"> | number
+    repliesCount?: IntWithAggregatesFilter<"CommunityPost"> | number
+    status?: EnumCommunityPostStatusWithAggregatesFilter<"CommunityPost"> | $Enums.CommunityPostStatus
+    createdAt?: DateTimeWithAggregatesFilter<"CommunityPost"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CommunityPost"> | Date | string
+  }
+
+  export type CommunityReplyWhereInput = {
+    AND?: CommunityReplyWhereInput | CommunityReplyWhereInput[]
+    OR?: CommunityReplyWhereInput[]
+    NOT?: CommunityReplyWhereInput | CommunityReplyWhereInput[]
+    id?: StringFilter<"CommunityReply"> | string
+    postId?: StringFilter<"CommunityReply"> | string
+    authorId?: StringFilter<"CommunityReply"> | string
+    content?: StringFilter<"CommunityReply"> | string
+    isExpert?: BoolFilter<"CommunityReply"> | boolean
+    createdAt?: DateTimeFilter<"CommunityReply"> | Date | string
+    updatedAt?: DateTimeFilter<"CommunityReply"> | Date | string
+    post?: XOR<CommunityPostScalarRelationFilter, CommunityPostWhereInput>
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type CommunityReplyOrderByWithRelationInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    authorId?: SortOrder
+    content?: SortOrder
+    isExpert?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    post?: CommunityPostOrderByWithRelationInput
+    author?: UserOrderByWithRelationInput
+  }
+
+  export type CommunityReplyWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CommunityReplyWhereInput | CommunityReplyWhereInput[]
+    OR?: CommunityReplyWhereInput[]
+    NOT?: CommunityReplyWhereInput | CommunityReplyWhereInput[]
+    postId?: StringFilter<"CommunityReply"> | string
+    authorId?: StringFilter<"CommunityReply"> | string
+    content?: StringFilter<"CommunityReply"> | string
+    isExpert?: BoolFilter<"CommunityReply"> | boolean
+    createdAt?: DateTimeFilter<"CommunityReply"> | Date | string
+    updatedAt?: DateTimeFilter<"CommunityReply"> | Date | string
+    post?: XOR<CommunityPostScalarRelationFilter, CommunityPostWhereInput>
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type CommunityReplyOrderByWithAggregationInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    authorId?: SortOrder
+    content?: SortOrder
+    isExpert?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CommunityReplyCountOrderByAggregateInput
+    _max?: CommunityReplyMaxOrderByAggregateInput
+    _min?: CommunityReplyMinOrderByAggregateInput
+  }
+
+  export type CommunityReplyScalarWhereWithAggregatesInput = {
+    AND?: CommunityReplyScalarWhereWithAggregatesInput | CommunityReplyScalarWhereWithAggregatesInput[]
+    OR?: CommunityReplyScalarWhereWithAggregatesInput[]
+    NOT?: CommunityReplyScalarWhereWithAggregatesInput | CommunityReplyScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CommunityReply"> | string
+    postId?: StringWithAggregatesFilter<"CommunityReply"> | string
+    authorId?: StringWithAggregatesFilter<"CommunityReply"> | string
+    content?: StringWithAggregatesFilter<"CommunityReply"> | string
+    isExpert?: BoolWithAggregatesFilter<"CommunityReply"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"CommunityReply"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CommunityReply"> | Date | string
+  }
+
+  export type CommunityPostLikeWhereInput = {
+    AND?: CommunityPostLikeWhereInput | CommunityPostLikeWhereInput[]
+    OR?: CommunityPostLikeWhereInput[]
+    NOT?: CommunityPostLikeWhereInput | CommunityPostLikeWhereInput[]
+    userId?: StringFilter<"CommunityPostLike"> | string
+    postId?: StringFilter<"CommunityPostLike"> | string
+    createdAt?: DateTimeFilter<"CommunityPostLike"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    post?: XOR<CommunityPostScalarRelationFilter, CommunityPostWhereInput>
+  }
+
+  export type CommunityPostLikeOrderByWithRelationInput = {
+    userId?: SortOrder
+    postId?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    post?: CommunityPostOrderByWithRelationInput
+  }
+
+  export type CommunityPostLikeWhereUniqueInput = Prisma.AtLeast<{
+    userId_postId?: CommunityPostLikeUserIdPostIdCompoundUniqueInput
+    AND?: CommunityPostLikeWhereInput | CommunityPostLikeWhereInput[]
+    OR?: CommunityPostLikeWhereInput[]
+    NOT?: CommunityPostLikeWhereInput | CommunityPostLikeWhereInput[]
+    userId?: StringFilter<"CommunityPostLike"> | string
+    postId?: StringFilter<"CommunityPostLike"> | string
+    createdAt?: DateTimeFilter<"CommunityPostLike"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    post?: XOR<CommunityPostScalarRelationFilter, CommunityPostWhereInput>
+  }, "userId_postId">
+
+  export type CommunityPostLikeOrderByWithAggregationInput = {
+    userId?: SortOrder
+    postId?: SortOrder
+    createdAt?: SortOrder
+    _count?: CommunityPostLikeCountOrderByAggregateInput
+    _max?: CommunityPostLikeMaxOrderByAggregateInput
+    _min?: CommunityPostLikeMinOrderByAggregateInput
+  }
+
+  export type CommunityPostLikeScalarWhereWithAggregatesInput = {
+    AND?: CommunityPostLikeScalarWhereWithAggregatesInput | CommunityPostLikeScalarWhereWithAggregatesInput[]
+    OR?: CommunityPostLikeScalarWhereWithAggregatesInput[]
+    NOT?: CommunityPostLikeScalarWhereWithAggregatesInput | CommunityPostLikeScalarWhereWithAggregatesInput[]
+    userId?: StringWithAggregatesFilter<"CommunityPostLike"> | string
+    postId?: StringWithAggregatesFilter<"CommunityPostLike"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"CommunityPostLike"> | Date | string
+  }
+
+  export type ExpertProfileWhereInput = {
+    AND?: ExpertProfileWhereInput | ExpertProfileWhereInput[]
+    OR?: ExpertProfileWhereInput[]
+    NOT?: ExpertProfileWhereInput | ExpertProfileWhereInput[]
+    id?: StringFilter<"ExpertProfile"> | string
+    userId?: StringFilter<"ExpertProfile"> | string
+    type?: EnumExpertTypeFilter<"ExpertProfile"> | $Enums.ExpertType
+    title?: StringNullableFilter<"ExpertProfile"> | string | null
+    specialization?: StringNullableFilter<"ExpertProfile"> | string | null
+    location?: StringNullableFilter<"ExpertProfile"> | string | null
+    rating?: FloatFilter<"ExpertProfile"> | number
+    responses?: IntFilter<"ExpertProfile"> | number
+    isVerified?: BoolFilter<"ExpertProfile"> | boolean
+    createdAt?: DateTimeFilter<"ExpertProfile"> | Date | string
+    updatedAt?: DateTimeFilter<"ExpertProfile"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type ExpertProfileOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    title?: SortOrderInput | SortOrder
+    specialization?: SortOrderInput | SortOrder
+    location?: SortOrderInput | SortOrder
+    rating?: SortOrder
+    responses?: SortOrder
+    isVerified?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type ExpertProfileWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: ExpertProfileWhereInput | ExpertProfileWhereInput[]
+    OR?: ExpertProfileWhereInput[]
+    NOT?: ExpertProfileWhereInput | ExpertProfileWhereInput[]
+    type?: EnumExpertTypeFilter<"ExpertProfile"> | $Enums.ExpertType
+    title?: StringNullableFilter<"ExpertProfile"> | string | null
+    specialization?: StringNullableFilter<"ExpertProfile"> | string | null
+    location?: StringNullableFilter<"ExpertProfile"> | string | null
+    rating?: FloatFilter<"ExpertProfile"> | number
+    responses?: IntFilter<"ExpertProfile"> | number
+    isVerified?: BoolFilter<"ExpertProfile"> | boolean
+    createdAt?: DateTimeFilter<"ExpertProfile"> | Date | string
+    updatedAt?: DateTimeFilter<"ExpertProfile"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type ExpertProfileOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    title?: SortOrderInput | SortOrder
+    specialization?: SortOrderInput | SortOrder
+    location?: SortOrderInput | SortOrder
+    rating?: SortOrder
+    responses?: SortOrder
+    isVerified?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ExpertProfileCountOrderByAggregateInput
+    _avg?: ExpertProfileAvgOrderByAggregateInput
+    _max?: ExpertProfileMaxOrderByAggregateInput
+    _min?: ExpertProfileMinOrderByAggregateInput
+    _sum?: ExpertProfileSumOrderByAggregateInput
+  }
+
+  export type ExpertProfileScalarWhereWithAggregatesInput = {
+    AND?: ExpertProfileScalarWhereWithAggregatesInput | ExpertProfileScalarWhereWithAggregatesInput[]
+    OR?: ExpertProfileScalarWhereWithAggregatesInput[]
+    NOT?: ExpertProfileScalarWhereWithAggregatesInput | ExpertProfileScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ExpertProfile"> | string
+    userId?: StringWithAggregatesFilter<"ExpertProfile"> | string
+    type?: EnumExpertTypeWithAggregatesFilter<"ExpertProfile"> | $Enums.ExpertType
+    title?: StringNullableWithAggregatesFilter<"ExpertProfile"> | string | null
+    specialization?: StringNullableWithAggregatesFilter<"ExpertProfile"> | string | null
+    location?: StringNullableWithAggregatesFilter<"ExpertProfile"> | string | null
+    rating?: FloatWithAggregatesFilter<"ExpertProfile"> | number
+    responses?: IntWithAggregatesFilter<"ExpertProfile"> | number
+    isVerified?: BoolWithAggregatesFilter<"ExpertProfile"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"ExpertProfile"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ExpertProfile"> | Date | string
   }
 
   export type AdminActionLogCreateInput = {
@@ -21633,6 +27193,10 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -21680,6 +27244,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -21727,6 +27295,10 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -21774,6 +27346,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -21872,6 +27448,330 @@ export namespace Prisma {
     timezone?: StringFieldUpdateOperationsInput | string
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  }
+
+  export type CommunityPostCreateInput = {
+    id: string
+    title: string
+    content: string
+    type?: $Enums.CommunityPostType
+    category: string
+    crop: string
+    location?: string | null
+    likes?: number
+    repliesCount?: number
+    status?: $Enums.CommunityPostStatus
+    createdAt?: Date | string
+    updatedAt: Date | string
+    author: UserCreateNestedOneWithoutCommunityPost_CommunityPost_authorToUserInput
+    replies?: CommunityReplyCreateNestedManyWithoutPostInput
+    likesList?: CommunityPostLikeCreateNestedManyWithoutPostInput
+  }
+
+  export type CommunityPostUncheckedCreateInput = {
+    id: string
+    authorId: string
+    title: string
+    content: string
+    type?: $Enums.CommunityPostType
+    category: string
+    crop: string
+    location?: string | null
+    likes?: number
+    repliesCount?: number
+    status?: $Enums.CommunityPostStatus
+    createdAt?: Date | string
+    updatedAt: Date | string
+    replies?: CommunityReplyUncheckedCreateNestedManyWithoutPostInput
+    likesList?: CommunityPostLikeUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type CommunityPostUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
+    category?: StringFieldUpdateOperationsInput | string
+    crop?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    likes?: IntFieldUpdateOperationsInput | number
+    repliesCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    author?: UserUpdateOneRequiredWithoutCommunityPost_CommunityPost_authorToUserNestedInput
+    replies?: CommunityReplyUpdateManyWithoutPostNestedInput
+    likesList?: CommunityPostLikeUpdateManyWithoutPostNestedInput
+  }
+
+  export type CommunityPostUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
+    category?: StringFieldUpdateOperationsInput | string
+    crop?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    likes?: IntFieldUpdateOperationsInput | number
+    repliesCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    replies?: CommunityReplyUncheckedUpdateManyWithoutPostNestedInput
+    likesList?: CommunityPostLikeUncheckedUpdateManyWithoutPostNestedInput
+  }
+
+  export type CommunityPostCreateManyInput = {
+    id: string
+    authorId: string
+    title: string
+    content: string
+    type?: $Enums.CommunityPostType
+    category: string
+    crop: string
+    location?: string | null
+    likes?: number
+    repliesCount?: number
+    status?: $Enums.CommunityPostStatus
+    createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type CommunityPostUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
+    category?: StringFieldUpdateOperationsInput | string
+    crop?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    likes?: IntFieldUpdateOperationsInput | number
+    repliesCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityPostUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
+    category?: StringFieldUpdateOperationsInput | string
+    crop?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    likes?: IntFieldUpdateOperationsInput | number
+    repliesCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityReplyCreateInput = {
+    id: string
+    content: string
+    isExpert?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+    post: CommunityPostCreateNestedOneWithoutRepliesInput
+    author: UserCreateNestedOneWithoutCommunityReply_CommunityReply_authorToUserInput
+  }
+
+  export type CommunityReplyUncheckedCreateInput = {
+    id: string
+    postId: string
+    authorId: string
+    content: string
+    isExpert?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type CommunityReplyUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isExpert?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    post?: CommunityPostUpdateOneRequiredWithoutRepliesNestedInput
+    author?: UserUpdateOneRequiredWithoutCommunityReply_CommunityReply_authorToUserNestedInput
+  }
+
+  export type CommunityReplyUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isExpert?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityReplyCreateManyInput = {
+    id: string
+    postId: string
+    authorId: string
+    content: string
+    isExpert?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type CommunityReplyUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isExpert?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityReplyUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isExpert?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityPostLikeCreateInput = {
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutCommunityPostLike_userToUserInput
+    post: CommunityPostCreateNestedOneWithoutLikesListInput
+  }
+
+  export type CommunityPostLikeUncheckedCreateInput = {
+    userId: string
+    postId: string
+    createdAt?: Date | string
+  }
+
+  export type CommunityPostLikeUpdateInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCommunityPostLike_userToUserNestedInput
+    post?: CommunityPostUpdateOneRequiredWithoutLikesListNestedInput
+  }
+
+  export type CommunityPostLikeUncheckedUpdateInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityPostLikeCreateManyInput = {
+    userId: string
+    postId: string
+    createdAt?: Date | string
+  }
+
+  export type CommunityPostLikeUpdateManyMutationInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityPostLikeUncheckedUpdateManyInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExpertProfileCreateInput = {
+    id: string
+    type?: $Enums.ExpertType
+    title?: string | null
+    specialization?: string | null
+    location?: string | null
+    rating?: number
+    responses?: number
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+    user: UserCreateNestedOneWithoutExpertProfileInput
+  }
+
+  export type ExpertProfileUncheckedCreateInput = {
+    id: string
+    userId: string
+    type?: $Enums.ExpertType
+    title?: string | null
+    specialization?: string | null
+    location?: string | null
+    rating?: number
+    responses?: number
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type ExpertProfileUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumExpertTypeFieldUpdateOperationsInput | $Enums.ExpertType
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    specialization?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    responses?: IntFieldUpdateOperationsInput | number
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutExpertProfileNestedInput
+  }
+
+  export type ExpertProfileUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumExpertTypeFieldUpdateOperationsInput | $Enums.ExpertType
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    specialization?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    responses?: IntFieldUpdateOperationsInput | number
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExpertProfileCreateManyInput = {
+    id: string
+    userId: string
+    type?: $Enums.ExpertType
+    title?: string | null
+    specialization?: string | null
+    location?: string | null
+    rating?: number
+    responses?: number
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type ExpertProfileUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumExpertTypeFieldUpdateOperationsInput | $Enums.ExpertType
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    specialization?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    responses?: IntFieldUpdateOperationsInput | number
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExpertProfileUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    type?: EnumExpertTypeFieldUpdateOperationsInput | $Enums.ExpertType
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    specialization?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    responses?: IntFieldUpdateOperationsInput | number
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -23062,6 +28962,29 @@ export namespace Prisma {
     isNot?: RoleWhereInput
   }
 
+  export type ExpertProfileNullableScalarRelationFilter = {
+    is?: ExpertProfileWhereInput | null
+    isNot?: ExpertProfileWhereInput | null
+  }
+
+  export type CommunityPostListRelationFilter = {
+    every?: CommunityPostWhereInput
+    some?: CommunityPostWhereInput
+    none?: CommunityPostWhereInput
+  }
+
+  export type CommunityReplyListRelationFilter = {
+    every?: CommunityReplyWhereInput
+    some?: CommunityReplyWhereInput
+    none?: CommunityReplyWhereInput
+  }
+
+  export type CommunityPostLikeListRelationFilter = {
+    every?: CommunityPostLikeWhereInput
+    some?: CommunityPostLikeWhereInput
+    none?: CommunityPostLikeWhereInput
+  }
+
   export type AdminActionLogOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -23079,6 +29002,18 @@ export namespace Prisma {
   }
 
   export type SessionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CommunityPostOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CommunityReplyOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CommunityPostLikeOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -23197,6 +29132,225 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumUserStatusFilter<$PrismaModel>
     _max?: NestedEnumUserStatusFilter<$PrismaModel>
+  }
+
+  export type EnumCommunityPostTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.CommunityPostType | EnumCommunityPostTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CommunityPostType[] | ListEnumCommunityPostTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CommunityPostType[] | ListEnumCommunityPostTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCommunityPostTypeFilter<$PrismaModel> | $Enums.CommunityPostType
+  }
+
+  export type EnumCommunityPostStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.CommunityPostStatus | EnumCommunityPostStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CommunityPostStatus[] | ListEnumCommunityPostStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CommunityPostStatus[] | ListEnumCommunityPostStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCommunityPostStatusFilter<$PrismaModel> | $Enums.CommunityPostStatus
+  }
+
+  export type CommunityPostCountOrderByAggregateInput = {
+    id?: SortOrder
+    authorId?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    type?: SortOrder
+    category?: SortOrder
+    crop?: SortOrder
+    location?: SortOrder
+    likes?: SortOrder
+    repliesCount?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CommunityPostAvgOrderByAggregateInput = {
+    likes?: SortOrder
+    repliesCount?: SortOrder
+  }
+
+  export type CommunityPostMaxOrderByAggregateInput = {
+    id?: SortOrder
+    authorId?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    type?: SortOrder
+    category?: SortOrder
+    crop?: SortOrder
+    location?: SortOrder
+    likes?: SortOrder
+    repliesCount?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CommunityPostMinOrderByAggregateInput = {
+    id?: SortOrder
+    authorId?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    type?: SortOrder
+    category?: SortOrder
+    crop?: SortOrder
+    location?: SortOrder
+    likes?: SortOrder
+    repliesCount?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CommunityPostSumOrderByAggregateInput = {
+    likes?: SortOrder
+    repliesCount?: SortOrder
+  }
+
+  export type EnumCommunityPostTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CommunityPostType | EnumCommunityPostTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CommunityPostType[] | ListEnumCommunityPostTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CommunityPostType[] | ListEnumCommunityPostTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCommunityPostTypeWithAggregatesFilter<$PrismaModel> | $Enums.CommunityPostType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCommunityPostTypeFilter<$PrismaModel>
+    _max?: NestedEnumCommunityPostTypeFilter<$PrismaModel>
+  }
+
+  export type EnumCommunityPostStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CommunityPostStatus | EnumCommunityPostStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CommunityPostStatus[] | ListEnumCommunityPostStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CommunityPostStatus[] | ListEnumCommunityPostStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCommunityPostStatusWithAggregatesFilter<$PrismaModel> | $Enums.CommunityPostStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCommunityPostStatusFilter<$PrismaModel>
+    _max?: NestedEnumCommunityPostStatusFilter<$PrismaModel>
+  }
+
+  export type CommunityPostScalarRelationFilter = {
+    is?: CommunityPostWhereInput
+    isNot?: CommunityPostWhereInput
+  }
+
+  export type CommunityReplyCountOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    authorId?: SortOrder
+    content?: SortOrder
+    isExpert?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CommunityReplyMaxOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    authorId?: SortOrder
+    content?: SortOrder
+    isExpert?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CommunityReplyMinOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    authorId?: SortOrder
+    content?: SortOrder
+    isExpert?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CommunityPostLikeUserIdPostIdCompoundUniqueInput = {
+    userId: string
+    postId: string
+  }
+
+  export type CommunityPostLikeCountOrderByAggregateInput = {
+    userId?: SortOrder
+    postId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CommunityPostLikeMaxOrderByAggregateInput = {
+    userId?: SortOrder
+    postId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CommunityPostLikeMinOrderByAggregateInput = {
+    userId?: SortOrder
+    postId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumExpertTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ExpertType | EnumExpertTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ExpertType[] | ListEnumExpertTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ExpertType[] | ListEnumExpertTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumExpertTypeFilter<$PrismaModel> | $Enums.ExpertType
+  }
+
+  export type ExpertProfileCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    specialization?: SortOrder
+    location?: SortOrder
+    rating?: SortOrder
+    responses?: SortOrder
+    isVerified?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ExpertProfileAvgOrderByAggregateInput = {
+    rating?: SortOrder
+    responses?: SortOrder
+  }
+
+  export type ExpertProfileMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    specialization?: SortOrder
+    location?: SortOrder
+    rating?: SortOrder
+    responses?: SortOrder
+    isVerified?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ExpertProfileMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    specialization?: SortOrder
+    location?: SortOrder
+    rating?: SortOrder
+    responses?: SortOrder
+    isVerified?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ExpertProfileSumOrderByAggregateInput = {
+    rating?: SortOrder
+    responses?: SortOrder
+  }
+
+  export type EnumExpertTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ExpertType | EnumExpertTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ExpertType[] | ListEnumExpertTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ExpertType[] | ListEnumExpertTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumExpertTypeWithAggregatesFilter<$PrismaModel> | $Enums.ExpertType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumExpertTypeFilter<$PrismaModel>
+    _max?: NestedEnumExpertTypeFilter<$PrismaModel>
   }
 
   export type UserCreateNestedOneWithoutAdminActionLogInput = {
@@ -24120,6 +30274,33 @@ export namespace Prisma {
     connect?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
   }
 
+  export type ExpertProfileCreateNestedOneWithoutUserInput = {
+    create?: XOR<ExpertProfileCreateWithoutUserInput, ExpertProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: ExpertProfileCreateOrConnectWithoutUserInput
+    connect?: ExpertProfileWhereUniqueInput
+  }
+
+  export type CommunityPostCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<CommunityPostCreateWithoutAuthorInput, CommunityPostUncheckedCreateWithoutAuthorInput> | CommunityPostCreateWithoutAuthorInput[] | CommunityPostUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommunityPostCreateOrConnectWithoutAuthorInput | CommunityPostCreateOrConnectWithoutAuthorInput[]
+    createMany?: CommunityPostCreateManyAuthorInputEnvelope
+    connect?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
+  }
+
+  export type CommunityReplyCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<CommunityReplyCreateWithoutAuthorInput, CommunityReplyUncheckedCreateWithoutAuthorInput> | CommunityReplyCreateWithoutAuthorInput[] | CommunityReplyUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommunityReplyCreateOrConnectWithoutAuthorInput | CommunityReplyCreateOrConnectWithoutAuthorInput[]
+    createMany?: CommunityReplyCreateManyAuthorInputEnvelope
+    connect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+  }
+
+  export type CommunityPostLikeCreateNestedManyWithoutUserInput = {
+    create?: XOR<CommunityPostLikeCreateWithoutUserInput, CommunityPostLikeUncheckedCreateWithoutUserInput> | CommunityPostLikeCreateWithoutUserInput[] | CommunityPostLikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CommunityPostLikeCreateOrConnectWithoutUserInput | CommunityPostLikeCreateOrConnectWithoutUserInput[]
+    createMany?: CommunityPostLikeCreateManyUserInputEnvelope
+    connect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+  }
+
   export type AdminActionLogUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AdminActionLogCreateWithoutUserInput, AdminActionLogUncheckedCreateWithoutUserInput> | AdminActionLogCreateWithoutUserInput[] | AdminActionLogUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AdminActionLogCreateOrConnectWithoutUserInput | AdminActionLogCreateOrConnectWithoutUserInput[]
@@ -24215,6 +30396,33 @@ export namespace Prisma {
     create?: XOR<PermissionCreateWithoutUserInput, PermissionUncheckedCreateWithoutUserInput> | PermissionCreateWithoutUserInput[] | PermissionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: PermissionCreateOrConnectWithoutUserInput | PermissionCreateOrConnectWithoutUserInput[]
     connect?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
+  }
+
+  export type ExpertProfileUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<ExpertProfileCreateWithoutUserInput, ExpertProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: ExpertProfileCreateOrConnectWithoutUserInput
+    connect?: ExpertProfileWhereUniqueInput
+  }
+
+  export type CommunityPostUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<CommunityPostCreateWithoutAuthorInput, CommunityPostUncheckedCreateWithoutAuthorInput> | CommunityPostCreateWithoutAuthorInput[] | CommunityPostUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommunityPostCreateOrConnectWithoutAuthorInput | CommunityPostCreateOrConnectWithoutAuthorInput[]
+    createMany?: CommunityPostCreateManyAuthorInputEnvelope
+    connect?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
+  }
+
+  export type CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<CommunityReplyCreateWithoutAuthorInput, CommunityReplyUncheckedCreateWithoutAuthorInput> | CommunityReplyCreateWithoutAuthorInput[] | CommunityReplyUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommunityReplyCreateOrConnectWithoutAuthorInput | CommunityReplyCreateOrConnectWithoutAuthorInput[]
+    createMany?: CommunityReplyCreateManyAuthorInputEnvelope
+    connect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+  }
+
+  export type CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<CommunityPostLikeCreateWithoutUserInput, CommunityPostLikeUncheckedCreateWithoutUserInput> | CommunityPostLikeCreateWithoutUserInput[] | CommunityPostLikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CommunityPostLikeCreateOrConnectWithoutUserInput | CommunityPostLikeCreateOrConnectWithoutUserInput[]
+    createMany?: CommunityPostLikeCreateManyUserInputEnvelope
+    connect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
   }
 
   export type EnumUserStatusFieldUpdateOperationsInput = {
@@ -24424,6 +30632,58 @@ export namespace Prisma {
     deleteMany?: PermissionScalarWhereInput | PermissionScalarWhereInput[]
   }
 
+  export type ExpertProfileUpdateOneWithoutUserNestedInput = {
+    create?: XOR<ExpertProfileCreateWithoutUserInput, ExpertProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: ExpertProfileCreateOrConnectWithoutUserInput
+    upsert?: ExpertProfileUpsertWithoutUserInput
+    disconnect?: ExpertProfileWhereInput | boolean
+    delete?: ExpertProfileWhereInput | boolean
+    connect?: ExpertProfileWhereUniqueInput
+    update?: XOR<XOR<ExpertProfileUpdateToOneWithWhereWithoutUserInput, ExpertProfileUpdateWithoutUserInput>, ExpertProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CommunityPostUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<CommunityPostCreateWithoutAuthorInput, CommunityPostUncheckedCreateWithoutAuthorInput> | CommunityPostCreateWithoutAuthorInput[] | CommunityPostUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommunityPostCreateOrConnectWithoutAuthorInput | CommunityPostCreateOrConnectWithoutAuthorInput[]
+    upsert?: CommunityPostUpsertWithWhereUniqueWithoutAuthorInput | CommunityPostUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: CommunityPostCreateManyAuthorInputEnvelope
+    set?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
+    disconnect?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
+    delete?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
+    connect?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
+    update?: CommunityPostUpdateWithWhereUniqueWithoutAuthorInput | CommunityPostUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: CommunityPostUpdateManyWithWhereWithoutAuthorInput | CommunityPostUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: CommunityPostScalarWhereInput | CommunityPostScalarWhereInput[]
+  }
+
+  export type CommunityReplyUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<CommunityReplyCreateWithoutAuthorInput, CommunityReplyUncheckedCreateWithoutAuthorInput> | CommunityReplyCreateWithoutAuthorInput[] | CommunityReplyUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommunityReplyCreateOrConnectWithoutAuthorInput | CommunityReplyCreateOrConnectWithoutAuthorInput[]
+    upsert?: CommunityReplyUpsertWithWhereUniqueWithoutAuthorInput | CommunityReplyUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: CommunityReplyCreateManyAuthorInputEnvelope
+    set?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    disconnect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    delete?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    connect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    update?: CommunityReplyUpdateWithWhereUniqueWithoutAuthorInput | CommunityReplyUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: CommunityReplyUpdateManyWithWhereWithoutAuthorInput | CommunityReplyUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: CommunityReplyScalarWhereInput | CommunityReplyScalarWhereInput[]
+  }
+
+  export type CommunityPostLikeUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CommunityPostLikeCreateWithoutUserInput, CommunityPostLikeUncheckedCreateWithoutUserInput> | CommunityPostLikeCreateWithoutUserInput[] | CommunityPostLikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CommunityPostLikeCreateOrConnectWithoutUserInput | CommunityPostLikeCreateOrConnectWithoutUserInput[]
+    upsert?: CommunityPostLikeUpsertWithWhereUniqueWithoutUserInput | CommunityPostLikeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CommunityPostLikeCreateManyUserInputEnvelope
+    set?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    disconnect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    delete?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    connect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    update?: CommunityPostLikeUpdateWithWhereUniqueWithoutUserInput | CommunityPostLikeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CommunityPostLikeUpdateManyWithWhereWithoutUserInput | CommunityPostLikeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CommunityPostLikeScalarWhereInput | CommunityPostLikeScalarWhereInput[]
+  }
+
   export type AdminActionLogUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AdminActionLogCreateWithoutUserInput, AdminActionLogUncheckedCreateWithoutUserInput> | AdminActionLogCreateWithoutUserInput[] | AdminActionLogUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AdminActionLogCreateOrConnectWithoutUserInput | AdminActionLogCreateOrConnectWithoutUserInput[]
@@ -24617,6 +30877,238 @@ export namespace Prisma {
     update?: PermissionUpdateWithWhereUniqueWithoutUserInput | PermissionUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: PermissionUpdateManyWithWhereWithoutUserInput | PermissionUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: PermissionScalarWhereInput | PermissionScalarWhereInput[]
+  }
+
+  export type ExpertProfileUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<ExpertProfileCreateWithoutUserInput, ExpertProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: ExpertProfileCreateOrConnectWithoutUserInput
+    upsert?: ExpertProfileUpsertWithoutUserInput
+    disconnect?: ExpertProfileWhereInput | boolean
+    delete?: ExpertProfileWhereInput | boolean
+    connect?: ExpertProfileWhereUniqueInput
+    update?: XOR<XOR<ExpertProfileUpdateToOneWithWhereWithoutUserInput, ExpertProfileUpdateWithoutUserInput>, ExpertProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<CommunityPostCreateWithoutAuthorInput, CommunityPostUncheckedCreateWithoutAuthorInput> | CommunityPostCreateWithoutAuthorInput[] | CommunityPostUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommunityPostCreateOrConnectWithoutAuthorInput | CommunityPostCreateOrConnectWithoutAuthorInput[]
+    upsert?: CommunityPostUpsertWithWhereUniqueWithoutAuthorInput | CommunityPostUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: CommunityPostCreateManyAuthorInputEnvelope
+    set?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
+    disconnect?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
+    delete?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
+    connect?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
+    update?: CommunityPostUpdateWithWhereUniqueWithoutAuthorInput | CommunityPostUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: CommunityPostUpdateManyWithWhereWithoutAuthorInput | CommunityPostUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: CommunityPostScalarWhereInput | CommunityPostScalarWhereInput[]
+  }
+
+  export type CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<CommunityReplyCreateWithoutAuthorInput, CommunityReplyUncheckedCreateWithoutAuthorInput> | CommunityReplyCreateWithoutAuthorInput[] | CommunityReplyUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommunityReplyCreateOrConnectWithoutAuthorInput | CommunityReplyCreateOrConnectWithoutAuthorInput[]
+    upsert?: CommunityReplyUpsertWithWhereUniqueWithoutAuthorInput | CommunityReplyUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: CommunityReplyCreateManyAuthorInputEnvelope
+    set?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    disconnect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    delete?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    connect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    update?: CommunityReplyUpdateWithWhereUniqueWithoutAuthorInput | CommunityReplyUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: CommunityReplyUpdateManyWithWhereWithoutAuthorInput | CommunityReplyUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: CommunityReplyScalarWhereInput | CommunityReplyScalarWhereInput[]
+  }
+
+  export type CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CommunityPostLikeCreateWithoutUserInput, CommunityPostLikeUncheckedCreateWithoutUserInput> | CommunityPostLikeCreateWithoutUserInput[] | CommunityPostLikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CommunityPostLikeCreateOrConnectWithoutUserInput | CommunityPostLikeCreateOrConnectWithoutUserInput[]
+    upsert?: CommunityPostLikeUpsertWithWhereUniqueWithoutUserInput | CommunityPostLikeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CommunityPostLikeCreateManyUserInputEnvelope
+    set?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    disconnect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    delete?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    connect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    update?: CommunityPostLikeUpdateWithWhereUniqueWithoutUserInput | CommunityPostLikeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CommunityPostLikeUpdateManyWithWhereWithoutUserInput | CommunityPostLikeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CommunityPostLikeScalarWhereInput | CommunityPostLikeScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutCommunityPost_CommunityPost_authorToUserInput = {
+    create?: XOR<UserCreateWithoutCommunityPost_CommunityPost_authorToUserInput, UserUncheckedCreateWithoutCommunityPost_CommunityPost_authorToUserInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCommunityPost_CommunityPost_authorToUserInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CommunityReplyCreateNestedManyWithoutPostInput = {
+    create?: XOR<CommunityReplyCreateWithoutPostInput, CommunityReplyUncheckedCreateWithoutPostInput> | CommunityReplyCreateWithoutPostInput[] | CommunityReplyUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: CommunityReplyCreateOrConnectWithoutPostInput | CommunityReplyCreateOrConnectWithoutPostInput[]
+    createMany?: CommunityReplyCreateManyPostInputEnvelope
+    connect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+  }
+
+  export type CommunityPostLikeCreateNestedManyWithoutPostInput = {
+    create?: XOR<CommunityPostLikeCreateWithoutPostInput, CommunityPostLikeUncheckedCreateWithoutPostInput> | CommunityPostLikeCreateWithoutPostInput[] | CommunityPostLikeUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: CommunityPostLikeCreateOrConnectWithoutPostInput | CommunityPostLikeCreateOrConnectWithoutPostInput[]
+    createMany?: CommunityPostLikeCreateManyPostInputEnvelope
+    connect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+  }
+
+  export type CommunityReplyUncheckedCreateNestedManyWithoutPostInput = {
+    create?: XOR<CommunityReplyCreateWithoutPostInput, CommunityReplyUncheckedCreateWithoutPostInput> | CommunityReplyCreateWithoutPostInput[] | CommunityReplyUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: CommunityReplyCreateOrConnectWithoutPostInput | CommunityReplyCreateOrConnectWithoutPostInput[]
+    createMany?: CommunityReplyCreateManyPostInputEnvelope
+    connect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+  }
+
+  export type CommunityPostLikeUncheckedCreateNestedManyWithoutPostInput = {
+    create?: XOR<CommunityPostLikeCreateWithoutPostInput, CommunityPostLikeUncheckedCreateWithoutPostInput> | CommunityPostLikeCreateWithoutPostInput[] | CommunityPostLikeUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: CommunityPostLikeCreateOrConnectWithoutPostInput | CommunityPostLikeCreateOrConnectWithoutPostInput[]
+    createMany?: CommunityPostLikeCreateManyPostInputEnvelope
+    connect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+  }
+
+  export type EnumCommunityPostTypeFieldUpdateOperationsInput = {
+    set?: $Enums.CommunityPostType
+  }
+
+  export type EnumCommunityPostStatusFieldUpdateOperationsInput = {
+    set?: $Enums.CommunityPostStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutCommunityPost_CommunityPost_authorToUserNestedInput = {
+    create?: XOR<UserCreateWithoutCommunityPost_CommunityPost_authorToUserInput, UserUncheckedCreateWithoutCommunityPost_CommunityPost_authorToUserInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCommunityPost_CommunityPost_authorToUserInput
+    upsert?: UserUpsertWithoutCommunityPost_CommunityPost_authorToUserInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCommunityPost_CommunityPost_authorToUserInput, UserUpdateWithoutCommunityPost_CommunityPost_authorToUserInput>, UserUncheckedUpdateWithoutCommunityPost_CommunityPost_authorToUserInput>
+  }
+
+  export type CommunityReplyUpdateManyWithoutPostNestedInput = {
+    create?: XOR<CommunityReplyCreateWithoutPostInput, CommunityReplyUncheckedCreateWithoutPostInput> | CommunityReplyCreateWithoutPostInput[] | CommunityReplyUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: CommunityReplyCreateOrConnectWithoutPostInput | CommunityReplyCreateOrConnectWithoutPostInput[]
+    upsert?: CommunityReplyUpsertWithWhereUniqueWithoutPostInput | CommunityReplyUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: CommunityReplyCreateManyPostInputEnvelope
+    set?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    disconnect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    delete?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    connect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    update?: CommunityReplyUpdateWithWhereUniqueWithoutPostInput | CommunityReplyUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: CommunityReplyUpdateManyWithWhereWithoutPostInput | CommunityReplyUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: CommunityReplyScalarWhereInput | CommunityReplyScalarWhereInput[]
+  }
+
+  export type CommunityPostLikeUpdateManyWithoutPostNestedInput = {
+    create?: XOR<CommunityPostLikeCreateWithoutPostInput, CommunityPostLikeUncheckedCreateWithoutPostInput> | CommunityPostLikeCreateWithoutPostInput[] | CommunityPostLikeUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: CommunityPostLikeCreateOrConnectWithoutPostInput | CommunityPostLikeCreateOrConnectWithoutPostInput[]
+    upsert?: CommunityPostLikeUpsertWithWhereUniqueWithoutPostInput | CommunityPostLikeUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: CommunityPostLikeCreateManyPostInputEnvelope
+    set?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    disconnect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    delete?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    connect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    update?: CommunityPostLikeUpdateWithWhereUniqueWithoutPostInput | CommunityPostLikeUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: CommunityPostLikeUpdateManyWithWhereWithoutPostInput | CommunityPostLikeUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: CommunityPostLikeScalarWhereInput | CommunityPostLikeScalarWhereInput[]
+  }
+
+  export type CommunityReplyUncheckedUpdateManyWithoutPostNestedInput = {
+    create?: XOR<CommunityReplyCreateWithoutPostInput, CommunityReplyUncheckedCreateWithoutPostInput> | CommunityReplyCreateWithoutPostInput[] | CommunityReplyUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: CommunityReplyCreateOrConnectWithoutPostInput | CommunityReplyCreateOrConnectWithoutPostInput[]
+    upsert?: CommunityReplyUpsertWithWhereUniqueWithoutPostInput | CommunityReplyUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: CommunityReplyCreateManyPostInputEnvelope
+    set?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    disconnect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    delete?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    connect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    update?: CommunityReplyUpdateWithWhereUniqueWithoutPostInput | CommunityReplyUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: CommunityReplyUpdateManyWithWhereWithoutPostInput | CommunityReplyUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: CommunityReplyScalarWhereInput | CommunityReplyScalarWhereInput[]
+  }
+
+  export type CommunityPostLikeUncheckedUpdateManyWithoutPostNestedInput = {
+    create?: XOR<CommunityPostLikeCreateWithoutPostInput, CommunityPostLikeUncheckedCreateWithoutPostInput> | CommunityPostLikeCreateWithoutPostInput[] | CommunityPostLikeUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: CommunityPostLikeCreateOrConnectWithoutPostInput | CommunityPostLikeCreateOrConnectWithoutPostInput[]
+    upsert?: CommunityPostLikeUpsertWithWhereUniqueWithoutPostInput | CommunityPostLikeUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: CommunityPostLikeCreateManyPostInputEnvelope
+    set?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    disconnect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    delete?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    connect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    update?: CommunityPostLikeUpdateWithWhereUniqueWithoutPostInput | CommunityPostLikeUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: CommunityPostLikeUpdateManyWithWhereWithoutPostInput | CommunityPostLikeUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: CommunityPostLikeScalarWhereInput | CommunityPostLikeScalarWhereInput[]
+  }
+
+  export type CommunityPostCreateNestedOneWithoutRepliesInput = {
+    create?: XOR<CommunityPostCreateWithoutRepliesInput, CommunityPostUncheckedCreateWithoutRepliesInput>
+    connectOrCreate?: CommunityPostCreateOrConnectWithoutRepliesInput
+    connect?: CommunityPostWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutCommunityReply_CommunityReply_authorToUserInput = {
+    create?: XOR<UserCreateWithoutCommunityReply_CommunityReply_authorToUserInput, UserUncheckedCreateWithoutCommunityReply_CommunityReply_authorToUserInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCommunityReply_CommunityReply_authorToUserInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CommunityPostUpdateOneRequiredWithoutRepliesNestedInput = {
+    create?: XOR<CommunityPostCreateWithoutRepliesInput, CommunityPostUncheckedCreateWithoutRepliesInput>
+    connectOrCreate?: CommunityPostCreateOrConnectWithoutRepliesInput
+    upsert?: CommunityPostUpsertWithoutRepliesInput
+    connect?: CommunityPostWhereUniqueInput
+    update?: XOR<XOR<CommunityPostUpdateToOneWithWhereWithoutRepliesInput, CommunityPostUpdateWithoutRepliesInput>, CommunityPostUncheckedUpdateWithoutRepliesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutCommunityReply_CommunityReply_authorToUserNestedInput = {
+    create?: XOR<UserCreateWithoutCommunityReply_CommunityReply_authorToUserInput, UserUncheckedCreateWithoutCommunityReply_CommunityReply_authorToUserInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCommunityReply_CommunityReply_authorToUserInput
+    upsert?: UserUpsertWithoutCommunityReply_CommunityReply_authorToUserInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCommunityReply_CommunityReply_authorToUserInput, UserUpdateWithoutCommunityReply_CommunityReply_authorToUserInput>, UserUncheckedUpdateWithoutCommunityReply_CommunityReply_authorToUserInput>
+  }
+
+  export type UserCreateNestedOneWithoutCommunityPostLike_userToUserInput = {
+    create?: XOR<UserCreateWithoutCommunityPostLike_userToUserInput, UserUncheckedCreateWithoutCommunityPostLike_userToUserInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCommunityPostLike_userToUserInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CommunityPostCreateNestedOneWithoutLikesListInput = {
+    create?: XOR<CommunityPostCreateWithoutLikesListInput, CommunityPostUncheckedCreateWithoutLikesListInput>
+    connectOrCreate?: CommunityPostCreateOrConnectWithoutLikesListInput
+    connect?: CommunityPostWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutCommunityPostLike_userToUserNestedInput = {
+    create?: XOR<UserCreateWithoutCommunityPostLike_userToUserInput, UserUncheckedCreateWithoutCommunityPostLike_userToUserInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCommunityPostLike_userToUserInput
+    upsert?: UserUpsertWithoutCommunityPostLike_userToUserInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCommunityPostLike_userToUserInput, UserUpdateWithoutCommunityPostLike_userToUserInput>, UserUncheckedUpdateWithoutCommunityPostLike_userToUserInput>
+  }
+
+  export type CommunityPostUpdateOneRequiredWithoutLikesListNestedInput = {
+    create?: XOR<CommunityPostCreateWithoutLikesListInput, CommunityPostUncheckedCreateWithoutLikesListInput>
+    connectOrCreate?: CommunityPostCreateOrConnectWithoutLikesListInput
+    upsert?: CommunityPostUpsertWithoutLikesListInput
+    connect?: CommunityPostWhereUniqueInput
+    update?: XOR<XOR<CommunityPostUpdateToOneWithWhereWithoutLikesListInput, CommunityPostUpdateWithoutLikesListInput>, CommunityPostUncheckedUpdateWithoutLikesListInput>
+  }
+
+  export type UserCreateNestedOneWithoutExpertProfileInput = {
+    create?: XOR<UserCreateWithoutExpertProfileInput, UserUncheckedCreateWithoutExpertProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutExpertProfileInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumExpertTypeFieldUpdateOperationsInput = {
+    set?: $Enums.ExpertType
+  }
+
+  export type UserUpdateOneRequiredWithoutExpertProfileNestedInput = {
+    create?: XOR<UserCreateWithoutExpertProfileInput, UserUncheckedCreateWithoutExpertProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutExpertProfileInput
+    upsert?: UserUpsertWithoutExpertProfileInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutExpertProfileInput, UserUpdateWithoutExpertProfileInput>, UserUncheckedUpdateWithoutExpertProfileInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -25063,6 +31555,57 @@ export namespace Prisma {
     _max?: NestedEnumUserStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumCommunityPostTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.CommunityPostType | EnumCommunityPostTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CommunityPostType[] | ListEnumCommunityPostTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CommunityPostType[] | ListEnumCommunityPostTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCommunityPostTypeFilter<$PrismaModel> | $Enums.CommunityPostType
+  }
+
+  export type NestedEnumCommunityPostStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.CommunityPostStatus | EnumCommunityPostStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CommunityPostStatus[] | ListEnumCommunityPostStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CommunityPostStatus[] | ListEnumCommunityPostStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCommunityPostStatusFilter<$PrismaModel> | $Enums.CommunityPostStatus
+  }
+
+  export type NestedEnumCommunityPostTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CommunityPostType | EnumCommunityPostTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CommunityPostType[] | ListEnumCommunityPostTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CommunityPostType[] | ListEnumCommunityPostTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCommunityPostTypeWithAggregatesFilter<$PrismaModel> | $Enums.CommunityPostType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCommunityPostTypeFilter<$PrismaModel>
+    _max?: NestedEnumCommunityPostTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumCommunityPostStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CommunityPostStatus | EnumCommunityPostStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.CommunityPostStatus[] | ListEnumCommunityPostStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CommunityPostStatus[] | ListEnumCommunityPostStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumCommunityPostStatusWithAggregatesFilter<$PrismaModel> | $Enums.CommunityPostStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCommunityPostStatusFilter<$PrismaModel>
+    _max?: NestedEnumCommunityPostStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumExpertTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ExpertType | EnumExpertTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ExpertType[] | ListEnumExpertTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ExpertType[] | ListEnumExpertTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumExpertTypeFilter<$PrismaModel> | $Enums.ExpertType
+  }
+
+  export type NestedEnumExpertTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ExpertType | EnumExpertTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ExpertType[] | ListEnumExpertTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ExpertType[] | ListEnumExpertTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumExpertTypeWithAggregatesFilter<$PrismaModel> | $Enums.ExpertType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumExpertTypeFilter<$PrismaModel>
+    _max?: NestedEnumExpertTypeFilter<$PrismaModel>
+  }
+
   export type UserCreateWithoutAdminActionLogInput = {
     id: string
     phone?: string | null
@@ -25107,6 +31650,10 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAdminActionLogInput = {
@@ -25153,6 +31700,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAdminActionLogInput = {
@@ -25215,6 +31766,10 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAdminActionLogInput = {
@@ -25261,6 +31816,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PriceAlertCreateWithoutAlertNotificationInput = {
@@ -25342,6 +31901,10 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAlertNotificationInput = {
@@ -25388,6 +31951,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAlertNotificationInput = {
@@ -25491,6 +32058,10 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAlertNotificationInput = {
@@ -25537,6 +32108,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MessageCreateWithoutConversation_Conversation_lastMessageIdToMessageInput = {
@@ -25671,6 +32246,10 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConversation_Conversation_user1IdToUserInput = {
@@ -25717,6 +32296,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConversation_Conversation_user1IdToUserInput = {
@@ -25768,6 +32351,10 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConversation_Conversation_user2IdToUserInput = {
@@ -25814,6 +32401,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConversation_Conversation_user2IdToUserInput = {
@@ -26026,6 +32617,10 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConversation_Conversation_user1IdToUserInput = {
@@ -26072,6 +32667,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutConversation_Conversation_user2IdToUserInput = {
@@ -26129,6 +32728,10 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConversation_Conversation_user2IdToUserInput = {
@@ -26175,6 +32778,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutConversation_Message_conversationIdToConversationInput = {
@@ -26259,6 +32866,10 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMarketPrice_MarketPrice_reviewedByToUserInput = {
@@ -26305,6 +32916,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMarketPrice_MarketPrice_reviewedByToUserInput = {
@@ -26356,6 +32971,10 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMarketPrice_MarketPrice_submittedByToUserInput = {
@@ -26402,6 +33021,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMarketPrice_MarketPrice_submittedByToUserInput = {
@@ -26464,6 +33087,10 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMarketPrice_MarketPrice_reviewedByToUserInput = {
@@ -26510,6 +33137,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutMarketPrice_MarketPrice_submittedByToUserInput = {
@@ -26567,6 +33198,10 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMarketPrice_MarketPrice_submittedByToUserInput = {
@@ -26613,6 +33248,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ConversationCreateWithoutMessage_Conversation_lastMessageIdToMessageInput = {
@@ -26721,6 +33360,10 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessage_Message_receiverIdToUserInput = {
@@ -26767,6 +33410,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessage_Message_receiverIdToUserInput = {
@@ -26913,6 +33560,10 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessage_Message_senderIdToUserInput = {
@@ -26959,6 +33610,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessage_Message_senderIdToUserInput = {
@@ -27095,6 +33750,10 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessage_Message_receiverIdToUserInput = {
@@ -27141,6 +33800,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MessageUpsertWithoutOther_MessageInput = {
@@ -27265,6 +33928,10 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessage_Message_senderIdToUserInput = {
@@ -27311,6 +33978,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RoleCreateWithoutPermissionInput = {
@@ -27374,6 +34045,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPermissionInput = {
@@ -27420,6 +34095,10 @@ export namespace Prisma {
     Review_Review_reviewedIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewedIdToUserInput
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPermissionInput = {
@@ -27593,6 +34272,10 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPriceAlertInput = {
@@ -27639,6 +34322,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPriceAlertInput = {
@@ -27739,6 +34426,10 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPriceAlertInput = {
@@ -27785,6 +34476,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProductListingCreateWithoutProductImageInput = {
@@ -27987,6 +34682,10 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProductListingInput = {
@@ -28033,6 +34732,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProductListingInput = {
@@ -28202,6 +34905,10 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProductListingInput = {
@@ -28248,6 +34955,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ReviewUpsertWithWhereUniqueWithoutProductListingInput = {
@@ -28375,6 +35086,10 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReview_Review_reviewedIdToUserInput = {
@@ -28421,6 +35136,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReview_Review_reviewedIdToUserInput = {
@@ -28472,6 +35191,10 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReview_Review_reviewerIdToUserInput = {
@@ -28518,6 +35241,10 @@ export namespace Prisma {
     Review_Review_reviewedIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewedIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReview_Review_reviewerIdToUserInput = {
@@ -28629,6 +35356,10 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReview_Review_reviewedIdToUserInput = {
@@ -28675,6 +35406,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutReview_Review_reviewerIdToUserInput = {
@@ -28732,6 +35467,10 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReview_Review_reviewerIdToUserInput = {
@@ -28778,6 +35517,10 @@ export namespace Prisma {
     Review_Review_reviewedIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewedIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutRoleInput = {
@@ -28824,6 +35567,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionCreateNestedManyWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRoleInput = {
@@ -28870,6 +35617,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRoleInput = {
@@ -28986,6 +35737,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionInput = {
@@ -29032,6 +35787,10 @@ export namespace Prisma {
     Review_Review_reviewedIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewedIdToUserInput
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionInput = {
@@ -29094,6 +35853,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionInput = {
@@ -29140,6 +35903,10 @@ export namespace Prisma {
     Review_Review_reviewedIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewedIdToUserNestedInput
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AdminActionLogCreateWithoutUserInput = {
@@ -29740,6 +36507,129 @@ export namespace Prisma {
     create: XOR<PermissionCreateWithoutUserInput, PermissionUncheckedCreateWithoutUserInput>
   }
 
+  export type ExpertProfileCreateWithoutUserInput = {
+    id: string
+    type?: $Enums.ExpertType
+    title?: string | null
+    specialization?: string | null
+    location?: string | null
+    rating?: number
+    responses?: number
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type ExpertProfileUncheckedCreateWithoutUserInput = {
+    id: string
+    type?: $Enums.ExpertType
+    title?: string | null
+    specialization?: string | null
+    location?: string | null
+    rating?: number
+    responses?: number
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type ExpertProfileCreateOrConnectWithoutUserInput = {
+    where: ExpertProfileWhereUniqueInput
+    create: XOR<ExpertProfileCreateWithoutUserInput, ExpertProfileUncheckedCreateWithoutUserInput>
+  }
+
+  export type CommunityPostCreateWithoutAuthorInput = {
+    id: string
+    title: string
+    content: string
+    type?: $Enums.CommunityPostType
+    category: string
+    crop: string
+    location?: string | null
+    likes?: number
+    repliesCount?: number
+    status?: $Enums.CommunityPostStatus
+    createdAt?: Date | string
+    updatedAt: Date | string
+    replies?: CommunityReplyCreateNestedManyWithoutPostInput
+    likesList?: CommunityPostLikeCreateNestedManyWithoutPostInput
+  }
+
+  export type CommunityPostUncheckedCreateWithoutAuthorInput = {
+    id: string
+    title: string
+    content: string
+    type?: $Enums.CommunityPostType
+    category: string
+    crop: string
+    location?: string | null
+    likes?: number
+    repliesCount?: number
+    status?: $Enums.CommunityPostStatus
+    createdAt?: Date | string
+    updatedAt: Date | string
+    replies?: CommunityReplyUncheckedCreateNestedManyWithoutPostInput
+    likesList?: CommunityPostLikeUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type CommunityPostCreateOrConnectWithoutAuthorInput = {
+    where: CommunityPostWhereUniqueInput
+    create: XOR<CommunityPostCreateWithoutAuthorInput, CommunityPostUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type CommunityPostCreateManyAuthorInputEnvelope = {
+    data: CommunityPostCreateManyAuthorInput | CommunityPostCreateManyAuthorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CommunityReplyCreateWithoutAuthorInput = {
+    id: string
+    content: string
+    isExpert?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+    post: CommunityPostCreateNestedOneWithoutRepliesInput
+  }
+
+  export type CommunityReplyUncheckedCreateWithoutAuthorInput = {
+    id: string
+    postId: string
+    content: string
+    isExpert?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type CommunityReplyCreateOrConnectWithoutAuthorInput = {
+    where: CommunityReplyWhereUniqueInput
+    create: XOR<CommunityReplyCreateWithoutAuthorInput, CommunityReplyUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type CommunityReplyCreateManyAuthorInputEnvelope = {
+    data: CommunityReplyCreateManyAuthorInput | CommunityReplyCreateManyAuthorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CommunityPostLikeCreateWithoutUserInput = {
+    createdAt?: Date | string
+    post: CommunityPostCreateNestedOneWithoutLikesListInput
+  }
+
+  export type CommunityPostLikeUncheckedCreateWithoutUserInput = {
+    postId: string
+    createdAt?: Date | string
+  }
+
+  export type CommunityPostLikeCreateOrConnectWithoutUserInput = {
+    where: CommunityPostLikeWhereUniqueInput
+    create: XOR<CommunityPostLikeCreateWithoutUserInput, CommunityPostLikeUncheckedCreateWithoutUserInput>
+  }
+
+  export type CommunityPostLikeCreateManyUserInputEnvelope = {
+    data: CommunityPostLikeCreateManyUserInput | CommunityPostLikeCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AdminActionLogUpsertWithWhereUniqueWithoutUserInput = {
     where: AdminActionLogWhereUniqueInput
     update: XOR<AdminActionLogUpdateWithoutUserInput, AdminActionLogUncheckedUpdateWithoutUserInput>
@@ -30076,6 +36966,1244 @@ export namespace Prisma {
     data: XOR<PermissionUpdateManyMutationInput, PermissionUncheckedUpdateManyWithoutUserInput>
   }
 
+  export type ExpertProfileUpsertWithoutUserInput = {
+    update: XOR<ExpertProfileUpdateWithoutUserInput, ExpertProfileUncheckedUpdateWithoutUserInput>
+    create: XOR<ExpertProfileCreateWithoutUserInput, ExpertProfileUncheckedCreateWithoutUserInput>
+    where?: ExpertProfileWhereInput
+  }
+
+  export type ExpertProfileUpdateToOneWithWhereWithoutUserInput = {
+    where?: ExpertProfileWhereInput
+    data: XOR<ExpertProfileUpdateWithoutUserInput, ExpertProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ExpertProfileUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumExpertTypeFieldUpdateOperationsInput | $Enums.ExpertType
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    specialization?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    responses?: IntFieldUpdateOperationsInput | number
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExpertProfileUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumExpertTypeFieldUpdateOperationsInput | $Enums.ExpertType
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    specialization?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    responses?: IntFieldUpdateOperationsInput | number
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityPostUpsertWithWhereUniqueWithoutAuthorInput = {
+    where: CommunityPostWhereUniqueInput
+    update: XOR<CommunityPostUpdateWithoutAuthorInput, CommunityPostUncheckedUpdateWithoutAuthorInput>
+    create: XOR<CommunityPostCreateWithoutAuthorInput, CommunityPostUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type CommunityPostUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: CommunityPostWhereUniqueInput
+    data: XOR<CommunityPostUpdateWithoutAuthorInput, CommunityPostUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type CommunityPostUpdateManyWithWhereWithoutAuthorInput = {
+    where: CommunityPostScalarWhereInput
+    data: XOR<CommunityPostUpdateManyMutationInput, CommunityPostUncheckedUpdateManyWithoutAuthorInput>
+  }
+
+  export type CommunityPostScalarWhereInput = {
+    AND?: CommunityPostScalarWhereInput | CommunityPostScalarWhereInput[]
+    OR?: CommunityPostScalarWhereInput[]
+    NOT?: CommunityPostScalarWhereInput | CommunityPostScalarWhereInput[]
+    id?: StringFilter<"CommunityPost"> | string
+    authorId?: StringFilter<"CommunityPost"> | string
+    title?: StringFilter<"CommunityPost"> | string
+    content?: StringFilter<"CommunityPost"> | string
+    type?: EnumCommunityPostTypeFilter<"CommunityPost"> | $Enums.CommunityPostType
+    category?: StringFilter<"CommunityPost"> | string
+    crop?: StringFilter<"CommunityPost"> | string
+    location?: StringNullableFilter<"CommunityPost"> | string | null
+    likes?: IntFilter<"CommunityPost"> | number
+    repliesCount?: IntFilter<"CommunityPost"> | number
+    status?: EnumCommunityPostStatusFilter<"CommunityPost"> | $Enums.CommunityPostStatus
+    createdAt?: DateTimeFilter<"CommunityPost"> | Date | string
+    updatedAt?: DateTimeFilter<"CommunityPost"> | Date | string
+  }
+
+  export type CommunityReplyUpsertWithWhereUniqueWithoutAuthorInput = {
+    where: CommunityReplyWhereUniqueInput
+    update: XOR<CommunityReplyUpdateWithoutAuthorInput, CommunityReplyUncheckedUpdateWithoutAuthorInput>
+    create: XOR<CommunityReplyCreateWithoutAuthorInput, CommunityReplyUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type CommunityReplyUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: CommunityReplyWhereUniqueInput
+    data: XOR<CommunityReplyUpdateWithoutAuthorInput, CommunityReplyUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type CommunityReplyUpdateManyWithWhereWithoutAuthorInput = {
+    where: CommunityReplyScalarWhereInput
+    data: XOR<CommunityReplyUpdateManyMutationInput, CommunityReplyUncheckedUpdateManyWithoutAuthorInput>
+  }
+
+  export type CommunityReplyScalarWhereInput = {
+    AND?: CommunityReplyScalarWhereInput | CommunityReplyScalarWhereInput[]
+    OR?: CommunityReplyScalarWhereInput[]
+    NOT?: CommunityReplyScalarWhereInput | CommunityReplyScalarWhereInput[]
+    id?: StringFilter<"CommunityReply"> | string
+    postId?: StringFilter<"CommunityReply"> | string
+    authorId?: StringFilter<"CommunityReply"> | string
+    content?: StringFilter<"CommunityReply"> | string
+    isExpert?: BoolFilter<"CommunityReply"> | boolean
+    createdAt?: DateTimeFilter<"CommunityReply"> | Date | string
+    updatedAt?: DateTimeFilter<"CommunityReply"> | Date | string
+  }
+
+  export type CommunityPostLikeUpsertWithWhereUniqueWithoutUserInput = {
+    where: CommunityPostLikeWhereUniqueInput
+    update: XOR<CommunityPostLikeUpdateWithoutUserInput, CommunityPostLikeUncheckedUpdateWithoutUserInput>
+    create: XOR<CommunityPostLikeCreateWithoutUserInput, CommunityPostLikeUncheckedCreateWithoutUserInput>
+  }
+
+  export type CommunityPostLikeUpdateWithWhereUniqueWithoutUserInput = {
+    where: CommunityPostLikeWhereUniqueInput
+    data: XOR<CommunityPostLikeUpdateWithoutUserInput, CommunityPostLikeUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CommunityPostLikeUpdateManyWithWhereWithoutUserInput = {
+    where: CommunityPostLikeScalarWhereInput
+    data: XOR<CommunityPostLikeUpdateManyMutationInput, CommunityPostLikeUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type CommunityPostLikeScalarWhereInput = {
+    AND?: CommunityPostLikeScalarWhereInput | CommunityPostLikeScalarWhereInput[]
+    OR?: CommunityPostLikeScalarWhereInput[]
+    NOT?: CommunityPostLikeScalarWhereInput | CommunityPostLikeScalarWhereInput[]
+    userId?: StringFilter<"CommunityPostLike"> | string
+    postId?: StringFilter<"CommunityPostLike"> | string
+    createdAt?: DateTimeFilter<"CommunityPostLike"> | Date | string
+  }
+
+  export type UserCreateWithoutCommunityPost_CommunityPost_authorToUserInput = {
+    id: string
+    phone?: string | null
+    name?: string | null
+    location?: string | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+    email: string
+    password: string
+    avatar?: string | null
+    billingAddress?: string | null
+    bio?: string | null
+    dateOfBirth?: Date | string | null
+    emailNotifications?: boolean
+    gender?: string | null
+    isEmailVerified?: boolean
+    isPhoneVerified?: boolean
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    marketingEmails?: boolean
+    preferredLanguage?: string
+    pushNotifications?: boolean
+    smsNotifications?: boolean
+    subscriptionEndsAt?: Date | string | null
+    subscriptionPlan?: string
+    subscriptionStatus?: string
+    taxId?: string | null
+    timezone?: string
+    twoFactorEnabled?: boolean
+    status?: $Enums.UserStatus
+    AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
+    Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
+    MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
+    Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
+    Message_Message_senderIdToUser?: MessageCreateNestedManyWithoutUser_Message_senderIdToUserInput
+    PriceAlert?: PriceAlertCreateNestedManyWithoutUserInput
+    ProductListing?: ProductListingCreateNestedManyWithoutUserInput
+    Review_Review_reviewedIdToUser?: ReviewCreateNestedManyWithoutUser_Review_reviewedIdToUserInput
+    Review_Review_reviewerIdToUser?: ReviewCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
+    Session?: SessionCreateNestedManyWithoutUserInput
+    Role: RoleCreateNestedOneWithoutUserInput
+    Permission?: PermissionCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCommunityPost_CommunityPost_authorToUserInput = {
+    id: string
+    phone?: string | null
+    name?: string | null
+    location?: string | null
+    roleId: string
+    createdAt?: Date | string
+    updatedAt: Date | string
+    email: string
+    password: string
+    avatar?: string | null
+    billingAddress?: string | null
+    bio?: string | null
+    dateOfBirth?: Date | string | null
+    emailNotifications?: boolean
+    gender?: string | null
+    isEmailVerified?: boolean
+    isPhoneVerified?: boolean
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    marketingEmails?: boolean
+    preferredLanguage?: string
+    pushNotifications?: boolean
+    smsNotifications?: boolean
+    subscriptionEndsAt?: Date | string | null
+    subscriptionPlan?: string
+    subscriptionStatus?: string
+    taxId?: string | null
+    timezone?: string
+    twoFactorEnabled?: boolean
+    status?: $Enums.UserStatus
+    AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
+    Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
+    MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
+    Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
+    Message_Message_senderIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_senderIdToUserInput
+    PriceAlert?: PriceAlertUncheckedCreateNestedManyWithoutUserInput
+    ProductListing?: ProductListingUncheckedCreateNestedManyWithoutUserInput
+    Review_Review_reviewedIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewedIdToUserInput
+    Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
+    Session?: SessionUncheckedCreateNestedManyWithoutUserInput
+    Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCommunityPost_CommunityPost_authorToUserInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCommunityPost_CommunityPost_authorToUserInput, UserUncheckedCreateWithoutCommunityPost_CommunityPost_authorToUserInput>
+  }
+
+  export type CommunityReplyCreateWithoutPostInput = {
+    id: string
+    content: string
+    isExpert?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+    author: UserCreateNestedOneWithoutCommunityReply_CommunityReply_authorToUserInput
+  }
+
+  export type CommunityReplyUncheckedCreateWithoutPostInput = {
+    id: string
+    authorId: string
+    content: string
+    isExpert?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type CommunityReplyCreateOrConnectWithoutPostInput = {
+    where: CommunityReplyWhereUniqueInput
+    create: XOR<CommunityReplyCreateWithoutPostInput, CommunityReplyUncheckedCreateWithoutPostInput>
+  }
+
+  export type CommunityReplyCreateManyPostInputEnvelope = {
+    data: CommunityReplyCreateManyPostInput | CommunityReplyCreateManyPostInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CommunityPostLikeCreateWithoutPostInput = {
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutCommunityPostLike_userToUserInput
+  }
+
+  export type CommunityPostLikeUncheckedCreateWithoutPostInput = {
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type CommunityPostLikeCreateOrConnectWithoutPostInput = {
+    where: CommunityPostLikeWhereUniqueInput
+    create: XOR<CommunityPostLikeCreateWithoutPostInput, CommunityPostLikeUncheckedCreateWithoutPostInput>
+  }
+
+  export type CommunityPostLikeCreateManyPostInputEnvelope = {
+    data: CommunityPostLikeCreateManyPostInput | CommunityPostLikeCreateManyPostInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutCommunityPost_CommunityPost_authorToUserInput = {
+    update: XOR<UserUpdateWithoutCommunityPost_CommunityPost_authorToUserInput, UserUncheckedUpdateWithoutCommunityPost_CommunityPost_authorToUserInput>
+    create: XOR<UserCreateWithoutCommunityPost_CommunityPost_authorToUserInput, UserUncheckedCreateWithoutCommunityPost_CommunityPost_authorToUserInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCommunityPost_CommunityPost_authorToUserInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCommunityPost_CommunityPost_authorToUserInput, UserUncheckedUpdateWithoutCommunityPost_CommunityPost_authorToUserInput>
+  }
+
+  export type UserUpdateWithoutCommunityPost_CommunityPost_authorToUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    marketingEmails?: BoolFieldUpdateOperationsInput | boolean
+    preferredLanguage?: StringFieldUpdateOperationsInput | string
+    pushNotifications?: BoolFieldUpdateOperationsInput | boolean
+    smsNotifications?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
+    Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
+    MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
+    Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
+    Message_Message_senderIdToUser?: MessageUpdateManyWithoutUser_Message_senderIdToUserNestedInput
+    PriceAlert?: PriceAlertUpdateManyWithoutUserNestedInput
+    ProductListing?: ProductListingUpdateManyWithoutUserNestedInput
+    Review_Review_reviewedIdToUser?: ReviewUpdateManyWithoutUser_Review_reviewedIdToUserNestedInput
+    Review_Review_reviewerIdToUser?: ReviewUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
+    Session?: SessionUpdateManyWithoutUserNestedInput
+    Role?: RoleUpdateOneRequiredWithoutUserNestedInput
+    Permission?: PermissionUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCommunityPost_CommunityPost_authorToUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    roleId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    marketingEmails?: BoolFieldUpdateOperationsInput | boolean
+    preferredLanguage?: StringFieldUpdateOperationsInput | string
+    pushNotifications?: BoolFieldUpdateOperationsInput | boolean
+    smsNotifications?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
+    Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
+    MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
+    Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
+    Message_Message_senderIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_senderIdToUserNestedInput
+    PriceAlert?: PriceAlertUncheckedUpdateManyWithoutUserNestedInput
+    ProductListing?: ProductListingUncheckedUpdateManyWithoutUserNestedInput
+    Review_Review_reviewedIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewedIdToUserNestedInput
+    Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
+    Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type CommunityReplyUpsertWithWhereUniqueWithoutPostInput = {
+    where: CommunityReplyWhereUniqueInput
+    update: XOR<CommunityReplyUpdateWithoutPostInput, CommunityReplyUncheckedUpdateWithoutPostInput>
+    create: XOR<CommunityReplyCreateWithoutPostInput, CommunityReplyUncheckedCreateWithoutPostInput>
+  }
+
+  export type CommunityReplyUpdateWithWhereUniqueWithoutPostInput = {
+    where: CommunityReplyWhereUniqueInput
+    data: XOR<CommunityReplyUpdateWithoutPostInput, CommunityReplyUncheckedUpdateWithoutPostInput>
+  }
+
+  export type CommunityReplyUpdateManyWithWhereWithoutPostInput = {
+    where: CommunityReplyScalarWhereInput
+    data: XOR<CommunityReplyUpdateManyMutationInput, CommunityReplyUncheckedUpdateManyWithoutPostInput>
+  }
+
+  export type CommunityPostLikeUpsertWithWhereUniqueWithoutPostInput = {
+    where: CommunityPostLikeWhereUniqueInput
+    update: XOR<CommunityPostLikeUpdateWithoutPostInput, CommunityPostLikeUncheckedUpdateWithoutPostInput>
+    create: XOR<CommunityPostLikeCreateWithoutPostInput, CommunityPostLikeUncheckedCreateWithoutPostInput>
+  }
+
+  export type CommunityPostLikeUpdateWithWhereUniqueWithoutPostInput = {
+    where: CommunityPostLikeWhereUniqueInput
+    data: XOR<CommunityPostLikeUpdateWithoutPostInput, CommunityPostLikeUncheckedUpdateWithoutPostInput>
+  }
+
+  export type CommunityPostLikeUpdateManyWithWhereWithoutPostInput = {
+    where: CommunityPostLikeScalarWhereInput
+    data: XOR<CommunityPostLikeUpdateManyMutationInput, CommunityPostLikeUncheckedUpdateManyWithoutPostInput>
+  }
+
+  export type CommunityPostCreateWithoutRepliesInput = {
+    id: string
+    title: string
+    content: string
+    type?: $Enums.CommunityPostType
+    category: string
+    crop: string
+    location?: string | null
+    likes?: number
+    repliesCount?: number
+    status?: $Enums.CommunityPostStatus
+    createdAt?: Date | string
+    updatedAt: Date | string
+    author: UserCreateNestedOneWithoutCommunityPost_CommunityPost_authorToUserInput
+    likesList?: CommunityPostLikeCreateNestedManyWithoutPostInput
+  }
+
+  export type CommunityPostUncheckedCreateWithoutRepliesInput = {
+    id: string
+    authorId: string
+    title: string
+    content: string
+    type?: $Enums.CommunityPostType
+    category: string
+    crop: string
+    location?: string | null
+    likes?: number
+    repliesCount?: number
+    status?: $Enums.CommunityPostStatus
+    createdAt?: Date | string
+    updatedAt: Date | string
+    likesList?: CommunityPostLikeUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type CommunityPostCreateOrConnectWithoutRepliesInput = {
+    where: CommunityPostWhereUniqueInput
+    create: XOR<CommunityPostCreateWithoutRepliesInput, CommunityPostUncheckedCreateWithoutRepliesInput>
+  }
+
+  export type UserCreateWithoutCommunityReply_CommunityReply_authorToUserInput = {
+    id: string
+    phone?: string | null
+    name?: string | null
+    location?: string | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+    email: string
+    password: string
+    avatar?: string | null
+    billingAddress?: string | null
+    bio?: string | null
+    dateOfBirth?: Date | string | null
+    emailNotifications?: boolean
+    gender?: string | null
+    isEmailVerified?: boolean
+    isPhoneVerified?: boolean
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    marketingEmails?: boolean
+    preferredLanguage?: string
+    pushNotifications?: boolean
+    smsNotifications?: boolean
+    subscriptionEndsAt?: Date | string | null
+    subscriptionPlan?: string
+    subscriptionStatus?: string
+    taxId?: string | null
+    timezone?: string
+    twoFactorEnabled?: boolean
+    status?: $Enums.UserStatus
+    AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
+    Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
+    MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
+    Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
+    Message_Message_senderIdToUser?: MessageCreateNestedManyWithoutUser_Message_senderIdToUserInput
+    PriceAlert?: PriceAlertCreateNestedManyWithoutUserInput
+    ProductListing?: ProductListingCreateNestedManyWithoutUserInput
+    Review_Review_reviewedIdToUser?: ReviewCreateNestedManyWithoutUser_Review_reviewedIdToUserInput
+    Review_Review_reviewerIdToUser?: ReviewCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
+    Session?: SessionCreateNestedManyWithoutUserInput
+    Role: RoleCreateNestedOneWithoutUserInput
+    Permission?: PermissionCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutCommunityReply_CommunityReply_authorToUserInput = {
+    id: string
+    phone?: string | null
+    name?: string | null
+    location?: string | null
+    roleId: string
+    createdAt?: Date | string
+    updatedAt: Date | string
+    email: string
+    password: string
+    avatar?: string | null
+    billingAddress?: string | null
+    bio?: string | null
+    dateOfBirth?: Date | string | null
+    emailNotifications?: boolean
+    gender?: string | null
+    isEmailVerified?: boolean
+    isPhoneVerified?: boolean
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    marketingEmails?: boolean
+    preferredLanguage?: string
+    pushNotifications?: boolean
+    smsNotifications?: boolean
+    subscriptionEndsAt?: Date | string | null
+    subscriptionPlan?: string
+    subscriptionStatus?: string
+    taxId?: string | null
+    timezone?: string
+    twoFactorEnabled?: boolean
+    status?: $Enums.UserStatus
+    AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
+    Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
+    MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
+    Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
+    Message_Message_senderIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_senderIdToUserInput
+    PriceAlert?: PriceAlertUncheckedCreateNestedManyWithoutUserInput
+    ProductListing?: ProductListingUncheckedCreateNestedManyWithoutUserInput
+    Review_Review_reviewedIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewedIdToUserInput
+    Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
+    Session?: SessionUncheckedCreateNestedManyWithoutUserInput
+    Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutCommunityReply_CommunityReply_authorToUserInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCommunityReply_CommunityReply_authorToUserInput, UserUncheckedCreateWithoutCommunityReply_CommunityReply_authorToUserInput>
+  }
+
+  export type CommunityPostUpsertWithoutRepliesInput = {
+    update: XOR<CommunityPostUpdateWithoutRepliesInput, CommunityPostUncheckedUpdateWithoutRepliesInput>
+    create: XOR<CommunityPostCreateWithoutRepliesInput, CommunityPostUncheckedCreateWithoutRepliesInput>
+    where?: CommunityPostWhereInput
+  }
+
+  export type CommunityPostUpdateToOneWithWhereWithoutRepliesInput = {
+    where?: CommunityPostWhereInput
+    data: XOR<CommunityPostUpdateWithoutRepliesInput, CommunityPostUncheckedUpdateWithoutRepliesInput>
+  }
+
+  export type CommunityPostUpdateWithoutRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
+    category?: StringFieldUpdateOperationsInput | string
+    crop?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    likes?: IntFieldUpdateOperationsInput | number
+    repliesCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    author?: UserUpdateOneRequiredWithoutCommunityPost_CommunityPost_authorToUserNestedInput
+    likesList?: CommunityPostLikeUpdateManyWithoutPostNestedInput
+  }
+
+  export type CommunityPostUncheckedUpdateWithoutRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
+    category?: StringFieldUpdateOperationsInput | string
+    crop?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    likes?: IntFieldUpdateOperationsInput | number
+    repliesCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    likesList?: CommunityPostLikeUncheckedUpdateManyWithoutPostNestedInput
+  }
+
+  export type UserUpsertWithoutCommunityReply_CommunityReply_authorToUserInput = {
+    update: XOR<UserUpdateWithoutCommunityReply_CommunityReply_authorToUserInput, UserUncheckedUpdateWithoutCommunityReply_CommunityReply_authorToUserInput>
+    create: XOR<UserCreateWithoutCommunityReply_CommunityReply_authorToUserInput, UserUncheckedCreateWithoutCommunityReply_CommunityReply_authorToUserInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCommunityReply_CommunityReply_authorToUserInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCommunityReply_CommunityReply_authorToUserInput, UserUncheckedUpdateWithoutCommunityReply_CommunityReply_authorToUserInput>
+  }
+
+  export type UserUpdateWithoutCommunityReply_CommunityReply_authorToUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    marketingEmails?: BoolFieldUpdateOperationsInput | boolean
+    preferredLanguage?: StringFieldUpdateOperationsInput | string
+    pushNotifications?: BoolFieldUpdateOperationsInput | boolean
+    smsNotifications?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
+    Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
+    MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
+    Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
+    Message_Message_senderIdToUser?: MessageUpdateManyWithoutUser_Message_senderIdToUserNestedInput
+    PriceAlert?: PriceAlertUpdateManyWithoutUserNestedInput
+    ProductListing?: ProductListingUpdateManyWithoutUserNestedInput
+    Review_Review_reviewedIdToUser?: ReviewUpdateManyWithoutUser_Review_reviewedIdToUserNestedInput
+    Review_Review_reviewerIdToUser?: ReviewUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
+    Session?: SessionUpdateManyWithoutUserNestedInput
+    Role?: RoleUpdateOneRequiredWithoutUserNestedInput
+    Permission?: PermissionUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCommunityReply_CommunityReply_authorToUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    roleId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    marketingEmails?: BoolFieldUpdateOperationsInput | boolean
+    preferredLanguage?: StringFieldUpdateOperationsInput | string
+    pushNotifications?: BoolFieldUpdateOperationsInput | boolean
+    smsNotifications?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
+    Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
+    MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
+    Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
+    Message_Message_senderIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_senderIdToUserNestedInput
+    PriceAlert?: PriceAlertUncheckedUpdateManyWithoutUserNestedInput
+    ProductListing?: ProductListingUncheckedUpdateManyWithoutUserNestedInput
+    Review_Review_reviewedIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewedIdToUserNestedInput
+    Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
+    Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutCommunityPostLike_userToUserInput = {
+    id: string
+    phone?: string | null
+    name?: string | null
+    location?: string | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+    email: string
+    password: string
+    avatar?: string | null
+    billingAddress?: string | null
+    bio?: string | null
+    dateOfBirth?: Date | string | null
+    emailNotifications?: boolean
+    gender?: string | null
+    isEmailVerified?: boolean
+    isPhoneVerified?: boolean
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    marketingEmails?: boolean
+    preferredLanguage?: string
+    pushNotifications?: boolean
+    smsNotifications?: boolean
+    subscriptionEndsAt?: Date | string | null
+    subscriptionPlan?: string
+    subscriptionStatus?: string
+    taxId?: string | null
+    timezone?: string
+    twoFactorEnabled?: boolean
+    status?: $Enums.UserStatus
+    AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
+    Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
+    MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
+    Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
+    Message_Message_senderIdToUser?: MessageCreateNestedManyWithoutUser_Message_senderIdToUserInput
+    PriceAlert?: PriceAlertCreateNestedManyWithoutUserInput
+    ProductListing?: ProductListingCreateNestedManyWithoutUserInput
+    Review_Review_reviewedIdToUser?: ReviewCreateNestedManyWithoutUser_Review_reviewedIdToUserInput
+    Review_Review_reviewerIdToUser?: ReviewCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
+    Session?: SessionCreateNestedManyWithoutUserInput
+    Role: RoleCreateNestedOneWithoutUserInput
+    Permission?: PermissionCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateWithoutCommunityPostLike_userToUserInput = {
+    id: string
+    phone?: string | null
+    name?: string | null
+    location?: string | null
+    roleId: string
+    createdAt?: Date | string
+    updatedAt: Date | string
+    email: string
+    password: string
+    avatar?: string | null
+    billingAddress?: string | null
+    bio?: string | null
+    dateOfBirth?: Date | string | null
+    emailNotifications?: boolean
+    gender?: string | null
+    isEmailVerified?: boolean
+    isPhoneVerified?: boolean
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    marketingEmails?: boolean
+    preferredLanguage?: string
+    pushNotifications?: boolean
+    smsNotifications?: boolean
+    subscriptionEndsAt?: Date | string | null
+    subscriptionPlan?: string
+    subscriptionStatus?: string
+    taxId?: string | null
+    timezone?: string
+    twoFactorEnabled?: boolean
+    status?: $Enums.UserStatus
+    AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
+    Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
+    MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
+    Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
+    Message_Message_senderIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_senderIdToUserInput
+    PriceAlert?: PriceAlertUncheckedCreateNestedManyWithoutUserInput
+    ProductListing?: ProductListingUncheckedCreateNestedManyWithoutUserInput
+    Review_Review_reviewedIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewedIdToUserInput
+    Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
+    Session?: SessionUncheckedCreateNestedManyWithoutUserInput
+    Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserCreateOrConnectWithoutCommunityPostLike_userToUserInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCommunityPostLike_userToUserInput, UserUncheckedCreateWithoutCommunityPostLike_userToUserInput>
+  }
+
+  export type CommunityPostCreateWithoutLikesListInput = {
+    id: string
+    title: string
+    content: string
+    type?: $Enums.CommunityPostType
+    category: string
+    crop: string
+    location?: string | null
+    likes?: number
+    repliesCount?: number
+    status?: $Enums.CommunityPostStatus
+    createdAt?: Date | string
+    updatedAt: Date | string
+    author: UserCreateNestedOneWithoutCommunityPost_CommunityPost_authorToUserInput
+    replies?: CommunityReplyCreateNestedManyWithoutPostInput
+  }
+
+  export type CommunityPostUncheckedCreateWithoutLikesListInput = {
+    id: string
+    authorId: string
+    title: string
+    content: string
+    type?: $Enums.CommunityPostType
+    category: string
+    crop: string
+    location?: string | null
+    likes?: number
+    repliesCount?: number
+    status?: $Enums.CommunityPostStatus
+    createdAt?: Date | string
+    updatedAt: Date | string
+    replies?: CommunityReplyUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type CommunityPostCreateOrConnectWithoutLikesListInput = {
+    where: CommunityPostWhereUniqueInput
+    create: XOR<CommunityPostCreateWithoutLikesListInput, CommunityPostUncheckedCreateWithoutLikesListInput>
+  }
+
+  export type UserUpsertWithoutCommunityPostLike_userToUserInput = {
+    update: XOR<UserUpdateWithoutCommunityPostLike_userToUserInput, UserUncheckedUpdateWithoutCommunityPostLike_userToUserInput>
+    create: XOR<UserCreateWithoutCommunityPostLike_userToUserInput, UserUncheckedCreateWithoutCommunityPostLike_userToUserInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCommunityPostLike_userToUserInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCommunityPostLike_userToUserInput, UserUncheckedUpdateWithoutCommunityPostLike_userToUserInput>
+  }
+
+  export type UserUpdateWithoutCommunityPostLike_userToUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    marketingEmails?: BoolFieldUpdateOperationsInput | boolean
+    preferredLanguage?: StringFieldUpdateOperationsInput | string
+    pushNotifications?: BoolFieldUpdateOperationsInput | boolean
+    smsNotifications?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
+    Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
+    MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
+    Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
+    Message_Message_senderIdToUser?: MessageUpdateManyWithoutUser_Message_senderIdToUserNestedInput
+    PriceAlert?: PriceAlertUpdateManyWithoutUserNestedInput
+    ProductListing?: ProductListingUpdateManyWithoutUserNestedInput
+    Review_Review_reviewedIdToUser?: ReviewUpdateManyWithoutUser_Review_reviewedIdToUserNestedInput
+    Review_Review_reviewerIdToUser?: ReviewUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
+    Session?: SessionUpdateManyWithoutUserNestedInput
+    Role?: RoleUpdateOneRequiredWithoutUserNestedInput
+    Permission?: PermissionUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCommunityPostLike_userToUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    roleId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    marketingEmails?: BoolFieldUpdateOperationsInput | boolean
+    preferredLanguage?: StringFieldUpdateOperationsInput | string
+    pushNotifications?: BoolFieldUpdateOperationsInput | boolean
+    smsNotifications?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
+    Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
+    MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
+    Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
+    Message_Message_senderIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_senderIdToUserNestedInput
+    PriceAlert?: PriceAlertUncheckedUpdateManyWithoutUserNestedInput
+    ProductListing?: ProductListingUncheckedUpdateManyWithoutUserNestedInput
+    Review_Review_reviewedIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewedIdToUserNestedInput
+    Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
+    Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type CommunityPostUpsertWithoutLikesListInput = {
+    update: XOR<CommunityPostUpdateWithoutLikesListInput, CommunityPostUncheckedUpdateWithoutLikesListInput>
+    create: XOR<CommunityPostCreateWithoutLikesListInput, CommunityPostUncheckedCreateWithoutLikesListInput>
+    where?: CommunityPostWhereInput
+  }
+
+  export type CommunityPostUpdateToOneWithWhereWithoutLikesListInput = {
+    where?: CommunityPostWhereInput
+    data: XOR<CommunityPostUpdateWithoutLikesListInput, CommunityPostUncheckedUpdateWithoutLikesListInput>
+  }
+
+  export type CommunityPostUpdateWithoutLikesListInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
+    category?: StringFieldUpdateOperationsInput | string
+    crop?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    likes?: IntFieldUpdateOperationsInput | number
+    repliesCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    author?: UserUpdateOneRequiredWithoutCommunityPost_CommunityPost_authorToUserNestedInput
+    replies?: CommunityReplyUpdateManyWithoutPostNestedInput
+  }
+
+  export type CommunityPostUncheckedUpdateWithoutLikesListInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
+    category?: StringFieldUpdateOperationsInput | string
+    crop?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    likes?: IntFieldUpdateOperationsInput | number
+    repliesCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    replies?: CommunityReplyUncheckedUpdateManyWithoutPostNestedInput
+  }
+
+  export type UserCreateWithoutExpertProfileInput = {
+    id: string
+    phone?: string | null
+    name?: string | null
+    location?: string | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+    email: string
+    password: string
+    avatar?: string | null
+    billingAddress?: string | null
+    bio?: string | null
+    dateOfBirth?: Date | string | null
+    emailNotifications?: boolean
+    gender?: string | null
+    isEmailVerified?: boolean
+    isPhoneVerified?: boolean
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    marketingEmails?: boolean
+    preferredLanguage?: string
+    pushNotifications?: boolean
+    smsNotifications?: boolean
+    subscriptionEndsAt?: Date | string | null
+    subscriptionPlan?: string
+    subscriptionStatus?: string
+    taxId?: string | null
+    timezone?: string
+    twoFactorEnabled?: boolean
+    status?: $Enums.UserStatus
+    AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
+    Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
+    MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
+    Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
+    Message_Message_senderIdToUser?: MessageCreateNestedManyWithoutUser_Message_senderIdToUserInput
+    PriceAlert?: PriceAlertCreateNestedManyWithoutUserInput
+    ProductListing?: ProductListingCreateNestedManyWithoutUserInput
+    Review_Review_reviewedIdToUser?: ReviewCreateNestedManyWithoutUser_Review_reviewedIdToUserInput
+    Review_Review_reviewerIdToUser?: ReviewCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
+    Session?: SessionCreateNestedManyWithoutUserInput
+    Role: RoleCreateNestedOneWithoutUserInput
+    Permission?: PermissionCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutExpertProfileInput = {
+    id: string
+    phone?: string | null
+    name?: string | null
+    location?: string | null
+    roleId: string
+    createdAt?: Date | string
+    updatedAt: Date | string
+    email: string
+    password: string
+    avatar?: string | null
+    billingAddress?: string | null
+    bio?: string | null
+    dateOfBirth?: Date | string | null
+    emailNotifications?: boolean
+    gender?: string | null
+    isEmailVerified?: boolean
+    isPhoneVerified?: boolean
+    lastLoginAt?: Date | string | null
+    loginCount?: number
+    marketingEmails?: boolean
+    preferredLanguage?: string
+    pushNotifications?: boolean
+    smsNotifications?: boolean
+    subscriptionEndsAt?: Date | string | null
+    subscriptionPlan?: string
+    subscriptionStatus?: string
+    taxId?: string | null
+    timezone?: string
+    twoFactorEnabled?: boolean
+    status?: $Enums.UserStatus
+    AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
+    AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
+    Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
+    MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
+    Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
+    Message_Message_senderIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_senderIdToUserInput
+    PriceAlert?: PriceAlertUncheckedCreateNestedManyWithoutUserInput
+    ProductListing?: ProductListingUncheckedCreateNestedManyWithoutUserInput
+    Review_Review_reviewedIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewedIdToUserInput
+    Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
+    Session?: SessionUncheckedCreateNestedManyWithoutUserInput
+    Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutExpertProfileInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutExpertProfileInput, UserUncheckedCreateWithoutExpertProfileInput>
+  }
+
+  export type UserUpsertWithoutExpertProfileInput = {
+    update: XOR<UserUpdateWithoutExpertProfileInput, UserUncheckedUpdateWithoutExpertProfileInput>
+    create: XOR<UserCreateWithoutExpertProfileInput, UserUncheckedCreateWithoutExpertProfileInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutExpertProfileInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutExpertProfileInput, UserUncheckedUpdateWithoutExpertProfileInput>
+  }
+
+  export type UserUpdateWithoutExpertProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    marketingEmails?: BoolFieldUpdateOperationsInput | boolean
+    preferredLanguage?: StringFieldUpdateOperationsInput | string
+    pushNotifications?: BoolFieldUpdateOperationsInput | boolean
+    smsNotifications?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
+    Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
+    MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
+    Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
+    Message_Message_senderIdToUser?: MessageUpdateManyWithoutUser_Message_senderIdToUserNestedInput
+    PriceAlert?: PriceAlertUpdateManyWithoutUserNestedInput
+    ProductListing?: ProductListingUpdateManyWithoutUserNestedInput
+    Review_Review_reviewedIdToUser?: ReviewUpdateManyWithoutUser_Review_reviewedIdToUserNestedInput
+    Review_Review_reviewerIdToUser?: ReviewUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
+    Session?: SessionUpdateManyWithoutUserNestedInput
+    Role?: RoleUpdateOneRequiredWithoutUserNestedInput
+    Permission?: PermissionUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutExpertProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    roleId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emailNotifications?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    isEmailVerified?: BoolFieldUpdateOperationsInput | boolean
+    isPhoneVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    marketingEmails?: BoolFieldUpdateOperationsInput | boolean
+    preferredLanguage?: StringFieldUpdateOperationsInput | string
+    pushNotifications?: BoolFieldUpdateOperationsInput | boolean
+    smsNotifications?: BoolFieldUpdateOperationsInput | boolean
+    subscriptionEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptionPlan?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: StringFieldUpdateOperationsInput | string
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
+    AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
+    Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
+    MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
+    Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
+    Message_Message_senderIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_senderIdToUserNestedInput
+    PriceAlert?: PriceAlertUncheckedUpdateManyWithoutUserNestedInput
+    ProductListing?: ProductListingUncheckedUpdateManyWithoutUserNestedInput
+    Review_Review_reviewedIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewedIdToUserNestedInput
+    Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
+    Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type MessageCreateManyConversation_Message_conversationIdToConversationInput = {
     id: string
     senderId: string
@@ -30289,6 +38417,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPermissionInput = {
@@ -30335,6 +38467,10 @@ export namespace Prisma {
     Review_Review_reviewedIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewedIdToUserNestedInput
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutPermissionInput = {
@@ -30676,6 +38812,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUpdateManyWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoleInput = {
@@ -30722,6 +38862,10 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutRoleInput = {
@@ -30980,6 +39124,35 @@ export namespace Prisma {
     token: string
     createdAt?: Date | string
     expiresAt: Date | string
+  }
+
+  export type CommunityPostCreateManyAuthorInput = {
+    id: string
+    title: string
+    content: string
+    type?: $Enums.CommunityPostType
+    category: string
+    crop: string
+    location?: string | null
+    likes?: number
+    repliesCount?: number
+    status?: $Enums.CommunityPostStatus
+    createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type CommunityReplyCreateManyAuthorInput = {
+    id: string
+    postId: string
+    content: string
+    isExpert?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type CommunityPostLikeCreateManyUserInput = {
+    postId: string
+    createdAt?: Date | string
   }
 
   export type AdminActionLogUpdateWithoutUserInput = {
@@ -31638,6 +39811,153 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CommunityPostUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
+    category?: StringFieldUpdateOperationsInput | string
+    crop?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    likes?: IntFieldUpdateOperationsInput | number
+    repliesCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    replies?: CommunityReplyUpdateManyWithoutPostNestedInput
+    likesList?: CommunityPostLikeUpdateManyWithoutPostNestedInput
+  }
+
+  export type CommunityPostUncheckedUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
+    category?: StringFieldUpdateOperationsInput | string
+    crop?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    likes?: IntFieldUpdateOperationsInput | number
+    repliesCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    replies?: CommunityReplyUncheckedUpdateManyWithoutPostNestedInput
+    likesList?: CommunityPostLikeUncheckedUpdateManyWithoutPostNestedInput
+  }
+
+  export type CommunityPostUncheckedUpdateManyWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
+    category?: StringFieldUpdateOperationsInput | string
+    crop?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    likes?: IntFieldUpdateOperationsInput | number
+    repliesCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityReplyUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isExpert?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    post?: CommunityPostUpdateOneRequiredWithoutRepliesNestedInput
+  }
+
+  export type CommunityReplyUncheckedUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isExpert?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityReplyUncheckedUpdateManyWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isExpert?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityPostLikeUpdateWithoutUserInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    post?: CommunityPostUpdateOneRequiredWithoutLikesListNestedInput
+  }
+
+  export type CommunityPostLikeUncheckedUpdateWithoutUserInput = {
+    postId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityPostLikeUncheckedUpdateManyWithoutUserInput = {
+    postId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityReplyCreateManyPostInput = {
+    id: string
+    authorId: string
+    content: string
+    isExpert?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type CommunityPostLikeCreateManyPostInput = {
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type CommunityReplyUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isExpert?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    author?: UserUpdateOneRequiredWithoutCommunityReply_CommunityReply_authorToUserNestedInput
+  }
+
+  export type CommunityReplyUncheckedUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isExpert?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityReplyUncheckedUpdateManyWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isExpert?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityPostLikeUpdateWithoutPostInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCommunityPostLike_userToUserNestedInput
+  }
+
+  export type CommunityPostLikeUncheckedUpdateWithoutPostInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityPostLikeUncheckedUpdateManyWithoutPostInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
