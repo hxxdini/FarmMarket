@@ -93,7 +93,7 @@ export async function GET(request: NextRequest) {
         Math.round((p.createdAt.getTime() - Date.now()) / (1000 * 60 * 60)),
         "hour"
       ),
-      hasExpertReply: p.replies.some((r) => r.isExpert),
+      hasExpertReply: p.replies.some((r: any) => r.isExpert),
     }))
 
     return NextResponse.json({
@@ -143,7 +143,7 @@ export async function POST(request: NextRequest) {
         title: title.trim(),
         content: content.trim(),
         category: category.trim(),
-        crop: (typeof crop === 'string' && crop.trim().length > 0) ? crop.trim() : null,
+        crop: (typeof crop === 'string' && crop.trim().length > 0) ? crop.trim() : "General",
         location: location?.trim() || user.location || null,
         type: enumType as any,
         status: "PENDING",
@@ -163,7 +163,7 @@ export async function POST(request: NextRequest) {
       id: post.id,
       type: mapEnumToType(post.type),
       title: post.title,
-      author: post.author.name || "Unknown",
+      author: post.author?.name || "Unknown",
       authorType: "farmer",
       content: post.content,
       category: post.category,

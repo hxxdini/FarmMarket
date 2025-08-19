@@ -12,7 +12,15 @@ export async function GET(request: NextRequest) {
 
     const replies = await prisma.communityReply.findMany({
       where: { postId },
-      include: { author: { select: { id: true, name: true, avatar: true } } },
+      include: { 
+        author: { select: { id: true, name: true, avatar: true } },
+        replies: {
+          include: {
+            author: { select: { id: true, name: true, avatar: true } }
+          },
+          orderBy: { createdAt: "asc" }
+        }
+      },
       orderBy: { createdAt: "asc" },
     })
 
@@ -24,7 +32,21 @@ export async function GET(request: NextRequest) {
       avatar: r.author.avatar,
       content: r.content,
       isExpert: r.isExpert,
+      likes: r.likes,
+      replyToId: r.replyToId,
       createdAt: r.createdAt,
+      replies: r.replies.map((subReply) => ({
+        id: subReply.id,
+        postId: subReply.postId,
+        author: subReply.author.name || "Unknown",
+        authorId: subReply.authorId,
+        avatar: subReply.author.avatar,
+        content: subReply.content,
+        isExpert: subReply.isExpert,
+        likes: subReply.likes,
+        replyToId: subReply.replyToId,
+        createdAt: subReply.createdAt,
+      }))
     }))
 
     return NextResponse.json({ replies: data })
@@ -45,7 +67,7 @@ export async function POST(request: NextRequest) {
     if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 })
 
     const body = await request.json()
-    const { postId, content } = body || {}
+    const { postId, content, replyToId } = body || {}
     if (!postId || !content) {
       return NextResponse.json({ error: "postId and content are required" }, { status: 400 })
     }
@@ -59,10 +81,18 @@ export async function POST(request: NextRequest) {
         postId,
         authorId: user.id,
         content: content.trim(),
+        replyToId: replyToId || null,
         isExpert,
         updatedAt: new Date(),
       },
-      include: { author: { select: { id: true, name: true, avatar: true } } },
+      include: { 
+        author: { select: { id: true, name: true, avatar: true } },
+        replies: {
+          include: {
+            author: { select: { id: true, name: true, avatar: true } }
+          }
+        }
+      },
     })
 
     // Update post reply count and expert flag if needed
@@ -90,7 +120,21 @@ export async function POST(request: NextRequest) {
         avatar: reply.author.avatar,
         content: reply.content,
         isExpert: reply.isExpert,
+        likes: reply.likes,
+        replyToId: reply.replyToId,
         createdAt: reply.createdAt,
+        replies: reply.replies.map((subReply) => ({
+          id: subReply.id,
+          postId: subReply.postId,
+          author: subReply.author.name || "Unknown",
+          authorId: subReply.authorId,
+          avatar: subReply.author.avatar,
+          content: subReply.content,
+          isExpert: subReply.isExpert,
+          likes: subReply.likes,
+          replyToId: subReply.replyToId,
+          createdAt: subReply.createdAt,
+        }))
       }
     }, { status: 201 })
   } catch (error) {

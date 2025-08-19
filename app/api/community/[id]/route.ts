@@ -3,15 +3,21 @@ import { prisma } from "@/lib/prisma"
 
 const mapEnumToType = (enumVal: string) => enumVal.toLowerCase()
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = params
+    const { id } = await params
     const post = await prisma.communityPost.findUnique({
       where: { id },
       include: {
         author: { select: { id: true, name: true, avatar: true, location: true } },
         replies: {
-          include: { author: { select: { id: true, name: true, avatar: true } } },
+          include: { 
+            author: { select: { id: true, name: true, avatar: true } },
+            replies: {
+              include: { author: { select: { id: true, name: true, avatar: true } } },
+              orderBy: { createdAt: "asc" }
+            }
+          },
           orderBy: { createdAt: "asc" }
         }
       }
@@ -41,7 +47,20 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
         avatar: r.author.avatar,
         content: r.content,
         isExpert: r.isExpert,
-        createdAt: r.createdAt
+        likes: r.likes,
+        replyToId: r.replyToId,
+        createdAt: r.createdAt,
+        replies: r.replies.map((nestedReply) => ({
+          id: nestedReply.id,
+          author: nestedReply.author.name || "Unknown",
+          authorId: nestedReply.authorId,
+          avatar: nestedReply.author.avatar,
+          content: nestedReply.content,
+          isExpert: nestedReply.isExpert,
+          likes: nestedReply.likes,
+          replyToId: nestedReply.replyToId,
+          createdAt: nestedReply.createdAt
+        }))
       }))
     }
 
