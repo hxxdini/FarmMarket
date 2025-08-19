@@ -7,7 +7,8 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Search, MapPin, Calendar, Star, MessageCircle, Plus, Loader2, Filter, X, RefreshCw } from "lucide-react"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
+import { Search, MapPin, Calendar, Star, MessageCircle, Plus, Loader2, Filter, X, RefreshCw, ChevronDown, ChevronRight } from "lucide-react"
 import Image from "next/image"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
@@ -69,6 +70,7 @@ export default function MarketplacePage() {
     totalPages: 0
   })
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false)
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false)
 
   // Use the marketplace updates hook for real-time notifications
   useMarketplaceUpdates()
@@ -245,97 +247,128 @@ export default function MarketplacePage() {
               </div>
             </div>
           </CardHeader>
-          <CardContent className="pt-0">
-            <div className="space-y-3 sm:space-y-4">
-              {/* Search - Always visible on mobile */}
-              <div className="relative">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                <Input
-                  id="search"
-                  name="search"
-                  placeholder="Search products or farmers..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 h-10"
-                />
-              </div>
+          
+          <Collapsible open={isFiltersOpen} onOpenChange={setIsFiltersOpen}>
+            <CollapsibleTrigger asChild>
+              <Button
+                variant="ghost"
+                className="w-full justify-between px-6 py-3 text-left font-normal hover:bg-gray-50"
+              >
+                <div className="flex items-center space-x-2">
+                  <Search className="h-4 w-4 text-gray-500" />
+                  <span className="text-sm font-medium text-gray-700">
+                    {isFiltersOpen ? 'Hide Search & Filters' : 'Show Search & Filters'}
+                  </span>
+                </div>
+                {isFiltersOpen ? (
+                  <ChevronDown className="h-4 w-4 text-gray-500" />
+                ) : (
+                  <ChevronRight className="h-4 w-4 text-gray-500" />
+                )}
+              </Button>
+            </CollapsibleTrigger>
+            
+            <CollapsibleContent>
+              <CardContent className="pt-0">
+                <div className="space-y-3 sm:space-y-4">
+                  {/* Search - Always visible when filters are open */}
+                  <div className="relative">
+                    <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <Input
+                      id="search"
+                      name="search"
+                      placeholder="Search products or farmers..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10 h-10"
+                    />
+                  </div>
 
-              {/* Basic Filters - Mobile: stacked, Desktop: row */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
-                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <SelectTrigger id="category" name="category" className="h-10">
-                    <SelectValue placeholder="Category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Categories</SelectItem>
-                    <SelectItem value="Maize">Maize</SelectItem>
-                    <SelectItem value="Beans">Beans</SelectItem>
-                    <SelectItem value="Coffee">Coffee</SelectItem>
-                    <SelectItem value="Bananas">Bananas</SelectItem>
-                    <SelectItem value="Cassava">Cassava</SelectItem>
-                  </SelectContent>
-                </Select>
-
-                <Select value={selectedLocation} onValueChange={setSelectedLocation}>
-                  <SelectTrigger id="location" name="location" className="h-10">
-                    <SelectValue placeholder="Location" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Locations</SelectItem>
-                    <SelectItem value="Kampala">Kampala</SelectItem>
-                    <SelectItem value="Mbale">Mbale</SelectItem>
-                    <SelectItem value="Mukono">Mukono</SelectItem>
-                    <SelectItem value="Masaka">Masaka</SelectItem>
-                    <SelectItem value="Jinja">Jinja</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Advanced Filters */}
-              {showAdvancedFilters && (
-                <div className="space-y-3 pt-3 border-t border-gray-200">
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <Select value={selectedQuality} onValueChange={setSelectedQuality}>
-                      <SelectTrigger id="quality" name="quality" className="h-10">
-                        <SelectValue placeholder="Quality" />
+                  {/* Basic Filters - Mobile: stacked, Desktop: row */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3">
+                    <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                      <SelectTrigger id="category" name="category" className="h-10">
+                        <SelectValue placeholder="Category" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="all">All Qualities</SelectItem>
-                        <SelectItem value="Premium">Premium</SelectItem>
-                        <SelectItem value="Standard">Standard</SelectItem>
-                        <SelectItem value="Basic">Basic</SelectItem>
+                        <SelectItem value="all">All Categories</SelectItem>
+                        <SelectItem value="Maize">Maize</SelectItem>
+                        <SelectItem value="Beans">Beans</SelectItem>
+                        <SelectItem value="Coffee">Coffee</SelectItem>
+                        <SelectItem value="Bananas">Bananas</SelectItem>
+                        <SelectItem value="Cassava">Cassava</SelectItem>
                       </SelectContent>
                     </Select>
 
-                    <Input
-                      id="minPrice"
-                      name="minPrice"
-                      placeholder="Min Price (UGX)"
-                      type="number"
-                      value={minPrice}
-                      onChange={(e) => setMinPrice(e.target.value)}
-                      className="h-10"
-                    />
-
-                    <Input
-                      id="maxPrice"
-                      name="maxPrice"
-                      placeholder="Max Price (UGX)"
-                      type="number"
-                      value={maxPrice}
-                      onChange={(e) => setMaxPrice(e.target.value)}
-                      className="h-10"
-                    />
+                    <Select value={selectedLocation} onValueChange={setSelectedLocation}>
+                      <SelectTrigger id="location" name="location" className="h-10">
+                        <SelectValue placeholder="Location" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Locations</SelectItem>
+                        <SelectItem value="Adjumani">Adjumani</SelectItem>
+                        <SelectItem value="Arua">Arua</SelectItem>
+                        <SelectItem value="Gulu">Gulu</SelectItem>
+                        <SelectItem value="Kitgum">Kitgum</SelectItem>
+                        <SelectItem value="Lira">Lira</SelectItem>
+                        <SelectItem value="Moroto">Moroto</SelectItem>
+                        <SelectItem value="Moyo">Moyo</SelectItem>
+                        <SelectItem value="Kampala">Kampala</SelectItem>
+                        <SelectItem value="Mbale">Mbale</SelectItem>
+                        <SelectItem value="Mukono">Mukono</SelectItem>
+                        <SelectItem value="Masaka">Masaka</SelectItem>
+                        <SelectItem value="Jinja">Jinja</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
-                  
-                  <Button variant="outline" onClick={resetFilters} className="w-full sm:w-auto flex items-center justify-center space-x-2 h-10" size="sm">
-                    <X className="h-4 w-4" />
-                    <span>Reset All Filters</span>
-                  </Button>
+
+                  {/* Advanced Filters */}
+                  {showAdvancedFilters && (
+                    <div className="space-y-3 pt-3 border-t border-gray-200">
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <Select value={selectedQuality} onValueChange={setSelectedQuality}>
+                          <SelectTrigger id="quality" name="quality" className="h-10">
+                            <SelectValue placeholder="Quality" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="all">All Qualities</SelectItem>
+                            <SelectItem value="Premium">Premium</SelectItem>
+                            <SelectItem value="Standard">Standard</SelectItem>
+                            <SelectItem value="Basic">Basic</SelectItem>
+                          </SelectContent>
+                        </Select>
+
+                        <Input
+                          id="minPrice"
+                          name="minPrice"
+                          placeholder="Min Price (UGX)"
+                          type="number"
+                          value={minPrice}
+                          onChange={(e) => setMinPrice(e.target.value)}
+                          className="h-10"
+                        />
+
+                        <Input
+                          id="maxPrice"
+                          name="maxPrice"
+                          placeholder="Max Price (UGX)"
+                          type="number"
+                          value={maxPrice}
+                          onChange={(e) => setMaxPrice(e.target.value)}
+                          className="h-10"
+                        />
+                      </div>
+                      
+                      <Button variant="outline" onClick={resetFilters} className="w-full sm:w-auto flex items-center justify-center space-x-2 h-10" size="sm">
+                        <X className="h-4 w-4" />
+                        <span>Reset All Filters</span>
+                      </Button>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </CardContent>
+              </CardContent>
+            </CollapsibleContent>
+          </Collapsible>
         </Card>
 
         {/* Results Summary */}

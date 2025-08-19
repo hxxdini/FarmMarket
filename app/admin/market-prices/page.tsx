@@ -29,7 +29,8 @@ import {
   Package,
   User,
   Shield,
-  Loader2
+  Loader2,
+  Trash2
 } from "lucide-react"
 
 interface MarketPrice {
@@ -85,10 +86,14 @@ export default function AdminMarketPricesPage() {
   })
   const [loading, setLoading] = useState(true)
   const [moderating, setModerating] = useState<string | null>(null)
+  const [bulkLoading, setBulkLoading] = useState(false)
   const [selectedPrices, setSelectedPrices] = useState<string[]>([])
   const [reviewDialogOpen, setReviewDialogOpen] = useState(false)
   const [reviewNotes, setReviewNotes] = useState('')
-  const [reviewAction, setReviewAction] = useState<'approve' | 'reject' | 'expire'>('approve')
+  const [reviewAction, setReviewAction] = useState<'approve' | 'reject' | 'expire' | 'delete'>('approve')
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
+  const [deleteAction, setDeleteAction] = useState<'bulk' | 'individual' | null>(null)
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null)
   
   const [filters, setFilters] = useState({
     status: 'pending',
@@ -110,7 +115,19 @@ export default function AdminMarketPricesPage() {
     } else if (status === "authenticated") {
       fetchPrices()
     }
-  }, [status, filters, pagination.page, router])
+  }, [status, filters.status, filters.cropType, filters.location, pagination.page, router])
+
+  // Debounced search effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (status === "authenticated" && filters.search) {
+        setPagination(prev => ({ ...prev, page: 1 })) // Reset to first page
+        fetchPrices()
+      }
+    }, 500) // 500ms delay
+
+    return () => clearTimeout(timer)
+  }, [filters.search])
 
   const fetchPrices = async () => {
     try {
@@ -120,7 +137,8 @@ export default function AdminMarketPricesPage() {
         page: pagination.page.toString(),
         limit: pagination.limit.toString(),
         ...(filters.cropType && { cropType: filters.cropType }),
-        ...(filters.location && { location: filters.location })
+        ...(filters.location && { location: filters.location }),
+        ...(filters.search && { search: filters.search })
       })
 
       const response = await fetch(`/api/admin/market-prices?${params}`)
@@ -157,13 +175,14 @@ export default function AdminMarketPricesPage() {
     setPagination(prev => ({ ...prev, page: newPage }))
   }
 
-  const handleBulkAction = async (action: 'approve' | 'reject' | 'expire') => {
+  const handleBulkAction = async (action: 'approve' | 'reject' | 'expire' | 'delete') => {
     if (selectedPrices.length === 0) {
       toast.error('Please select prices to moderate')
       return
     }
 
     try {
+      setBulkLoading(true)
       setModerating('bulk')
       
       const response = await fetch('/api/admin/market-prices', {
@@ -189,17 +208,24 @@ export default function AdminMarketPricesPage() {
         fetchPrices()
       } else {
         const error = await response.json()
+        console.error('Bulk Action API Error:', error)
         toast.error(error.error || 'Failed to moderate prices')
+        
+        // Show more detailed error information in console for debugging
+        if (error.details) {
+          console.error('Error details:', error.details)
+        }
       }
     } catch (error) {
       console.error('Bulk action error:', error)
       toast.error('Failed to moderate prices')
     } finally {
+      setBulkLoading(false)
       setModerating(null)
     }
   }
 
-  const handleIndividualAction = async (priceId: string, action: 'approve' | 'reject' | 'expire') => {
+  const handleIndividualAction = async (priceId: string, action: 'approve' | 'reject' | 'expire' | 'delete') => {
     try {
       setModerating(priceId)
       
@@ -218,10 +244,18 @@ export default function AdminMarketPricesPage() {
       if (response.ok) {
         const result = await response.json()
         toast.success(result.message)
+        // Clear review notes after successful action
+        setReviewNotes('')
         fetchPrices()
       } else {
         const error = await response.json()
+        console.error('Individual Action API Error:', error)
         toast.error(error.error || 'Failed to moderate price')
+        
+        // Show more detailed error information in console for debugging
+        if (error.details) {
+          console.error('Error details:', error.details)
+        }
       }
     } catch (error) {
       console.error('Individual action error:', error)
@@ -444,9 +478,14 @@ export default function AdminMarketPricesPage() {
                     setReviewAction('approve')
                     setReviewDialogOpen(true)
                   }}
+                  disabled={bulkLoading}
                   className="bg-green-600 hover:bg-green-700"
                 >
-                  <CheckCircle className="h-4 w-4 mr-2" />
+                  {bulkLoading ? (
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  ) : (
+                    <CheckCircle className="h-4 w-4 mr-2" />
+                  )}
                   Approve Selected
                 </Button>
                 
@@ -457,8 +496,13 @@ export default function AdminMarketPricesPage() {
                     setReviewAction('reject')
                     setReviewDialogOpen(true)
                   }}
+                  disabled={bulkLoading}
                 >
-                  <XCircle className="h-4 w-4 mr-2" />
+                  {bulkLoading ? (
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  ) : (
+                    <XCircle className="h-4 w-4 mr-2" />
+                  )}
                   Reject Selected
                 </Button>
                 
@@ -469,9 +513,31 @@ export default function AdminMarketPricesPage() {
                     setReviewAction('expire')
                     setReviewDialogOpen(true)
                   }}
+                  disabled={bulkLoading}
                 >
-                  <Clock className="h-4 w-4 mr-2" />
+                  {bulkLoading ? (
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  ) : (
+                    <Clock className="h-4 w-4 mr-2" />
+                  )}
                   Expire Selected
+                </Button>
+                
+                <Button
+                  size="sm"
+                  variant="destructive"
+                  onClick={() => {
+                    setDeleteAction('bulk')
+                    setDeleteConfirmOpen(true)
+                  }}
+                  disabled={bulkLoading}
+                >
+                  {bulkLoading ? (
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  ) : (
+                    <Trash2 className="h-4 w-4 mr-2" />
+                  )}
+                  Delete Selected
                 </Button>
               </div>
             </div>
@@ -597,17 +663,17 @@ export default function AdminMarketPricesPage() {
 
                     {/* Review Status - Compact */}
                     {price.status === 'PENDING' && (
-                      <div className="p-2 bg-yellow-50 rounded-lg border border-yellow-200">
-                        <div className="text-xs text-yellow-800 mb-2">
+                      <div className="p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                        <div className="text-xs text-yellow-800 mb-3">
                           <strong>Pending Review</strong> - {formatDate(price.createdAt)}
                         </div>
                         
-                        <div className="flex space-x-1">
+                        <div className="grid grid-cols-2 gap-2">
                           <Button
                             size="sm"
                             onClick={() => handleIndividualAction(price.id, 'approve')}
                             disabled={moderating === price.id}
-                            className="bg-green-600 hover:bg-green-700 text-xs h-7 px-2"
+                            className="bg-green-600 hover:bg-green-700 text-xs h-8 px-2 w-full"
                           >
                             {moderating === price.id ? (
                               <Loader2 className="h-3 w-3 mr-1 animate-spin" />
@@ -622,7 +688,7 @@ export default function AdminMarketPricesPage() {
                             variant="destructive"
                             onClick={() => handleIndividualAction(price.id, 'reject')}
                             disabled={moderating === price.id}
-                            className="text-xs h-7 px-2"
+                            className="text-xs h-8 px-2 w-full"
                           >
                             {moderating === price.id ? (
                               <Loader2 className="h-3 w-3 mr-1 animate-spin" />
@@ -630,6 +696,36 @@ export default function AdminMarketPricesPage() {
                               <XCircle className="h-3 w-3 mr-1" />
                             )}
                             Reject
+                          </Button>
+                          
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleIndividualAction(price.id, 'expire')}
+                            disabled={moderating === price.id}
+                            className="text-xs h-8 px-2 w-full"
+                          >
+                            {moderating === price.id ? (
+                              <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                            ) : (
+                              <Clock className="h-3 w-3 mr-1" />
+                            )}
+                            Expire
+                          </Button>
+                          
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            onClick={() => {
+                              setDeleteAction('individual')
+                              setDeleteTargetId(price.id)
+                              setDeleteConfirmOpen(true)
+                            }}
+                            disabled={moderating === price.id}
+                            className="text-xs h-8 px-2 w-full"
+                          >
+                            <Trash2 className="h-3 w-3 mr-1" />
+                            Delete
                           </Button>
                         </div>
                       </div>
@@ -703,12 +799,14 @@ export default function AdminMarketPricesPage() {
           <DialogHeader>
             <DialogTitle>
               {reviewAction === 'approve' ? 'Approve' : 
-               reviewAction === 'reject' ? 'Reject' : 'Expire'} Selected Prices
+               reviewAction === 'reject' ? 'Reject' : 
+               reviewAction === 'expire' ? 'Expire' : 'Delete'} Selected Prices
             </DialogTitle>
             <DialogDescription>
               {reviewAction === 'approve' ? 'Approve the selected prices for public viewing.' :
                reviewAction === 'reject' ? 'Reject the selected prices with a reason.' :
-               'Mark the selected prices as expired.'}
+               reviewAction === 'expire' ? 'Mark the selected prices as expired.' :
+               'Permanently delete the selected prices. This action cannot be undone.'}
             </DialogDescription>
           </DialogHeader>
           
@@ -735,26 +833,81 @@ export default function AdminMarketPricesPage() {
               
               <Button
                 onClick={() => handleBulkAction(reviewAction)}
-                disabled={moderating === 'bulk'}
+                disabled={bulkLoading}
                 className={
                   reviewAction === 'approve' ? 'bg-green-600 hover:bg-green-700' :
                   reviewAction === 'reject' ? 'bg-red-600 hover:bg-red-700' :
-                  'bg-gray-600 hover:bg-gray-700'
+                  reviewAction === 'expire' ? 'bg-gray-600 hover:bg-gray-700' :
+                  'bg-red-600 hover:bg-red-700'
                 }
               >
-                {moderating === 'bulk' ? (
+                {bulkLoading ? (
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                 ) : reviewAction === 'approve' ? (
                   <CheckCircle className="h-4 w-4 mr-2" />
                 ) : reviewAction === 'reject' ? (
                   <XCircle className="h-4 w-4 mr-2" />
-                ) : (
+                ) : reviewAction === 'expire' ? (
                   <Clock className="h-4 w-4 mr-2" />
+                ) : (
+                  <Trash2 className="h-4 w-4 mr-2" />
                 )}
                 {reviewAction === 'approve' ? 'Approve' : 
-                 reviewAction === 'reject' ? 'Reject' : 'Expire'} {selectedPrices.length} Price{selectedPrices.length > 1 ? 's' : ''}
+                 reviewAction === 'reject' ? 'Reject' : 
+                 reviewAction === 'expire' ? 'Expire' : 'Delete'} {selectedPrices.length} Price{selectedPrices.length > 1 ? 's' : ''}
               </Button>
             </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={deleteConfirmOpen} onOpenChange={setDeleteConfirmOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="text-red-600">Confirm Deletion</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to permanently delete {deleteAction === 'bulk' ? 'the selected prices' : 'this price'}? 
+              This action cannot be undone and will permanently remove the data.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="flex justify-end space-x-2">
+            <Button
+              variant="outline"
+              onClick={() => setDeleteConfirmOpen(false)}
+            >
+              Cancel
+            </Button>
+            
+            <Button
+              variant="destructive"
+              onClick={async () => {
+                try {
+                  setModerating(deleteAction === 'bulk' ? 'bulk' : deleteTargetId!)
+                  
+                  if (deleteAction === 'bulk') {
+                    await handleBulkAction('delete')
+                  } else if (deleteAction === 'individual' && deleteTargetId) {
+                    await handleIndividualAction(deleteTargetId, 'delete')
+                  }
+                  
+                  setDeleteConfirmOpen(false)
+                  setDeleteAction(null)
+                  setDeleteTargetId(null)
+                } catch (error) {
+                  console.error('Delete error:', error)
+                }
+              }}
+              disabled={moderating === 'bulk' || (deleteTargetId && moderating === deleteTargetId)}
+            >
+              {moderating === 'bulk' || (deleteTargetId && moderating === deleteTargetId) ? (
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+              ) : (
+                <Trash2 className="h-4 w-4 mr-2" />
+              )}
+              Delete Permanently
+            </Button>
           </div>
         </DialogContent>
       </Dialog>

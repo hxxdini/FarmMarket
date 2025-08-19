@@ -111,6 +111,8 @@ export default function PriceAlertsPage() {
       router.replace("/login")
     } else if (status === "authenticated") {
       fetchAlerts()
+      // Also fetch notifications when the page loads
+      fetchNotifications()
     }
   }, [status, router])
 
@@ -132,6 +134,20 @@ export default function PriceAlertsPage() {
       toast.error('Failed to fetch price alerts')
     } finally {
       setLoading(false)
+    }
+  }
+
+  const fetchNotifications = async () => {
+    try {
+      const response = await fetch('/api/notifications')
+      if (response.ok) {
+        const data = await response.json()
+        // The notifications are now fetched by the hook from localStorage
+        // But we can use this to refresh the hook data if needed
+        console.log('Fetched notifications:', data)
+      }
+    } catch (error) {
+      console.error('Error fetching notifications:', error)
     }
   }
 
@@ -532,29 +548,43 @@ export default function PriceAlertsPage() {
                   size="sm"
                   onClick={async () => {
                     try {
-                      const response = await fetch('/api/test-price-alert', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
+                      // Test both increase and decrease scenarios
+                      const testScenarios = [
+                        {
                           cropType: 'Maize',
                           location: 'Kampala',
                           priceChange: 12.5,
                           alertType: 'PRICE_INCREASE'
+                        },
+                        {
+                          cropType: 'Beans',
+                          location: 'Jinja',
+                          priceChange: -8.3,
+                          alertType: 'PRICE_DECREASE'
+                        }
+                      ]
+                      
+                      for (const scenario of testScenarios) {
+                        const response = await fetch('/api/test-price-alert', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify(scenario)
                         })
-                      })
-                      if (response.ok) {
-                        toast.success('Test notification created! Check the notification history.')
-                        // Refresh notifications
-                        setTimeout(() => {
-                          window.location.reload()
-                        }, 1000)
+                        if (response.ok) {
+                          toast.success(`Test ${scenario.alertType} alert created for ${scenario.cropType} in ${scenario.location}!`)
+                        }
                       }
+                      
+                      // Refresh notifications after a short delay
+                      setTimeout(() => {
+                        window.location.reload()
+                      }, 2000)
                     } catch (error) {
-                      toast.error('Failed to create test notification')
+                      toast.error('Failed to create test notifications')
                     }
                   }}
                 >
-                  Test Alert
+                  Test Alerts
                 </Button>
                 {notifications.length > 0 && (
                   <Button

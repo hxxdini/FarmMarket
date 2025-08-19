@@ -9,8 +9,9 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { toast } from "sonner"
-import { Plus, Search, TrendingUp, TrendingDown, Minus, Calendar, MapPin, Package, List, Grid3X3 } from "lucide-react"
+import { Plus, Search, TrendingUp, TrendingDown, Minus, Calendar, MapPin, Package, List, Grid3X3, Edit, ChevronDown, ChevronUp, Filter } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 interface MarketPrice {
@@ -26,6 +27,7 @@ interface MarketPrice {
     id: string
     name: string
     location: string
+    avatar?: string
   }
   reviewedBy?: {
     id: string
@@ -60,13 +62,14 @@ export default function MarketPricesPage() {
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [viewMode, setViewMode] = useState<'list' | 'cards'>('list')
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null)
+  const [filtersOpen, setFiltersOpen] = useState(false)
   
   const [filters, setFilters] = useState({
     search: '',
     cropType: '',
     location: '',
     quality: 'all',
-    source: 'all',
     sortBy: 'effectiveDate',
     sortOrder: 'desc'
   })
@@ -82,6 +85,7 @@ export default function MarketPricesPage() {
     if (status === "unauthenticated") {
       router.replace("/login")
     } else if (status === "authenticated") {
+      fetchCurrentUserId()
       fetchPrices()
     }
   }, [status, router, pagination.page])
@@ -96,7 +100,7 @@ export default function MarketPricesPage() {
     }, 500) // 500ms delay
 
     return () => clearTimeout(timer)
-  }, [filters.search, filters.cropType, filters.location, filters.quality, filters.source, filters.sortBy, filters.sortOrder])
+  }, [filters.search, filters.cropType, filters.location, filters.quality, filters.sortBy, filters.sortOrder])
 
   // Remove the filters dependency from the main useEffect to avoid double fetching
   useEffect(() => {
@@ -104,6 +108,18 @@ export default function MarketPricesPage() {
       router.replace("/login")
     }
   }, [status, router])
+
+  const fetchCurrentUserId = async () => {
+    try {
+      const response = await fetch('/api/profile')
+      if (response.ok) {
+        const data = await response.json()
+        setCurrentUserId(data.profile.id)
+      }
+    } catch (error) {
+      console.error('Error fetching current user ID:', error)
+    }
+  }
 
   const fetchPrices = async () => {
     try {
@@ -116,8 +132,7 @@ export default function MarketPricesPage() {
         ...(filters.search && { search: filters.search }),
         ...(filters.cropType && { cropType: filters.cropType }),
         ...(filters.location && { location: filters.location }),
-        ...(filters.quality !== 'all' && { quality: filters.quality }),
-        ...(filters.source !== 'all' && { source: filters.source })
+        ...(filters.quality !== 'all' && { quality: filters.quality })
       })
 
       const response = await fetch(`/api/market-prices?${params}`)
@@ -274,85 +289,99 @@ export default function MarketPricesPage() {
         </div>
 
         {/* Filters */}
-        <Card className="border-0 shadow-sm mb-4 sm:mb-6">
-        <CardHeader className="pb-3 sm:pb-4 px-3 sm:px-6">
-          <CardTitle className="text-base sm:text-lg">Filters & Search</CardTitle>
-        </CardHeader>
-        <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
-            <div className="sm:col-span-2 lg:col-span-1">
-              <Label htmlFor="search" className="text-sm">Search</Label>
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <Input
-                  id="search"
-                  name="search"
-                  placeholder="Search crops, locations, sources..."
-                  value={filters.search}
-                  onChange={(e) => handleFilterChange('search', e.target.value)}
-                  className="pl-10 h-9 sm:h-10"
-                />
-              </div>
-            </div>
-            
-            <div>
-              <Label htmlFor="cropType" className="text-sm">Crop Type</Label>
-              <Input
-                id="cropType"
-                name="cropType"
-                placeholder="e.g., Maize"
-                value={filters.cropType}
-                onChange={(e) => handleFilterChange('cropType', e.target.value)}
-                className="h-9 sm:h-10"
-              />
-            </div>
-            
-            <div>
-              <Label htmlFor="location" className="text-sm">Location</Label>
-              <Input
-                id="location"
-                name="location"
-                placeholder="e.g., Kampala"
-                value={filters.location}
-                onChange={(e) => handleFilterChange('location', e.target.value)}
-                className="h-9 sm:h-10"
-              />
-            </div>
-            
-            <div>
-              <Label htmlFor="quality" className="text-sm">Quality</Label>
-              <Select value={filters.quality} onValueChange={(value) => handleFilterChange('quality', value)}>
-                <SelectTrigger id="quality" name="quality" className="h-9 sm:h-10">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Qualities</SelectItem>
-                  <SelectItem value="PREMIUM">Premium</SelectItem>
-                  <SelectItem value="STANDARD">Standard</SelectItem>
-                  <SelectItem value="ECONOMY">Economy</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            
-            
-            
-            <div>
-              <Label htmlFor="sortBy" className="text-sm">Sort By</Label>
-              <Select value={filters.sortBy} onValueChange={(value) => handleFilterChange('sortBy', value)}>
-                <SelectTrigger id="sortBy" name="sortBy" className="h-9 sm:h-10">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="effectiveDate">Effective Date</SelectItem>
-                  <SelectItem value="pricePerUnit">Price</SelectItem>
-                  <SelectItem value="createdAt">Submission Date</SelectItem>
-                  <SelectItem value="verificationScore">Verification Score</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+        <Collapsible open={filtersOpen} onOpenChange={setFiltersOpen} className="mb-4 sm:mb-6">
+          <Card className="border-0 shadow-sm">
+            <CollapsibleTrigger asChild>
+              <CardHeader className="pb-3 sm:pb-4 px-3 sm:px-6 cursor-pointer hover:bg-gray-50 transition-colors">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <Filter className="h-4 w-4 text-gray-600" />
+                    <CardTitle className="text-base sm:text-lg">Filters & Search</CardTitle>
+                  </div>
+                  {filtersOpen ? (
+                    <ChevronUp className="h-4 w-4 text-gray-600" />
+                  ) : (
+                    <ChevronDown className="h-4 w-4 text-gray-600" />
+                  )}
+                </div>
+              </CardHeader>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                  <div className="sm:col-span-2 lg:col-span-1">
+                    <Label htmlFor="search" className="text-sm">Search</Label>
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                      <Input
+                        id="search"
+                        name="search"
+                        placeholder="Search crops, locations, sources..."
+                        value={filters.search}
+                        onChange={(e) => handleFilterChange('search', e.target.value)}
+                        className="pl-10 h-9 sm:h-10"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="cropType" className="text-sm">Crop Type</Label>
+                    <Input
+                      id="cropType"
+                      name="cropType"
+                      placeholder="e.g., Maize"
+                      value={filters.cropType}
+                      onChange={(e) => handleFilterChange('cropType', e.target.value)}
+                      className="h-9 sm:h-10"
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="location" className="text-sm">Location</Label>
+                    <Input
+                      id="location"
+                      name="location"
+                      placeholder="e.g., Kampala"
+                      value={filters.location}
+                      onChange={(e) => handleFilterChange('location', e.target.value)}
+                      className="h-9 sm:h-10"
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="quality" className="text-sm">Quality</Label>
+                    <Select value={filters.quality} onValueChange={(value) => handleFilterChange('quality', value)}>
+                      <SelectTrigger id="quality" name="quality" className="h-9 sm:h-10">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Qualities</SelectItem>
+                        <SelectItem value="PREMIUM">Premium</SelectItem>
+                        <SelectItem value="STANDARD">Standard</SelectItem>
+                        <SelectItem value="ECONOMY">Economy</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="sortBy" className="text-sm">Sort By</Label>
+                    <Select value={filters.sortBy} onValueChange={(value) => handleFilterChange('sortBy', value)}>
+                      <SelectTrigger id="sortBy" name="sortBy" className="h-9 sm:h-10">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="effectiveDate">Effective Date</SelectItem>
+                        <SelectItem value="pricePerUnit">Price</SelectItem>
+                        <SelectItem value="createdAt">Submission Date</SelectItem>
+                        <SelectItem value="verificationScore">Verification Score</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </CardContent>
+            </CollapsibleContent>
+          </Card>
+        </Collapsible>
 
       {/* Market Prices List */}
       <div className="space-y-6">
@@ -429,6 +458,9 @@ export default function MarketPricesPage() {
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Submitted By
                         </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Actions
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -476,6 +508,10 @@ export default function MarketPricesPage() {
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center space-x-3">
                               <Avatar className="h-8 w-8">
+                                <AvatarImage 
+                                  src={price.submittedBy.avatar || undefined} 
+                                  alt={price.submittedBy.name}
+                                />
                                 <AvatarFallback className="text-xs">
                                   {price.submittedBy.name?.split(' ').map(n => n.charAt(0)).join('').substring(0, 2)}
                                 </AvatarFallback>
@@ -494,6 +530,19 @@ export default function MarketPricesPage() {
                                 </Badge>
                               )}
                             </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {currentUserId && price.submittedBy.id === currentUserId && (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => router.push(`/market-prices/edit/${price.id}`)}
+                                className="flex items-center space-x-1"
+                              >
+                                <Edit className="h-3 w-3" />
+                                <span>Edit</span>
+                              </Button>
+                            )}
                           </td>
                         </tr>
                       ))}
@@ -567,6 +616,10 @@ export default function MarketPricesPage() {
                       {/* Submitted By - Compact */}
                       <div className="flex items-center space-x-2 pt-2 border-t">
                         <Avatar className="h-6 w-6">
+                          <AvatarImage 
+                            src={price.submittedBy.avatar || undefined} 
+                            alt={price.submittedBy.name}
+                          />
                           <AvatarFallback className="text-xs">
                             {price.submittedBy.name?.split(' ').map(n => n.charAt(0)).join('').substring(0, 2)}
                           </AvatarFallback>
@@ -586,6 +639,21 @@ export default function MarketPricesPage() {
                           </Badge>
                         )}
                       </div>
+                      
+                      {/* Edit Button for User's Own Prices */}
+                      {currentUserId && price.submittedBy.id === currentUserId && (
+                        <div className="pt-2 border-t">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => router.push(`/market-prices/edit/${price.id}`)}
+                            className="w-full flex items-center justify-center space-x-1"
+                          >
+                            <Edit className="h-3 w-3" />
+                            <span>Edit</span>
+                          </Button>
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
                 ))}

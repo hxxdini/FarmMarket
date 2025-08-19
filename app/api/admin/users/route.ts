@@ -4,6 +4,7 @@ import { authOptions } from '@/lib/authOptions'
 import { prisma } from '@/lib/prisma'
 import { UserStatus } from '@/lib/generated/prisma'
 import bcrypt from 'bcryptjs'
+import { emitUserRegistered } from '@/lib/socket'
 
 // GET /api/admin/users - Get users for admin management
 export async function GET(req: NextRequest) {
@@ -163,6 +164,14 @@ export async function POST(req: NextRequest) {
       },
       include: { Role: true }
     })
+
+    // Emit real-time analytics event
+    try {
+      emitUserRegistered(created.id)
+    } catch (socketError) {
+      console.error('Failed to emit user registered event:', socketError)
+      // Don't fail the user creation if socket emission fails
+    }
 
     return NextResponse.json({
       message: 'User created',

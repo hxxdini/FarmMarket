@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/authOptions'
 import { prisma } from '@/lib/prisma'
+import { emitReviewSubmitted } from '@/lib/socket'
 
 // GET /api/reviews - Fetch reviews with optional filtering
 export async function GET(request: NextRequest) {
@@ -264,6 +265,14 @@ export async function POST(request: NextRequest) {
       }
     })
 
+    // Emit real-time analytics event
+    try {
+      emitReviewSubmitted(review.id)
+    } catch (socketError) {
+      console.error('Failed to emit review submitted event:', socketError)
+      // Don't fail the review creation if socket emission fails
+    }
+
     // Transform the response to match frontend expectations
     const transformedReview = {
       ...review,
@@ -272,7 +281,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({
-      message: 'Review submitted successfully and is pending admin approval',
+      message: 'Review submitted successfully and is pending admin approval!',
       review: transformedReview
     }, { status: 201 })
   } catch (error) {

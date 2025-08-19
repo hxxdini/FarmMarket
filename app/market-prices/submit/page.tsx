@@ -73,11 +73,6 @@ export default function PriceSubmissionPage() {
 
   const handleInputChange = (field: keyof PriceSubmissionForm, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
-    // Clear validation when user makes changes
-    if (validationResult) {
-      setValidationResult(null)
-      setShowValidation(false)
-    }
   }
 
   // Validation is handled server-side during submission

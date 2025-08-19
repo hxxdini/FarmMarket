@@ -8,7 +8,6 @@ export interface PriceChangeData {
   newPrice: number
   priceChange: number
   changePercentage: number
-  alertType: 'PRICE_INCREASE' | 'PRICE_DECREASE' | 'PRICE_VOLATILITY'
 }
 
 export interface AlertTrigger {
@@ -36,7 +35,7 @@ export async function detectPriceChanges(): Promise<void> {
     const activeAlerts = await prisma.priceAlert.findMany({
       where: { isActive: true },
       include: {
-        user: {
+        User: {
           select: {
             id: true,
             email: true,
@@ -148,28 +147,18 @@ function calculatePriceChanges(prices: any[]): PriceChangeData[] {
     const priceChange = newPrice.pricePerUnit - oldPrice.pricePerUnit
     const changePercentage = (priceChange / oldPrice.pricePerUnit) * 100
     
-    let alertType: 'PRICE_INCREASE' | 'PRICE_DECREASE' | 'PRICE_VOLATILITY'
-    
-    if (changePercentage > 5) {
-      alertType = 'PRICE_INCREASE'
-    } else if (changePercentage < -5) {
-      alertType = 'PRICE_DECREASE'
-    } else if (Math.abs(changePercentage) > 2) {
-      alertType = 'PRICE_VOLATILITY'
-    } else {
-      continue // Skip small changes
+    // Only include significant changes (more than 1%)
+    if (Math.abs(changePercentage) > 1) {
+      changes.push({
+        cropType: newPrice.cropType,
+        location: newPrice.location,
+        quality: newPrice.quality,
+        oldPrice: oldPrice.pricePerUnit,
+        newPrice: newPrice.pricePerUnit,
+        priceChange,
+        changePercentage
+      })
     }
-    
-    changes.push({
-      cropType: newPrice.cropType,
-      location: newPrice.location,
-      quality: newPrice.quality,
-      oldPrice: oldPrice.pricePerUnit,
-      newPrice: newPrice.pricePerUnit,
-      priceChange,
-      changePercentage,
-      alertType
-    })
   }
   
   return changes
@@ -184,41 +173,70 @@ async function checkAndTriggerAlert(alert: any, priceChanges: PriceChangeData[])
     const relevantChanges = priceChanges.filter(change => 
       change.cropType.toLowerCase().includes(alert.cropType.toLowerCase()) &&
       change.location.toLowerCase().includes(alert.location.toLowerCase()) &&
-      (!alert.quality || change.quality === alert.quality) &&
-      change.alertType === alert.alertType
+      (!alert.quality || change.quality === alert.quality)
     )
     
     if (relevantChanges.length === 0) {
       return
     }
     
-    // Check if any change exceeds the threshold
-    const significantChanges = relevantChanges.filter(change => 
-      Math.abs(change.changePercentage) >= alert.threshold
-    )
-    
-    if (significantChanges.length === 0) {
-      return
+    // Check each price change against the alert criteria
+    for (const change of relevantChanges) {
+      const shouldTrigger = await checkAlertTrigger(alert, change)
+      if (shouldTrigger) {
+        await createAlertNotification(alert, change)
+      }
     }
-    
-    // Check if we should trigger based on frequency
-    if (!shouldTriggerBasedOnFrequency(alert)) {
-      return
-    }
-    
-    // Create notifications for significant changes
-    for (const change of significantChanges) {
-      await createAlertNotification(alert, change)
-    }
-    
-    // Update last triggered timestamp
-    await prisma.priceAlert.update({
-      where: { id: alert.id },
-      data: { lastTriggered: new Date() }
-    })
     
   } catch (error) {
     console.error(`Error checking alert ${alert.id}:`, error)
+  }
+}
+
+/**
+ * Check if a specific price change should trigger an alert
+ */
+async function checkAlertTrigger(alert: any, priceChange: PriceChangeData): Promise<boolean> {
+  const changePercentage = Math.abs(priceChange.changePercentage)
+  
+  // Check if threshold is met
+  if (changePercentage < alert.threshold) {
+    return false
+  }
+  
+  // Check if we should trigger based on frequency
+  if (!shouldTriggerBasedOnFrequency(alert)) {
+    return false
+  }
+  
+  // Check alert type specific logic
+  switch (alert.alertType) {
+    case 'PRICE_INCREASE':
+      // Only trigger for actual price increases
+      return priceChange.changePercentage > 0
+      
+    case 'PRICE_DECREASE':
+      // Only trigger for actual price decreases
+      return priceChange.changePercentage < 0
+      
+    case 'PRICE_VOLATILITY':
+      // Trigger for any significant change (both increase and decrease)
+      return true
+      
+    case 'REGIONAL_DIFFERENCE':
+      // This would need comparison with other regions - simplified for now
+      return true
+      
+    case 'QUALITY_OPPORTUNITY':
+      // This would need quality-based analysis - simplified for now
+      return true
+      
+    case 'SEASONAL_TREND':
+      // This would need seasonal analysis - simplified for now
+      return true
+      
+    default:
+      return true
   }
 }
 
@@ -276,8 +294,14 @@ async function createAlertNotification(alert: any, priceChange: PriceChangeData)
     
     console.log(`Created notification for alert ${alert.id}: ${title}`)
     
+    // Update last triggered timestamp
+    await prisma.priceAlert.update({
+      where: { id: alert.id },
+      data: { lastTriggered: new Date() }
+    })
+    
     // TODO: Send actual notifications (email, push, SMS)
-    // await sendNotification(alert.user, title, message)
+    // await sendNotification(alert.User, title, message)
     
   } catch (error) {
     console.error('Error creating alert notification:', error)
@@ -290,14 +314,21 @@ async function createAlertNotification(alert: any, priceChange: PriceChangeData)
 function generateAlertTitle(alertType: string, priceChange: PriceChangeData): string {
   const crop = priceChange.cropType
   const location = priceChange.location
+  const change = priceChange.changePercentage
   
   switch (alertType) {
     case 'PRICE_INCREASE':
-      return `🚀 ${crop} prices up ${priceChange.changePercentage.toFixed(1)}% in ${location}`
+      return `🚀 ${crop} prices up ${change.toFixed(1)}% in ${location}`
     case 'PRICE_DECREASE':
-      return `📉 ${crop} prices down ${Math.abs(priceChange.changePercentage).toFixed(1)}% in ${location}`
+      return `📉 ${crop} prices down ${Math.abs(change).toFixed(1)}% in ${location}`
     case 'PRICE_VOLATILITY':
       return `📊 ${crop} price volatility detected in ${location}`
+    case 'REGIONAL_DIFFERENCE':
+      return `🗺️ ${crop} regional price difference in ${location}`
+    case 'QUALITY_OPPORTUNITY':
+      return `⭐ ${crop} quality opportunity in ${location}`
+    case 'SEASONAL_TREND':
+      return `📅 ${crop} seasonal trend in ${location}`
     default:
       return `📈 ${crop} price alert for ${location}`
   }
@@ -318,12 +349,50 @@ function generateAlertMessage(alert: any, priceChange: PriceChangeData): string 
   message += `Current price: ${newPrice.toFixed(2)} per unit\n`
   message += `Change: ${change > 0 ? '+' : ''}${change.toFixed(1)}%\n\n`
   
-  if (change > 0) {
-    message += `This represents a price increase above your ${alert.threshold}% threshold. `
-    message += `Consider if this is a good time to sell or if you should wait for better prices.`
-  } else {
-    message += `This represents a price decrease above your ${alert.threshold}% threshold. `
-    message += `This might be a good opportunity to buy or stock up.`
+  switch (alert.alertType) {
+    case 'PRICE_INCREASE':
+      if (change > 0) {
+        message += `This represents a price increase above your ${alert.threshold}% threshold. `
+        message += `Consider if this is a good time to sell or if you should wait for better prices.`
+      } else {
+        message += `Note: This alert is set for price increases, but prices actually decreased. `
+        message += `You may want to review your alert settings.`
+      }
+      break
+      
+    case 'PRICE_DECREASE':
+      if (change < 0) {
+        message += `This represents a price decrease above your ${alert.threshold}% threshold. `
+        message += `This might be a good opportunity to buy or stock up.`
+      } else {
+        message += `Note: This alert is set for price decreases, but prices actually increased. `
+        message += `You may want to review your alert settings.`
+      }
+      break
+      
+    case 'PRICE_VOLATILITY':
+      message += `This represents significant price volatility above your ${alert.threshold}% threshold. `
+      message += `Monitor the market closely for trading opportunities.`
+      break
+      
+    case 'REGIONAL_DIFFERENCE':
+      message += `Regional price difference detected above your ${alert.threshold}% threshold. `
+      message += `Consider arbitrage opportunities between regions.`
+      break
+      
+    case 'QUALITY_OPPORTUNITY':
+      message += `Quality-based pricing opportunity detected above your ${alert.threshold}% threshold. `
+      message += `Evaluate if quality upgrades/downgrades offer better value.`
+      break
+      
+    case 'SEASONAL_TREND':
+      message += `Seasonal price trend detected above your ${alert.threshold}% threshold. `
+      message += `Plan your production and storage accordingly.`
+      break
+      
+    default:
+      message += `Price change detected above your ${alert.threshold}% threshold. `
+      message += `Review the market conditions and adjust your strategy.`
   }
   
   return message

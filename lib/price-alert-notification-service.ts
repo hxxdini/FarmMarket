@@ -130,13 +130,52 @@ class PriceAlertNotificationService {
 
       // Check if threshold is met
       if (absoluteChange >= alert.threshold) {
-        // Check frequency constraints
-        if (this.shouldTriggerBasedOnFrequency(alert, alert.lastTriggered)) {
-          await this.triggerAlert(alert, latestPrice, previousPrice, priceChange)
+        // Check if the alert type matches the price change direction
+        const shouldTrigger = this.shouldTriggerBasedOnAlertType(alert.alertType, priceChange)
+        
+        if (shouldTrigger) {
+          // Check frequency constraints
+          if (this.shouldTriggerBasedOnFrequency(alert, alert.lastTriggered)) {
+            await this.triggerAlert(alert, latestPrice, previousPrice, priceChange)
+          }
         }
       }
     } catch (error) {
       console.error('Error checking alert trigger:', error)
+    }
+  }
+
+  /**
+   * Check if alert should trigger based on alert type and price change direction
+   */
+  private shouldTriggerBasedOnAlertType(alertType: string, priceChange: number): boolean {
+    switch (alertType) {
+      case 'PRICE_INCREASE':
+        // Only trigger for actual price increases
+        return priceChange > 0
+        
+      case 'PRICE_DECREASE':
+        // Only trigger for actual price decreases
+        return priceChange < 0
+        
+      case 'PRICE_VOLATILITY':
+        // Trigger for any significant change (both increase and decrease)
+        return true
+        
+      case 'REGIONAL_DIFFERENCE':
+        // This would need comparison with other regions - simplified for now
+        return true
+        
+      case 'QUALITY_OPPORTUNITY':
+        // This would need quality-based analysis - simplified for now
+        return true
+        
+      case 'SEASONAL_TREND':
+        // This would need seasonal analysis - simplified for now
+        return true
+        
+      default:
+        return true
     }
   }
 

@@ -328,9 +328,9 @@ export function Navigation() {
                   <PopoverTrigger asChild>
                     <Button variant="outline" size="sm" className="relative bg-transparent">
                       <Bell className="h-4 w-4" />
-                      {unreadCount > 0 && (
+                      {(unreadCount > 0 || priceAlertCount > 0) && (
                         <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs bg-red-500">
-                          {unreadCount > 99 ? "99+" : unreadCount}
+                          {(unreadCount + priceAlertCount) > 99 ? "99+" : (unreadCount + priceAlertCount)}
                         </Badge>
                       )}
                     </Button>
@@ -338,9 +338,29 @@ export function Navigation() {
                   <PopoverContent className="w-80 p-0" align="end">
                     <div className="p-4 border-b">
                       <h3 className="font-semibold text-gray-900">Notifications</h3>
-                      <p className="text-sm text-gray-500">Recent unread messages</p>
+                      <p className="text-sm text-gray-500">Recent messages and price alerts</p>
                     </div>
                     <div className="max-h-96 overflow-y-auto">
+                      {/* Price Alert Notifications */}
+                      {priceAlertCount > 0 && (
+                        <div className="p-3 bg-blue-50 border-b">
+                          <div className="flex items-center justify-between">
+                            <h4 className="text-sm font-medium text-blue-900">Price Alerts</h4>
+                            <Badge variant="outline" className="text-xs bg-blue-100 text-blue-800">
+                              {priceAlertCount} new
+                            </Badge>
+                          </div>
+                          <Link
+                            href="/price-alerts"
+                            className="text-xs text-blue-600 hover:text-blue-800 font-medium"
+                            onClick={() => setNotificationsOpen(false)}
+                          >
+                            View all price alerts →
+                          </Link>
+                        </div>
+                      )}
+                      
+                      {/* Message Notifications */}
                       {recentUnreadMessages.length === 0 ? (
                         <div className="p-4 text-center text-gray-500">
                           <Bell className="h-8 w-8 mx-auto mb-2 text-gray-300" />
@@ -388,15 +408,26 @@ export function Navigation() {
                         ))
                       )}
                     </div>
-                    {recentUnreadMessages.length > 0 && (
+                    {(recentUnreadMessages.length > 0 || priceAlertCount > 0) && (
                       <div className="p-3 border-t bg-gray-50">
-                        <Link
-                          href="/messages"
-                          className="text-sm text-blue-600 hover:text-blue-800 font-medium"
-                          onClick={() => setNotificationsOpen(false)}
-                        >
-                          View all messages →
-                        </Link>
+                        <div className="flex items-center justify-between">
+                          <Link
+                            href="/messages"
+                            className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+                            onClick={() => setNotificationsOpen(false)}
+                          >
+                            View all messages →
+                          </Link>
+                          {priceAlertCount > 0 && (
+                            <Link
+                              href="/price-alerts"
+                              className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+                              onClick={() => setNotificationsOpen(false)}
+                            >
+                              View price alerts →
+                            </Link>
+                          )}
+                        </div>
                       </div>
                     )}
                   </PopoverContent>
@@ -493,9 +524,9 @@ export function Navigation() {
                 <PopoverTrigger asChild>
                   <Button variant="outline" size="sm" className="relative bg-transparent">
                     <Bell className="h-4 w-4" />
-                    {unreadCount > 0 && (
+                    {(unreadCount > 0 || priceAlertCount > 0) && (
                       <Badge className="absolute -top-2 -right-2 h-4 w-4 flex items-center justify-center p-0 text-xs bg-red-500">
-                        {unreadCount > 99 ? "99+" : unreadCount}
+                        {(unreadCount + priceAlertCount) > 99 ? "99+" : (unreadCount + priceAlertCount)}
                       </Badge>
                     )}
                   </Button>
@@ -503,9 +534,29 @@ export function Navigation() {
                 <PopoverContent className="w-80 p-0" align="end">
                   <div className="p-4 border-b">
                     <h3 className="font-semibold text-gray-900">Notifications</h3>
-                    <p className="text-sm text-gray-500">Recent unread messages</p>
+                    <p className="text-sm text-gray-500">Recent messages and price alerts</p>
                   </div>
                   <div className="max-h-96 overflow-y-auto">
+                    {/* Price Alert Notifications */}
+                    {priceAlertCount > 0 && (
+                      <div className="p-3 bg-blue-50 border-b">
+                        <div className="flex items-center justify-between">
+                          <h4 className="text-sm font-medium text-blue-900">Price Alerts</h4>
+                          <Badge variant="outline" className="text-xs bg-blue-100 text-blue-800">
+                            {priceAlertCount} new
+                          </Badge>
+                        </div>
+                        <Link
+                          href="/price-alerts"
+                          className="text-xs text-blue-600 hover:text-blue-800 font-medium"
+                          onClick={() => setNotificationsOpen(false)}
+                        >
+                          View all price alerts →
+                        </Link>
+                      </div>
+                    )}
+                    
+                    {/* Message Notifications */}
                     {recentUnreadMessages.length === 0 ? (
                       <div className="p-4 text-center text-gray-500">
                         <Bell className="h-8 w-8 mx-auto mb-2 text-gray-300" />
@@ -553,15 +604,26 @@ export function Navigation() {
                       ))
                     )}
                   </div>
-                  {recentUnreadMessages.length > 0 && (
+                  {(recentUnreadMessages.length > 0 || priceAlertCount > 0) && (
                     <div className="p-3 border-t bg-gray-50">
-                      <Link
-                        href="/messages"
-                        className="text-sm text-blue-600 hover:text-blue-800 font-medium"
-                        onClick={() => setNotificationsOpen(false)}
-                      >
-                        View all messages →
-                      </Link>
+                      <div className="flex items-center justify-between">
+                        <Link
+                          href="/messages"
+                          className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+                          onClick={() => setNotificationsOpen(false)}
+                        >
+                          View all messages →
+                        </Link>
+                        {priceAlertCount > 0 && (
+                          <Link
+                            href="/price-alerts"
+                            className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+                            onClick={() => setNotificationsOpen(false)}
+                          >
+                            View price alerts →
+                          </Link>
+                        )}
+                      </div>
                     </div>
                   )}
                 </PopoverContent>

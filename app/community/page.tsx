@@ -14,6 +14,13 @@ import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
 export default function CommunityPage() {
+  const [discussions, setDiscussions] = useState<any[]>([])
+  const [isLoadingDiscussions, setIsLoadingDiscussions] = useState(true)
+  const [loadError, setLoadError] = useState<string | null>(null)
+
+  const [questionTitle, setQuestionTitle] = useState("")
+  const [questionCategory, setQuestionCategory] = useState("")
+  const [questionCrop, setQuestionCrop] = useState("")
   const [newQuestion, setNewQuestion] = useState("")
   const { data: session, status } = useSession()
   const router = useRouter()
@@ -31,65 +38,52 @@ export default function CommunityPage() {
     return null
   }
 
-  const discussions = [
-    {
-      id: 1,
+  useEffect(() => {
+    let isCancelled = false
+    async function loadDiscussions() {
+      try {
+        setIsLoadingDiscussions(true)
+        const res = await fetch("/api/community", { cache: "no-store" })
+        if (!res.ok) throw new Error(`Failed to load: ${res.status}`)
+        const data = await res.json()
+        if (!isCancelled) setDiscussions(data.discussions || [])
+      } catch (err: any) {
+        if (!isCancelled) setLoadError(err?.message || "Failed to load discussions")
+      } finally {
+        if (!isCancelled) setIsLoadingDiscussions(false)
+      }
+    }
+    loadDiscussions()
+    return () => {
+      isCancelled = true
+    }
+  }, [])
+
+  async function handlePostQuestion() {
+    if (!questionTitle || !questionCategory || !questionCrop || !newQuestion) return
+    const payload = {
+      title: questionTitle,
+      content: newQuestion,
+      category: questionCategory,
+      crop: questionCrop,
       type: "question",
-      title: "Best time to plant maize in Central Uganda?",
-      author: "Peter Ssali",
+      author: session?.user?.name || "Anonymous",
       authorType: "farmer",
-      content:
-        "I'm planning to plant maize next month. What's the best timing considering the current weather patterns?",
-      category: "Planting",
-      crop: "Maize",
-      replies: 8,
-      likes: 12,
-      timeAgo: "2 hours ago",
-      hasExpertReply: true,
-    },
-    {
-      id: 2,
-      type: "advice",
-      title: "Effective pest control for coffee plants",
-      author: "Dr. Agnes Nalwoga",
-      authorType: "expert",
-      content: "Here are proven methods to control coffee berry borer without harmful chemicals...",
-      category: "Pest Control",
-      crop: "Coffee",
-      replies: 15,
-      likes: 28,
-      timeAgo: "4 hours ago",
-      hasExpertReply: false,
-    },
-    {
-      id: 3,
-      type: "alert",
-      title: "Fall armyworm spotted in Wakiso district",
-      author: "Extension Officer Mukono",
-      authorType: "extension_officer",
-      content: "Farmers in Wakiso should inspect their maize fields immediately. Early detection is crucial.",
-      category: "Disease Alert",
-      crop: "Maize",
-      replies: 6,
-      likes: 20,
-      timeAgo: "6 hours ago",
-      hasExpertReply: true,
-    },
-    {
-      id: 4,
-      type: "success",
-      title: "Doubled my bean yield with this technique",
-      author: "Mary Nakamya",
-      authorType: "farmer",
-      content: "I want to share how I increased my bean production using intercropping with maize...",
-      category: "Success Story",
-      crop: "Beans",
-      replies: 22,
-      likes: 45,
-      timeAgo: "1 day ago",
-      hasExpertReply: false,
-    },
-  ]
+    }
+    const res = await fetch("/api/community", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    })
+    if (res.ok) {
+      const { discussion } = await res.json()
+      setDiscussions((prev) => [discussion, ...prev])
+      setQuestionTitle("")
+      setQuestionCategory("")
+      setQuestionCrop("")
+      setNewQuestion("")
+    }
+  }
 
   const getTypeIcon = (type: string) => {
     switch (type) {
@@ -144,7 +138,17 @@ export default function CommunityPage() {
               </TabsList>
 
               <TabsContent value="discussions" className="space-y-4">
-                {discussions.map((discussion) => (
+                {isLoadingDiscussions && (
+                  <Card>
+                    <CardContent className="py-6">Loading discussions...</CardContent>
+                  </Card>
+                )}
+                {loadError && (
+                  <Card>
+                    <CardContent className="py-6 text-red-600">{loadError}</CardContent>
+                  </Card>
+                )}
+                {!isLoadingDiscussions && !loadError && discussions.map((discussion) => (
                   <Card key={discussion.id} className="hover:shadow-md transition-shadow">
                     <CardHeader className="pb-3">
                       <div className="flex items-start justify-between">
@@ -173,7 +177,7 @@ export default function CommunityPage() {
                               <AvatarFallback>
                                 {discussion.author
                                   .split(" ")
-                                  .map((n) => n[0])
+                                  .map((n: string) => n[0])
                                   .join("")}
                               </AvatarFallback>
                             </Avatar>
@@ -211,31 +215,43 @@ export default function CommunityPage() {
                   <CardContent className="space-y-4">
                     <div>
                       <label className="text-sm font-medium mb-2 block">Question Title</label>
-                      <Input placeholder="What would you like to know?" />
+                      <Input
+                        placeholder="What would you like to know?"
+                        value={questionTitle}
+                        onChange={(e) => setQuestionTitle(e.target.value)}
+                      />
                     </div>
 
                     <div>
                       <label className="text-sm font-medium mb-2 block">Category</label>
-                      <select className="w-full p-2 border rounded-md">
-                        <option>Select category</option>
-                        <option>Planting</option>
-                        <option>Pest Control</option>
-                        <option>Disease Management</option>
-                        <option>Harvesting</option>
-                        <option>Marketing</option>
-                        <option>Weather</option>
+                      <select
+                        className="w-full p-2 border rounded-md"
+                        value={questionCategory}
+                        onChange={(e) => setQuestionCategory(e.target.value)}
+                      >
+                        <option value="">Select category</option>
+                        <option value="Planting">Planting</option>
+                        <option value="Pest Control">Pest Control</option>
+                        <option value="Disease Management">Disease Management</option>
+                        <option value="Harvesting">Harvesting</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Weather">Weather</option>
                       </select>
                     </div>
 
                     <div>
                       <label className="text-sm font-medium mb-2 block">Crop Type</label>
-                      <select className="w-full p-2 border rounded-md">
-                        <option>Select crop</option>
-                        <option>Maize</option>
-                        <option>Beans</option>
-                        <option>Coffee</option>
-                        <option>Bananas</option>
-                        <option>Other</option>
+                      <select
+                        className="w-full p-2 border rounded-md"
+                        value={questionCrop}
+                        onChange={(e) => setQuestionCrop(e.target.value)}
+                      >
+                        <option value="">Select crop</option>
+                        <option value="Maize">Maize</option>
+                        <option value="Beans">Beans</option>
+                        <option value="Coffee">Coffee</option>
+                        <option value="Bananas">Bananas</option>
+                        <option value="Other">Other</option>
                       </select>
                     </div>
 
@@ -249,7 +265,13 @@ export default function CommunityPage() {
                       />
                     </div>
 
-                    <Button className="w-full">Post Question</Button>
+                    <Button
+                      className="w-full"
+                      onClick={handlePostQuestion}
+                      disabled={!questionTitle || !questionCategory || !questionCrop || !newQuestion}
+                    >
+                      Post Question
+                    </Button>
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -282,7 +304,7 @@ export default function CommunityPage() {
                             <AvatarFallback>
                               {expert.name
                                 .split(" ")
-                                .map((n) => n[0])
+                                .map((n: string) => n[0])
                                 .join("")}
                             </AvatarFallback>
                           </Avatar>

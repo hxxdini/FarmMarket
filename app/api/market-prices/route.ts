@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/authOptions"
 import { prisma } from "@/lib/prisma"
+import { emitMarketPriceSubmitted } from "@/lib/socket"
 
 // GET /api/market-prices - Fetch market prices with filtering and pagination
 export async function GET(req: NextRequest) {
@@ -43,14 +44,28 @@ export async function GET(req: NextRequest) {
     if (location) where.location = { contains: location, mode: 'insensitive' }
     if (quality) where.quality = quality.toUpperCase()
     if (source) where.source = source.toUpperCase()
-    if (status) where.status = status.toUpperCase()
+    if (status) {
+      where.status = status.toUpperCase()
+    } else {
+      // Default to showing only approved prices for public view
+      where.status = 'APPROVED'
+    }
     
-    // Handle expired prices filter
+    // Handle expired prices filter without clobbering existing OR (search)
     if (!includeExpired) {
-      where.OR = [
-        { expiryDate: null },
-        { expiryDate: { gt: new Date() } }
-      ]
+      const expiryFilter = {
+        OR: [
+          { expiryDate: null },
+          { expiryDate: { gt: new Date() } }
+        ]
+      } as const
+      if (Array.isArray((where as any).AND)) {
+        ;(where as any).AND.push(expiryFilter)
+      } else if ((where as any).AND) {
+        ;(where as any).AND = [ (where as any).AND, expiryFilter ]
+      } else {
+        ;(where as any).AND = [ expiryFilter ]
+      }
     }
 
     // Build orderBy clause
@@ -67,6 +82,7 @@ export async function GET(req: NextRequest) {
               id: true,
               name: true,
               location: true,
+              avatar: true,
               Role: {
                 select: {
                   name: true
@@ -243,17 +259,32 @@ export async function POST(req: NextRequest) {
       }
     })
 
+    // Emit real-time analytics event
+    try {
+      emitMarketPriceSubmitted(marketPrice.id)
+    } catch (socketError) {
+      console.error('Failed to emit market price submitted event:', socketError)
+      // Don't fail the price submission if socket emission fails
+    }
+
     // Create admin action log for new market price submission
     try {
       await prisma.adminActionLog.create({
         data: {
           id: `log_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-          action: 'market_price_submitted',
+          action: 'MARKET_PRICE_SUBMITTED',
           adminId: user.id,
           targetId: marketPrice.id,
-          targetType: 'MarketPrice',
-          details: `New market price submitted for ${cropType} at ${location}`,
-                  timestamp: new Date()
+          targetType: 'MARKET_PRICE',
+          details: JSON.stringify({
+            cropType,
+            location,
+            pricePerUnit,
+            unit,
+            quality,
+            source
+          }),
+          timestamp: new Date()
         }
       })
     } catch (logError) {

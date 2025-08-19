@@ -12,6 +12,13 @@ export interface ServerToClientEvents {
   user_typing: (data: { userId: string, userName: string, conversationId: string }) => void
   user_stopped_typing: (data: { userId: string, conversationId: string }) => void
   conversation_updated: (conversation: any) => void
+  // Analytics events
+  analytics_updated: (data: { type: string; timestamp: Date }) => void
+  user_registered: (data: { userId: string; timestamp: Date }) => void
+  listing_created: (data: { listingId: string; timestamp: Date }) => void
+  market_price_submitted: (data: { priceId: string; timestamp: Date }) => void
+  review_submitted: (data: { reviewId: string; timestamp: Date }) => void
+  message_sent: (data: { messageId: string; timestamp: Date }) => void
 }
 
 export interface ClientToServerEvents {
@@ -25,6 +32,9 @@ export interface ClientToServerEvents {
     messageType?: string
     replyToId?: string
   }) => void
+  // Analytics events
+  join_analytics: () => void
+  leave_analytics: () => void
 }
 
 export interface InterServerEvents {
@@ -110,6 +120,30 @@ export const initializeSocket = (server: HTTPServer) => {
         console.log(`User ${socket.data.userName} left conversation: ${conversationId}`)
       })
 
+      // Join analytics room (for admin users)
+      socket.on('join_analytics', async () => {
+        try {
+          // Verify user is admin
+          const user = await prisma.user.findUnique({
+            where: { id: socket.data.userId },
+            include: { Role: true }
+          })
+
+          if (user?.Role?.name === 'admin' || user?.Role?.name === 'superadmin') {
+            socket.join('analytics')
+            console.log(`Admin user ${socket.data.userName} joined analytics room`)
+          }
+        } catch (error) {
+          console.error('Error joining analytics room:', error)
+        }
+      })
+
+      // Leave analytics room
+      socket.on('leave_analytics', () => {
+        socket.leave('analytics')
+        console.log(`User ${socket.data.userName} left analytics room`)
+      })
+
       // Handle typing indicators
       socket.on('typing', (conversationId) => {
         socket.to(`conversation:${conversationId}`).emit('user_typing', {
@@ -156,27 +190,29 @@ export const initializeSocket = (server: HTTPServer) => {
           // Create the message
           const message = await prisma.message.create({
             data: {
+              id: `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
               conversationId,
               senderId: socket.data.userId,
               receiverId,
               content: content.trim(),
-              messageType,
+              messageType: messageType as 'TEXT' | 'IMAGE' | 'FILE' | 'SYSTEM' | 'OFFER',
               replyToId: replyToId || null,
-              status: 'SENT'
+              status: 'SENT',
+              updatedAt: new Date()
             },
             include: {
-              sender: {
+              User_Message_senderIdToUser: {
                 select: {
                   id: true,
                   name: true,
                   avatar: true
                 }
               },
-              replyTo: {
+              Message: {
                 select: {
                   id: true,
                   content: true,
-                  sender: {
+                  User_Message_senderIdToUser: {
                     select: {
                       id: true,
                       name: true
@@ -236,5 +272,42 @@ export const emitMessageUpdated = (conversationId: string, message: any) => {
 export const emitMessageDeleted = (conversationId: string, messageId: string) => {
   if (io) {
     io.to(`conversation:${conversationId}`).emit('message_deleted', messageId)
+  }
+}
+
+// Analytics event helper functions
+export const emitAnalyticsUpdated = (type: string) => {
+  if (io) {
+    io.to('analytics').emit('analytics_updated', { type, timestamp: new Date() })
+  }
+}
+
+export const emitUserRegistered = (userId: string) => {
+  if (io) {
+    io.to('analytics').emit('user_registered', { userId, timestamp: new Date() })
+  }
+}
+
+export const emitListingCreated = (listingId: string) => {
+  if (io) {
+    io.to('analytics').emit('listing_created', { listingId, timestamp: new Date() })
+  }
+}
+
+export const emitMarketPriceSubmitted = (priceId: string) => {
+  if (io) {
+    io.to('analytics').emit('market_price_submitted', { priceId, timestamp: new Date() })
+  }
+}
+
+export const emitReviewSubmitted = (reviewId: string) => {
+  if (io) {
+    io.to('analytics').emit('review_submitted', { reviewId, timestamp: new Date() })
+  }
+}
+
+export const emitMessageSent = (messageId: string) => {
+  if (io) {
+    io.to('analytics').emit('message_sent', { messageId, timestamp: new Date() })
   }
 }

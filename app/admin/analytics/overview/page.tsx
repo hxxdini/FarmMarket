@@ -23,7 +23,11 @@ import {
   AlertTriangle,
   Shield,
   PieChart,
-  LineChart
+  LineChart,
+  Clock,
+  RefreshCw,
+  Wifi,
+  WifiOff
 } from "lucide-react"
 import { toast } from "sonner"
 import { 
@@ -43,6 +47,7 @@ import {
   Legend, 
   ResponsiveContainer 
 } from 'recharts'
+import { useAnalyticsUpdates } from "@/hooks/use-analytics-updates"
 
 interface AnalyticsData {
   userMetrics: {
@@ -93,7 +98,12 @@ export default function AnalyticsOverviewPage() {
   const router = useRouter()
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null)
   const [loading, setLoading] = useState(true)
+  const [refreshing, setRefreshing] = useState(false)
   const [timeRange, setTimeRange] = useState('30d')
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
+  
+  // Real-time analytics updates
+  const { isConnected, lastUpdate: realTimeUpdate, updateCount } = useAnalyticsUpdates()
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -106,25 +116,48 @@ export default function AnalyticsOverviewPage() {
         return
       }
       fetchAnalytics()
+      
+      // Set up real-time updates every 30 seconds
+      const interval = setInterval(() => {
+        fetchAnalytics(true) // Silent refresh
+      }, 30000)
+      
+      return () => clearInterval(interval)
     }
   }, [status, session, router, timeRange])
 
-  const fetchAnalytics = async () => {
+  // Auto-refresh analytics when real-time updates are received
+  useEffect(() => {
+    if (realTimeUpdate && updateCount > 0) {
+      // Trigger a silent refresh when real-time updates are received
+      fetchAnalytics(true)
+    }
+  }, [realTimeUpdate, updateCount])
+
+  const fetchAnalytics = async (silent = false) => {
     try {
-      setLoading(true)
+      if (!silent) setLoading(true)
+      setRefreshing(true)
+      
       const response = await fetch(`/api/admin/analytics/overview?timeRange=${timeRange}`)
       
       if (response.ok) {
         const data = await response.json()
         setAnalytics(data)
+        setLastUpdated(new Date())
       } else {
-        toast.error('Failed to fetch analytics data')
+        if (!silent) {
+          toast.error('Failed to fetch analytics data')
+        }
       }
     } catch (error) {
       console.error('Error fetching analytics:', error)
-      toast.error('Failed to fetch analytics data')
+      if (!silent) {
+        toast.error('Failed to fetch analytics data')
+      }
     } finally {
       setLoading(false)
+      setRefreshing(false)
     }
   }
 
@@ -179,6 +212,14 @@ export default function AnalyticsOverviewPage() {
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Advanced Analytics Dashboard</h1>
               <p className="text-base sm:text-lg text-gray-600">Comprehensive platform performance and user behavior insights</p>
+              {lastUpdated && (
+                <div className="flex items-center space-x-2 mt-2">
+                  <Clock className="h-4 w-4 text-gray-400" />
+                  <span className="text-xs sm:text-sm text-gray-500">
+                    Last updated: {lastUpdated.toLocaleTimeString()}
+                  </span>
+                </div>
+              )}
             </div>
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
               <select
@@ -191,10 +232,33 @@ export default function AnalyticsOverviewPage() {
                 <option value="90d">Last 90 days</option>
                 <option value="1y">Last year</option>
               </select>
-              <Button onClick={fetchAnalytics} variant="outline" className="w-full sm:w-auto">
-                <Activity className="h-4 w-4 mr-2" />
+              <Button 
+                onClick={() => fetchAnalytics()} 
+                variant="outline" 
+                disabled={refreshing}
+                className="w-full sm:w-auto"
+              >
+                <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
                 Refresh
               </Button>
+              <div className="flex items-center space-x-2">
+                <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 text-center sm:text-left">
+                  <Activity className="h-4 w-4 mr-1" />
+                  Live Analytics
+                </Badge>
+                <Badge variant="outline" className={`text-center sm:text-left ${
+                  isConnected 
+                    ? 'bg-blue-50 text-blue-700 border-blue-200' 
+                    : 'bg-red-50 text-red-700 border-red-200'
+                }`}>
+                  {isConnected ? (
+                    <Wifi className="h-4 w-4 mr-1" />
+                  ) : (
+                    <WifiOff className="h-4 w-4 mr-1" />
+                  )}
+                  {isConnected ? 'Connected' : 'Disconnected'}
+                </Badge>
+              </div>
             </div>
           </div>
         </div>

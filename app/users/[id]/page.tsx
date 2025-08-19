@@ -106,8 +106,8 @@ export default function UserProfilePage() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          participantId: userId,
-          message: `Hi ${profile?.name}, I'd like to connect with you about your products.`
+          otherUserId: userId,
+          initialMessage: `Hi ${profile?.name}, I'd like to connect with you about your products.`
         })
       })
 

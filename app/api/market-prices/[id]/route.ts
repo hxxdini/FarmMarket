@@ -43,7 +43,32 @@ export async function GET(
       )
     }
 
-    return NextResponse.json({ data: marketPrice })
+    // Transform to match frontend expectations
+    const transformed = {
+      id: marketPrice.id,
+      cropType: marketPrice.cropType,
+      pricePerUnit: marketPrice.pricePerUnit,
+      unit: marketPrice.unit,
+      quality: marketPrice.quality,
+      location: marketPrice.location,
+      source: marketPrice.source,
+      status: marketPrice.status,
+      submittedBy: marketPrice.User_MarketPrice_submittedByToUser,
+      reviewedBy: marketPrice.User_MarketPrice_reviewedByToUser,
+      reviewNotes: marketPrice.reviewNotes,
+      reviewDate: marketPrice.reviewDate,
+      effectiveDate: marketPrice.effectiveDate,
+      expiryDate: marketPrice.expiryDate,
+      isVerified: marketPrice.isVerified,
+      verificationScore: marketPrice.verificationScore,
+      marketTrend: marketPrice.marketTrend,
+      regionalAverage: marketPrice.regionalAverage,
+      priceChange: marketPrice.priceChange,
+      createdAt: marketPrice.createdAt,
+      updatedAt: marketPrice.updatedAt
+    }
+
+    return NextResponse.json({ data: transformed })
   } catch (error) {
     console.error('Error fetching market price:', error)
     return NextResponse.json(
@@ -79,7 +104,8 @@ export async function PUT(
 
     // Get the user
     const user = await prisma.user.findUnique({
-      where: { email: session.user.email }
+      where: { email: session.user.email },
+      include: { Role: true }
     })
 
     if (!user) {
@@ -115,7 +141,7 @@ export async function PUT(
       )
     }
 
-    // Update the market price
+    // Update the market price and reset status to pending for review
     const updatedPrice = await prisma.marketPrice.update({
       where: { id },
       data: {
@@ -127,17 +153,23 @@ export async function PUT(
         ...(source && { source }),
         ...(effectiveDate && { effectiveDate: new Date(effectiveDate) }),
         ...(expiryDate && { expiryDate: new Date(expiryDate) }),
+        status: 'PENDING', // Reset to pending for review
+        reviewedBy: null, // Clear previous review
+        reviewDate: null, // Clear previous review date
+        reviewNotes: null, // Clear previous review notes
+        isVerified: false, // Reset verification status
+        verificationScore: 0.0, // Reset verification score
         updatedAt: new Date()
       },
       include: {
-        submittedByUser: {
+        User_MarketPrice_submittedByToUser: {
           select: {
             id: true,
             name: true,
             location: true
           }
         },
-        reviewedByUser: {
+        User_MarketPrice_reviewedByToUser: {
           select: {
             id: true,
             name: true

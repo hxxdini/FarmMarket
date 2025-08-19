@@ -25,6 +25,7 @@ export async function GET(req: NextRequest) {
     const status = searchParams.get('status') || 'pending'
     const cropType = searchParams.get('cropType')
     const location = searchParams.get('location')
+    const search = searchParams.get('search')
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '20')
     
@@ -45,6 +46,13 @@ export async function GET(req: NextRequest) {
     if (status !== 'all') where.status = status.toUpperCase()
     if (cropType) where.cropType = { contains: cropType, mode: 'insensitive' }
     if (location) where.location = { contains: location, mode: 'insensitive' }
+    if (search) {
+      where.OR = [
+        { cropType: { contains: search, mode: 'insensitive' } },
+        { location: { contains: search, mode: 'insensitive' } },
+        { source: { contains: search, mode: 'insensitive' } }
+      ]
+    }
     
     // Note: If you add quality and source filters later, they should also be converted to uppercase
     // if (quality) where.quality = quality.toUpperCase()
@@ -230,50 +238,89 @@ export async function POST(req: NextRequest) {
         actionType = 'EXPIRE_MARKET_PRICES'
         break
       
+      case 'delete':
+        // For delete action, we'll handle it differently
+        actionType = 'DELETE_MARKET_PRICES'
+        break
+      
       default:
         return NextResponse.json(
-          { error: "Invalid action. Must be 'approve', 'reject', or 'expire'." },
+          { error: "Invalid action. Must be 'approve', 'reject', 'expire', or 'delete'." },
           { status: 400 }
         )
     }
 
-    // Update all specified prices
-    const updatedPrices = await prisma.marketPrice.updateMany({
-      where: {
-        id: { in: priceIds }
-      },
-      data: {
-        ...updateData,
-        updatedAt: new Date()
-      }
-    })
+    let result: any
+
+    if (action === 'delete') {
+      // Delete the prices
+      result = await prisma.marketPrice.deleteMany({
+        where: {
+          id: { in: priceIds }
+        }
+      })
+    } else {
+      // Update all specified prices
+      result = await prisma.marketPrice.updateMany({
+        where: {
+          id: { in: priceIds }
+        },
+        data: {
+          ...updateData,
+          updatedAt: new Date()
+        }
+      })
+    }
 
     // Log admin action
-    await prisma.adminActionLog.create({
-      data: {
-        id: `log_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        adminId: user.id,
-        action: actionType,
-        targetType: 'MARKET_PRICE',
-        targetId: priceIds.join(','),
-        details: JSON.stringify({
-          action,
-          priceIds,
-          reviewNotes: reviewNotes || null,
-          affectedCount: updatedPrices.count
-        }),
-        timestamp: new Date()
-      }
-    })
+    try {
+      await prisma.adminActionLog.create({
+        data: {
+          id: `log_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          adminId: user.id,
+          action: actionType,
+          targetType: 'MARKET_PRICE',
+          targetId: priceIds.join(','),
+          details: JSON.stringify({
+            action,
+            priceIds,
+            reviewNotes: reviewNotes || null,
+            affectedCount: result.count
+          }),
+          timestamp: new Date()
+        }
+      })
+    } catch (logError) {
+      console.error('Failed to log admin action:', logError)
+      // Don't fail the main operation if logging fails
+    }
 
     return NextResponse.json({
-      message: `Successfully ${action}d ${updatedPrices.count} market prices`,
-      affectedCount: updatedPrices.count
+      message: `Successfully ${action}d ${result.count} market prices`,
+      affectedCount: result.count
     })
   } catch (error) {
     console.error('Error performing bulk action on market prices:', error)
+    
+    // Provide more specific error information
+    let errorMessage = 'Failed to perform bulk action on market prices'
+    if (error instanceof Error) {
+      if (error.message.includes('prisma')) {
+        console.error('Prisma error details:', error.message)
+        if (error.message.includes('Unknown field')) {
+          errorMessage = 'Database schema issue. Please contact support.'
+        } else if (error.message.includes('connection')) {
+          errorMessage = 'Database connection issue. Please try again.'
+        } else {
+          errorMessage = `Database error: ${error.message}`
+        }
+      } else {
+        errorMessage = error.message
+      }
+    }
+    
     return NextResponse.json(
-      { error: 'Failed to perform bulk action on market prices' },
+      { error: errorMessage },
       { status: 500 }
     )
   }

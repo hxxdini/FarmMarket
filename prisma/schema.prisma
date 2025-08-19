@@ -293,6 +293,79 @@ model User {
   Permission                                Permission[]
 }
 
+model CommunityPost {
+  id            String                 @id
+  authorId      String
+  title         String
+  content       String
+  type          CommunityPostType      @default(QUESTION)
+  category      String
+  crop          String
+  location      String?
+  likes         Int                    @default(0)
+  repliesCount  Int                    @default(0)
+  status        CommunityPostStatus    @default(PENDING)
+  createdAt     DateTime               @default(now())
+  updatedAt     DateTime
+  author        User                   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  replies       CommunityReply[]
+
+  @@index([type, status, createdAt])
+  @@index([crop, location, createdAt])
+  @@index([category, createdAt])
+  @@index([authorId, createdAt])
+}
+
+model CommunityReply {
+  id         String      @id
+  postId     String
+  authorId   String
+  content    String
+  isExpert   Boolean     @default(false)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime
+  post       CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author     User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([postId, createdAt])
+  @@index([authorId, createdAt])
+}
+
+model ExpertProfile {
+  id              String     @id
+  userId          String     @unique
+  type            ExpertType @default(EXPERT)
+  title           String?
+  specialization  String?
+  location        String?
+  rating          Float      @default(0)
+  responses       Int        @default(0)
+  isVerified      Boolean    @default(false)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([type, isVerified])
+}
+
+enum CommunityPostType {
+  QUESTION
+  ADVICE
+  ALERT
+  SUCCESS
+}
+
+enum CommunityPostStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum ExpertType {
+  EXPERT
+  EXTENSION_OFFICER
+}
+
 enum AlertFrequency {
   IMMEDIATE
   DAILY
