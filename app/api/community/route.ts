@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/authOptions"
 import { prisma } from "@/lib/prisma"
 import { emitCommunityPostCreated } from "@/lib/socket"
+import { canPostKnowledgeContent } from "@/lib/utils"
 
 const mapTypeToEnum = (type?: string) => {
   switch ((type || "").toLowerCase()) {
@@ -113,7 +114,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const user = await prisma.user.findUnique({ where: { email: session.user.email } })
+    const user = await prisma.user.findUnique({ 
+      where: { email: session.user.email },
+      include: { Role: true }
+    })
     if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 })
 
     const body = await request.json()
@@ -128,12 +132,22 @@ export async function POST(request: NextRequest) {
 
     const enumType = mapTypeToEnum(type) || "QUESTION"
 
-    // If posting advice or alert, require verified expert profile
+    // If posting advice or alert, require appropriate permissions
     if (enumType === 'ADVICE' || enumType === 'ALERT') {
       const expert = await prisma.expertProfile.findUnique({ where: { userId: user.id } })
-      if (!expert || !expert.isVerified) {
-        return NextResponse.json({ error: 'Only verified experts can post advice or alerts' }, { status: 403 })
+      const canPost = canPostKnowledgeContent(user.Role?.name, expert)
+      
+      if (!canPost) {
+        return NextResponse.json({ 
+          error: 'Only administrators, verified experts, and extension officers can post knowledge articles' 
+        }, { status: 403 })
       }
+    }
+
+    // Determine post status based on user role
+    let postStatus = "PENDING"
+    if (user.Role?.name === 'admin' || user.Role?.name === 'superadmin') {
+      postStatus = "APPROVED" // Admins can publish immediately
     }
 
     const post = await prisma.communityPost.create({
@@ -146,7 +160,7 @@ export async function POST(request: NextRequest) {
         crop: (typeof crop === 'string' && crop.trim().length > 0) ? crop.trim() : "General",
         location: location?.trim() || user.location || null,
         type: enumType as any,
-        status: "PENDING",
+        status: postStatus as any,
         updatedAt: new Date(),
       },
       include: { author: { select: { id: true, name: true } } },
@@ -175,7 +189,11 @@ export async function POST(request: NextRequest) {
       status: post.status,
     }
 
-    return NextResponse.json({ discussion, message: "Submitted for review" }, { status: 201 })
+    const message = postStatus === "APPROVED" 
+      ? "Article published successfully!" 
+      : "Submitted for review"
+    
+    return NextResponse.json({ discussion, message }, { status: 201 })
   } catch (error) {
     console.error("Error creating community post:", error)
     return NextResponse.json({ error: "Failed to create post" }, { status: 500 })

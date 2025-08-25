@@ -22,7 +22,8 @@ import {
   Mail,
   Phone,
   MapPin,
-  Plus
+  Plus,
+  Trash2
 } from "lucide-react"
 
 interface User {
@@ -48,6 +49,8 @@ export default function UserManagementPage() {
   const [filtering, setFiltering] = useState(false)
   const [creating, setCreating] = useState(false)
   const [createOpen, setCreateOpen] = useState(false)
+  const [deleting, setDeleting] = useState<string | null>(null)
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState<string | null>(null)
   const [newUser, setNewUser] = useState({
     name: '',
     email: '',
@@ -138,6 +141,30 @@ export default function UserManagementPage() {
     } catch (error) {
       console.error('Error performing user action:', error)
       toast.error('Failed to perform action')
+    }
+  }
+
+  const handleDeleteUser = async (userId: string) => {
+    try {
+      setDeleting(userId)
+      const response = await fetch(`/api/admin/users/${userId}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
+      })
+
+      if (response.ok) {
+        toast.success('User deleted successfully')
+        setDeleteConfirmOpen(null)
+        fetchUsers() // Refresh the list
+      } else {
+        const error = await response.json()
+        toast.error(error.error || 'Failed to delete user')
+      }
+    } catch (error) {
+      console.error('Error deleting user:', error)
+      toast.error('Failed to delete user')
+    } finally {
+      setDeleting(null)
     }
   }
 
@@ -557,6 +584,55 @@ export default function UserManagementPage() {
                                 Verify
                               </Button>
                             )}
+
+                            {/* Delete User Button */}
+                            <Dialog open={deleteConfirmOpen === user.id} onOpenChange={(open) => setDeleteConfirmOpen(open ? user.id : null)}>
+                              <DialogTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="text-red-600 border-red-300 hover:bg-red-50 text-xs h-7 px-2"
+                                >
+                                  <Trash2 className="h-3 w-3 mr-1" />
+                                  Delete
+                                </Button>
+                              </DialogTrigger>
+                              <DialogContent className="w-[95vw] max-w-md">
+                                <DialogHeader>
+                                  <DialogTitle>Delete User</DialogTitle>
+                                  <DialogDescription>
+                                    Are you sure you want to delete <strong>{user.name || user.email}</strong>? This action cannot be undone and will permanently remove all user data including listings, reviews, and community posts.
+                                  </DialogDescription>
+                                </DialogHeader>
+                                <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-2 pt-4">
+                                  <Button 
+                                    variant="outline" 
+                                    onClick={() => setDeleteConfirmOpen(null)}
+                                    className="w-full sm:w-auto"
+                                  >
+                                    Cancel
+                                  </Button>
+                                  <Button 
+                                    variant="destructive" 
+                                    onClick={() => handleDeleteUser(user.id)}
+                                    disabled={deleting === user.id}
+                                    className="w-full sm:w-auto"
+                                  >
+                                    {deleting === user.id ? (
+                                      <>
+                                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                                        Deleting...
+                                      </>
+                                    ) : (
+                                      <>
+                                        <Trash2 className="h-4 w-4 mr-2" />
+                                        Delete User
+                                      </>
+                                    )}
+                                  </Button>
+                                </div>
+                              </DialogContent>
+                            </Dialog>
                           </div>
                         </td>
                       </tr>

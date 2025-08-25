@@ -5,15 +5,18 @@ import DOMPurify from 'dompurify'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
+import { canPostKnowledgeContent, getUserTypeLabel } from '@/lib/utils'
 
 export default function KnowledgeRepositoryPage() {
-  const { status } = useSession()
+  const { data: session, status } = useSession()
   const [search, setSearch] = useState('')
   const [items, setItems] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
-  const [isVerifiedExpert, setIsVerifiedExpert] = useState(false)
+  const [canPost, setCanPost] = useState(false)
+  const [userType, setUserType] = useState<string>("")
 
   useEffect(() => {
     let cancelled = false
@@ -41,16 +44,23 @@ export default function KnowledgeRepositoryPage() {
     async function loadProfile() {
       try {
         if (status !== 'authenticated') return
-        const res = await fetch('/api/community/experts/apply', { cache: 'no-store' })
+        const res = await fetch('/api/users/profile', { cache: 'no-store' })
         if (res.ok) {
-          const data = await res.json()
-          if (!cancelled) setIsVerifiedExpert(!!data?.profile?.isVerified)
+          const userData = await res.json()
+          const expertProfile = userData.expertProfile
+          const canPostContent = canPostKnowledgeContent(session?.user?.role, expertProfile)
+          const userTypeLabel = getUserTypeLabel(session?.user?.role, expertProfile)
+          
+          if (!cancelled) {
+            setCanPost(canPostContent)
+            setUserType(userTypeLabel)
+          }
         }
       } catch {}
     }
     loadProfile()
     return () => { cancelled = true }
-  }, [status])
+  }, [status, session])
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -59,13 +69,30 @@ export default function KnowledgeRepositoryPage() {
           <h1 className="text-2xl font-bold">Knowledge Repository</h1>
           <div className="flex items-center gap-3">
             <Input placeholder="Search articles..." value={search} onChange={(e) => setSearch(e.target.value)} className="max-w-sm" />
-            {isVerifiedExpert && (
-              <Link href="/community/knowledge/write" className="text-sm text-white bg-green-600 hover:bg-green-700 px-3 py-2 rounded-md">
-                Write article
-              </Link>
+            {canPost && (
+              <Button asChild className="bg-green-600 hover:bg-green-700">
+                <Link href="/community/knowledge/write">
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
+                  Write Article
+                </Link>
+              </Button>
             )}
           </div>
         </div>
+        
+        {canPost && (
+          <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+            <div className="flex items-center gap-2 text-sm text-green-800">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span><strong>You can contribute!</strong> As a {userType}, you have permission to write and publish knowledge articles.</span>
+            </div>
+          </div>
+        )}
+        
         <div className="space-y-3">
           {loading ? (
             <Card><CardContent className="py-6">Loading...</CardContent></Card>

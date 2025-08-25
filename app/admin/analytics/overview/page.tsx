@@ -241,18 +241,6 @@ export default function AnalyticsOverviewPage() {
                   <Activity className="h-4 w-4 mr-1" />
                   Live Analytics
                 </Badge>
-                <Badge variant="outline" className={`text-center sm:text-left ${
-                  isConnected 
-                    ? 'bg-blue-50 text-blue-700 border-blue-200' 
-                    : 'bg-red-50 text-red-700 border-red-200'
-                }`}>
-                  {isConnected ? (
-                    <Wifi className="h-4 w-4 mr-1" />
-                  ) : (
-                    <WifiOff className="h-4 w-4 mr-1" />
-                  )}
-                  {isConnected ? 'Connected' : 'Disconnected'}
-                </Badge>
               </div>
             </div>
           </div>

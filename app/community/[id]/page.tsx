@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { RichTextEditor } from "@/components/ui/rich-text-editor"
 import { useSession } from "next-auth/react"
 import { Edit2, Trash2, X, Check, MoreVertical } from "lucide-react"
 import {
@@ -73,7 +74,7 @@ export default function CommunityPostDetailPage() {
   }, [params.id])
 
   async function submitReply() {
-    if (!replyContent.trim()) return
+    if (!replyContent.trim() || replyContent === '<p></p>') return
     try {
       setSubmitting(true)
       const res = await fetch(`/api/community/replies`, {
@@ -105,7 +106,7 @@ export default function CommunityPostDetailPage() {
   }
 
   async function submitNestedReply(replyToId: string) {
-    if (!nestedReplyContent.trim()) return
+    if (!nestedReplyContent.trim() || nestedReplyContent === '<p></p>') return
     try {
       setNestedSubmitting(true)
       const res = await fetch(`/api/community/replies`, {
@@ -446,22 +447,22 @@ export default function CommunityPostDetailPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4">
-        <Card>
-          <CardHeader>
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+        <Card className="shadow-sm">
+          <CardHeader className="pb-6">
             <div className="flex items-center justify-between">
               {editingPost ? (
-                <div className="flex-1 space-y-3">
+                <div className="flex-1 space-y-4">
                   <Input
                     value={editPostTitle}
                     onChange={(e) => setEditPostTitle(e.target.value)}
-                    className="text-xl font-semibold"
+                    className="text-2xl font-semibold"
                   />
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-3">
                     <select
                       value={editPostCategory}
                       onChange={(e) => setEditPostCategory(e.target.value)}
-                      className="p-2 border rounded-md text-sm"
+                      className="p-3 border rounded-md text-sm"
                     >
                       <option value="Planting">Planting</option>
                       <option value="Pest Control">Pest Control</option>
@@ -474,12 +475,12 @@ export default function CommunityPostDetailPage() {
                       value={editPostCrop}
                       onChange={(e) => setEditPostCrop(e.target.value)}
                       placeholder="Crop type"
-                      className="text-sm"
+                      className="text-sm p-3"
                     />
                   </div>
                 </div>
               ) : (
-                <CardTitle className="text-xl">{post.title}</CardTitle>
+                <CardTitle className="text-2xl leading-tight">{post.title}</CardTitle>
               )}
               
               {isAuthor && (
@@ -516,43 +517,47 @@ export default function CommunityPostDetailPage() {
               )}
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="flex items-center space-x-3 mb-4">
-              <Avatar className="h-8 w-8">
+          <CardContent className="pt-0">
+            <div className="flex items-center space-x-4 mb-6 pb-4 border-b border-gray-100">
+              <Avatar className="h-10 w-10">
                 <AvatarImage src={post.authorAvatar || "/placeholder.svg"} />
                 <AvatarFallback>
                   {post.author.split(" ").map((n: string) => n[0]).join("")}
                 </AvatarFallback>
               </Avatar>
               <div>
-                <div className="text-sm font-medium">{post.author}</div>
+                <div className="text-sm font-medium text-gray-900">{post.author}</div>
                 <div className="text-xs text-gray-500">{post.category} • {post.crop}</div>
               </div>
             </div>
             
             {editingPost ? (
-              <Textarea
-                value={editPostContent}
-                onChange={(e) => setEditPostContent(e.target.value)}
-                rows={6}
-                className="mb-4"
-              />
+              <div className="space-y-4">
+                <div className="border rounded-lg p-4 bg-gray-50">
+                  <h3 className="text-sm font-medium text-gray-700 mb-3">Post Content</h3>
+                  <RichTextEditor
+                    value={editPostContent}
+                    onChange={setEditPostContent}
+                    placeholder="Write your post content here..."
+                  />
+                </div>
+              </div>
             ) : (
               <div
-                className="text-gray-700 prose prose-sm sm:prose max-w-none"
+                className="text-gray-800 prose prose-lg sm:prose-xl max-w-none leading-relaxed"
                 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content || "") }}
               />
             )}
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Replies</CardTitle>
+        <Card className="shadow-sm">
+          <CardHeader className="pb-6">
+            <CardTitle className="text-xl">Replies</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-6 pt-0">
             {post.repliesList?.length ? post.repliesList.map((r: any) => (
-              <div key={r.id} className="space-y-3">
+              <div key={r.id} className="space-y-4 p-4 bg-gray-50 rounded-lg">
                 <div className="flex items-start space-x-3">
                   <Avatar className="h-8 w-8">
                     <AvatarImage src={r.avatar || "/placeholder.svg"} />
@@ -607,14 +612,18 @@ export default function CommunityPostDetailPage() {
                     </div>
                     
                     {editingReply === r.id ? (
-                      <Textarea
-                        value={editReplyContent}
-                        onChange={(e) => setEditReplyContent(e.target.value)}
-                        rows={3}
-                        className="mt-2"
-                      />
+                      <div className="mt-3">
+                        <RichTextEditor
+                          value={editReplyContent}
+                          onChange={setEditReplyContent}
+                          placeholder="Edit your reply..."
+                        />
+                      </div>
                     ) : (
-                      <div className="text-sm text-gray-700 whitespace-pre-wrap">{r.content}</div>
+                      <div 
+                        className="text-sm text-gray-700 prose prose-sm max-w-none"
+                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(r.content || "") }}
+                      />
                     )}
                     
                     <div className="flex items-center space-x-4 mt-2">
@@ -639,9 +648,9 @@ export default function CommunityPostDetailPage() {
 
                 {/* Nested Replies */}
                 {r.replies && r.replies.length > 0 && (
-                  <div className="ml-8 space-y-3">
+                  <div className="ml-8 space-y-4 mt-4">
                     {r.replies.map((nestedReply: any) => (
-                      <div key={nestedReply.id} className="flex items-start space-x-3 border-l-2 border-gray-200 pl-4">
+                      <div key={nestedReply.id} className="flex items-start space-x-3 border-l-2 border-gray-300 pl-4 py-2">
                         <Avatar className="h-6 w-6">
                           <AvatarImage src={nestedReply.avatar || "/placeholder.svg"} />
                           <AvatarFallback>
@@ -695,14 +704,18 @@ export default function CommunityPostDetailPage() {
                           </div>
                           
                           {editingNestedReply === nestedReply.id ? (
-                            <Textarea
-                              value={editNestedReplyContent}
-                              onChange={(e) => setEditNestedReplyContent(e.target.value)}
-                              rows={2}
-                              className="mt-2"
-                            />
+                            <div className="mt-3">
+                              <RichTextEditor
+                                value={editNestedReplyContent}
+                                onChange={setEditNestedReplyContent}
+                                placeholder="Edit your reply..."
+                              />
+                            </div>
                           ) : (
-                            <div className="text-sm text-gray-700 whitespace-pre-wrap">{nestedReply.content}</div>
+                            <div 
+                              className="text-sm text-gray-700 prose prose-sm max-w-none"
+                              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(nestedReply.content || "") }}
+                            />
                           )}
                           
                           <div className="flex items-center space-x-4 mt-2">
@@ -724,32 +737,33 @@ export default function CommunityPostDetailPage() {
 
                 {/* Nested Reply Form */}
                 {replyingTo === r.id && (
-                  <div className="ml-8 border-l-2 border-gray-200 pl-4">
-                    <Textarea
-                      placeholder="Write a reply..."
-                      value={nestedReplyContent}
-                      onChange={(e) => setNestedReplyContent(e.target.value)}
-                      rows={2}
-                      className="mb-2"
-                    />
-                    <div className="flex space-x-2">
-                      <Button 
-                        size="sm" 
-                        onClick={() => submitNestedReply(r.id)} 
-                        disabled={nestedSubmitting || !nestedReplyContent.trim()}
-                      >
-                        {nestedSubmitting ? 'Posting...' : 'Post Reply'}
-                      </Button>
-                      <Button 
-                        size="sm" 
-                        variant="outline" 
-                        onClick={() => {
-                          setReplyingTo(null)
-                          setNestedReplyContent("")
-                        }}
-                      >
-                        Cancel
-                      </Button>
+                  <div className="ml-8 border-l-2 border-gray-300 pl-4 mt-3">
+                    <div className="space-y-3">
+                      <h4 className="text-sm font-medium text-gray-700">Write a Nested Reply</h4>
+                      <RichTextEditor
+                        value={nestedReplyContent}
+                        onChange={setNestedReplyContent}
+                        placeholder="Write your nested reply here..."
+                      />
+                      <div className="flex space-x-3">
+                        <Button 
+                          size="sm" 
+                          onClick={() => submitNestedReply(r.id)} 
+                          disabled={nestedSubmitting || !nestedReplyContent.trim() || nestedReplyContent === '<p></p>'}
+                        >
+                          {nestedSubmitting ? 'Posting...' : 'Post Reply'}
+                        </Button>
+                        <Button 
+                          size="sm" 
+                          variant="outline" 
+                          onClick={() => {
+                            setReplyingTo(null)
+                            setNestedReplyContent("")
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -758,16 +772,22 @@ export default function CommunityPostDetailPage() {
               <div className="text-sm text-gray-500">No replies yet.</div>
             )}
 
-            <div className="pt-2">
-              <Textarea
-                placeholder="Write a reply..."
-                value={replyContent}
-                onChange={(e) => setReplyContent(e.target.value)}
-                rows={3}
-              />
-              <Button className="mt-2" onClick={submitReply} disabled={submitting || !replyContent.trim()}>
-                {submitting ? 'Posting...' : 'Post Reply'}
-              </Button>
+            <div className="pt-4 border-t border-gray-100">
+              <div className="space-y-3">
+                <h3 className="text-sm font-medium text-gray-700">Write a Reply</h3>
+                <RichTextEditor
+                  value={replyContent}
+                  onChange={setReplyContent}
+                  placeholder="Write your reply here..."
+                />
+                <Button 
+                  className="px-6" 
+                  onClick={submitReply} 
+                  disabled={submitting || !replyContent.trim() || replyContent === '<p></p>'}
+                >
+                  {submitting ? 'Posting...' : 'Post Reply'}
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>

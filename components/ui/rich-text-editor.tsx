@@ -13,9 +13,10 @@ type RichTextEditorProps = {
   value: string
   onChange: (html: string) => void
   placeholder?: string
+  disabled?: boolean
 }
 
-export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorProps) {
+export function RichTextEditor({ value, onChange, placeholder, disabled = false }: RichTextEditorProps) {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -37,9 +38,12 @@ export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorP
     editorProps: {
       attributes: {
         class:
-          "min-h-[300px] p-3 bg-white border rounded-md focus:outline-none prose prose-sm max-w-none tiptap",
+          `min-h-[300px] p-3 bg-white border rounded-md focus:outline-none prose prose-sm max-w-none tiptap ${
+            disabled ? 'opacity-50 cursor-not-allowed bg-gray-50' : ''
+          }`,
       },
     },
+    editable: !disabled,
   })
 
   useEffect(() => {
@@ -74,56 +78,56 @@ export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorP
 
   return (
     <div className="space-y-2">
-      <div className="flex flex-wrap gap-2">
-        <Button type="button" variant={editor.isActive("bold") ? "default" : "outline"} size="sm" onClick={() => editor.chain().focus().toggleBold().run()}>
+      <div className={`flex flex-wrap gap-2 ${disabled ? 'opacity-50' : ''}`}>
+        <Button type="button" variant={editor.isActive("bold") ? "default" : "outline"} size="sm" onClick={() => editor.chain().focus().toggleBold().run()} disabled={disabled}>
           Bold
         </Button>
-        <Button type="button" variant={editor.isActive("italic") ? "default" : "outline"} size="sm" onClick={() => editor.chain().focus().toggleItalic().run()}>
+        <Button type="button" variant={editor.isActive("italic") ? "default" : "outline"} size="sm" onClick={() => editor.chain().focus().toggleItalic().run()} disabled={disabled}>
           Italic
         </Button>
-        <Button type="button" variant={editor.isActive("underline") ? "default" : "outline"} size="sm" onClick={() => editor.chain().focus().toggleUnderline().run()}>
+        <Button type="button" variant={editor.isActive("underline") ? "default" : "outline"} size="sm" onClick={() => editor.chain().focus().toggleUnderline().run()} disabled={disabled}>
           Underline
         </Button>
-        <Button type="button" variant={editor.isActive("heading", { level: 1 }) ? "default" : "outline"} size="sm" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}>
+        <Button type="button" variant={editor.isActive("heading", { level: 1 }) ? "default" : "outline"} size="sm" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} disabled={disabled}>
           H1
         </Button>
-        <Button type="button" variant={editor.isActive("heading", { level: 2 }) ? "default" : "outline"} size="sm" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>
+        <Button type="button" variant={editor.isActive("heading", { level: 2 }) ? "default" : "outline"} size="sm" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} disabled={disabled}>
           H2
         </Button>
-        <Button type="button" variant={editor.isActive("heading", { level: 3 }) ? "default" : "outline"} size="sm" onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}>
+        <Button type="button" variant={editor.isActive("heading", { level: 3 }) ? "default" : "outline"} size="sm" onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} disabled={disabled}>
           H3
         </Button>
-        <Button type="button" variant={editor.isActive("bulletList") ? "default" : "outline"} size="sm" onClick={() => editor.chain().focus().toggleBulletList().run()}>
+        <Button type="button" variant={editor.isActive("bulletList") ? "default" : "outline"} size="sm" onClick={() => editor.chain().focus().toggleBulletList().run()} disabled={disabled}>
           Bullets
         </Button>
-        <Button type="button" variant={editor.isActive("orderedList") ? "default" : "outline"} size="sm" onClick={() => editor.chain().focus().toggleOrderedList().run()}>
+        <Button type="button" variant={editor.isActive("orderedList") ? "default" : "outline"} size="sm" onClick={() => editor.chain().focus().toggleOrderedList().run()} disabled={disabled}>
           Numbers
         </Button>
-        <Button type="button" variant={editor.isActive("blockquote") ? "default" : "outline"} size="sm" onClick={() => editor.chain().focus().toggleBlockquote().run()}>
+        <Button type="button" variant={editor.isActive("blockquote") ? "default" : "outline"} size="sm" onClick={() => editor.chain().focus().toggleBlockquote().run()} disabled={disabled}>
           Quote
         </Button>
-        <Button type="button" variant={editor.isActive("codeBlock") ? "default" : "outline"} size="sm" onClick={() => editor.chain().focus().toggleCodeBlock().run()}>
+        <Button type="button" variant={editor.isActive("codeBlock") ? "default" : "outline"} size="sm" onClick={() => editor.chain().focus().toggleCodeBlock().run()} disabled={disabled}>
           Code
         </Button>
-        <Button type="button" variant={editor.isActive("link") ? "default" : "outline"} size="sm" onClick={setLink}>
+        <Button type="button" variant={editor.isActive("link") ? "default" : "outline"} size="sm" onClick={setLink} disabled={disabled}>
           Link
         </Button>
-        <Button type="button" variant="outline" size="sm" onClick={() => editor.chain().focus().unsetAllMarks().clearNodes().run()}>
+        <Button type="button" variant="outline" size="sm" onClick={() => editor.chain().focus().unsetAllMarks().clearNodes().run()} disabled={disabled}>
           Clear
         </Button>
-        <Button type="button" variant="outline" size="sm" onClick={() => editor.chain().focus().setTextAlign("left").run()}>
+        <Button type="button" variant="outline" size="sm" onClick={() => editor.chain().focus().setTextAlign("left").run()} disabled={disabled}>
           Left
         </Button>
-        <Button type="button" variant="outline" size="sm" onClick={() => editor.chain().focus().setTextAlign("center").run()}>
+        <Button type="button" variant="outline" size="sm" onClick={() => editor.chain().focus().setTextAlign("center").run()} disabled={disabled}>
           Center
         </Button>
-        <Button type="button" variant="outline" size="sm" onClick={() => editor.chain().focus().setTextAlign("right").run()}>
+        <Button type="button" variant="outline" size="sm" onClick={() => editor.chain().focus().setTextAlign("right").run()} disabled={disabled}>
           Right
         </Button>
-        <Button type="button" variant="outline" size="sm" onClick={() => editor.chain().focus().undo().run()}>
+        <Button type="button" variant="outline" size="sm" onClick={() => editor.chain().focus().undo().run()} disabled={disabled}>
           Undo
         </Button>
-        <Button type="button" variant="outline" size="sm" onClick={() => editor.chain().focus().redo().run()}>
+        <Button type="button" variant="outline" size="sm" onClick={() => editor.chain().focus().redo().run()} disabled={disabled}>
           Redo
         </Button>
       </div>

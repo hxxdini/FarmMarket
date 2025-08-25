@@ -138,8 +138,8 @@ model Permission {
   id          String  @id
   name        String  @unique
   description String?
-  Role        Role[]
-  User        User[]
+  Role        Role[]  @relation("PermissionToRole")
+  User        User[]  @relation("PermissionToUser")
 }
 
 model PriceAlert {
@@ -233,7 +233,7 @@ model Role {
   id         String       @id
   name       String       @unique
   User       User[]
-  Permission Permission[]
+  Permission Permission[] @relation("PermissionToRole")
 }
 
 model Session {
@@ -278,8 +278,13 @@ model User {
   status                                     UserStatus           @default(ACTIVE)
   AdminActionLog                             AdminActionLog[]
   AlertNotification                          AlertNotification[]
+  CommunityPost_CommunityPost_authorToUser   CommunityPost[]      @relation("CommunityPost_authorToUser")
+  CommunityPostLike_userToUser               CommunityPostLike[]  @relation("CommunityPostLike_userToUser")
+  CommunityReply_CommunityReply_authorToUser CommunityReply[]     @relation("CommunityReply_authorToUser")
+  CommunityReplyLike_userToUser              CommunityReplyLike[] @relation("CommunityReplyLike_userToUser")
   Conversation_Conversation_user1IdToUser    Conversation[]       @relation("Conversation_user1IdToUser")
   Conversation_Conversation_user2IdToUser    Conversation[]       @relation("Conversation_user2IdToUser")
+  ExpertProfile                              ExpertProfile?
   MarketPrice_MarketPrice_reviewedByToUser   MarketPrice[]        @relation("MarketPrice_reviewedByToUser")
   MarketPrice_MarketPrice_submittedByToUser  MarketPrice[]        @relation("MarketPrice_submittedByToUser")
   Message_Message_receiverIdToUser           Message[]            @relation("Message_receiverIdToUser")
@@ -290,36 +295,34 @@ model User {
   Review_Review_reviewerIdToUser             Review[]             @relation("Review_reviewerIdToUser")
   Session                                    Session[]
   Role                                       Role                 @relation(fields: [roleId], references: [id])
-  Permission                                 Permission[]
-  ExpertProfile                              ExpertProfile?
-  CommunityPost_CommunityPost_authorToUser   CommunityPost[]      @relation("CommunityPost_authorToUser")
-  CommunityReply_CommunityReply_authorToUser CommunityReply[]     @relation("CommunityReply_authorToUser")
-  CommunityPostLike_userToUser               CommunityPostLike[]  @relation("CommunityPostLike_userToUser")
-  CommunityReplyLike_userToUser              CommunityReplyLike[] @relation("CommunityReplyLike_userToUser")
+  Permission                                 Permission[]         @relation("PermissionToUser")
 }
 
 model CommunityPost {
-  id           String              @id
-  authorId     String
-  title        String
-  content      String
-  type         CommunityPostType   @default(QUESTION)
-  category     String
-  crop         String
-  location     String?
-  likes        Int                 @default(0)
-  repliesCount Int                 @default(0)
-  status       CommunityPostStatus @default(PENDING)
-  createdAt    DateTime            @default(now())
-  updatedAt    DateTime
-  author       User                @relation("CommunityPost_authorToUser", fields: [authorId], references: [id], onDelete: Cascade)
-  replies      CommunityReply[]
-  likesList    CommunityPostLike[] @relation("CommunityPostLike_postToCommunityPost")
+  id                String              @id
+  authorId          String
+  title             String
+  content           String
+  type              CommunityPostType   @default(QUESTION)
+  category          String
+  crop              String?
+  location          String?
+  likes             Int                 @default(0)
+  repliesCount      Int                 @default(0)
+  status            CommunityPostStatus @default(PENDING)
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime
+  isPrivateQuestion Boolean             @default(false)
+  targetExpertId    String?
+  author            User                @relation("CommunityPost_authorToUser", fields: [authorId], references: [id], onDelete: Cascade)
+  likesList         CommunityPostLike[] @relation("CommunityPostLike_postToCommunityPost")
+  replies           CommunityReply[]
 
   @@index([type, status, createdAt])
   @@index([crop, location, createdAt])
   @@index([category, createdAt])
   @@index([authorId, createdAt])
+  @@index([isPrivateQuestion, targetExpertId])
 }
 
 model CommunityReply {
@@ -328,12 +331,12 @@ model CommunityReply {
   authorId  String
   content   String
   isExpert  Boolean              @default(false)
-  replyToId String? // For replying to replies
-  likes     Int                  @default(0)
   createdAt DateTime             @default(now())
   updatedAt DateTime
-  post      CommunityPost        @relation(fields: [postId], references: [id], onDelete: Cascade)
+  likes     Int                  @default(0)
+  replyToId String?
   author    User                 @relation("CommunityReply_authorToUser", fields: [authorId], references: [id], onDelete: Cascade)
+  post      CommunityPost        @relation(fields: [postId], references: [id], onDelete: Cascade)
   replyTo   CommunityReply?      @relation("CommunityReplyToReply", fields: [replyToId], references: [id], onDelete: Cascade)
   replies   CommunityReply[]     @relation("CommunityReplyToReply")
   likesList CommunityReplyLike[]
@@ -347,8 +350,8 @@ model CommunityPostLike {
   userId    String
   postId    String
   createdAt DateTime      @default(now())
-  user      User          @relation("CommunityPostLike_userToUser", fields: [userId], references: [id], onDelete: Cascade)
   post      CommunityPost @relation("CommunityPostLike_postToCommunityPost", fields: [postId], references: [id], onDelete: Cascade)
+  user      User          @relation("CommunityPostLike_userToUser", fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, postId])
   @@index([postId])
@@ -359,8 +362,8 @@ model CommunityReplyLike {
   userId    String
   replyId   String
   createdAt DateTime       @default(now())
-  user      User           @relation("CommunityReplyLike_userToUser", fields: [userId], references: [id], onDelete: Cascade)
   reply     CommunityReply @relation(fields: [replyId], references: [id], onDelete: Cascade)
+  user      User           @relation("CommunityReplyLike_userToUser", fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, replyId])
   @@index([replyId])

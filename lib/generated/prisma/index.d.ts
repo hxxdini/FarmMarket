@@ -2841,6 +2841,10 @@ export namespace Prisma {
   export type UserCountOutputType = {
     AdminActionLog: number
     AlertNotification: number
+    CommunityPost_CommunityPost_authorToUser: number
+    CommunityPostLike_userToUser: number
+    CommunityReply_CommunityReply_authorToUser: number
+    CommunityReplyLike_userToUser: number
     Conversation_Conversation_user1IdToUser: number
     Conversation_Conversation_user2IdToUser: number
     MarketPrice_MarketPrice_reviewedByToUser: number
@@ -2853,15 +2857,15 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser: number
     Session: number
     Permission: number
-    CommunityPost_CommunityPost_authorToUser: number
-    CommunityReply_CommunityReply_authorToUser: number
-    CommunityPostLike_userToUser: number
-    CommunityReplyLike_userToUser: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     AdminActionLog?: boolean | UserCountOutputTypeCountAdminActionLogArgs
     AlertNotification?: boolean | UserCountOutputTypeCountAlertNotificationArgs
+    CommunityPost_CommunityPost_authorToUser?: boolean | UserCountOutputTypeCountCommunityPost_CommunityPost_authorToUserArgs
+    CommunityPostLike_userToUser?: boolean | UserCountOutputTypeCountCommunityPostLike_userToUserArgs
+    CommunityReply_CommunityReply_authorToUser?: boolean | UserCountOutputTypeCountCommunityReply_CommunityReply_authorToUserArgs
+    CommunityReplyLike_userToUser?: boolean | UserCountOutputTypeCountCommunityReplyLike_userToUserArgs
     Conversation_Conversation_user1IdToUser?: boolean | UserCountOutputTypeCountConversation_Conversation_user1IdToUserArgs
     Conversation_Conversation_user2IdToUser?: boolean | UserCountOutputTypeCountConversation_Conversation_user2IdToUserArgs
     MarketPrice_MarketPrice_reviewedByToUser?: boolean | UserCountOutputTypeCountMarketPrice_MarketPrice_reviewedByToUserArgs
@@ -2874,10 +2878,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: boolean | UserCountOutputTypeCountReview_Review_reviewerIdToUserArgs
     Session?: boolean | UserCountOutputTypeCountSessionArgs
     Permission?: boolean | UserCountOutputTypeCountPermissionArgs
-    CommunityPost_CommunityPost_authorToUser?: boolean | UserCountOutputTypeCountCommunityPost_CommunityPost_authorToUserArgs
-    CommunityReply_CommunityReply_authorToUser?: boolean | UserCountOutputTypeCountCommunityReply_CommunityReply_authorToUserArgs
-    CommunityPostLike_userToUser?: boolean | UserCountOutputTypeCountCommunityPostLike_userToUserArgs
-    CommunityReplyLike_userToUser?: boolean | UserCountOutputTypeCountCommunityReplyLike_userToUserArgs
   }
 
   // Custom InputTypes
@@ -2903,6 +2903,34 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountAlertNotificationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AlertNotificationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCommunityPost_CommunityPost_authorToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommunityPostWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCommunityPostLike_userToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommunityPostLikeWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCommunityReply_CommunityReply_authorToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommunityReplyWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCommunityReplyLike_userToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommunityReplyLikeWhereInput
   }
 
   /**
@@ -2989,47 +3017,19 @@ export namespace Prisma {
     where?: PermissionWhereInput
   }
 
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountCommunityPost_CommunityPost_authorToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CommunityPostWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountCommunityReply_CommunityReply_authorToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CommunityReplyWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountCommunityPostLike_userToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CommunityPostLikeWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountCommunityReplyLike_userToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CommunityReplyLikeWhereInput
-  }
-
 
   /**
    * Count Type CommunityPostCountOutputType
    */
 
   export type CommunityPostCountOutputType = {
-    replies: number
     likesList: number
+    replies: number
   }
 
   export type CommunityPostCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    replies?: boolean | CommunityPostCountOutputTypeCountRepliesArgs
     likesList?: boolean | CommunityPostCountOutputTypeCountLikesListArgs
+    replies?: boolean | CommunityPostCountOutputTypeCountRepliesArgs
   }
 
   // Custom InputTypes
@@ -3046,15 +3046,15 @@ export namespace Prisma {
   /**
    * CommunityPostCountOutputType without action
    */
-  export type CommunityPostCountOutputTypeCountRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CommunityReplyWhereInput
+  export type CommunityPostCountOutputTypeCountLikesListArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommunityPostLikeWhereInput
   }
 
   /**
    * CommunityPostCountOutputType without action
    */
-  export type CommunityPostCountOutputTypeCountLikesListArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CommunityPostLikeWhereInput
+  export type CommunityPostCountOutputTypeCountRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommunityReplyWhereInput
   }
 
 
@@ -17777,8 +17777,13 @@ export namespace Prisma {
     status?: boolean
     AdminActionLog?: boolean | User$AdminActionLogArgs<ExtArgs>
     AlertNotification?: boolean | User$AlertNotificationArgs<ExtArgs>
+    CommunityPost_CommunityPost_authorToUser?: boolean | User$CommunityPost_CommunityPost_authorToUserArgs<ExtArgs>
+    CommunityPostLike_userToUser?: boolean | User$CommunityPostLike_userToUserArgs<ExtArgs>
+    CommunityReply_CommunityReply_authorToUser?: boolean | User$CommunityReply_CommunityReply_authorToUserArgs<ExtArgs>
+    CommunityReplyLike_userToUser?: boolean | User$CommunityReplyLike_userToUserArgs<ExtArgs>
     Conversation_Conversation_user1IdToUser?: boolean | User$Conversation_Conversation_user1IdToUserArgs<ExtArgs>
     Conversation_Conversation_user2IdToUser?: boolean | User$Conversation_Conversation_user2IdToUserArgs<ExtArgs>
+    ExpertProfile?: boolean | User$ExpertProfileArgs<ExtArgs>
     MarketPrice_MarketPrice_reviewedByToUser?: boolean | User$MarketPrice_MarketPrice_reviewedByToUserArgs<ExtArgs>
     MarketPrice_MarketPrice_submittedByToUser?: boolean | User$MarketPrice_MarketPrice_submittedByToUserArgs<ExtArgs>
     Message_Message_receiverIdToUser?: boolean | User$Message_Message_receiverIdToUserArgs<ExtArgs>
@@ -17790,11 +17795,6 @@ export namespace Prisma {
     Session?: boolean | User$SessionArgs<ExtArgs>
     Role?: boolean | RoleDefaultArgs<ExtArgs>
     Permission?: boolean | User$PermissionArgs<ExtArgs>
-    ExpertProfile?: boolean | User$ExpertProfileArgs<ExtArgs>
-    CommunityPost_CommunityPost_authorToUser?: boolean | User$CommunityPost_CommunityPost_authorToUserArgs<ExtArgs>
-    CommunityReply_CommunityReply_authorToUser?: boolean | User$CommunityReply_CommunityReply_authorToUserArgs<ExtArgs>
-    CommunityPostLike_userToUser?: boolean | User$CommunityPostLike_userToUserArgs<ExtArgs>
-    CommunityReplyLike_userToUser?: boolean | User$CommunityReplyLike_userToUserArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -17903,8 +17903,13 @@ export namespace Prisma {
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     AdminActionLog?: boolean | User$AdminActionLogArgs<ExtArgs>
     AlertNotification?: boolean | User$AlertNotificationArgs<ExtArgs>
+    CommunityPost_CommunityPost_authorToUser?: boolean | User$CommunityPost_CommunityPost_authorToUserArgs<ExtArgs>
+    CommunityPostLike_userToUser?: boolean | User$CommunityPostLike_userToUserArgs<ExtArgs>
+    CommunityReply_CommunityReply_authorToUser?: boolean | User$CommunityReply_CommunityReply_authorToUserArgs<ExtArgs>
+    CommunityReplyLike_userToUser?: boolean | User$CommunityReplyLike_userToUserArgs<ExtArgs>
     Conversation_Conversation_user1IdToUser?: boolean | User$Conversation_Conversation_user1IdToUserArgs<ExtArgs>
     Conversation_Conversation_user2IdToUser?: boolean | User$Conversation_Conversation_user2IdToUserArgs<ExtArgs>
+    ExpertProfile?: boolean | User$ExpertProfileArgs<ExtArgs>
     MarketPrice_MarketPrice_reviewedByToUser?: boolean | User$MarketPrice_MarketPrice_reviewedByToUserArgs<ExtArgs>
     MarketPrice_MarketPrice_submittedByToUser?: boolean | User$MarketPrice_MarketPrice_submittedByToUserArgs<ExtArgs>
     Message_Message_receiverIdToUser?: boolean | User$Message_Message_receiverIdToUserArgs<ExtArgs>
@@ -17916,11 +17921,6 @@ export namespace Prisma {
     Session?: boolean | User$SessionArgs<ExtArgs>
     Role?: boolean | RoleDefaultArgs<ExtArgs>
     Permission?: boolean | User$PermissionArgs<ExtArgs>
-    ExpertProfile?: boolean | User$ExpertProfileArgs<ExtArgs>
-    CommunityPost_CommunityPost_authorToUser?: boolean | User$CommunityPost_CommunityPost_authorToUserArgs<ExtArgs>
-    CommunityReply_CommunityReply_authorToUser?: boolean | User$CommunityReply_CommunityReply_authorToUserArgs<ExtArgs>
-    CommunityPostLike_userToUser?: boolean | User$CommunityPostLike_userToUserArgs<ExtArgs>
-    CommunityReplyLike_userToUser?: boolean | User$CommunityReplyLike_userToUserArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -17935,8 +17935,13 @@ export namespace Prisma {
     objects: {
       AdminActionLog: Prisma.$AdminActionLogPayload<ExtArgs>[]
       AlertNotification: Prisma.$AlertNotificationPayload<ExtArgs>[]
+      CommunityPost_CommunityPost_authorToUser: Prisma.$CommunityPostPayload<ExtArgs>[]
+      CommunityPostLike_userToUser: Prisma.$CommunityPostLikePayload<ExtArgs>[]
+      CommunityReply_CommunityReply_authorToUser: Prisma.$CommunityReplyPayload<ExtArgs>[]
+      CommunityReplyLike_userToUser: Prisma.$CommunityReplyLikePayload<ExtArgs>[]
       Conversation_Conversation_user1IdToUser: Prisma.$ConversationPayload<ExtArgs>[]
       Conversation_Conversation_user2IdToUser: Prisma.$ConversationPayload<ExtArgs>[]
+      ExpertProfile: Prisma.$ExpertProfilePayload<ExtArgs> | null
       MarketPrice_MarketPrice_reviewedByToUser: Prisma.$MarketPricePayload<ExtArgs>[]
       MarketPrice_MarketPrice_submittedByToUser: Prisma.$MarketPricePayload<ExtArgs>[]
       Message_Message_receiverIdToUser: Prisma.$MessagePayload<ExtArgs>[]
@@ -17948,11 +17953,6 @@ export namespace Prisma {
       Session: Prisma.$SessionPayload<ExtArgs>[]
       Role: Prisma.$RolePayload<ExtArgs>
       Permission: Prisma.$PermissionPayload<ExtArgs>[]
-      ExpertProfile: Prisma.$ExpertProfilePayload<ExtArgs> | null
-      CommunityPost_CommunityPost_authorToUser: Prisma.$CommunityPostPayload<ExtArgs>[]
-      CommunityReply_CommunityReply_authorToUser: Prisma.$CommunityReplyPayload<ExtArgs>[]
-      CommunityPostLike_userToUser: Prisma.$CommunityPostLikePayload<ExtArgs>[]
-      CommunityReplyLike_userToUser: Prisma.$CommunityReplyLikePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -18381,8 +18381,13 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     AdminActionLog<T extends User$AdminActionLogArgs<ExtArgs> = {}>(args?: Subset<T, User$AdminActionLogArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdminActionLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     AlertNotification<T extends User$AlertNotificationArgs<ExtArgs> = {}>(args?: Subset<T, User$AlertNotificationArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlertNotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    CommunityPost_CommunityPost_authorToUser<T extends User$CommunityPost_CommunityPost_authorToUserArgs<ExtArgs> = {}>(args?: Subset<T, User$CommunityPost_CommunityPost_authorToUserArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    CommunityPostLike_userToUser<T extends User$CommunityPostLike_userToUserArgs<ExtArgs> = {}>(args?: Subset<T, User$CommunityPostLike_userToUserArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityPostLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    CommunityReply_CommunityReply_authorToUser<T extends User$CommunityReply_CommunityReply_authorToUserArgs<ExtArgs> = {}>(args?: Subset<T, User$CommunityReply_CommunityReply_authorToUserArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityReplyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    CommunityReplyLike_userToUser<T extends User$CommunityReplyLike_userToUserArgs<ExtArgs> = {}>(args?: Subset<T, User$CommunityReplyLike_userToUserArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityReplyLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Conversation_Conversation_user1IdToUser<T extends User$Conversation_Conversation_user1IdToUserArgs<ExtArgs> = {}>(args?: Subset<T, User$Conversation_Conversation_user1IdToUserArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Conversation_Conversation_user2IdToUser<T extends User$Conversation_Conversation_user2IdToUserArgs<ExtArgs> = {}>(args?: Subset<T, User$Conversation_Conversation_user2IdToUserArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ExpertProfile<T extends User$ExpertProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$ExpertProfileArgs<ExtArgs>>): Prisma__ExpertProfileClient<$Result.GetResult<Prisma.$ExpertProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     MarketPrice_MarketPrice_reviewedByToUser<T extends User$MarketPrice_MarketPrice_reviewedByToUserArgs<ExtArgs> = {}>(args?: Subset<T, User$MarketPrice_MarketPrice_reviewedByToUserArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MarketPricePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     MarketPrice_MarketPrice_submittedByToUser<T extends User$MarketPrice_MarketPrice_submittedByToUserArgs<ExtArgs> = {}>(args?: Subset<T, User$MarketPrice_MarketPrice_submittedByToUserArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MarketPricePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Message_Message_receiverIdToUser<T extends User$Message_Message_receiverIdToUserArgs<ExtArgs> = {}>(args?: Subset<T, User$Message_Message_receiverIdToUserArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -18394,11 +18399,6 @@ export namespace Prisma {
     Session<T extends User$SessionArgs<ExtArgs> = {}>(args?: Subset<T, User$SessionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Role<T extends RoleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoleDefaultArgs<ExtArgs>>): Prisma__RoleClient<$Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     Permission<T extends User$PermissionArgs<ExtArgs> = {}>(args?: Subset<T, User$PermissionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    ExpertProfile<T extends User$ExpertProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$ExpertProfileArgs<ExtArgs>>): Prisma__ExpertProfileClient<$Result.GetResult<Prisma.$ExpertProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    CommunityPost_CommunityPost_authorToUser<T extends User$CommunityPost_CommunityPost_authorToUserArgs<ExtArgs> = {}>(args?: Subset<T, User$CommunityPost_CommunityPost_authorToUserArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    CommunityReply_CommunityReply_authorToUser<T extends User$CommunityReply_CommunityReply_authorToUserArgs<ExtArgs> = {}>(args?: Subset<T, User$CommunityReply_CommunityReply_authorToUserArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityReplyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    CommunityPostLike_userToUser<T extends User$CommunityPostLike_userToUserArgs<ExtArgs> = {}>(args?: Subset<T, User$CommunityPostLike_userToUserArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityPostLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    CommunityReplyLike_userToUser<T extends User$CommunityReplyLike_userToUserArgs<ExtArgs> = {}>(args?: Subset<T, User$CommunityReplyLike_userToUserArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityReplyLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -18902,6 +18902,102 @@ export namespace Prisma {
   }
 
   /**
+   * User.CommunityPost_CommunityPost_authorToUser
+   */
+  export type User$CommunityPost_CommunityPost_authorToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPost
+     */
+    select?: CommunityPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPost
+     */
+    omit?: CommunityPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostInclude<ExtArgs> | null
+    where?: CommunityPostWhereInput
+    orderBy?: CommunityPostOrderByWithRelationInput | CommunityPostOrderByWithRelationInput[]
+    cursor?: CommunityPostWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CommunityPostScalarFieldEnum | CommunityPostScalarFieldEnum[]
+  }
+
+  /**
+   * User.CommunityPostLike_userToUser
+   */
+  export type User$CommunityPostLike_userToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityPostLike
+     */
+    select?: CommunityPostLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityPostLike
+     */
+    omit?: CommunityPostLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityPostLikeInclude<ExtArgs> | null
+    where?: CommunityPostLikeWhereInput
+    orderBy?: CommunityPostLikeOrderByWithRelationInput | CommunityPostLikeOrderByWithRelationInput[]
+    cursor?: CommunityPostLikeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CommunityPostLikeScalarFieldEnum | CommunityPostLikeScalarFieldEnum[]
+  }
+
+  /**
+   * User.CommunityReply_CommunityReply_authorToUser
+   */
+  export type User$CommunityReply_CommunityReply_authorToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityReply
+     */
+    select?: CommunityReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityReply
+     */
+    omit?: CommunityReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityReplyInclude<ExtArgs> | null
+    where?: CommunityReplyWhereInput
+    orderBy?: CommunityReplyOrderByWithRelationInput | CommunityReplyOrderByWithRelationInput[]
+    cursor?: CommunityReplyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CommunityReplyScalarFieldEnum | CommunityReplyScalarFieldEnum[]
+  }
+
+  /**
+   * User.CommunityReplyLike_userToUser
+   */
+  export type User$CommunityReplyLike_userToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityReplyLike
+     */
+    select?: CommunityReplyLikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityReplyLike
+     */
+    omit?: CommunityReplyLikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityReplyLikeInclude<ExtArgs> | null
+    where?: CommunityReplyLikeWhereInput
+    orderBy?: CommunityReplyLikeOrderByWithRelationInput | CommunityReplyLikeOrderByWithRelationInput[]
+    cursor?: CommunityReplyLikeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CommunityReplyLikeScalarFieldEnum | CommunityReplyLikeScalarFieldEnum[]
+  }
+
+  /**
    * User.Conversation_Conversation_user1IdToUser
    */
   export type User$Conversation_Conversation_user1IdToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -18947,6 +19043,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ConversationScalarFieldEnum | ConversationScalarFieldEnum[]
+  }
+
+  /**
+   * User.ExpertProfile
+   */
+  export type User$ExpertProfileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpertProfile
+     */
+    select?: ExpertProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpertProfile
+     */
+    omit?: ExpertProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpertProfileInclude<ExtArgs> | null
+    where?: ExpertProfileWhereInput
   }
 
   /**
@@ -19190,121 +19305,6 @@ export namespace Prisma {
   }
 
   /**
-   * User.ExpertProfile
-   */
-  export type User$ExpertProfileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ExpertProfile
-     */
-    select?: ExpertProfileSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ExpertProfile
-     */
-    omit?: ExpertProfileOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ExpertProfileInclude<ExtArgs> | null
-    where?: ExpertProfileWhereInput
-  }
-
-  /**
-   * User.CommunityPost_CommunityPost_authorToUser
-   */
-  export type User$CommunityPost_CommunityPost_authorToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CommunityPost
-     */
-    select?: CommunityPostSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CommunityPost
-     */
-    omit?: CommunityPostOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CommunityPostInclude<ExtArgs> | null
-    where?: CommunityPostWhereInput
-    orderBy?: CommunityPostOrderByWithRelationInput | CommunityPostOrderByWithRelationInput[]
-    cursor?: CommunityPostWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: CommunityPostScalarFieldEnum | CommunityPostScalarFieldEnum[]
-  }
-
-  /**
-   * User.CommunityReply_CommunityReply_authorToUser
-   */
-  export type User$CommunityReply_CommunityReply_authorToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CommunityReply
-     */
-    select?: CommunityReplySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CommunityReply
-     */
-    omit?: CommunityReplyOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CommunityReplyInclude<ExtArgs> | null
-    where?: CommunityReplyWhereInput
-    orderBy?: CommunityReplyOrderByWithRelationInput | CommunityReplyOrderByWithRelationInput[]
-    cursor?: CommunityReplyWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: CommunityReplyScalarFieldEnum | CommunityReplyScalarFieldEnum[]
-  }
-
-  /**
-   * User.CommunityPostLike_userToUser
-   */
-  export type User$CommunityPostLike_userToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CommunityPostLike
-     */
-    select?: CommunityPostLikeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CommunityPostLike
-     */
-    omit?: CommunityPostLikeOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CommunityPostLikeInclude<ExtArgs> | null
-    where?: CommunityPostLikeWhereInput
-    orderBy?: CommunityPostLikeOrderByWithRelationInput | CommunityPostLikeOrderByWithRelationInput[]
-    cursor?: CommunityPostLikeWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: CommunityPostLikeScalarFieldEnum | CommunityPostLikeScalarFieldEnum[]
-  }
-
-  /**
-   * User.CommunityReplyLike_userToUser
-   */
-  export type User$CommunityReplyLike_userToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CommunityReplyLike
-     */
-    select?: CommunityReplyLikeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CommunityReplyLike
-     */
-    omit?: CommunityReplyLikeOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CommunityReplyLikeInclude<ExtArgs> | null
-    where?: CommunityReplyLikeWhereInput
-    orderBy?: CommunityReplyLikeOrderByWithRelationInput | CommunityReplyLikeOrderByWithRelationInput[]
-    cursor?: CommunityReplyLikeWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: CommunityReplyLikeScalarFieldEnum | CommunityReplyLikeScalarFieldEnum[]
-  }
-
-  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -19359,6 +19359,8 @@ export namespace Prisma {
     status: $Enums.CommunityPostStatus | null
     createdAt: Date | null
     updatedAt: Date | null
+    isPrivateQuestion: boolean | null
+    targetExpertId: string | null
   }
 
   export type CommunityPostMaxAggregateOutputType = {
@@ -19375,6 +19377,8 @@ export namespace Prisma {
     status: $Enums.CommunityPostStatus | null
     createdAt: Date | null
     updatedAt: Date | null
+    isPrivateQuestion: boolean | null
+    targetExpertId: string | null
   }
 
   export type CommunityPostCountAggregateOutputType = {
@@ -19391,6 +19395,8 @@ export namespace Prisma {
     status: number
     createdAt: number
     updatedAt: number
+    isPrivateQuestion: number
+    targetExpertId: number
     _all: number
   }
 
@@ -19419,6 +19425,8 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    isPrivateQuestion?: true
+    targetExpertId?: true
   }
 
   export type CommunityPostMaxAggregateInputType = {
@@ -19435,6 +19443,8 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    isPrivateQuestion?: true
+    targetExpertId?: true
   }
 
   export type CommunityPostCountAggregateInputType = {
@@ -19451,6 +19461,8 @@ export namespace Prisma {
     status?: true
     createdAt?: true
     updatedAt?: true
+    isPrivateQuestion?: true
+    targetExpertId?: true
     _all?: true
   }
 
@@ -19547,13 +19559,15 @@ export namespace Prisma {
     content: string
     type: $Enums.CommunityPostType
     category: string
-    crop: string
+    crop: string | null
     location: string | null
     likes: number
     repliesCount: number
     status: $Enums.CommunityPostStatus
     createdAt: Date
     updatedAt: Date
+    isPrivateQuestion: boolean
+    targetExpertId: string | null
     _count: CommunityPostCountAggregateOutputType | null
     _avg: CommunityPostAvgAggregateOutputType | null
     _sum: CommunityPostSumAggregateOutputType | null
@@ -19589,9 +19603,11 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    isPrivateQuestion?: boolean
+    targetExpertId?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
-    replies?: boolean | CommunityPost$repliesArgs<ExtArgs>
     likesList?: boolean | CommunityPost$likesListArgs<ExtArgs>
+    replies?: boolean | CommunityPost$repliesArgs<ExtArgs>
     _count?: boolean | CommunityPostCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["communityPost"]>
 
@@ -19609,6 +19625,8 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    isPrivateQuestion?: boolean
+    targetExpertId?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["communityPost"]>
 
@@ -19626,6 +19644,8 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    isPrivateQuestion?: boolean
+    targetExpertId?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["communityPost"]>
 
@@ -19643,13 +19663,15 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    isPrivateQuestion?: boolean
+    targetExpertId?: boolean
   }
 
-  export type CommunityPostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "authorId" | "title" | "content" | "type" | "category" | "crop" | "location" | "likes" | "repliesCount" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["communityPost"]>
+  export type CommunityPostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "authorId" | "title" | "content" | "type" | "category" | "crop" | "location" | "likes" | "repliesCount" | "status" | "createdAt" | "updatedAt" | "isPrivateQuestion" | "targetExpertId", ExtArgs["result"]["communityPost"]>
   export type CommunityPostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     author?: boolean | UserDefaultArgs<ExtArgs>
-    replies?: boolean | CommunityPost$repliesArgs<ExtArgs>
     likesList?: boolean | CommunityPost$likesListArgs<ExtArgs>
+    replies?: boolean | CommunityPost$repliesArgs<ExtArgs>
     _count?: boolean | CommunityPostCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CommunityPostIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -19663,8 +19685,8 @@ export namespace Prisma {
     name: "CommunityPost"
     objects: {
       author: Prisma.$UserPayload<ExtArgs>
-      replies: Prisma.$CommunityReplyPayload<ExtArgs>[]
       likesList: Prisma.$CommunityPostLikePayload<ExtArgs>[]
+      replies: Prisma.$CommunityReplyPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -19673,13 +19695,15 @@ export namespace Prisma {
       content: string
       type: $Enums.CommunityPostType
       category: string
-      crop: string
+      crop: string | null
       location: string | null
       likes: number
       repliesCount: number
       status: $Enums.CommunityPostStatus
       createdAt: Date
       updatedAt: Date
+      isPrivateQuestion: boolean
+      targetExpertId: string | null
     }, ExtArgs["result"]["communityPost"]>
     composites: {}
   }
@@ -20075,8 +20099,8 @@ export namespace Prisma {
   export interface Prisma__CommunityPostClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    replies<T extends CommunityPost$repliesArgs<ExtArgs> = {}>(args?: Subset<T, CommunityPost$repliesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityReplyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     likesList<T extends CommunityPost$likesListArgs<ExtArgs> = {}>(args?: Subset<T, CommunityPost$likesListArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityPostLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    replies<T extends CommunityPost$repliesArgs<ExtArgs> = {}>(args?: Subset<T, CommunityPost$repliesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityReplyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -20119,6 +20143,8 @@ export namespace Prisma {
     readonly status: FieldRef<"CommunityPost", 'CommunityPostStatus'>
     readonly createdAt: FieldRef<"CommunityPost", 'DateTime'>
     readonly updatedAt: FieldRef<"CommunityPost", 'DateTime'>
+    readonly isPrivateQuestion: FieldRef<"CommunityPost", 'Boolean'>
+    readonly targetExpertId: FieldRef<"CommunityPost", 'String'>
   }
     
 
@@ -20515,30 +20541,6 @@ export namespace Prisma {
   }
 
   /**
-   * CommunityPost.replies
-   */
-  export type CommunityPost$repliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CommunityReply
-     */
-    select?: CommunityReplySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the CommunityReply
-     */
-    omit?: CommunityReplyOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CommunityReplyInclude<ExtArgs> | null
-    where?: CommunityReplyWhereInput
-    orderBy?: CommunityReplyOrderByWithRelationInput | CommunityReplyOrderByWithRelationInput[]
-    cursor?: CommunityReplyWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: CommunityReplyScalarFieldEnum | CommunityReplyScalarFieldEnum[]
-  }
-
-  /**
    * CommunityPost.likesList
    */
   export type CommunityPost$likesListArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -20560,6 +20562,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CommunityPostLikeScalarFieldEnum | CommunityPostLikeScalarFieldEnum[]
+  }
+
+  /**
+   * CommunityPost.replies
+   */
+  export type CommunityPost$repliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityReply
+     */
+    select?: CommunityReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityReply
+     */
+    omit?: CommunityReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityReplyInclude<ExtArgs> | null
+    where?: CommunityReplyWhereInput
+    orderBy?: CommunityReplyOrderByWithRelationInput | CommunityReplyOrderByWithRelationInput[]
+    cursor?: CommunityReplyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CommunityReplyScalarFieldEnum | CommunityReplyScalarFieldEnum[]
   }
 
   /**
@@ -20607,10 +20633,10 @@ export namespace Prisma {
     authorId: string | null
     content: string | null
     isExpert: boolean | null
-    replyToId: string | null
-    likes: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    likes: number | null
+    replyToId: string | null
   }
 
   export type CommunityReplyMaxAggregateOutputType = {
@@ -20619,10 +20645,10 @@ export namespace Prisma {
     authorId: string | null
     content: string | null
     isExpert: boolean | null
-    replyToId: string | null
-    likes: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    likes: number | null
+    replyToId: string | null
   }
 
   export type CommunityReplyCountAggregateOutputType = {
@@ -20631,10 +20657,10 @@ export namespace Prisma {
     authorId: number
     content: number
     isExpert: number
-    replyToId: number
-    likes: number
     createdAt: number
     updatedAt: number
+    likes: number
+    replyToId: number
     _all: number
   }
 
@@ -20653,10 +20679,10 @@ export namespace Prisma {
     authorId?: true
     content?: true
     isExpert?: true
-    replyToId?: true
-    likes?: true
     createdAt?: true
     updatedAt?: true
+    likes?: true
+    replyToId?: true
   }
 
   export type CommunityReplyMaxAggregateInputType = {
@@ -20665,10 +20691,10 @@ export namespace Prisma {
     authorId?: true
     content?: true
     isExpert?: true
-    replyToId?: true
-    likes?: true
     createdAt?: true
     updatedAt?: true
+    likes?: true
+    replyToId?: true
   }
 
   export type CommunityReplyCountAggregateInputType = {
@@ -20677,10 +20703,10 @@ export namespace Prisma {
     authorId?: true
     content?: true
     isExpert?: true
-    replyToId?: true
-    likes?: true
     createdAt?: true
     updatedAt?: true
+    likes?: true
+    replyToId?: true
     _all?: true
   }
 
@@ -20776,10 +20802,10 @@ export namespace Prisma {
     authorId: string
     content: string
     isExpert: boolean
-    replyToId: string | null
-    likes: number
     createdAt: Date
     updatedAt: Date
+    likes: number
+    replyToId: string | null
     _count: CommunityReplyCountAggregateOutputType | null
     _avg: CommunityReplyAvgAggregateOutputType | null
     _sum: CommunityReplySumAggregateOutputType | null
@@ -20807,12 +20833,12 @@ export namespace Prisma {
     authorId?: boolean
     content?: boolean
     isExpert?: boolean
-    replyToId?: boolean
-    likes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
+    likes?: boolean
+    replyToId?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
     replyTo?: boolean | CommunityReply$replyToArgs<ExtArgs>
     replies?: boolean | CommunityReply$repliesArgs<ExtArgs>
     likesList?: boolean | CommunityReply$likesListArgs<ExtArgs>
@@ -20825,12 +20851,12 @@ export namespace Prisma {
     authorId?: boolean
     content?: boolean
     isExpert?: boolean
-    replyToId?: boolean
-    likes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
+    likes?: boolean
+    replyToId?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
     replyTo?: boolean | CommunityReply$replyToArgs<ExtArgs>
   }, ExtArgs["result"]["communityReply"]>
 
@@ -20840,12 +20866,12 @@ export namespace Prisma {
     authorId?: boolean
     content?: boolean
     isExpert?: boolean
-    replyToId?: boolean
-    likes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
+    likes?: boolean
+    replyToId?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
     replyTo?: boolean | CommunityReply$replyToArgs<ExtArgs>
   }, ExtArgs["result"]["communityReply"]>
 
@@ -20855,37 +20881,37 @@ export namespace Prisma {
     authorId?: boolean
     content?: boolean
     isExpert?: boolean
-    replyToId?: boolean
-    likes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    likes?: boolean
+    replyToId?: boolean
   }
 
-  export type CommunityReplyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "postId" | "authorId" | "content" | "isExpert" | "replyToId" | "likes" | "createdAt" | "updatedAt", ExtArgs["result"]["communityReply"]>
+  export type CommunityReplyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "postId" | "authorId" | "content" | "isExpert" | "createdAt" | "updatedAt" | "likes" | "replyToId", ExtArgs["result"]["communityReply"]>
   export type CommunityReplyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
     replyTo?: boolean | CommunityReply$replyToArgs<ExtArgs>
     replies?: boolean | CommunityReply$repliesArgs<ExtArgs>
     likesList?: boolean | CommunityReply$likesListArgs<ExtArgs>
     _count?: boolean | CommunityReplyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CommunityReplyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
     replyTo?: boolean | CommunityReply$replyToArgs<ExtArgs>
   }
   export type CommunityReplyIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | CommunityPostDefaultArgs<ExtArgs>
     replyTo?: boolean | CommunityReply$replyToArgs<ExtArgs>
   }
 
   export type $CommunityReplyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "CommunityReply"
     objects: {
-      post: Prisma.$CommunityPostPayload<ExtArgs>
       author: Prisma.$UserPayload<ExtArgs>
+      post: Prisma.$CommunityPostPayload<ExtArgs>
       replyTo: Prisma.$CommunityReplyPayload<ExtArgs> | null
       replies: Prisma.$CommunityReplyPayload<ExtArgs>[]
       likesList: Prisma.$CommunityReplyLikePayload<ExtArgs>[]
@@ -20896,10 +20922,10 @@ export namespace Prisma {
       authorId: string
       content: string
       isExpert: boolean
-      replyToId: string | null
-      likes: number
       createdAt: Date
       updatedAt: Date
+      likes: number
+      replyToId: string | null
     }, ExtArgs["result"]["communityReply"]>
     composites: {}
   }
@@ -21294,8 +21320,8 @@ export namespace Prisma {
    */
   export interface Prisma__CommunityReplyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    post<T extends CommunityPostDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CommunityPostDefaultArgs<ExtArgs>>): Prisma__CommunityPostClient<$Result.GetResult<Prisma.$CommunityPostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    post<T extends CommunityPostDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CommunityPostDefaultArgs<ExtArgs>>): Prisma__CommunityPostClient<$Result.GetResult<Prisma.$CommunityPostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     replyTo<T extends CommunityReply$replyToArgs<ExtArgs> = {}>(args?: Subset<T, CommunityReply$replyToArgs<ExtArgs>>): Prisma__CommunityReplyClient<$Result.GetResult<Prisma.$CommunityReplyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     replies<T extends CommunityReply$repliesArgs<ExtArgs> = {}>(args?: Subset<T, CommunityReply$repliesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityReplyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     likesList<T extends CommunityReply$likesListArgs<ExtArgs> = {}>(args?: Subset<T, CommunityReply$likesListArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityReplyLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -21333,10 +21359,10 @@ export namespace Prisma {
     readonly authorId: FieldRef<"CommunityReply", 'String'>
     readonly content: FieldRef<"CommunityReply", 'String'>
     readonly isExpert: FieldRef<"CommunityReply", 'Boolean'>
-    readonly replyToId: FieldRef<"CommunityReply", 'String'>
-    readonly likes: FieldRef<"CommunityReply", 'Int'>
     readonly createdAt: FieldRef<"CommunityReply", 'DateTime'>
     readonly updatedAt: FieldRef<"CommunityReply", 'DateTime'>
+    readonly likes: FieldRef<"CommunityReply", 'Int'>
+    readonly replyToId: FieldRef<"CommunityReply", 'String'>
   }
     
 
@@ -21966,24 +21992,24 @@ export namespace Prisma {
     userId?: boolean
     postId?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     post?: boolean | CommunityPostDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["communityPostLike"]>
 
   export type CommunityPostLikeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     userId?: boolean
     postId?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     post?: boolean | CommunityPostDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["communityPostLike"]>
 
   export type CommunityPostLikeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     userId?: boolean
     postId?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     post?: boolean | CommunityPostDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["communityPostLike"]>
 
   export type CommunityPostLikeSelectScalar = {
@@ -21994,23 +22020,23 @@ export namespace Prisma {
 
   export type CommunityPostLikeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "postId" | "createdAt", ExtArgs["result"]["communityPostLike"]>
   export type CommunityPostLikeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     post?: boolean | CommunityPostDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type CommunityPostLikeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     post?: boolean | CommunityPostDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type CommunityPostLikeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     post?: boolean | CommunityPostDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $CommunityPostLikePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "CommunityPostLike"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       post: Prisma.$CommunityPostPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       userId: string
@@ -22410,8 +22436,8 @@ export namespace Prisma {
    */
   export interface Prisma__CommunityPostLikeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     post<T extends CommunityPostDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CommunityPostDefaultArgs<ExtArgs>>): Prisma__CommunityPostClient<$Result.GetResult<Prisma.$CommunityPostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -23006,24 +23032,24 @@ export namespace Prisma {
     userId?: boolean
     replyId?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     reply?: boolean | CommunityReplyDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["communityReplyLike"]>
 
   export type CommunityReplyLikeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     userId?: boolean
     replyId?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     reply?: boolean | CommunityReplyDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["communityReplyLike"]>
 
   export type CommunityReplyLikeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     userId?: boolean
     replyId?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     reply?: boolean | CommunityReplyDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["communityReplyLike"]>
 
   export type CommunityReplyLikeSelectScalar = {
@@ -23034,23 +23060,23 @@ export namespace Prisma {
 
   export type CommunityReplyLikeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "replyId" | "createdAt", ExtArgs["result"]["communityReplyLike"]>
   export type CommunityReplyLikeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     reply?: boolean | CommunityReplyDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type CommunityReplyLikeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     reply?: boolean | CommunityReplyDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type CommunityReplyLikeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     reply?: boolean | CommunityReplyDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $CommunityReplyLikePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "CommunityReplyLike"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       reply: Prisma.$CommunityReplyPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       userId: string
@@ -23450,8 +23476,8 @@ export namespace Prisma {
    */
   export interface Prisma__CommunityReplyLikeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     reply<T extends CommunityReplyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CommunityReplyDefaultArgs<ExtArgs>>): Prisma__CommunityReplyClient<$Result.GetResult<Prisma.$CommunityReplyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -25336,7 +25362,9 @@ export namespace Prisma {
     repliesCount: 'repliesCount',
     status: 'status',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    isPrivateQuestion: 'isPrivateQuestion',
+    targetExpertId: 'targetExpertId'
   };
 
   export type CommunityPostScalarFieldEnum = (typeof CommunityPostScalarFieldEnum)[keyof typeof CommunityPostScalarFieldEnum]
@@ -25348,10 +25376,10 @@ export namespace Prisma {
     authorId: 'authorId',
     content: 'content',
     isExpert: 'isExpert',
-    replyToId: 'replyToId',
-    likes: 'likes',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    likes: 'likes',
+    replyToId: 'replyToId'
   };
 
   export type CommunityReplyScalarFieldEnum = (typeof CommunityReplyScalarFieldEnum)[keyof typeof CommunityReplyScalarFieldEnum]
@@ -26826,8 +26854,13 @@ export namespace Prisma {
     status?: EnumUserStatusFilter<"User"> | $Enums.UserStatus
     AdminActionLog?: AdminActionLogListRelationFilter
     AlertNotification?: AlertNotificationListRelationFilter
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostListRelationFilter
+    CommunityPostLike_userToUser?: CommunityPostLikeListRelationFilter
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyListRelationFilter
+    CommunityReplyLike_userToUser?: CommunityReplyLikeListRelationFilter
     Conversation_Conversation_user1IdToUser?: ConversationListRelationFilter
     Conversation_Conversation_user2IdToUser?: ConversationListRelationFilter
+    ExpertProfile?: XOR<ExpertProfileNullableScalarRelationFilter, ExpertProfileWhereInput> | null
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceListRelationFilter
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceListRelationFilter
     Message_Message_receiverIdToUser?: MessageListRelationFilter
@@ -26839,11 +26872,6 @@ export namespace Prisma {
     Session?: SessionListRelationFilter
     Role?: XOR<RoleScalarRelationFilter, RoleWhereInput>
     Permission?: PermissionListRelationFilter
-    ExpertProfile?: XOR<ExpertProfileNullableScalarRelationFilter, ExpertProfileWhereInput> | null
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostListRelationFilter
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyListRelationFilter
-    CommunityPostLike_userToUser?: CommunityPostLikeListRelationFilter
-    CommunityReplyLike_userToUser?: CommunityReplyLikeListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -26879,8 +26907,13 @@ export namespace Prisma {
     status?: SortOrder
     AdminActionLog?: AdminActionLogOrderByRelationAggregateInput
     AlertNotification?: AlertNotificationOrderByRelationAggregateInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostOrderByRelationAggregateInput
+    CommunityPostLike_userToUser?: CommunityPostLikeOrderByRelationAggregateInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyOrderByRelationAggregateInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeOrderByRelationAggregateInput
     Conversation_Conversation_user1IdToUser?: ConversationOrderByRelationAggregateInput
     Conversation_Conversation_user2IdToUser?: ConversationOrderByRelationAggregateInput
+    ExpertProfile?: ExpertProfileOrderByWithRelationInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceOrderByRelationAggregateInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceOrderByRelationAggregateInput
     Message_Message_receiverIdToUser?: MessageOrderByRelationAggregateInput
@@ -26892,11 +26925,6 @@ export namespace Prisma {
     Session?: SessionOrderByRelationAggregateInput
     Role?: RoleOrderByWithRelationInput
     Permission?: PermissionOrderByRelationAggregateInput
-    ExpertProfile?: ExpertProfileOrderByWithRelationInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostOrderByRelationAggregateInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyOrderByRelationAggregateInput
-    CommunityPostLike_userToUser?: CommunityPostLikeOrderByRelationAggregateInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -26935,8 +26963,13 @@ export namespace Prisma {
     status?: EnumUserStatusFilter<"User"> | $Enums.UserStatus
     AdminActionLog?: AdminActionLogListRelationFilter
     AlertNotification?: AlertNotificationListRelationFilter
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostListRelationFilter
+    CommunityPostLike_userToUser?: CommunityPostLikeListRelationFilter
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyListRelationFilter
+    CommunityReplyLike_userToUser?: CommunityReplyLikeListRelationFilter
     Conversation_Conversation_user1IdToUser?: ConversationListRelationFilter
     Conversation_Conversation_user2IdToUser?: ConversationListRelationFilter
+    ExpertProfile?: XOR<ExpertProfileNullableScalarRelationFilter, ExpertProfileWhereInput> | null
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceListRelationFilter
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceListRelationFilter
     Message_Message_receiverIdToUser?: MessageListRelationFilter
@@ -26948,11 +26981,6 @@ export namespace Prisma {
     Session?: SessionListRelationFilter
     Role?: XOR<RoleScalarRelationFilter, RoleWhereInput>
     Permission?: PermissionListRelationFilter
-    ExpertProfile?: XOR<ExpertProfileNullableScalarRelationFilter, ExpertProfileWhereInput> | null
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostListRelationFilter
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyListRelationFilter
-    CommunityPostLike_userToUser?: CommunityPostLikeListRelationFilter
-    CommunityReplyLike_userToUser?: CommunityReplyLikeListRelationFilter
   }, "id" | "phone" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -27039,16 +27067,18 @@ export namespace Prisma {
     content?: StringFilter<"CommunityPost"> | string
     type?: EnumCommunityPostTypeFilter<"CommunityPost"> | $Enums.CommunityPostType
     category?: StringFilter<"CommunityPost"> | string
-    crop?: StringFilter<"CommunityPost"> | string
+    crop?: StringNullableFilter<"CommunityPost"> | string | null
     location?: StringNullableFilter<"CommunityPost"> | string | null
     likes?: IntFilter<"CommunityPost"> | number
     repliesCount?: IntFilter<"CommunityPost"> | number
     status?: EnumCommunityPostStatusFilter<"CommunityPost"> | $Enums.CommunityPostStatus
     createdAt?: DateTimeFilter<"CommunityPost"> | Date | string
     updatedAt?: DateTimeFilter<"CommunityPost"> | Date | string
+    isPrivateQuestion?: BoolFilter<"CommunityPost"> | boolean
+    targetExpertId?: StringNullableFilter<"CommunityPost"> | string | null
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
-    replies?: CommunityReplyListRelationFilter
     likesList?: CommunityPostLikeListRelationFilter
+    replies?: CommunityReplyListRelationFilter
   }
 
   export type CommunityPostOrderByWithRelationInput = {
@@ -27058,16 +27088,18 @@ export namespace Prisma {
     content?: SortOrder
     type?: SortOrder
     category?: SortOrder
-    crop?: SortOrder
+    crop?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
     likes?: SortOrder
     repliesCount?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    isPrivateQuestion?: SortOrder
+    targetExpertId?: SortOrderInput | SortOrder
     author?: UserOrderByWithRelationInput
-    replies?: CommunityReplyOrderByRelationAggregateInput
     likesList?: CommunityPostLikeOrderByRelationAggregateInput
+    replies?: CommunityReplyOrderByRelationAggregateInput
   }
 
   export type CommunityPostWhereUniqueInput = Prisma.AtLeast<{
@@ -27080,16 +27112,18 @@ export namespace Prisma {
     content?: StringFilter<"CommunityPost"> | string
     type?: EnumCommunityPostTypeFilter<"CommunityPost"> | $Enums.CommunityPostType
     category?: StringFilter<"CommunityPost"> | string
-    crop?: StringFilter<"CommunityPost"> | string
+    crop?: StringNullableFilter<"CommunityPost"> | string | null
     location?: StringNullableFilter<"CommunityPost"> | string | null
     likes?: IntFilter<"CommunityPost"> | number
     repliesCount?: IntFilter<"CommunityPost"> | number
     status?: EnumCommunityPostStatusFilter<"CommunityPost"> | $Enums.CommunityPostStatus
     createdAt?: DateTimeFilter<"CommunityPost"> | Date | string
     updatedAt?: DateTimeFilter<"CommunityPost"> | Date | string
+    isPrivateQuestion?: BoolFilter<"CommunityPost"> | boolean
+    targetExpertId?: StringNullableFilter<"CommunityPost"> | string | null
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
-    replies?: CommunityReplyListRelationFilter
     likesList?: CommunityPostLikeListRelationFilter
+    replies?: CommunityReplyListRelationFilter
   }, "id">
 
   export type CommunityPostOrderByWithAggregationInput = {
@@ -27099,13 +27133,15 @@ export namespace Prisma {
     content?: SortOrder
     type?: SortOrder
     category?: SortOrder
-    crop?: SortOrder
+    crop?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
     likes?: SortOrder
     repliesCount?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    isPrivateQuestion?: SortOrder
+    targetExpertId?: SortOrderInput | SortOrder
     _count?: CommunityPostCountOrderByAggregateInput
     _avg?: CommunityPostAvgOrderByAggregateInput
     _max?: CommunityPostMaxOrderByAggregateInput
@@ -27123,13 +27159,15 @@ export namespace Prisma {
     content?: StringWithAggregatesFilter<"CommunityPost"> | string
     type?: EnumCommunityPostTypeWithAggregatesFilter<"CommunityPost"> | $Enums.CommunityPostType
     category?: StringWithAggregatesFilter<"CommunityPost"> | string
-    crop?: StringWithAggregatesFilter<"CommunityPost"> | string
+    crop?: StringNullableWithAggregatesFilter<"CommunityPost"> | string | null
     location?: StringNullableWithAggregatesFilter<"CommunityPost"> | string | null
     likes?: IntWithAggregatesFilter<"CommunityPost"> | number
     repliesCount?: IntWithAggregatesFilter<"CommunityPost"> | number
     status?: EnumCommunityPostStatusWithAggregatesFilter<"CommunityPost"> | $Enums.CommunityPostStatus
     createdAt?: DateTimeWithAggregatesFilter<"CommunityPost"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"CommunityPost"> | Date | string
+    isPrivateQuestion?: BoolWithAggregatesFilter<"CommunityPost"> | boolean
+    targetExpertId?: StringNullableWithAggregatesFilter<"CommunityPost"> | string | null
   }
 
   export type CommunityReplyWhereInput = {
@@ -27141,12 +27179,12 @@ export namespace Prisma {
     authorId?: StringFilter<"CommunityReply"> | string
     content?: StringFilter<"CommunityReply"> | string
     isExpert?: BoolFilter<"CommunityReply"> | boolean
-    replyToId?: StringNullableFilter<"CommunityReply"> | string | null
-    likes?: IntFilter<"CommunityReply"> | number
     createdAt?: DateTimeFilter<"CommunityReply"> | Date | string
     updatedAt?: DateTimeFilter<"CommunityReply"> | Date | string
-    post?: XOR<CommunityPostScalarRelationFilter, CommunityPostWhereInput>
+    likes?: IntFilter<"CommunityReply"> | number
+    replyToId?: StringNullableFilter<"CommunityReply"> | string | null
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
+    post?: XOR<CommunityPostScalarRelationFilter, CommunityPostWhereInput>
     replyTo?: XOR<CommunityReplyNullableScalarRelationFilter, CommunityReplyWhereInput> | null
     replies?: CommunityReplyListRelationFilter
     likesList?: CommunityReplyLikeListRelationFilter
@@ -27158,12 +27196,12 @@ export namespace Prisma {
     authorId?: SortOrder
     content?: SortOrder
     isExpert?: SortOrder
-    replyToId?: SortOrderInput | SortOrder
-    likes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    post?: CommunityPostOrderByWithRelationInput
+    likes?: SortOrder
+    replyToId?: SortOrderInput | SortOrder
     author?: UserOrderByWithRelationInput
+    post?: CommunityPostOrderByWithRelationInput
     replyTo?: CommunityReplyOrderByWithRelationInput
     replies?: CommunityReplyOrderByRelationAggregateInput
     likesList?: CommunityReplyLikeOrderByRelationAggregateInput
@@ -27178,12 +27216,12 @@ export namespace Prisma {
     authorId?: StringFilter<"CommunityReply"> | string
     content?: StringFilter<"CommunityReply"> | string
     isExpert?: BoolFilter<"CommunityReply"> | boolean
-    replyToId?: StringNullableFilter<"CommunityReply"> | string | null
-    likes?: IntFilter<"CommunityReply"> | number
     createdAt?: DateTimeFilter<"CommunityReply"> | Date | string
     updatedAt?: DateTimeFilter<"CommunityReply"> | Date | string
-    post?: XOR<CommunityPostScalarRelationFilter, CommunityPostWhereInput>
+    likes?: IntFilter<"CommunityReply"> | number
+    replyToId?: StringNullableFilter<"CommunityReply"> | string | null
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
+    post?: XOR<CommunityPostScalarRelationFilter, CommunityPostWhereInput>
     replyTo?: XOR<CommunityReplyNullableScalarRelationFilter, CommunityReplyWhereInput> | null
     replies?: CommunityReplyListRelationFilter
     likesList?: CommunityReplyLikeListRelationFilter
@@ -27195,10 +27233,10 @@ export namespace Prisma {
     authorId?: SortOrder
     content?: SortOrder
     isExpert?: SortOrder
-    replyToId?: SortOrderInput | SortOrder
-    likes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    likes?: SortOrder
+    replyToId?: SortOrderInput | SortOrder
     _count?: CommunityReplyCountOrderByAggregateInput
     _avg?: CommunityReplyAvgOrderByAggregateInput
     _max?: CommunityReplyMaxOrderByAggregateInput
@@ -27215,10 +27253,10 @@ export namespace Prisma {
     authorId?: StringWithAggregatesFilter<"CommunityReply"> | string
     content?: StringWithAggregatesFilter<"CommunityReply"> | string
     isExpert?: BoolWithAggregatesFilter<"CommunityReply"> | boolean
-    replyToId?: StringNullableWithAggregatesFilter<"CommunityReply"> | string | null
-    likes?: IntWithAggregatesFilter<"CommunityReply"> | number
     createdAt?: DateTimeWithAggregatesFilter<"CommunityReply"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"CommunityReply"> | Date | string
+    likes?: IntWithAggregatesFilter<"CommunityReply"> | number
+    replyToId?: StringNullableWithAggregatesFilter<"CommunityReply"> | string | null
   }
 
   export type CommunityPostLikeWhereInput = {
@@ -27228,16 +27266,16 @@ export namespace Prisma {
     userId?: StringFilter<"CommunityPostLike"> | string
     postId?: StringFilter<"CommunityPostLike"> | string
     createdAt?: DateTimeFilter<"CommunityPostLike"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     post?: XOR<CommunityPostScalarRelationFilter, CommunityPostWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type CommunityPostLikeOrderByWithRelationInput = {
     userId?: SortOrder
     postId?: SortOrder
     createdAt?: SortOrder
-    user?: UserOrderByWithRelationInput
     post?: CommunityPostOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type CommunityPostLikeWhereUniqueInput = Prisma.AtLeast<{
@@ -27248,8 +27286,8 @@ export namespace Prisma {
     userId?: StringFilter<"CommunityPostLike"> | string
     postId?: StringFilter<"CommunityPostLike"> | string
     createdAt?: DateTimeFilter<"CommunityPostLike"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     post?: XOR<CommunityPostScalarRelationFilter, CommunityPostWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "userId_postId">
 
   export type CommunityPostLikeOrderByWithAggregationInput = {
@@ -27277,16 +27315,16 @@ export namespace Prisma {
     userId?: StringFilter<"CommunityReplyLike"> | string
     replyId?: StringFilter<"CommunityReplyLike"> | string
     createdAt?: DateTimeFilter<"CommunityReplyLike"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     reply?: XOR<CommunityReplyScalarRelationFilter, CommunityReplyWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type CommunityReplyLikeOrderByWithRelationInput = {
     userId?: SortOrder
     replyId?: SortOrder
     createdAt?: SortOrder
-    user?: UserOrderByWithRelationInput
     reply?: CommunityReplyOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type CommunityReplyLikeWhereUniqueInput = Prisma.AtLeast<{
@@ -27297,8 +27335,8 @@ export namespace Prisma {
     userId?: StringFilter<"CommunityReplyLike"> | string
     replyId?: StringFilter<"CommunityReplyLike"> | string
     createdAt?: DateTimeFilter<"CommunityReplyLike"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     reply?: XOR<CommunityReplyScalarRelationFilter, CommunityReplyWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "userId_replyId">
 
   export type CommunityReplyLikeOrderByWithAggregationInput = {
@@ -28617,8 +28655,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -28630,11 +28673,6 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -28670,8 +28708,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -28682,11 +28725,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -28721,8 +28759,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -28734,11 +28777,6 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -28774,8 +28812,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -28786,11 +28829,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -28897,16 +28935,18 @@ export namespace Prisma {
     content: string
     type?: $Enums.CommunityPostType
     category: string
-    crop: string
+    crop?: string | null
     location?: string | null
     likes?: number
     repliesCount?: number
     status?: $Enums.CommunityPostStatus
     createdAt?: Date | string
     updatedAt: Date | string
+    isPrivateQuestion?: boolean
+    targetExpertId?: string | null
     author: UserCreateNestedOneWithoutCommunityPost_CommunityPost_authorToUserInput
-    replies?: CommunityReplyCreateNestedManyWithoutPostInput
     likesList?: CommunityPostLikeCreateNestedManyWithoutPostInput
+    replies?: CommunityReplyCreateNestedManyWithoutPostInput
   }
 
   export type CommunityPostUncheckedCreateInput = {
@@ -28916,15 +28956,17 @@ export namespace Prisma {
     content: string
     type?: $Enums.CommunityPostType
     category: string
-    crop: string
+    crop?: string | null
     location?: string | null
     likes?: number
     repliesCount?: number
     status?: $Enums.CommunityPostStatus
     createdAt?: Date | string
     updatedAt: Date | string
-    replies?: CommunityReplyUncheckedCreateNestedManyWithoutPostInput
+    isPrivateQuestion?: boolean
+    targetExpertId?: string | null
     likesList?: CommunityPostLikeUncheckedCreateNestedManyWithoutPostInput
+    replies?: CommunityReplyUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type CommunityPostUpdateInput = {
@@ -28933,16 +28975,18 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
     category?: StringFieldUpdateOperationsInput | string
-    crop?: StringFieldUpdateOperationsInput | string
+    crop?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     likes?: IntFieldUpdateOperationsInput | number
     repliesCount?: IntFieldUpdateOperationsInput | number
     status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPrivateQuestion?: BoolFieldUpdateOperationsInput | boolean
+    targetExpertId?: NullableStringFieldUpdateOperationsInput | string | null
     author?: UserUpdateOneRequiredWithoutCommunityPost_CommunityPost_authorToUserNestedInput
-    replies?: CommunityReplyUpdateManyWithoutPostNestedInput
     likesList?: CommunityPostLikeUpdateManyWithoutPostNestedInput
+    replies?: CommunityReplyUpdateManyWithoutPostNestedInput
   }
 
   export type CommunityPostUncheckedUpdateInput = {
@@ -28952,15 +28996,17 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
     category?: StringFieldUpdateOperationsInput | string
-    crop?: StringFieldUpdateOperationsInput | string
+    crop?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     likes?: IntFieldUpdateOperationsInput | number
     repliesCount?: IntFieldUpdateOperationsInput | number
     status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    replies?: CommunityReplyUncheckedUpdateManyWithoutPostNestedInput
+    isPrivateQuestion?: BoolFieldUpdateOperationsInput | boolean
+    targetExpertId?: NullableStringFieldUpdateOperationsInput | string | null
     likesList?: CommunityPostLikeUncheckedUpdateManyWithoutPostNestedInput
+    replies?: CommunityReplyUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type CommunityPostCreateManyInput = {
@@ -28970,13 +29016,15 @@ export namespace Prisma {
     content: string
     type?: $Enums.CommunityPostType
     category: string
-    crop: string
+    crop?: string | null
     location?: string | null
     likes?: number
     repliesCount?: number
     status?: $Enums.CommunityPostStatus
     createdAt?: Date | string
     updatedAt: Date | string
+    isPrivateQuestion?: boolean
+    targetExpertId?: string | null
   }
 
   export type CommunityPostUpdateManyMutationInput = {
@@ -28985,13 +29033,15 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
     category?: StringFieldUpdateOperationsInput | string
-    crop?: StringFieldUpdateOperationsInput | string
+    crop?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     likes?: IntFieldUpdateOperationsInput | number
     repliesCount?: IntFieldUpdateOperationsInput | number
     status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPrivateQuestion?: BoolFieldUpdateOperationsInput | boolean
+    targetExpertId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CommunityPostUncheckedUpdateManyInput = {
@@ -29001,24 +29051,26 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
     category?: StringFieldUpdateOperationsInput | string
-    crop?: StringFieldUpdateOperationsInput | string
+    crop?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     likes?: IntFieldUpdateOperationsInput | number
     repliesCount?: IntFieldUpdateOperationsInput | number
     status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPrivateQuestion?: BoolFieldUpdateOperationsInput | boolean
+    targetExpertId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CommunityReplyCreateInput = {
     id: string
     content: string
     isExpert?: boolean
-    likes?: number
     createdAt?: Date | string
     updatedAt: Date | string
-    post: CommunityPostCreateNestedOneWithoutRepliesInput
+    likes?: number
     author: UserCreateNestedOneWithoutCommunityReply_CommunityReply_authorToUserInput
+    post: CommunityPostCreateNestedOneWithoutRepliesInput
     replyTo?: CommunityReplyCreateNestedOneWithoutRepliesInput
     replies?: CommunityReplyCreateNestedManyWithoutReplyToInput
     likesList?: CommunityReplyLikeCreateNestedManyWithoutReplyInput
@@ -29030,10 +29082,10 @@ export namespace Prisma {
     authorId: string
     content: string
     isExpert?: boolean
-    replyToId?: string | null
-    likes?: number
     createdAt?: Date | string
     updatedAt: Date | string
+    likes?: number
+    replyToId?: string | null
     replies?: CommunityReplyUncheckedCreateNestedManyWithoutReplyToInput
     likesList?: CommunityReplyLikeUncheckedCreateNestedManyWithoutReplyInput
   }
@@ -29042,11 +29094,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     isExpert?: BoolFieldUpdateOperationsInput | boolean
-    likes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    post?: CommunityPostUpdateOneRequiredWithoutRepliesNestedInput
+    likes?: IntFieldUpdateOperationsInput | number
     author?: UserUpdateOneRequiredWithoutCommunityReply_CommunityReply_authorToUserNestedInput
+    post?: CommunityPostUpdateOneRequiredWithoutRepliesNestedInput
     replyTo?: CommunityReplyUpdateOneWithoutRepliesNestedInput
     replies?: CommunityReplyUpdateManyWithoutReplyToNestedInput
     likesList?: CommunityReplyLikeUpdateManyWithoutReplyNestedInput
@@ -29058,10 +29110,10 @@ export namespace Prisma {
     authorId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     isExpert?: BoolFieldUpdateOperationsInput | boolean
-    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
-    likes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    likes?: IntFieldUpdateOperationsInput | number
+    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
     replies?: CommunityReplyUncheckedUpdateManyWithoutReplyToNestedInput
     likesList?: CommunityReplyLikeUncheckedUpdateManyWithoutReplyNestedInput
   }
@@ -29072,19 +29124,19 @@ export namespace Prisma {
     authorId: string
     content: string
     isExpert?: boolean
-    replyToId?: string | null
-    likes?: number
     createdAt?: Date | string
     updatedAt: Date | string
+    likes?: number
+    replyToId?: string | null
   }
 
   export type CommunityReplyUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     isExpert?: BoolFieldUpdateOperationsInput | boolean
-    likes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    likes?: IntFieldUpdateOperationsInput | number
   }
 
   export type CommunityReplyUncheckedUpdateManyInput = {
@@ -29093,16 +29145,16 @@ export namespace Prisma {
     authorId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     isExpert?: BoolFieldUpdateOperationsInput | boolean
-    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
-    likes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    likes?: IntFieldUpdateOperationsInput | number
+    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CommunityPostLikeCreateInput = {
     createdAt?: Date | string
-    user: UserCreateNestedOneWithoutCommunityPostLike_userToUserInput
     post: CommunityPostCreateNestedOneWithoutLikesListInput
+    user: UserCreateNestedOneWithoutCommunityPostLike_userToUserInput
   }
 
   export type CommunityPostLikeUncheckedCreateInput = {
@@ -29113,8 +29165,8 @@ export namespace Prisma {
 
   export type CommunityPostLikeUpdateInput = {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutCommunityPostLike_userToUserNestedInput
     post?: CommunityPostUpdateOneRequiredWithoutLikesListNestedInput
+    user?: UserUpdateOneRequiredWithoutCommunityPostLike_userToUserNestedInput
   }
 
   export type CommunityPostLikeUncheckedUpdateInput = {
@@ -29141,8 +29193,8 @@ export namespace Prisma {
 
   export type CommunityReplyLikeCreateInput = {
     createdAt?: Date | string
-    user: UserCreateNestedOneWithoutCommunityReplyLike_userToUserInput
     reply: CommunityReplyCreateNestedOneWithoutLikesListInput
+    user: UserCreateNestedOneWithoutCommunityReplyLike_userToUserInput
   }
 
   export type CommunityReplyLikeUncheckedCreateInput = {
@@ -29153,8 +29205,8 @@ export namespace Prisma {
 
   export type CommunityReplyLikeUpdateInput = {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutCommunityReplyLike_userToUserNestedInput
     reply?: CommunityReplyUpdateOneRequiredWithoutLikesListNestedInput
+    user?: UserUpdateOneRequiredWithoutCommunityReplyLike_userToUserNestedInput
   }
 
   export type CommunityReplyLikeUncheckedUpdateInput = {
@@ -30435,6 +30487,35 @@ export namespace Prisma {
     none?: AdminActionLogWhereInput
   }
 
+  export type CommunityPostListRelationFilter = {
+    every?: CommunityPostWhereInput
+    some?: CommunityPostWhereInput
+    none?: CommunityPostWhereInput
+  }
+
+  export type CommunityPostLikeListRelationFilter = {
+    every?: CommunityPostLikeWhereInput
+    some?: CommunityPostLikeWhereInput
+    none?: CommunityPostLikeWhereInput
+  }
+
+  export type CommunityReplyListRelationFilter = {
+    every?: CommunityReplyWhereInput
+    some?: CommunityReplyWhereInput
+    none?: CommunityReplyWhereInput
+  }
+
+  export type CommunityReplyLikeListRelationFilter = {
+    every?: CommunityReplyLikeWhereInput
+    some?: CommunityReplyLikeWhereInput
+    none?: CommunityReplyLikeWhereInput
+  }
+
+  export type ExpertProfileNullableScalarRelationFilter = {
+    is?: ExpertProfileWhereInput | null
+    isNot?: ExpertProfileWhereInput | null
+  }
+
   export type MarketPriceListRelationFilter = {
     every?: MarketPriceWhereInput
     some?: MarketPriceWhereInput
@@ -30464,36 +30545,23 @@ export namespace Prisma {
     isNot?: RoleWhereInput
   }
 
-  export type ExpertProfileNullableScalarRelationFilter = {
-    is?: ExpertProfileWhereInput | null
-    isNot?: ExpertProfileWhereInput | null
-  }
-
-  export type CommunityPostListRelationFilter = {
-    every?: CommunityPostWhereInput
-    some?: CommunityPostWhereInput
-    none?: CommunityPostWhereInput
-  }
-
-  export type CommunityReplyListRelationFilter = {
-    every?: CommunityReplyWhereInput
-    some?: CommunityReplyWhereInput
-    none?: CommunityReplyWhereInput
-  }
-
-  export type CommunityPostLikeListRelationFilter = {
-    every?: CommunityPostLikeWhereInput
-    some?: CommunityPostLikeWhereInput
-    none?: CommunityPostLikeWhereInput
-  }
-
-  export type CommunityReplyLikeListRelationFilter = {
-    every?: CommunityReplyLikeWhereInput
-    some?: CommunityReplyLikeWhereInput
-    none?: CommunityReplyLikeWhereInput
-  }
-
   export type AdminActionLogOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CommunityPostOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CommunityPostLikeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CommunityReplyOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CommunityReplyLikeOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -30510,22 +30578,6 @@ export namespace Prisma {
   }
 
   export type SessionOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type CommunityPostOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type CommunityReplyOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type CommunityPostLikeOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type CommunityReplyLikeOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -30674,6 +30726,8 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    isPrivateQuestion?: SortOrder
+    targetExpertId?: SortOrder
   }
 
   export type CommunityPostAvgOrderByAggregateInput = {
@@ -30695,6 +30749,8 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    isPrivateQuestion?: SortOrder
+    targetExpertId?: SortOrder
   }
 
   export type CommunityPostMinOrderByAggregateInput = {
@@ -30711,6 +30767,8 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    isPrivateQuestion?: SortOrder
+    targetExpertId?: SortOrder
   }
 
   export type CommunityPostSumOrderByAggregateInput = {
@@ -30754,10 +30812,10 @@ export namespace Prisma {
     authorId?: SortOrder
     content?: SortOrder
     isExpert?: SortOrder
-    replyToId?: SortOrder
-    likes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    likes?: SortOrder
+    replyToId?: SortOrder
   }
 
   export type CommunityReplyAvgOrderByAggregateInput = {
@@ -30770,10 +30828,10 @@ export namespace Prisma {
     authorId?: SortOrder
     content?: SortOrder
     isExpert?: SortOrder
-    replyToId?: SortOrder
-    likes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    likes?: SortOrder
+    replyToId?: SortOrder
   }
 
   export type CommunityReplyMinOrderByAggregateInput = {
@@ -30782,10 +30840,10 @@ export namespace Prisma {
     authorId?: SortOrder
     content?: SortOrder
     isExpert?: SortOrder
-    replyToId?: SortOrder
-    likes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    likes?: SortOrder
+    replyToId?: SortOrder
   }
 
   export type CommunityReplySumOrderByAggregateInput = {
@@ -31744,6 +31802,34 @@ export namespace Prisma {
     connect?: AlertNotificationWhereUniqueInput | AlertNotificationWhereUniqueInput[]
   }
 
+  export type CommunityPostCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<CommunityPostCreateWithoutAuthorInput, CommunityPostUncheckedCreateWithoutAuthorInput> | CommunityPostCreateWithoutAuthorInput[] | CommunityPostUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommunityPostCreateOrConnectWithoutAuthorInput | CommunityPostCreateOrConnectWithoutAuthorInput[]
+    createMany?: CommunityPostCreateManyAuthorInputEnvelope
+    connect?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
+  }
+
+  export type CommunityPostLikeCreateNestedManyWithoutUserInput = {
+    create?: XOR<CommunityPostLikeCreateWithoutUserInput, CommunityPostLikeUncheckedCreateWithoutUserInput> | CommunityPostLikeCreateWithoutUserInput[] | CommunityPostLikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CommunityPostLikeCreateOrConnectWithoutUserInput | CommunityPostLikeCreateOrConnectWithoutUserInput[]
+    createMany?: CommunityPostLikeCreateManyUserInputEnvelope
+    connect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+  }
+
+  export type CommunityReplyCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<CommunityReplyCreateWithoutAuthorInput, CommunityReplyUncheckedCreateWithoutAuthorInput> | CommunityReplyCreateWithoutAuthorInput[] | CommunityReplyUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommunityReplyCreateOrConnectWithoutAuthorInput | CommunityReplyCreateOrConnectWithoutAuthorInput[]
+    createMany?: CommunityReplyCreateManyAuthorInputEnvelope
+    connect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+  }
+
+  export type CommunityReplyLikeCreateNestedManyWithoutUserInput = {
+    create?: XOR<CommunityReplyLikeCreateWithoutUserInput, CommunityReplyLikeUncheckedCreateWithoutUserInput> | CommunityReplyLikeCreateWithoutUserInput[] | CommunityReplyLikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CommunityReplyLikeCreateOrConnectWithoutUserInput | CommunityReplyLikeCreateOrConnectWithoutUserInput[]
+    createMany?: CommunityReplyLikeCreateManyUserInputEnvelope
+    connect?: CommunityReplyLikeWhereUniqueInput | CommunityReplyLikeWhereUniqueInput[]
+  }
+
   export type ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput = {
     create?: XOR<ConversationCreateWithoutUser_Conversation_user1IdToUserInput, ConversationUncheckedCreateWithoutUser_Conversation_user1IdToUserInput> | ConversationCreateWithoutUser_Conversation_user1IdToUserInput[] | ConversationUncheckedCreateWithoutUser_Conversation_user1IdToUserInput[]
     connectOrCreate?: ConversationCreateOrConnectWithoutUser_Conversation_user1IdToUserInput | ConversationCreateOrConnectWithoutUser_Conversation_user1IdToUserInput[]
@@ -31756,6 +31842,12 @@ export namespace Prisma {
     connectOrCreate?: ConversationCreateOrConnectWithoutUser_Conversation_user2IdToUserInput | ConversationCreateOrConnectWithoutUser_Conversation_user2IdToUserInput[]
     createMany?: ConversationCreateManyUser_Conversation_user2IdToUserInputEnvelope
     connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+  }
+
+  export type ExpertProfileCreateNestedOneWithoutUserInput = {
+    create?: XOR<ExpertProfileCreateWithoutUserInput, ExpertProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: ExpertProfileCreateOrConnectWithoutUserInput
+    connect?: ExpertProfileWhereUniqueInput
   }
 
   export type MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput = {
@@ -31833,40 +31925,6 @@ export namespace Prisma {
     connect?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
   }
 
-  export type ExpertProfileCreateNestedOneWithoutUserInput = {
-    create?: XOR<ExpertProfileCreateWithoutUserInput, ExpertProfileUncheckedCreateWithoutUserInput>
-    connectOrCreate?: ExpertProfileCreateOrConnectWithoutUserInput
-    connect?: ExpertProfileWhereUniqueInput
-  }
-
-  export type CommunityPostCreateNestedManyWithoutAuthorInput = {
-    create?: XOR<CommunityPostCreateWithoutAuthorInput, CommunityPostUncheckedCreateWithoutAuthorInput> | CommunityPostCreateWithoutAuthorInput[] | CommunityPostUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: CommunityPostCreateOrConnectWithoutAuthorInput | CommunityPostCreateOrConnectWithoutAuthorInput[]
-    createMany?: CommunityPostCreateManyAuthorInputEnvelope
-    connect?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
-  }
-
-  export type CommunityReplyCreateNestedManyWithoutAuthorInput = {
-    create?: XOR<CommunityReplyCreateWithoutAuthorInput, CommunityReplyUncheckedCreateWithoutAuthorInput> | CommunityReplyCreateWithoutAuthorInput[] | CommunityReplyUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: CommunityReplyCreateOrConnectWithoutAuthorInput | CommunityReplyCreateOrConnectWithoutAuthorInput[]
-    createMany?: CommunityReplyCreateManyAuthorInputEnvelope
-    connect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
-  }
-
-  export type CommunityPostLikeCreateNestedManyWithoutUserInput = {
-    create?: XOR<CommunityPostLikeCreateWithoutUserInput, CommunityPostLikeUncheckedCreateWithoutUserInput> | CommunityPostLikeCreateWithoutUserInput[] | CommunityPostLikeUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CommunityPostLikeCreateOrConnectWithoutUserInput | CommunityPostLikeCreateOrConnectWithoutUserInput[]
-    createMany?: CommunityPostLikeCreateManyUserInputEnvelope
-    connect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
-  }
-
-  export type CommunityReplyLikeCreateNestedManyWithoutUserInput = {
-    create?: XOR<CommunityReplyLikeCreateWithoutUserInput, CommunityReplyLikeUncheckedCreateWithoutUserInput> | CommunityReplyLikeCreateWithoutUserInput[] | CommunityReplyLikeUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CommunityReplyLikeCreateOrConnectWithoutUserInput | CommunityReplyLikeCreateOrConnectWithoutUserInput[]
-    createMany?: CommunityReplyLikeCreateManyUserInputEnvelope
-    connect?: CommunityReplyLikeWhereUniqueInput | CommunityReplyLikeWhereUniqueInput[]
-  }
-
   export type AdminActionLogUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AdminActionLogCreateWithoutUserInput, AdminActionLogUncheckedCreateWithoutUserInput> | AdminActionLogCreateWithoutUserInput[] | AdminActionLogUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AdminActionLogCreateOrConnectWithoutUserInput | AdminActionLogCreateOrConnectWithoutUserInput[]
@@ -31881,6 +31939,34 @@ export namespace Prisma {
     connect?: AlertNotificationWhereUniqueInput | AlertNotificationWhereUniqueInput[]
   }
 
+  export type CommunityPostUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<CommunityPostCreateWithoutAuthorInput, CommunityPostUncheckedCreateWithoutAuthorInput> | CommunityPostCreateWithoutAuthorInput[] | CommunityPostUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommunityPostCreateOrConnectWithoutAuthorInput | CommunityPostCreateOrConnectWithoutAuthorInput[]
+    createMany?: CommunityPostCreateManyAuthorInputEnvelope
+    connect?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
+  }
+
+  export type CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<CommunityPostLikeCreateWithoutUserInput, CommunityPostLikeUncheckedCreateWithoutUserInput> | CommunityPostLikeCreateWithoutUserInput[] | CommunityPostLikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CommunityPostLikeCreateOrConnectWithoutUserInput | CommunityPostLikeCreateOrConnectWithoutUserInput[]
+    createMany?: CommunityPostLikeCreateManyUserInputEnvelope
+    connect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+  }
+
+  export type CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<CommunityReplyCreateWithoutAuthorInput, CommunityReplyUncheckedCreateWithoutAuthorInput> | CommunityReplyCreateWithoutAuthorInput[] | CommunityReplyUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommunityReplyCreateOrConnectWithoutAuthorInput | CommunityReplyCreateOrConnectWithoutAuthorInput[]
+    createMany?: CommunityReplyCreateManyAuthorInputEnvelope
+    connect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+  }
+
+  export type CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<CommunityReplyLikeCreateWithoutUserInput, CommunityReplyLikeUncheckedCreateWithoutUserInput> | CommunityReplyLikeCreateWithoutUserInput[] | CommunityReplyLikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CommunityReplyLikeCreateOrConnectWithoutUserInput | CommunityReplyLikeCreateOrConnectWithoutUserInput[]
+    createMany?: CommunityReplyLikeCreateManyUserInputEnvelope
+    connect?: CommunityReplyLikeWhereUniqueInput | CommunityReplyLikeWhereUniqueInput[]
+  }
+
   export type ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput = {
     create?: XOR<ConversationCreateWithoutUser_Conversation_user1IdToUserInput, ConversationUncheckedCreateWithoutUser_Conversation_user1IdToUserInput> | ConversationCreateWithoutUser_Conversation_user1IdToUserInput[] | ConversationUncheckedCreateWithoutUser_Conversation_user1IdToUserInput[]
     connectOrCreate?: ConversationCreateOrConnectWithoutUser_Conversation_user1IdToUserInput | ConversationCreateOrConnectWithoutUser_Conversation_user1IdToUserInput[]
@@ -31893,6 +31979,12 @@ export namespace Prisma {
     connectOrCreate?: ConversationCreateOrConnectWithoutUser_Conversation_user2IdToUserInput | ConversationCreateOrConnectWithoutUser_Conversation_user2IdToUserInput[]
     createMany?: ConversationCreateManyUser_Conversation_user2IdToUserInputEnvelope
     connect?: ConversationWhereUniqueInput | ConversationWhereUniqueInput[]
+  }
+
+  export type ExpertProfileUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<ExpertProfileCreateWithoutUserInput, ExpertProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: ExpertProfileCreateOrConnectWithoutUserInput
+    connect?: ExpertProfileWhereUniqueInput
   }
 
   export type MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput = {
@@ -31964,40 +32056,6 @@ export namespace Prisma {
     connect?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
   }
 
-  export type ExpertProfileUncheckedCreateNestedOneWithoutUserInput = {
-    create?: XOR<ExpertProfileCreateWithoutUserInput, ExpertProfileUncheckedCreateWithoutUserInput>
-    connectOrCreate?: ExpertProfileCreateOrConnectWithoutUserInput
-    connect?: ExpertProfileWhereUniqueInput
-  }
-
-  export type CommunityPostUncheckedCreateNestedManyWithoutAuthorInput = {
-    create?: XOR<CommunityPostCreateWithoutAuthorInput, CommunityPostUncheckedCreateWithoutAuthorInput> | CommunityPostCreateWithoutAuthorInput[] | CommunityPostUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: CommunityPostCreateOrConnectWithoutAuthorInput | CommunityPostCreateOrConnectWithoutAuthorInput[]
-    createMany?: CommunityPostCreateManyAuthorInputEnvelope
-    connect?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
-  }
-
-  export type CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput = {
-    create?: XOR<CommunityReplyCreateWithoutAuthorInput, CommunityReplyUncheckedCreateWithoutAuthorInput> | CommunityReplyCreateWithoutAuthorInput[] | CommunityReplyUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: CommunityReplyCreateOrConnectWithoutAuthorInput | CommunityReplyCreateOrConnectWithoutAuthorInput[]
-    createMany?: CommunityReplyCreateManyAuthorInputEnvelope
-    connect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
-  }
-
-  export type CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<CommunityPostLikeCreateWithoutUserInput, CommunityPostLikeUncheckedCreateWithoutUserInput> | CommunityPostLikeCreateWithoutUserInput[] | CommunityPostLikeUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CommunityPostLikeCreateOrConnectWithoutUserInput | CommunityPostLikeCreateOrConnectWithoutUserInput[]
-    createMany?: CommunityPostLikeCreateManyUserInputEnvelope
-    connect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
-  }
-
-  export type CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<CommunityReplyLikeCreateWithoutUserInput, CommunityReplyLikeUncheckedCreateWithoutUserInput> | CommunityReplyLikeCreateWithoutUserInput[] | CommunityReplyLikeUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CommunityReplyLikeCreateOrConnectWithoutUserInput | CommunityReplyLikeCreateOrConnectWithoutUserInput[]
-    createMany?: CommunityReplyLikeCreateManyUserInputEnvelope
-    connect?: CommunityReplyLikeWhereUniqueInput | CommunityReplyLikeWhereUniqueInput[]
-  }
-
   export type EnumUserStatusFieldUpdateOperationsInput = {
     set?: $Enums.UserStatus
   }
@@ -32030,6 +32088,62 @@ export namespace Prisma {
     deleteMany?: AlertNotificationScalarWhereInput | AlertNotificationScalarWhereInput[]
   }
 
+  export type CommunityPostUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<CommunityPostCreateWithoutAuthorInput, CommunityPostUncheckedCreateWithoutAuthorInput> | CommunityPostCreateWithoutAuthorInput[] | CommunityPostUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommunityPostCreateOrConnectWithoutAuthorInput | CommunityPostCreateOrConnectWithoutAuthorInput[]
+    upsert?: CommunityPostUpsertWithWhereUniqueWithoutAuthorInput | CommunityPostUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: CommunityPostCreateManyAuthorInputEnvelope
+    set?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
+    disconnect?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
+    delete?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
+    connect?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
+    update?: CommunityPostUpdateWithWhereUniqueWithoutAuthorInput | CommunityPostUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: CommunityPostUpdateManyWithWhereWithoutAuthorInput | CommunityPostUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: CommunityPostScalarWhereInput | CommunityPostScalarWhereInput[]
+  }
+
+  export type CommunityPostLikeUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CommunityPostLikeCreateWithoutUserInput, CommunityPostLikeUncheckedCreateWithoutUserInput> | CommunityPostLikeCreateWithoutUserInput[] | CommunityPostLikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CommunityPostLikeCreateOrConnectWithoutUserInput | CommunityPostLikeCreateOrConnectWithoutUserInput[]
+    upsert?: CommunityPostLikeUpsertWithWhereUniqueWithoutUserInput | CommunityPostLikeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CommunityPostLikeCreateManyUserInputEnvelope
+    set?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    disconnect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    delete?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    connect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    update?: CommunityPostLikeUpdateWithWhereUniqueWithoutUserInput | CommunityPostLikeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CommunityPostLikeUpdateManyWithWhereWithoutUserInput | CommunityPostLikeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CommunityPostLikeScalarWhereInput | CommunityPostLikeScalarWhereInput[]
+  }
+
+  export type CommunityReplyUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<CommunityReplyCreateWithoutAuthorInput, CommunityReplyUncheckedCreateWithoutAuthorInput> | CommunityReplyCreateWithoutAuthorInput[] | CommunityReplyUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommunityReplyCreateOrConnectWithoutAuthorInput | CommunityReplyCreateOrConnectWithoutAuthorInput[]
+    upsert?: CommunityReplyUpsertWithWhereUniqueWithoutAuthorInput | CommunityReplyUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: CommunityReplyCreateManyAuthorInputEnvelope
+    set?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    disconnect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    delete?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    connect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    update?: CommunityReplyUpdateWithWhereUniqueWithoutAuthorInput | CommunityReplyUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: CommunityReplyUpdateManyWithWhereWithoutAuthorInput | CommunityReplyUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: CommunityReplyScalarWhereInput | CommunityReplyScalarWhereInput[]
+  }
+
+  export type CommunityReplyLikeUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CommunityReplyLikeCreateWithoutUserInput, CommunityReplyLikeUncheckedCreateWithoutUserInput> | CommunityReplyLikeCreateWithoutUserInput[] | CommunityReplyLikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CommunityReplyLikeCreateOrConnectWithoutUserInput | CommunityReplyLikeCreateOrConnectWithoutUserInput[]
+    upsert?: CommunityReplyLikeUpsertWithWhereUniqueWithoutUserInput | CommunityReplyLikeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CommunityReplyLikeCreateManyUserInputEnvelope
+    set?: CommunityReplyLikeWhereUniqueInput | CommunityReplyLikeWhereUniqueInput[]
+    disconnect?: CommunityReplyLikeWhereUniqueInput | CommunityReplyLikeWhereUniqueInput[]
+    delete?: CommunityReplyLikeWhereUniqueInput | CommunityReplyLikeWhereUniqueInput[]
+    connect?: CommunityReplyLikeWhereUniqueInput | CommunityReplyLikeWhereUniqueInput[]
+    update?: CommunityReplyLikeUpdateWithWhereUniqueWithoutUserInput | CommunityReplyLikeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CommunityReplyLikeUpdateManyWithWhereWithoutUserInput | CommunityReplyLikeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CommunityReplyLikeScalarWhereInput | CommunityReplyLikeScalarWhereInput[]
+  }
+
   export type ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput = {
     create?: XOR<ConversationCreateWithoutUser_Conversation_user1IdToUserInput, ConversationUncheckedCreateWithoutUser_Conversation_user1IdToUserInput> | ConversationCreateWithoutUser_Conversation_user1IdToUserInput[] | ConversationUncheckedCreateWithoutUser_Conversation_user1IdToUserInput[]
     connectOrCreate?: ConversationCreateOrConnectWithoutUser_Conversation_user1IdToUserInput | ConversationCreateOrConnectWithoutUser_Conversation_user1IdToUserInput[]
@@ -32056,6 +32170,16 @@ export namespace Prisma {
     update?: ConversationUpdateWithWhereUniqueWithoutUser_Conversation_user2IdToUserInput | ConversationUpdateWithWhereUniqueWithoutUser_Conversation_user2IdToUserInput[]
     updateMany?: ConversationUpdateManyWithWhereWithoutUser_Conversation_user2IdToUserInput | ConversationUpdateManyWithWhereWithoutUser_Conversation_user2IdToUserInput[]
     deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
+  }
+
+  export type ExpertProfileUpdateOneWithoutUserNestedInput = {
+    create?: XOR<ExpertProfileCreateWithoutUserInput, ExpertProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: ExpertProfileCreateOrConnectWithoutUserInput
+    upsert?: ExpertProfileUpsertWithoutUserInput
+    disconnect?: ExpertProfileWhereInput | boolean
+    delete?: ExpertProfileWhereInput | boolean
+    connect?: ExpertProfileWhereUniqueInput
+    update?: XOR<XOR<ExpertProfileUpdateToOneWithWhereWithoutUserInput, ExpertProfileUpdateWithoutUserInput>, ExpertProfileUncheckedUpdateWithoutUserInput>
   }
 
   export type MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput = {
@@ -32205,72 +32329,6 @@ export namespace Prisma {
     deleteMany?: PermissionScalarWhereInput | PermissionScalarWhereInput[]
   }
 
-  export type ExpertProfileUpdateOneWithoutUserNestedInput = {
-    create?: XOR<ExpertProfileCreateWithoutUserInput, ExpertProfileUncheckedCreateWithoutUserInput>
-    connectOrCreate?: ExpertProfileCreateOrConnectWithoutUserInput
-    upsert?: ExpertProfileUpsertWithoutUserInput
-    disconnect?: ExpertProfileWhereInput | boolean
-    delete?: ExpertProfileWhereInput | boolean
-    connect?: ExpertProfileWhereUniqueInput
-    update?: XOR<XOR<ExpertProfileUpdateToOneWithWhereWithoutUserInput, ExpertProfileUpdateWithoutUserInput>, ExpertProfileUncheckedUpdateWithoutUserInput>
-  }
-
-  export type CommunityPostUpdateManyWithoutAuthorNestedInput = {
-    create?: XOR<CommunityPostCreateWithoutAuthorInput, CommunityPostUncheckedCreateWithoutAuthorInput> | CommunityPostCreateWithoutAuthorInput[] | CommunityPostUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: CommunityPostCreateOrConnectWithoutAuthorInput | CommunityPostCreateOrConnectWithoutAuthorInput[]
-    upsert?: CommunityPostUpsertWithWhereUniqueWithoutAuthorInput | CommunityPostUpsertWithWhereUniqueWithoutAuthorInput[]
-    createMany?: CommunityPostCreateManyAuthorInputEnvelope
-    set?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
-    disconnect?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
-    delete?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
-    connect?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
-    update?: CommunityPostUpdateWithWhereUniqueWithoutAuthorInput | CommunityPostUpdateWithWhereUniqueWithoutAuthorInput[]
-    updateMany?: CommunityPostUpdateManyWithWhereWithoutAuthorInput | CommunityPostUpdateManyWithWhereWithoutAuthorInput[]
-    deleteMany?: CommunityPostScalarWhereInput | CommunityPostScalarWhereInput[]
-  }
-
-  export type CommunityReplyUpdateManyWithoutAuthorNestedInput = {
-    create?: XOR<CommunityReplyCreateWithoutAuthorInput, CommunityReplyUncheckedCreateWithoutAuthorInput> | CommunityReplyCreateWithoutAuthorInput[] | CommunityReplyUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: CommunityReplyCreateOrConnectWithoutAuthorInput | CommunityReplyCreateOrConnectWithoutAuthorInput[]
-    upsert?: CommunityReplyUpsertWithWhereUniqueWithoutAuthorInput | CommunityReplyUpsertWithWhereUniqueWithoutAuthorInput[]
-    createMany?: CommunityReplyCreateManyAuthorInputEnvelope
-    set?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
-    disconnect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
-    delete?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
-    connect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
-    update?: CommunityReplyUpdateWithWhereUniqueWithoutAuthorInput | CommunityReplyUpdateWithWhereUniqueWithoutAuthorInput[]
-    updateMany?: CommunityReplyUpdateManyWithWhereWithoutAuthorInput | CommunityReplyUpdateManyWithWhereWithoutAuthorInput[]
-    deleteMany?: CommunityReplyScalarWhereInput | CommunityReplyScalarWhereInput[]
-  }
-
-  export type CommunityPostLikeUpdateManyWithoutUserNestedInput = {
-    create?: XOR<CommunityPostLikeCreateWithoutUserInput, CommunityPostLikeUncheckedCreateWithoutUserInput> | CommunityPostLikeCreateWithoutUserInput[] | CommunityPostLikeUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CommunityPostLikeCreateOrConnectWithoutUserInput | CommunityPostLikeCreateOrConnectWithoutUserInput[]
-    upsert?: CommunityPostLikeUpsertWithWhereUniqueWithoutUserInput | CommunityPostLikeUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: CommunityPostLikeCreateManyUserInputEnvelope
-    set?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
-    disconnect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
-    delete?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
-    connect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
-    update?: CommunityPostLikeUpdateWithWhereUniqueWithoutUserInput | CommunityPostLikeUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: CommunityPostLikeUpdateManyWithWhereWithoutUserInput | CommunityPostLikeUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: CommunityPostLikeScalarWhereInput | CommunityPostLikeScalarWhereInput[]
-  }
-
-  export type CommunityReplyLikeUpdateManyWithoutUserNestedInput = {
-    create?: XOR<CommunityReplyLikeCreateWithoutUserInput, CommunityReplyLikeUncheckedCreateWithoutUserInput> | CommunityReplyLikeCreateWithoutUserInput[] | CommunityReplyLikeUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CommunityReplyLikeCreateOrConnectWithoutUserInput | CommunityReplyLikeCreateOrConnectWithoutUserInput[]
-    upsert?: CommunityReplyLikeUpsertWithWhereUniqueWithoutUserInput | CommunityReplyLikeUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: CommunityReplyLikeCreateManyUserInputEnvelope
-    set?: CommunityReplyLikeWhereUniqueInput | CommunityReplyLikeWhereUniqueInput[]
-    disconnect?: CommunityReplyLikeWhereUniqueInput | CommunityReplyLikeWhereUniqueInput[]
-    delete?: CommunityReplyLikeWhereUniqueInput | CommunityReplyLikeWhereUniqueInput[]
-    connect?: CommunityReplyLikeWhereUniqueInput | CommunityReplyLikeWhereUniqueInput[]
-    update?: CommunityReplyLikeUpdateWithWhereUniqueWithoutUserInput | CommunityReplyLikeUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: CommunityReplyLikeUpdateManyWithWhereWithoutUserInput | CommunityReplyLikeUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: CommunityReplyLikeScalarWhereInput | CommunityReplyLikeScalarWhereInput[]
-  }
-
   export type AdminActionLogUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AdminActionLogCreateWithoutUserInput, AdminActionLogUncheckedCreateWithoutUserInput> | AdminActionLogCreateWithoutUserInput[] | AdminActionLogUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AdminActionLogCreateOrConnectWithoutUserInput | AdminActionLogCreateOrConnectWithoutUserInput[]
@@ -32299,6 +32357,62 @@ export namespace Prisma {
     deleteMany?: AlertNotificationScalarWhereInput | AlertNotificationScalarWhereInput[]
   }
 
+  export type CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<CommunityPostCreateWithoutAuthorInput, CommunityPostUncheckedCreateWithoutAuthorInput> | CommunityPostCreateWithoutAuthorInput[] | CommunityPostUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommunityPostCreateOrConnectWithoutAuthorInput | CommunityPostCreateOrConnectWithoutAuthorInput[]
+    upsert?: CommunityPostUpsertWithWhereUniqueWithoutAuthorInput | CommunityPostUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: CommunityPostCreateManyAuthorInputEnvelope
+    set?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
+    disconnect?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
+    delete?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
+    connect?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
+    update?: CommunityPostUpdateWithWhereUniqueWithoutAuthorInput | CommunityPostUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: CommunityPostUpdateManyWithWhereWithoutAuthorInput | CommunityPostUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: CommunityPostScalarWhereInput | CommunityPostScalarWhereInput[]
+  }
+
+  export type CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CommunityPostLikeCreateWithoutUserInput, CommunityPostLikeUncheckedCreateWithoutUserInput> | CommunityPostLikeCreateWithoutUserInput[] | CommunityPostLikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CommunityPostLikeCreateOrConnectWithoutUserInput | CommunityPostLikeCreateOrConnectWithoutUserInput[]
+    upsert?: CommunityPostLikeUpsertWithWhereUniqueWithoutUserInput | CommunityPostLikeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CommunityPostLikeCreateManyUserInputEnvelope
+    set?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    disconnect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    delete?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    connect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+    update?: CommunityPostLikeUpdateWithWhereUniqueWithoutUserInput | CommunityPostLikeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CommunityPostLikeUpdateManyWithWhereWithoutUserInput | CommunityPostLikeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CommunityPostLikeScalarWhereInput | CommunityPostLikeScalarWhereInput[]
+  }
+
+  export type CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<CommunityReplyCreateWithoutAuthorInput, CommunityReplyUncheckedCreateWithoutAuthorInput> | CommunityReplyCreateWithoutAuthorInput[] | CommunityReplyUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommunityReplyCreateOrConnectWithoutAuthorInput | CommunityReplyCreateOrConnectWithoutAuthorInput[]
+    upsert?: CommunityReplyUpsertWithWhereUniqueWithoutAuthorInput | CommunityReplyUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: CommunityReplyCreateManyAuthorInputEnvelope
+    set?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    disconnect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    delete?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    connect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    update?: CommunityReplyUpdateWithWhereUniqueWithoutAuthorInput | CommunityReplyUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: CommunityReplyUpdateManyWithWhereWithoutAuthorInput | CommunityReplyUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: CommunityReplyScalarWhereInput | CommunityReplyScalarWhereInput[]
+  }
+
+  export type CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CommunityReplyLikeCreateWithoutUserInput, CommunityReplyLikeUncheckedCreateWithoutUserInput> | CommunityReplyLikeCreateWithoutUserInput[] | CommunityReplyLikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CommunityReplyLikeCreateOrConnectWithoutUserInput | CommunityReplyLikeCreateOrConnectWithoutUserInput[]
+    upsert?: CommunityReplyLikeUpsertWithWhereUniqueWithoutUserInput | CommunityReplyLikeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CommunityReplyLikeCreateManyUserInputEnvelope
+    set?: CommunityReplyLikeWhereUniqueInput | CommunityReplyLikeWhereUniqueInput[]
+    disconnect?: CommunityReplyLikeWhereUniqueInput | CommunityReplyLikeWhereUniqueInput[]
+    delete?: CommunityReplyLikeWhereUniqueInput | CommunityReplyLikeWhereUniqueInput[]
+    connect?: CommunityReplyLikeWhereUniqueInput | CommunityReplyLikeWhereUniqueInput[]
+    update?: CommunityReplyLikeUpdateWithWhereUniqueWithoutUserInput | CommunityReplyLikeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CommunityReplyLikeUpdateManyWithWhereWithoutUserInput | CommunityReplyLikeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CommunityReplyLikeScalarWhereInput | CommunityReplyLikeScalarWhereInput[]
+  }
+
   export type ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput = {
     create?: XOR<ConversationCreateWithoutUser_Conversation_user1IdToUserInput, ConversationUncheckedCreateWithoutUser_Conversation_user1IdToUserInput> | ConversationCreateWithoutUser_Conversation_user1IdToUserInput[] | ConversationUncheckedCreateWithoutUser_Conversation_user1IdToUserInput[]
     connectOrCreate?: ConversationCreateOrConnectWithoutUser_Conversation_user1IdToUserInput | ConversationCreateOrConnectWithoutUser_Conversation_user1IdToUserInput[]
@@ -32325,6 +32439,16 @@ export namespace Prisma {
     update?: ConversationUpdateWithWhereUniqueWithoutUser_Conversation_user2IdToUserInput | ConversationUpdateWithWhereUniqueWithoutUser_Conversation_user2IdToUserInput[]
     updateMany?: ConversationUpdateManyWithWhereWithoutUser_Conversation_user2IdToUserInput | ConversationUpdateManyWithWhereWithoutUser_Conversation_user2IdToUserInput[]
     deleteMany?: ConversationScalarWhereInput | ConversationScalarWhereInput[]
+  }
+
+  export type ExpertProfileUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<ExpertProfileCreateWithoutUserInput, ExpertProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: ExpertProfileCreateOrConnectWithoutUserInput
+    upsert?: ExpertProfileUpsertWithoutUserInput
+    disconnect?: ExpertProfileWhereInput | boolean
+    delete?: ExpertProfileWhereInput | boolean
+    connect?: ExpertProfileWhereUniqueInput
+    update?: XOR<XOR<ExpertProfileUpdateToOneWithWhereWithoutUserInput, ExpertProfileUpdateWithoutUserInput>, ExpertProfileUncheckedUpdateWithoutUserInput>
   }
 
   export type MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput = {
@@ -32466,83 +32590,10 @@ export namespace Prisma {
     deleteMany?: PermissionScalarWhereInput | PermissionScalarWhereInput[]
   }
 
-  export type ExpertProfileUncheckedUpdateOneWithoutUserNestedInput = {
-    create?: XOR<ExpertProfileCreateWithoutUserInput, ExpertProfileUncheckedCreateWithoutUserInput>
-    connectOrCreate?: ExpertProfileCreateOrConnectWithoutUserInput
-    upsert?: ExpertProfileUpsertWithoutUserInput
-    disconnect?: ExpertProfileWhereInput | boolean
-    delete?: ExpertProfileWhereInput | boolean
-    connect?: ExpertProfileWhereUniqueInput
-    update?: XOR<XOR<ExpertProfileUpdateToOneWithWhereWithoutUserInput, ExpertProfileUpdateWithoutUserInput>, ExpertProfileUncheckedUpdateWithoutUserInput>
-  }
-
-  export type CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput = {
-    create?: XOR<CommunityPostCreateWithoutAuthorInput, CommunityPostUncheckedCreateWithoutAuthorInput> | CommunityPostCreateWithoutAuthorInput[] | CommunityPostUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: CommunityPostCreateOrConnectWithoutAuthorInput | CommunityPostCreateOrConnectWithoutAuthorInput[]
-    upsert?: CommunityPostUpsertWithWhereUniqueWithoutAuthorInput | CommunityPostUpsertWithWhereUniqueWithoutAuthorInput[]
-    createMany?: CommunityPostCreateManyAuthorInputEnvelope
-    set?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
-    disconnect?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
-    delete?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
-    connect?: CommunityPostWhereUniqueInput | CommunityPostWhereUniqueInput[]
-    update?: CommunityPostUpdateWithWhereUniqueWithoutAuthorInput | CommunityPostUpdateWithWhereUniqueWithoutAuthorInput[]
-    updateMany?: CommunityPostUpdateManyWithWhereWithoutAuthorInput | CommunityPostUpdateManyWithWhereWithoutAuthorInput[]
-    deleteMany?: CommunityPostScalarWhereInput | CommunityPostScalarWhereInput[]
-  }
-
-  export type CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput = {
-    create?: XOR<CommunityReplyCreateWithoutAuthorInput, CommunityReplyUncheckedCreateWithoutAuthorInput> | CommunityReplyCreateWithoutAuthorInput[] | CommunityReplyUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: CommunityReplyCreateOrConnectWithoutAuthorInput | CommunityReplyCreateOrConnectWithoutAuthorInput[]
-    upsert?: CommunityReplyUpsertWithWhereUniqueWithoutAuthorInput | CommunityReplyUpsertWithWhereUniqueWithoutAuthorInput[]
-    createMany?: CommunityReplyCreateManyAuthorInputEnvelope
-    set?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
-    disconnect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
-    delete?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
-    connect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
-    update?: CommunityReplyUpdateWithWhereUniqueWithoutAuthorInput | CommunityReplyUpdateWithWhereUniqueWithoutAuthorInput[]
-    updateMany?: CommunityReplyUpdateManyWithWhereWithoutAuthorInput | CommunityReplyUpdateManyWithWhereWithoutAuthorInput[]
-    deleteMany?: CommunityReplyScalarWhereInput | CommunityReplyScalarWhereInput[]
-  }
-
-  export type CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<CommunityPostLikeCreateWithoutUserInput, CommunityPostLikeUncheckedCreateWithoutUserInput> | CommunityPostLikeCreateWithoutUserInput[] | CommunityPostLikeUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CommunityPostLikeCreateOrConnectWithoutUserInput | CommunityPostLikeCreateOrConnectWithoutUserInput[]
-    upsert?: CommunityPostLikeUpsertWithWhereUniqueWithoutUserInput | CommunityPostLikeUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: CommunityPostLikeCreateManyUserInputEnvelope
-    set?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
-    disconnect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
-    delete?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
-    connect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
-    update?: CommunityPostLikeUpdateWithWhereUniqueWithoutUserInput | CommunityPostLikeUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: CommunityPostLikeUpdateManyWithWhereWithoutUserInput | CommunityPostLikeUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: CommunityPostLikeScalarWhereInput | CommunityPostLikeScalarWhereInput[]
-  }
-
-  export type CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<CommunityReplyLikeCreateWithoutUserInput, CommunityReplyLikeUncheckedCreateWithoutUserInput> | CommunityReplyLikeCreateWithoutUserInput[] | CommunityReplyLikeUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: CommunityReplyLikeCreateOrConnectWithoutUserInput | CommunityReplyLikeCreateOrConnectWithoutUserInput[]
-    upsert?: CommunityReplyLikeUpsertWithWhereUniqueWithoutUserInput | CommunityReplyLikeUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: CommunityReplyLikeCreateManyUserInputEnvelope
-    set?: CommunityReplyLikeWhereUniqueInput | CommunityReplyLikeWhereUniqueInput[]
-    disconnect?: CommunityReplyLikeWhereUniqueInput | CommunityReplyLikeWhereUniqueInput[]
-    delete?: CommunityReplyLikeWhereUniqueInput | CommunityReplyLikeWhereUniqueInput[]
-    connect?: CommunityReplyLikeWhereUniqueInput | CommunityReplyLikeWhereUniqueInput[]
-    update?: CommunityReplyLikeUpdateWithWhereUniqueWithoutUserInput | CommunityReplyLikeUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: CommunityReplyLikeUpdateManyWithWhereWithoutUserInput | CommunityReplyLikeUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: CommunityReplyLikeScalarWhereInput | CommunityReplyLikeScalarWhereInput[]
-  }
-
   export type UserCreateNestedOneWithoutCommunityPost_CommunityPost_authorToUserInput = {
     create?: XOR<UserCreateWithoutCommunityPost_CommunityPost_authorToUserInput, UserUncheckedCreateWithoutCommunityPost_CommunityPost_authorToUserInput>
     connectOrCreate?: UserCreateOrConnectWithoutCommunityPost_CommunityPost_authorToUserInput
     connect?: UserWhereUniqueInput
-  }
-
-  export type CommunityReplyCreateNestedManyWithoutPostInput = {
-    create?: XOR<CommunityReplyCreateWithoutPostInput, CommunityReplyUncheckedCreateWithoutPostInput> | CommunityReplyCreateWithoutPostInput[] | CommunityReplyUncheckedCreateWithoutPostInput[]
-    connectOrCreate?: CommunityReplyCreateOrConnectWithoutPostInput | CommunityReplyCreateOrConnectWithoutPostInput[]
-    createMany?: CommunityReplyCreateManyPostInputEnvelope
-    connect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
   }
 
   export type CommunityPostLikeCreateNestedManyWithoutPostInput = {
@@ -32552,7 +32603,7 @@ export namespace Prisma {
     connect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
   }
 
-  export type CommunityReplyUncheckedCreateNestedManyWithoutPostInput = {
+  export type CommunityReplyCreateNestedManyWithoutPostInput = {
     create?: XOR<CommunityReplyCreateWithoutPostInput, CommunityReplyUncheckedCreateWithoutPostInput> | CommunityReplyCreateWithoutPostInput[] | CommunityReplyUncheckedCreateWithoutPostInput[]
     connectOrCreate?: CommunityReplyCreateOrConnectWithoutPostInput | CommunityReplyCreateOrConnectWithoutPostInput[]
     createMany?: CommunityReplyCreateManyPostInputEnvelope
@@ -32564,6 +32615,13 @@ export namespace Prisma {
     connectOrCreate?: CommunityPostLikeCreateOrConnectWithoutPostInput | CommunityPostLikeCreateOrConnectWithoutPostInput[]
     createMany?: CommunityPostLikeCreateManyPostInputEnvelope
     connect?: CommunityPostLikeWhereUniqueInput | CommunityPostLikeWhereUniqueInput[]
+  }
+
+  export type CommunityReplyUncheckedCreateNestedManyWithoutPostInput = {
+    create?: XOR<CommunityReplyCreateWithoutPostInput, CommunityReplyUncheckedCreateWithoutPostInput> | CommunityReplyCreateWithoutPostInput[] | CommunityReplyUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: CommunityReplyCreateOrConnectWithoutPostInput | CommunityReplyCreateOrConnectWithoutPostInput[]
+    createMany?: CommunityReplyCreateManyPostInputEnvelope
+    connect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
   }
 
   export type EnumCommunityPostTypeFieldUpdateOperationsInput = {
@@ -32582,20 +32640,6 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCommunityPost_CommunityPost_authorToUserInput, UserUpdateWithoutCommunityPost_CommunityPost_authorToUserInput>, UserUncheckedUpdateWithoutCommunityPost_CommunityPost_authorToUserInput>
   }
 
-  export type CommunityReplyUpdateManyWithoutPostNestedInput = {
-    create?: XOR<CommunityReplyCreateWithoutPostInput, CommunityReplyUncheckedCreateWithoutPostInput> | CommunityReplyCreateWithoutPostInput[] | CommunityReplyUncheckedCreateWithoutPostInput[]
-    connectOrCreate?: CommunityReplyCreateOrConnectWithoutPostInput | CommunityReplyCreateOrConnectWithoutPostInput[]
-    upsert?: CommunityReplyUpsertWithWhereUniqueWithoutPostInput | CommunityReplyUpsertWithWhereUniqueWithoutPostInput[]
-    createMany?: CommunityReplyCreateManyPostInputEnvelope
-    set?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
-    disconnect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
-    delete?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
-    connect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
-    update?: CommunityReplyUpdateWithWhereUniqueWithoutPostInput | CommunityReplyUpdateWithWhereUniqueWithoutPostInput[]
-    updateMany?: CommunityReplyUpdateManyWithWhereWithoutPostInput | CommunityReplyUpdateManyWithWhereWithoutPostInput[]
-    deleteMany?: CommunityReplyScalarWhereInput | CommunityReplyScalarWhereInput[]
-  }
-
   export type CommunityPostLikeUpdateManyWithoutPostNestedInput = {
     create?: XOR<CommunityPostLikeCreateWithoutPostInput, CommunityPostLikeUncheckedCreateWithoutPostInput> | CommunityPostLikeCreateWithoutPostInput[] | CommunityPostLikeUncheckedCreateWithoutPostInput[]
     connectOrCreate?: CommunityPostLikeCreateOrConnectWithoutPostInput | CommunityPostLikeCreateOrConnectWithoutPostInput[]
@@ -32610,7 +32654,7 @@ export namespace Prisma {
     deleteMany?: CommunityPostLikeScalarWhereInput | CommunityPostLikeScalarWhereInput[]
   }
 
-  export type CommunityReplyUncheckedUpdateManyWithoutPostNestedInput = {
+  export type CommunityReplyUpdateManyWithoutPostNestedInput = {
     create?: XOR<CommunityReplyCreateWithoutPostInput, CommunityReplyUncheckedCreateWithoutPostInput> | CommunityReplyCreateWithoutPostInput[] | CommunityReplyUncheckedCreateWithoutPostInput[]
     connectOrCreate?: CommunityReplyCreateOrConnectWithoutPostInput | CommunityReplyCreateOrConnectWithoutPostInput[]
     upsert?: CommunityReplyUpsertWithWhereUniqueWithoutPostInput | CommunityReplyUpsertWithWhereUniqueWithoutPostInput[]
@@ -32638,16 +32682,30 @@ export namespace Prisma {
     deleteMany?: CommunityPostLikeScalarWhereInput | CommunityPostLikeScalarWhereInput[]
   }
 
-  export type CommunityPostCreateNestedOneWithoutRepliesInput = {
-    create?: XOR<CommunityPostCreateWithoutRepliesInput, CommunityPostUncheckedCreateWithoutRepliesInput>
-    connectOrCreate?: CommunityPostCreateOrConnectWithoutRepliesInput
-    connect?: CommunityPostWhereUniqueInput
+  export type CommunityReplyUncheckedUpdateManyWithoutPostNestedInput = {
+    create?: XOR<CommunityReplyCreateWithoutPostInput, CommunityReplyUncheckedCreateWithoutPostInput> | CommunityReplyCreateWithoutPostInput[] | CommunityReplyUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: CommunityReplyCreateOrConnectWithoutPostInput | CommunityReplyCreateOrConnectWithoutPostInput[]
+    upsert?: CommunityReplyUpsertWithWhereUniqueWithoutPostInput | CommunityReplyUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: CommunityReplyCreateManyPostInputEnvelope
+    set?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    disconnect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    delete?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    connect?: CommunityReplyWhereUniqueInput | CommunityReplyWhereUniqueInput[]
+    update?: CommunityReplyUpdateWithWhereUniqueWithoutPostInput | CommunityReplyUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: CommunityReplyUpdateManyWithWhereWithoutPostInput | CommunityReplyUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: CommunityReplyScalarWhereInput | CommunityReplyScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutCommunityReply_CommunityReply_authorToUserInput = {
     create?: XOR<UserCreateWithoutCommunityReply_CommunityReply_authorToUserInput, UserUncheckedCreateWithoutCommunityReply_CommunityReply_authorToUserInput>
     connectOrCreate?: UserCreateOrConnectWithoutCommunityReply_CommunityReply_authorToUserInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type CommunityPostCreateNestedOneWithoutRepliesInput = {
+    create?: XOR<CommunityPostCreateWithoutRepliesInput, CommunityPostUncheckedCreateWithoutRepliesInput>
+    connectOrCreate?: CommunityPostCreateOrConnectWithoutRepliesInput
+    connect?: CommunityPostWhereUniqueInput
   }
 
   export type CommunityReplyCreateNestedOneWithoutRepliesInput = {
@@ -32684,20 +32742,20 @@ export namespace Prisma {
     connect?: CommunityReplyLikeWhereUniqueInput | CommunityReplyLikeWhereUniqueInput[]
   }
 
-  export type CommunityPostUpdateOneRequiredWithoutRepliesNestedInput = {
-    create?: XOR<CommunityPostCreateWithoutRepliesInput, CommunityPostUncheckedCreateWithoutRepliesInput>
-    connectOrCreate?: CommunityPostCreateOrConnectWithoutRepliesInput
-    upsert?: CommunityPostUpsertWithoutRepliesInput
-    connect?: CommunityPostWhereUniqueInput
-    update?: XOR<XOR<CommunityPostUpdateToOneWithWhereWithoutRepliesInput, CommunityPostUpdateWithoutRepliesInput>, CommunityPostUncheckedUpdateWithoutRepliesInput>
-  }
-
   export type UserUpdateOneRequiredWithoutCommunityReply_CommunityReply_authorToUserNestedInput = {
     create?: XOR<UserCreateWithoutCommunityReply_CommunityReply_authorToUserInput, UserUncheckedCreateWithoutCommunityReply_CommunityReply_authorToUserInput>
     connectOrCreate?: UserCreateOrConnectWithoutCommunityReply_CommunityReply_authorToUserInput
     upsert?: UserUpsertWithoutCommunityReply_CommunityReply_authorToUserInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCommunityReply_CommunityReply_authorToUserInput, UserUpdateWithoutCommunityReply_CommunityReply_authorToUserInput>, UserUncheckedUpdateWithoutCommunityReply_CommunityReply_authorToUserInput>
+  }
+
+  export type CommunityPostUpdateOneRequiredWithoutRepliesNestedInput = {
+    create?: XOR<CommunityPostCreateWithoutRepliesInput, CommunityPostUncheckedCreateWithoutRepliesInput>
+    connectOrCreate?: CommunityPostCreateOrConnectWithoutRepliesInput
+    upsert?: CommunityPostUpsertWithoutRepliesInput
+    connect?: CommunityPostWhereUniqueInput
+    update?: XOR<XOR<CommunityPostUpdateToOneWithWhereWithoutRepliesInput, CommunityPostUpdateWithoutRepliesInput>, CommunityPostUncheckedUpdateWithoutRepliesInput>
   }
 
   export type CommunityReplyUpdateOneWithoutRepliesNestedInput = {
@@ -32766,24 +32824,16 @@ export namespace Prisma {
     deleteMany?: CommunityReplyLikeScalarWhereInput | CommunityReplyLikeScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutCommunityPostLike_userToUserInput = {
-    create?: XOR<UserCreateWithoutCommunityPostLike_userToUserInput, UserUncheckedCreateWithoutCommunityPostLike_userToUserInput>
-    connectOrCreate?: UserCreateOrConnectWithoutCommunityPostLike_userToUserInput
-    connect?: UserWhereUniqueInput
-  }
-
   export type CommunityPostCreateNestedOneWithoutLikesListInput = {
     create?: XOR<CommunityPostCreateWithoutLikesListInput, CommunityPostUncheckedCreateWithoutLikesListInput>
     connectOrCreate?: CommunityPostCreateOrConnectWithoutLikesListInput
     connect?: CommunityPostWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutCommunityPostLike_userToUserNestedInput = {
+  export type UserCreateNestedOneWithoutCommunityPostLike_userToUserInput = {
     create?: XOR<UserCreateWithoutCommunityPostLike_userToUserInput, UserUncheckedCreateWithoutCommunityPostLike_userToUserInput>
     connectOrCreate?: UserCreateOrConnectWithoutCommunityPostLike_userToUserInput
-    upsert?: UserUpsertWithoutCommunityPostLike_userToUserInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCommunityPostLike_userToUserInput, UserUpdateWithoutCommunityPostLike_userToUserInput>, UserUncheckedUpdateWithoutCommunityPostLike_userToUserInput>
   }
 
   export type CommunityPostUpdateOneRequiredWithoutLikesListNestedInput = {
@@ -32794,10 +32844,12 @@ export namespace Prisma {
     update?: XOR<XOR<CommunityPostUpdateToOneWithWhereWithoutLikesListInput, CommunityPostUpdateWithoutLikesListInput>, CommunityPostUncheckedUpdateWithoutLikesListInput>
   }
 
-  export type UserCreateNestedOneWithoutCommunityReplyLike_userToUserInput = {
-    create?: XOR<UserCreateWithoutCommunityReplyLike_userToUserInput, UserUncheckedCreateWithoutCommunityReplyLike_userToUserInput>
-    connectOrCreate?: UserCreateOrConnectWithoutCommunityReplyLike_userToUserInput
+  export type UserUpdateOneRequiredWithoutCommunityPostLike_userToUserNestedInput = {
+    create?: XOR<UserCreateWithoutCommunityPostLike_userToUserInput, UserUncheckedCreateWithoutCommunityPostLike_userToUserInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCommunityPostLike_userToUserInput
+    upsert?: UserUpsertWithoutCommunityPostLike_userToUserInput
     connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCommunityPostLike_userToUserInput, UserUpdateWithoutCommunityPostLike_userToUserInput>, UserUncheckedUpdateWithoutCommunityPostLike_userToUserInput>
   }
 
   export type CommunityReplyCreateNestedOneWithoutLikesListInput = {
@@ -32806,12 +32858,10 @@ export namespace Prisma {
     connect?: CommunityReplyWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutCommunityReplyLike_userToUserNestedInput = {
+  export type UserCreateNestedOneWithoutCommunityReplyLike_userToUserInput = {
     create?: XOR<UserCreateWithoutCommunityReplyLike_userToUserInput, UserUncheckedCreateWithoutCommunityReplyLike_userToUserInput>
     connectOrCreate?: UserCreateOrConnectWithoutCommunityReplyLike_userToUserInput
-    upsert?: UserUpsertWithoutCommunityReplyLike_userToUserInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCommunityReplyLike_userToUserInput, UserUpdateWithoutCommunityReplyLike_userToUserInput>, UserUncheckedUpdateWithoutCommunityReplyLike_userToUserInput>
   }
 
   export type CommunityReplyUpdateOneRequiredWithoutLikesListNestedInput = {
@@ -32820,6 +32870,14 @@ export namespace Prisma {
     upsert?: CommunityReplyUpsertWithoutLikesListInput
     connect?: CommunityReplyWhereUniqueInput
     update?: XOR<XOR<CommunityReplyUpdateToOneWithWhereWithoutLikesListInput, CommunityReplyUpdateWithoutLikesListInput>, CommunityReplyUncheckedUpdateWithoutLikesListInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutCommunityReplyLike_userToUserNestedInput = {
+    create?: XOR<UserCreateWithoutCommunityReplyLike_userToUserInput, UserUncheckedCreateWithoutCommunityReplyLike_userToUserInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCommunityReplyLike_userToUserInput
+    upsert?: UserUpsertWithoutCommunityReplyLike_userToUserInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCommunityReplyLike_userToUserInput, UserUpdateWithoutCommunityReplyLike_userToUserInput>, UserUncheckedUpdateWithoutCommunityReplyLike_userToUserInput>
   }
 
   export type UserCreateNestedOneWithoutExpertProfileInput = {
@@ -33366,8 +33424,13 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     status?: $Enums.UserStatus
     AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -33379,11 +33442,6 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAdminActionLogInput = {
@@ -33418,8 +33476,13 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     status?: $Enums.UserStatus
     AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -33430,11 +33493,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAdminActionLogInput = {
@@ -33484,8 +33542,13 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -33497,11 +33560,6 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAdminActionLogInput = {
@@ -33536,8 +33594,13 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -33548,11 +33611,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PriceAlertCreateWithoutAlertNotificationInput = {
@@ -33621,8 +33679,13 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -33634,11 +33697,6 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAlertNotificationInput = {
@@ -33673,8 +33731,13 @@ export namespace Prisma {
     twoFactorEnabled?: boolean
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -33685,11 +33748,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAlertNotificationInput = {
@@ -33780,8 +33838,13 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -33793,11 +33856,6 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAlertNotificationInput = {
@@ -33832,8 +33890,13 @@ export namespace Prisma {
     twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -33844,11 +33907,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MessageCreateWithoutConversation_Conversation_lastMessageIdToMessageInput = {
@@ -33971,7 +34029,12 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
     Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -33983,11 +34046,6 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConversation_Conversation_user1IdToUserInput = {
@@ -34023,7 +34081,12 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -34034,11 +34097,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConversation_Conversation_user1IdToUserInput = {
@@ -34078,7 +34136,12 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -34090,11 +34153,6 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutConversation_Conversation_user2IdToUserInput = {
@@ -34130,7 +34188,12 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -34141,11 +34204,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutConversation_Conversation_user2IdToUserInput = {
@@ -34346,7 +34404,12 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -34358,11 +34421,6 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConversation_Conversation_user1IdToUserInput = {
@@ -34398,7 +34456,12 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -34409,11 +34472,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutConversation_Conversation_user2IdToUserInput = {
@@ -34459,7 +34517,12 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -34471,11 +34534,6 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutConversation_Conversation_user2IdToUserInput = {
@@ -34511,7 +34569,12 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -34522,11 +34585,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutConversation_Message_conversationIdToConversationInput = {
@@ -34599,8 +34657,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
     Message_Message_senderIdToUser?: MessageCreateNestedManyWithoutUser_Message_senderIdToUserInput
@@ -34611,11 +34674,6 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMarketPrice_MarketPrice_reviewedByToUserInput = {
@@ -34651,8 +34709,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
     Message_Message_senderIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_senderIdToUserInput
@@ -34662,11 +34725,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMarketPrice_MarketPrice_reviewedByToUserInput = {
@@ -34706,8 +34764,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
     Message_Message_senderIdToUser?: MessageCreateNestedManyWithoutUser_Message_senderIdToUserInput
@@ -34718,11 +34781,6 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMarketPrice_MarketPrice_submittedByToUserInput = {
@@ -34758,8 +34816,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
     Message_Message_senderIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_senderIdToUserInput
@@ -34769,11 +34832,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMarketPrice_MarketPrice_submittedByToUserInput = {
@@ -34824,8 +34882,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
     Message_Message_senderIdToUser?: MessageUpdateManyWithoutUser_Message_senderIdToUserNestedInput
@@ -34836,11 +34899,6 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMarketPrice_MarketPrice_reviewedByToUserInput = {
@@ -34876,8 +34934,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
     Message_Message_senderIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_senderIdToUserNestedInput
@@ -34887,11 +34950,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutMarketPrice_MarketPrice_submittedByToUserInput = {
@@ -34937,8 +34995,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
     Message_Message_senderIdToUser?: MessageUpdateManyWithoutUser_Message_senderIdToUserNestedInput
@@ -34949,11 +35012,6 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMarketPrice_MarketPrice_submittedByToUserInput = {
@@ -34989,8 +35047,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
     Message_Message_senderIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_senderIdToUserNestedInput
@@ -35000,11 +35063,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ConversationCreateWithoutMessage_Conversation_lastMessageIdToMessageInput = {
@@ -35101,8 +35159,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_senderIdToUser?: MessageCreateNestedManyWithoutUser_Message_senderIdToUserInput
@@ -35113,11 +35176,6 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessage_Message_receiverIdToUserInput = {
@@ -35153,8 +35211,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_senderIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_senderIdToUserInput
@@ -35164,11 +35227,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessage_Message_receiverIdToUserInput = {
@@ -35303,8 +35361,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -35315,11 +35378,6 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessage_Message_senderIdToUserInput = {
@@ -35355,8 +35413,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -35366,11 +35429,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessage_Message_senderIdToUserInput = {
@@ -35495,8 +35553,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_senderIdToUser?: MessageUpdateManyWithoutUser_Message_senderIdToUserNestedInput
@@ -35507,11 +35570,6 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessage_Message_receiverIdToUserInput = {
@@ -35547,8 +35605,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_senderIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_senderIdToUserNestedInput
@@ -35558,11 +35621,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MessageUpsertWithoutOther_MessageInput = {
@@ -35675,8 +35733,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -35687,11 +35750,6 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessage_Message_senderIdToUserInput = {
@@ -35727,8 +35785,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -35738,11 +35801,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RoleCreateWithoutPermissionInput = {
@@ -35794,8 +35852,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -35806,11 +35869,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
-    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPermissionInput = {
@@ -35846,8 +35904,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -35857,11 +35920,6 @@ export namespace Prisma {
     Review_Review_reviewedIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewedIdToUserInput
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPermissionInput = {
@@ -36023,8 +36081,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -36035,11 +36098,6 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPriceAlertInput = {
@@ -36075,8 +36133,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -36086,11 +36149,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPriceAlertInput = {
@@ -36179,8 +36237,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -36191,11 +36254,6 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPriceAlertInput = {
@@ -36231,8 +36289,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -36242,11 +36305,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProductListingCreateWithoutProductImageInput = {
@@ -36437,8 +36495,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -36449,11 +36512,6 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProductListingInput = {
@@ -36489,8 +36547,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -36500,11 +36563,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProductListingInput = {
@@ -36662,8 +36720,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -36674,11 +36737,6 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProductListingInput = {
@@ -36714,8 +36772,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -36725,11 +36788,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ReviewUpsertWithWhereUniqueWithoutProductListingInput = {
@@ -36845,8 +36903,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -36857,11 +36920,6 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReview_Review_reviewedIdToUserInput = {
@@ -36897,8 +36955,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -36908,11 +36971,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReview_Review_reviewedIdToUserInput = {
@@ -36952,8 +37010,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -36964,11 +37027,6 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReview_Review_reviewerIdToUserInput = {
@@ -37004,8 +37062,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -37015,11 +37078,6 @@ export namespace Prisma {
     Review_Review_reviewedIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewedIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReview_Review_reviewerIdToUserInput = {
@@ -37119,8 +37177,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -37131,11 +37194,6 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReview_Review_reviewedIdToUserInput = {
@@ -37171,8 +37229,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -37182,11 +37245,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutReview_Review_reviewerIdToUserInput = {
@@ -37232,8 +37290,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -37244,11 +37307,6 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReview_Review_reviewerIdToUserInput = {
@@ -37284,8 +37342,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -37295,11 +37358,6 @@ export namespace Prisma {
     Review_Review_reviewedIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewedIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutRoleInput = {
@@ -37334,8 +37392,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -37346,11 +37409,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionCreateNestedManyWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRoleInput = {
@@ -37385,8 +37443,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -37397,11 +37460,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRoleInput = {
@@ -37506,8 +37564,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -37518,11 +37581,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionInput = {
@@ -37558,8 +37616,13 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -37569,11 +37632,6 @@ export namespace Prisma {
     Review_Review_reviewedIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewedIdToUserInput
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionInput = {
@@ -37624,8 +37682,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -37636,11 +37699,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionInput = {
@@ -37676,8 +37734,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -37687,11 +37750,6 @@ export namespace Prisma {
     Review_Review_reviewedIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewedIdToUserNestedInput
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AdminActionLogCreateWithoutUserInput = {
@@ -37768,6 +37826,130 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CommunityPostCreateWithoutAuthorInput = {
+    id: string
+    title: string
+    content: string
+    type?: $Enums.CommunityPostType
+    category: string
+    crop?: string | null
+    location?: string | null
+    likes?: number
+    repliesCount?: number
+    status?: $Enums.CommunityPostStatus
+    createdAt?: Date | string
+    updatedAt: Date | string
+    isPrivateQuestion?: boolean
+    targetExpertId?: string | null
+    likesList?: CommunityPostLikeCreateNestedManyWithoutPostInput
+    replies?: CommunityReplyCreateNestedManyWithoutPostInput
+  }
+
+  export type CommunityPostUncheckedCreateWithoutAuthorInput = {
+    id: string
+    title: string
+    content: string
+    type?: $Enums.CommunityPostType
+    category: string
+    crop?: string | null
+    location?: string | null
+    likes?: number
+    repliesCount?: number
+    status?: $Enums.CommunityPostStatus
+    createdAt?: Date | string
+    updatedAt: Date | string
+    isPrivateQuestion?: boolean
+    targetExpertId?: string | null
+    likesList?: CommunityPostLikeUncheckedCreateNestedManyWithoutPostInput
+    replies?: CommunityReplyUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type CommunityPostCreateOrConnectWithoutAuthorInput = {
+    where: CommunityPostWhereUniqueInput
+    create: XOR<CommunityPostCreateWithoutAuthorInput, CommunityPostUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type CommunityPostCreateManyAuthorInputEnvelope = {
+    data: CommunityPostCreateManyAuthorInput | CommunityPostCreateManyAuthorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CommunityPostLikeCreateWithoutUserInput = {
+    createdAt?: Date | string
+    post: CommunityPostCreateNestedOneWithoutLikesListInput
+  }
+
+  export type CommunityPostLikeUncheckedCreateWithoutUserInput = {
+    postId: string
+    createdAt?: Date | string
+  }
+
+  export type CommunityPostLikeCreateOrConnectWithoutUserInput = {
+    where: CommunityPostLikeWhereUniqueInput
+    create: XOR<CommunityPostLikeCreateWithoutUserInput, CommunityPostLikeUncheckedCreateWithoutUserInput>
+  }
+
+  export type CommunityPostLikeCreateManyUserInputEnvelope = {
+    data: CommunityPostLikeCreateManyUserInput | CommunityPostLikeCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CommunityReplyCreateWithoutAuthorInput = {
+    id: string
+    content: string
+    isExpert?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+    likes?: number
+    post: CommunityPostCreateNestedOneWithoutRepliesInput
+    replyTo?: CommunityReplyCreateNestedOneWithoutRepliesInput
+    replies?: CommunityReplyCreateNestedManyWithoutReplyToInput
+    likesList?: CommunityReplyLikeCreateNestedManyWithoutReplyInput
+  }
+
+  export type CommunityReplyUncheckedCreateWithoutAuthorInput = {
+    id: string
+    postId: string
+    content: string
+    isExpert?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+    likes?: number
+    replyToId?: string | null
+    replies?: CommunityReplyUncheckedCreateNestedManyWithoutReplyToInput
+    likesList?: CommunityReplyLikeUncheckedCreateNestedManyWithoutReplyInput
+  }
+
+  export type CommunityReplyCreateOrConnectWithoutAuthorInput = {
+    where: CommunityReplyWhereUniqueInput
+    create: XOR<CommunityReplyCreateWithoutAuthorInput, CommunityReplyUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type CommunityReplyCreateManyAuthorInputEnvelope = {
+    data: CommunityReplyCreateManyAuthorInput | CommunityReplyCreateManyAuthorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CommunityReplyLikeCreateWithoutUserInput = {
+    createdAt?: Date | string
+    reply: CommunityReplyCreateNestedOneWithoutLikesListInput
+  }
+
+  export type CommunityReplyLikeUncheckedCreateWithoutUserInput = {
+    replyId: string
+    createdAt?: Date | string
+  }
+
+  export type CommunityReplyLikeCreateOrConnectWithoutUserInput = {
+    where: CommunityReplyLikeWhereUniqueInput
+    create: XOR<CommunityReplyLikeCreateWithoutUserInput, CommunityReplyLikeUncheckedCreateWithoutUserInput>
+  }
+
+  export type CommunityReplyLikeCreateManyUserInputEnvelope = {
+    data: CommunityReplyLikeCreateManyUserInput | CommunityReplyLikeCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ConversationCreateWithoutUser_Conversation_user1IdToUserInput = {
     id: string
     title?: string | null
@@ -37838,6 +38020,37 @@ export namespace Prisma {
   export type ConversationCreateManyUser_Conversation_user2IdToUserInputEnvelope = {
     data: ConversationCreateManyUser_Conversation_user2IdToUserInput | ConversationCreateManyUser_Conversation_user2IdToUserInput[]
     skipDuplicates?: boolean
+  }
+
+  export type ExpertProfileCreateWithoutUserInput = {
+    id: string
+    type?: $Enums.ExpertType
+    title?: string | null
+    specialization?: string | null
+    location?: string | null
+    rating?: number
+    responses?: number
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type ExpertProfileUncheckedCreateWithoutUserInput = {
+    id: string
+    type?: $Enums.ExpertType
+    title?: string | null
+    specialization?: string | null
+    location?: string | null
+    rating?: number
+    responses?: number
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+  }
+
+  export type ExpertProfileCreateOrConnectWithoutUserInput = {
+    where: ExpertProfileWhereUniqueInput
+    create: XOR<ExpertProfileCreateWithoutUserInput, ExpertProfileUncheckedCreateWithoutUserInput>
   }
 
   export type MarketPriceCreateWithoutUser_MarketPrice_reviewedByToUserInput = {
@@ -38292,157 +38505,6 @@ export namespace Prisma {
     create: XOR<PermissionCreateWithoutUserInput, PermissionUncheckedCreateWithoutUserInput>
   }
 
-  export type ExpertProfileCreateWithoutUserInput = {
-    id: string
-    type?: $Enums.ExpertType
-    title?: string | null
-    specialization?: string | null
-    location?: string | null
-    rating?: number
-    responses?: number
-    isVerified?: boolean
-    createdAt?: Date | string
-    updatedAt: Date | string
-  }
-
-  export type ExpertProfileUncheckedCreateWithoutUserInput = {
-    id: string
-    type?: $Enums.ExpertType
-    title?: string | null
-    specialization?: string | null
-    location?: string | null
-    rating?: number
-    responses?: number
-    isVerified?: boolean
-    createdAt?: Date | string
-    updatedAt: Date | string
-  }
-
-  export type ExpertProfileCreateOrConnectWithoutUserInput = {
-    where: ExpertProfileWhereUniqueInput
-    create: XOR<ExpertProfileCreateWithoutUserInput, ExpertProfileUncheckedCreateWithoutUserInput>
-  }
-
-  export type CommunityPostCreateWithoutAuthorInput = {
-    id: string
-    title: string
-    content: string
-    type?: $Enums.CommunityPostType
-    category: string
-    crop: string
-    location?: string | null
-    likes?: number
-    repliesCount?: number
-    status?: $Enums.CommunityPostStatus
-    createdAt?: Date | string
-    updatedAt: Date | string
-    replies?: CommunityReplyCreateNestedManyWithoutPostInput
-    likesList?: CommunityPostLikeCreateNestedManyWithoutPostInput
-  }
-
-  export type CommunityPostUncheckedCreateWithoutAuthorInput = {
-    id: string
-    title: string
-    content: string
-    type?: $Enums.CommunityPostType
-    category: string
-    crop: string
-    location?: string | null
-    likes?: number
-    repliesCount?: number
-    status?: $Enums.CommunityPostStatus
-    createdAt?: Date | string
-    updatedAt: Date | string
-    replies?: CommunityReplyUncheckedCreateNestedManyWithoutPostInput
-    likesList?: CommunityPostLikeUncheckedCreateNestedManyWithoutPostInput
-  }
-
-  export type CommunityPostCreateOrConnectWithoutAuthorInput = {
-    where: CommunityPostWhereUniqueInput
-    create: XOR<CommunityPostCreateWithoutAuthorInput, CommunityPostUncheckedCreateWithoutAuthorInput>
-  }
-
-  export type CommunityPostCreateManyAuthorInputEnvelope = {
-    data: CommunityPostCreateManyAuthorInput | CommunityPostCreateManyAuthorInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type CommunityReplyCreateWithoutAuthorInput = {
-    id: string
-    content: string
-    isExpert?: boolean
-    likes?: number
-    createdAt?: Date | string
-    updatedAt: Date | string
-    post: CommunityPostCreateNestedOneWithoutRepliesInput
-    replyTo?: CommunityReplyCreateNestedOneWithoutRepliesInput
-    replies?: CommunityReplyCreateNestedManyWithoutReplyToInput
-    likesList?: CommunityReplyLikeCreateNestedManyWithoutReplyInput
-  }
-
-  export type CommunityReplyUncheckedCreateWithoutAuthorInput = {
-    id: string
-    postId: string
-    content: string
-    isExpert?: boolean
-    replyToId?: string | null
-    likes?: number
-    createdAt?: Date | string
-    updatedAt: Date | string
-    replies?: CommunityReplyUncheckedCreateNestedManyWithoutReplyToInput
-    likesList?: CommunityReplyLikeUncheckedCreateNestedManyWithoutReplyInput
-  }
-
-  export type CommunityReplyCreateOrConnectWithoutAuthorInput = {
-    where: CommunityReplyWhereUniqueInput
-    create: XOR<CommunityReplyCreateWithoutAuthorInput, CommunityReplyUncheckedCreateWithoutAuthorInput>
-  }
-
-  export type CommunityReplyCreateManyAuthorInputEnvelope = {
-    data: CommunityReplyCreateManyAuthorInput | CommunityReplyCreateManyAuthorInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type CommunityPostLikeCreateWithoutUserInput = {
-    createdAt?: Date | string
-    post: CommunityPostCreateNestedOneWithoutLikesListInput
-  }
-
-  export type CommunityPostLikeUncheckedCreateWithoutUserInput = {
-    postId: string
-    createdAt?: Date | string
-  }
-
-  export type CommunityPostLikeCreateOrConnectWithoutUserInput = {
-    where: CommunityPostLikeWhereUniqueInput
-    create: XOR<CommunityPostLikeCreateWithoutUserInput, CommunityPostLikeUncheckedCreateWithoutUserInput>
-  }
-
-  export type CommunityPostLikeCreateManyUserInputEnvelope = {
-    data: CommunityPostLikeCreateManyUserInput | CommunityPostLikeCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type CommunityReplyLikeCreateWithoutUserInput = {
-    createdAt?: Date | string
-    reply: CommunityReplyCreateNestedOneWithoutLikesListInput
-  }
-
-  export type CommunityReplyLikeUncheckedCreateWithoutUserInput = {
-    replyId: string
-    createdAt?: Date | string
-  }
-
-  export type CommunityReplyLikeCreateOrConnectWithoutUserInput = {
-    where: CommunityReplyLikeWhereUniqueInput
-    create: XOR<CommunityReplyLikeCreateWithoutUserInput, CommunityReplyLikeUncheckedCreateWithoutUserInput>
-  }
-
-  export type CommunityReplyLikeCreateManyUserInputEnvelope = {
-    data: CommunityReplyLikeCreateManyUserInput | CommunityReplyLikeCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
   export type AdminActionLogUpsertWithWhereUniqueWithoutUserInput = {
     where: AdminActionLogWhereUniqueInput
     update: XOR<AdminActionLogUpdateWithoutUserInput, AdminActionLogUncheckedUpdateWithoutUserInput>
@@ -38488,6 +38550,124 @@ export namespace Prisma {
     data: XOR<AlertNotificationUpdateManyMutationInput, AlertNotificationUncheckedUpdateManyWithoutUserInput>
   }
 
+  export type CommunityPostUpsertWithWhereUniqueWithoutAuthorInput = {
+    where: CommunityPostWhereUniqueInput
+    update: XOR<CommunityPostUpdateWithoutAuthorInput, CommunityPostUncheckedUpdateWithoutAuthorInput>
+    create: XOR<CommunityPostCreateWithoutAuthorInput, CommunityPostUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type CommunityPostUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: CommunityPostWhereUniqueInput
+    data: XOR<CommunityPostUpdateWithoutAuthorInput, CommunityPostUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type CommunityPostUpdateManyWithWhereWithoutAuthorInput = {
+    where: CommunityPostScalarWhereInput
+    data: XOR<CommunityPostUpdateManyMutationInput, CommunityPostUncheckedUpdateManyWithoutAuthorInput>
+  }
+
+  export type CommunityPostScalarWhereInput = {
+    AND?: CommunityPostScalarWhereInput | CommunityPostScalarWhereInput[]
+    OR?: CommunityPostScalarWhereInput[]
+    NOT?: CommunityPostScalarWhereInput | CommunityPostScalarWhereInput[]
+    id?: StringFilter<"CommunityPost"> | string
+    authorId?: StringFilter<"CommunityPost"> | string
+    title?: StringFilter<"CommunityPost"> | string
+    content?: StringFilter<"CommunityPost"> | string
+    type?: EnumCommunityPostTypeFilter<"CommunityPost"> | $Enums.CommunityPostType
+    category?: StringFilter<"CommunityPost"> | string
+    crop?: StringNullableFilter<"CommunityPost"> | string | null
+    location?: StringNullableFilter<"CommunityPost"> | string | null
+    likes?: IntFilter<"CommunityPost"> | number
+    repliesCount?: IntFilter<"CommunityPost"> | number
+    status?: EnumCommunityPostStatusFilter<"CommunityPost"> | $Enums.CommunityPostStatus
+    createdAt?: DateTimeFilter<"CommunityPost"> | Date | string
+    updatedAt?: DateTimeFilter<"CommunityPost"> | Date | string
+    isPrivateQuestion?: BoolFilter<"CommunityPost"> | boolean
+    targetExpertId?: StringNullableFilter<"CommunityPost"> | string | null
+  }
+
+  export type CommunityPostLikeUpsertWithWhereUniqueWithoutUserInput = {
+    where: CommunityPostLikeWhereUniqueInput
+    update: XOR<CommunityPostLikeUpdateWithoutUserInput, CommunityPostLikeUncheckedUpdateWithoutUserInput>
+    create: XOR<CommunityPostLikeCreateWithoutUserInput, CommunityPostLikeUncheckedCreateWithoutUserInput>
+  }
+
+  export type CommunityPostLikeUpdateWithWhereUniqueWithoutUserInput = {
+    where: CommunityPostLikeWhereUniqueInput
+    data: XOR<CommunityPostLikeUpdateWithoutUserInput, CommunityPostLikeUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CommunityPostLikeUpdateManyWithWhereWithoutUserInput = {
+    where: CommunityPostLikeScalarWhereInput
+    data: XOR<CommunityPostLikeUpdateManyMutationInput, CommunityPostLikeUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type CommunityPostLikeScalarWhereInput = {
+    AND?: CommunityPostLikeScalarWhereInput | CommunityPostLikeScalarWhereInput[]
+    OR?: CommunityPostLikeScalarWhereInput[]
+    NOT?: CommunityPostLikeScalarWhereInput | CommunityPostLikeScalarWhereInput[]
+    userId?: StringFilter<"CommunityPostLike"> | string
+    postId?: StringFilter<"CommunityPostLike"> | string
+    createdAt?: DateTimeFilter<"CommunityPostLike"> | Date | string
+  }
+
+  export type CommunityReplyUpsertWithWhereUniqueWithoutAuthorInput = {
+    where: CommunityReplyWhereUniqueInput
+    update: XOR<CommunityReplyUpdateWithoutAuthorInput, CommunityReplyUncheckedUpdateWithoutAuthorInput>
+    create: XOR<CommunityReplyCreateWithoutAuthorInput, CommunityReplyUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type CommunityReplyUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: CommunityReplyWhereUniqueInput
+    data: XOR<CommunityReplyUpdateWithoutAuthorInput, CommunityReplyUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type CommunityReplyUpdateManyWithWhereWithoutAuthorInput = {
+    where: CommunityReplyScalarWhereInput
+    data: XOR<CommunityReplyUpdateManyMutationInput, CommunityReplyUncheckedUpdateManyWithoutAuthorInput>
+  }
+
+  export type CommunityReplyScalarWhereInput = {
+    AND?: CommunityReplyScalarWhereInput | CommunityReplyScalarWhereInput[]
+    OR?: CommunityReplyScalarWhereInput[]
+    NOT?: CommunityReplyScalarWhereInput | CommunityReplyScalarWhereInput[]
+    id?: StringFilter<"CommunityReply"> | string
+    postId?: StringFilter<"CommunityReply"> | string
+    authorId?: StringFilter<"CommunityReply"> | string
+    content?: StringFilter<"CommunityReply"> | string
+    isExpert?: BoolFilter<"CommunityReply"> | boolean
+    createdAt?: DateTimeFilter<"CommunityReply"> | Date | string
+    updatedAt?: DateTimeFilter<"CommunityReply"> | Date | string
+    likes?: IntFilter<"CommunityReply"> | number
+    replyToId?: StringNullableFilter<"CommunityReply"> | string | null
+  }
+
+  export type CommunityReplyLikeUpsertWithWhereUniqueWithoutUserInput = {
+    where: CommunityReplyLikeWhereUniqueInput
+    update: XOR<CommunityReplyLikeUpdateWithoutUserInput, CommunityReplyLikeUncheckedUpdateWithoutUserInput>
+    create: XOR<CommunityReplyLikeCreateWithoutUserInput, CommunityReplyLikeUncheckedCreateWithoutUserInput>
+  }
+
+  export type CommunityReplyLikeUpdateWithWhereUniqueWithoutUserInput = {
+    where: CommunityReplyLikeWhereUniqueInput
+    data: XOR<CommunityReplyLikeUpdateWithoutUserInput, CommunityReplyLikeUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CommunityReplyLikeUpdateManyWithWhereWithoutUserInput = {
+    where: CommunityReplyLikeScalarWhereInput
+    data: XOR<CommunityReplyLikeUpdateManyMutationInput, CommunityReplyLikeUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type CommunityReplyLikeScalarWhereInput = {
+    AND?: CommunityReplyLikeScalarWhereInput | CommunityReplyLikeScalarWhereInput[]
+    OR?: CommunityReplyLikeScalarWhereInput[]
+    NOT?: CommunityReplyLikeScalarWhereInput | CommunityReplyLikeScalarWhereInput[]
+    userId?: StringFilter<"CommunityReplyLike"> | string
+    replyId?: StringFilter<"CommunityReplyLike"> | string
+    createdAt?: DateTimeFilter<"CommunityReplyLike"> | Date | string
+  }
+
   export type ConversationUpsertWithWhereUniqueWithoutUser_Conversation_user1IdToUserInput = {
     where: ConversationWhereUniqueInput
     update: XOR<ConversationUpdateWithoutUser_Conversation_user1IdToUserInput, ConversationUncheckedUpdateWithoutUser_Conversation_user1IdToUserInput>
@@ -38518,6 +38698,43 @@ export namespace Prisma {
   export type ConversationUpdateManyWithWhereWithoutUser_Conversation_user2IdToUserInput = {
     where: ConversationScalarWhereInput
     data: XOR<ConversationUpdateManyMutationInput, ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserInput>
+  }
+
+  export type ExpertProfileUpsertWithoutUserInput = {
+    update: XOR<ExpertProfileUpdateWithoutUserInput, ExpertProfileUncheckedUpdateWithoutUserInput>
+    create: XOR<ExpertProfileCreateWithoutUserInput, ExpertProfileUncheckedCreateWithoutUserInput>
+    where?: ExpertProfileWhereInput
+  }
+
+  export type ExpertProfileUpdateToOneWithWhereWithoutUserInput = {
+    where?: ExpertProfileWhereInput
+    data: XOR<ExpertProfileUpdateWithoutUserInput, ExpertProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ExpertProfileUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumExpertTypeFieldUpdateOperationsInput | $Enums.ExpertType
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    specialization?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    responses?: IntFieldUpdateOperationsInput | number
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ExpertProfileUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumExpertTypeFieldUpdateOperationsInput | $Enums.ExpertType
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    specialization?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    responses?: IntFieldUpdateOperationsInput | number
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MarketPriceUpsertWithWhereUniqueWithoutUser_MarketPrice_reviewedByToUserInput = {
@@ -38779,159 +38996,6 @@ export namespace Prisma {
     data: XOR<PermissionUpdateManyMutationInput, PermissionUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type ExpertProfileUpsertWithoutUserInput = {
-    update: XOR<ExpertProfileUpdateWithoutUserInput, ExpertProfileUncheckedUpdateWithoutUserInput>
-    create: XOR<ExpertProfileCreateWithoutUserInput, ExpertProfileUncheckedCreateWithoutUserInput>
-    where?: ExpertProfileWhereInput
-  }
-
-  export type ExpertProfileUpdateToOneWithWhereWithoutUserInput = {
-    where?: ExpertProfileWhereInput
-    data: XOR<ExpertProfileUpdateWithoutUserInput, ExpertProfileUncheckedUpdateWithoutUserInput>
-  }
-
-  export type ExpertProfileUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    type?: EnumExpertTypeFieldUpdateOperationsInput | $Enums.ExpertType
-    title?: NullableStringFieldUpdateOperationsInput | string | null
-    specialization?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    rating?: FloatFieldUpdateOperationsInput | number
-    responses?: IntFieldUpdateOperationsInput | number
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ExpertProfileUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    type?: EnumExpertTypeFieldUpdateOperationsInput | $Enums.ExpertType
-    title?: NullableStringFieldUpdateOperationsInput | string | null
-    specialization?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    rating?: FloatFieldUpdateOperationsInput | number
-    responses?: IntFieldUpdateOperationsInput | number
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type CommunityPostUpsertWithWhereUniqueWithoutAuthorInput = {
-    where: CommunityPostWhereUniqueInput
-    update: XOR<CommunityPostUpdateWithoutAuthorInput, CommunityPostUncheckedUpdateWithoutAuthorInput>
-    create: XOR<CommunityPostCreateWithoutAuthorInput, CommunityPostUncheckedCreateWithoutAuthorInput>
-  }
-
-  export type CommunityPostUpdateWithWhereUniqueWithoutAuthorInput = {
-    where: CommunityPostWhereUniqueInput
-    data: XOR<CommunityPostUpdateWithoutAuthorInput, CommunityPostUncheckedUpdateWithoutAuthorInput>
-  }
-
-  export type CommunityPostUpdateManyWithWhereWithoutAuthorInput = {
-    where: CommunityPostScalarWhereInput
-    data: XOR<CommunityPostUpdateManyMutationInput, CommunityPostUncheckedUpdateManyWithoutAuthorInput>
-  }
-
-  export type CommunityPostScalarWhereInput = {
-    AND?: CommunityPostScalarWhereInput | CommunityPostScalarWhereInput[]
-    OR?: CommunityPostScalarWhereInput[]
-    NOT?: CommunityPostScalarWhereInput | CommunityPostScalarWhereInput[]
-    id?: StringFilter<"CommunityPost"> | string
-    authorId?: StringFilter<"CommunityPost"> | string
-    title?: StringFilter<"CommunityPost"> | string
-    content?: StringFilter<"CommunityPost"> | string
-    type?: EnumCommunityPostTypeFilter<"CommunityPost"> | $Enums.CommunityPostType
-    category?: StringFilter<"CommunityPost"> | string
-    crop?: StringFilter<"CommunityPost"> | string
-    location?: StringNullableFilter<"CommunityPost"> | string | null
-    likes?: IntFilter<"CommunityPost"> | number
-    repliesCount?: IntFilter<"CommunityPost"> | number
-    status?: EnumCommunityPostStatusFilter<"CommunityPost"> | $Enums.CommunityPostStatus
-    createdAt?: DateTimeFilter<"CommunityPost"> | Date | string
-    updatedAt?: DateTimeFilter<"CommunityPost"> | Date | string
-  }
-
-  export type CommunityReplyUpsertWithWhereUniqueWithoutAuthorInput = {
-    where: CommunityReplyWhereUniqueInput
-    update: XOR<CommunityReplyUpdateWithoutAuthorInput, CommunityReplyUncheckedUpdateWithoutAuthorInput>
-    create: XOR<CommunityReplyCreateWithoutAuthorInput, CommunityReplyUncheckedCreateWithoutAuthorInput>
-  }
-
-  export type CommunityReplyUpdateWithWhereUniqueWithoutAuthorInput = {
-    where: CommunityReplyWhereUniqueInput
-    data: XOR<CommunityReplyUpdateWithoutAuthorInput, CommunityReplyUncheckedUpdateWithoutAuthorInput>
-  }
-
-  export type CommunityReplyUpdateManyWithWhereWithoutAuthorInput = {
-    where: CommunityReplyScalarWhereInput
-    data: XOR<CommunityReplyUpdateManyMutationInput, CommunityReplyUncheckedUpdateManyWithoutAuthorInput>
-  }
-
-  export type CommunityReplyScalarWhereInput = {
-    AND?: CommunityReplyScalarWhereInput | CommunityReplyScalarWhereInput[]
-    OR?: CommunityReplyScalarWhereInput[]
-    NOT?: CommunityReplyScalarWhereInput | CommunityReplyScalarWhereInput[]
-    id?: StringFilter<"CommunityReply"> | string
-    postId?: StringFilter<"CommunityReply"> | string
-    authorId?: StringFilter<"CommunityReply"> | string
-    content?: StringFilter<"CommunityReply"> | string
-    isExpert?: BoolFilter<"CommunityReply"> | boolean
-    replyToId?: StringNullableFilter<"CommunityReply"> | string | null
-    likes?: IntFilter<"CommunityReply"> | number
-    createdAt?: DateTimeFilter<"CommunityReply"> | Date | string
-    updatedAt?: DateTimeFilter<"CommunityReply"> | Date | string
-  }
-
-  export type CommunityPostLikeUpsertWithWhereUniqueWithoutUserInput = {
-    where: CommunityPostLikeWhereUniqueInput
-    update: XOR<CommunityPostLikeUpdateWithoutUserInput, CommunityPostLikeUncheckedUpdateWithoutUserInput>
-    create: XOR<CommunityPostLikeCreateWithoutUserInput, CommunityPostLikeUncheckedCreateWithoutUserInput>
-  }
-
-  export type CommunityPostLikeUpdateWithWhereUniqueWithoutUserInput = {
-    where: CommunityPostLikeWhereUniqueInput
-    data: XOR<CommunityPostLikeUpdateWithoutUserInput, CommunityPostLikeUncheckedUpdateWithoutUserInput>
-  }
-
-  export type CommunityPostLikeUpdateManyWithWhereWithoutUserInput = {
-    where: CommunityPostLikeScalarWhereInput
-    data: XOR<CommunityPostLikeUpdateManyMutationInput, CommunityPostLikeUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type CommunityPostLikeScalarWhereInput = {
-    AND?: CommunityPostLikeScalarWhereInput | CommunityPostLikeScalarWhereInput[]
-    OR?: CommunityPostLikeScalarWhereInput[]
-    NOT?: CommunityPostLikeScalarWhereInput | CommunityPostLikeScalarWhereInput[]
-    userId?: StringFilter<"CommunityPostLike"> | string
-    postId?: StringFilter<"CommunityPostLike"> | string
-    createdAt?: DateTimeFilter<"CommunityPostLike"> | Date | string
-  }
-
-  export type CommunityReplyLikeUpsertWithWhereUniqueWithoutUserInput = {
-    where: CommunityReplyLikeWhereUniqueInput
-    update: XOR<CommunityReplyLikeUpdateWithoutUserInput, CommunityReplyLikeUncheckedUpdateWithoutUserInput>
-    create: XOR<CommunityReplyLikeCreateWithoutUserInput, CommunityReplyLikeUncheckedCreateWithoutUserInput>
-  }
-
-  export type CommunityReplyLikeUpdateWithWhereUniqueWithoutUserInput = {
-    where: CommunityReplyLikeWhereUniqueInput
-    data: XOR<CommunityReplyLikeUpdateWithoutUserInput, CommunityReplyLikeUncheckedUpdateWithoutUserInput>
-  }
-
-  export type CommunityReplyLikeUpdateManyWithWhereWithoutUserInput = {
-    where: CommunityReplyLikeScalarWhereInput
-    data: XOR<CommunityReplyLikeUpdateManyMutationInput, CommunityReplyLikeUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type CommunityReplyLikeScalarWhereInput = {
-    AND?: CommunityReplyLikeScalarWhereInput | CommunityReplyLikeScalarWhereInput[]
-    OR?: CommunityReplyLikeScalarWhereInput[]
-    NOT?: CommunityReplyLikeScalarWhereInput | CommunityReplyLikeScalarWhereInput[]
-    userId?: StringFilter<"CommunityReplyLike"> | string
-    replyId?: StringFilter<"CommunityReplyLike"> | string
-    createdAt?: DateTimeFilter<"CommunityReplyLike"> | Date | string
-  }
-
   export type UserCreateWithoutCommunityPost_CommunityPost_authorToUserInput = {
     id: string
     phone?: string | null
@@ -38964,8 +39028,12 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -38977,10 +39045,6 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommunityPost_CommunityPost_authorToUserInput = {
@@ -39016,8 +39080,12 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -39028,51 +39096,11 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommunityPost_CommunityPost_authorToUserInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutCommunityPost_CommunityPost_authorToUserInput, UserUncheckedCreateWithoutCommunityPost_CommunityPost_authorToUserInput>
-  }
-
-  export type CommunityReplyCreateWithoutPostInput = {
-    id: string
-    content: string
-    isExpert?: boolean
-    likes?: number
-    createdAt?: Date | string
-    updatedAt: Date | string
-    author: UserCreateNestedOneWithoutCommunityReply_CommunityReply_authorToUserInput
-    replyTo?: CommunityReplyCreateNestedOneWithoutRepliesInput
-    replies?: CommunityReplyCreateNestedManyWithoutReplyToInput
-    likesList?: CommunityReplyLikeCreateNestedManyWithoutReplyInput
-  }
-
-  export type CommunityReplyUncheckedCreateWithoutPostInput = {
-    id: string
-    authorId: string
-    content: string
-    isExpert?: boolean
-    replyToId?: string | null
-    likes?: number
-    createdAt?: Date | string
-    updatedAt: Date | string
-    replies?: CommunityReplyUncheckedCreateNestedManyWithoutReplyToInput
-    likesList?: CommunityReplyLikeUncheckedCreateNestedManyWithoutReplyInput
-  }
-
-  export type CommunityReplyCreateOrConnectWithoutPostInput = {
-    where: CommunityReplyWhereUniqueInput
-    create: XOR<CommunityReplyCreateWithoutPostInput, CommunityReplyUncheckedCreateWithoutPostInput>
-  }
-
-  export type CommunityReplyCreateManyPostInputEnvelope = {
-    data: CommunityReplyCreateManyPostInput | CommunityReplyCreateManyPostInput[]
-    skipDuplicates?: boolean
   }
 
   export type CommunityPostLikeCreateWithoutPostInput = {
@@ -39092,6 +39120,42 @@ export namespace Prisma {
 
   export type CommunityPostLikeCreateManyPostInputEnvelope = {
     data: CommunityPostLikeCreateManyPostInput | CommunityPostLikeCreateManyPostInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CommunityReplyCreateWithoutPostInput = {
+    id: string
+    content: string
+    isExpert?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+    likes?: number
+    author: UserCreateNestedOneWithoutCommunityReply_CommunityReply_authorToUserInput
+    replyTo?: CommunityReplyCreateNestedOneWithoutRepliesInput
+    replies?: CommunityReplyCreateNestedManyWithoutReplyToInput
+    likesList?: CommunityReplyLikeCreateNestedManyWithoutReplyInput
+  }
+
+  export type CommunityReplyUncheckedCreateWithoutPostInput = {
+    id: string
+    authorId: string
+    content: string
+    isExpert?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+    likes?: number
+    replyToId?: string | null
+    replies?: CommunityReplyUncheckedCreateNestedManyWithoutReplyToInput
+    likesList?: CommunityReplyLikeUncheckedCreateNestedManyWithoutReplyInput
+  }
+
+  export type CommunityReplyCreateOrConnectWithoutPostInput = {
+    where: CommunityReplyWhereUniqueInput
+    create: XOR<CommunityReplyCreateWithoutPostInput, CommunityReplyUncheckedCreateWithoutPostInput>
+  }
+
+  export type CommunityReplyCreateManyPostInputEnvelope = {
+    data: CommunityReplyCreateManyPostInput | CommunityReplyCreateManyPostInput[]
     skipDuplicates?: boolean
   }
 
@@ -39138,8 +39202,12 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -39151,10 +39219,6 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommunityPost_CommunityPost_authorToUserInput = {
@@ -39190,8 +39254,12 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -39202,26 +39270,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type CommunityReplyUpsertWithWhereUniqueWithoutPostInput = {
-    where: CommunityReplyWhereUniqueInput
-    update: XOR<CommunityReplyUpdateWithoutPostInput, CommunityReplyUncheckedUpdateWithoutPostInput>
-    create: XOR<CommunityReplyCreateWithoutPostInput, CommunityReplyUncheckedCreateWithoutPostInput>
-  }
-
-  export type CommunityReplyUpdateWithWhereUniqueWithoutPostInput = {
-    where: CommunityReplyWhereUniqueInput
-    data: XOR<CommunityReplyUpdateWithoutPostInput, CommunityReplyUncheckedUpdateWithoutPostInput>
-  }
-
-  export type CommunityReplyUpdateManyWithWhereWithoutPostInput = {
-    where: CommunityReplyScalarWhereInput
-    data: XOR<CommunityReplyUpdateManyMutationInput, CommunityReplyUncheckedUpdateManyWithoutPostInput>
   }
 
   export type CommunityPostLikeUpsertWithWhereUniqueWithoutPostInput = {
@@ -39240,43 +39288,20 @@ export namespace Prisma {
     data: XOR<CommunityPostLikeUpdateManyMutationInput, CommunityPostLikeUncheckedUpdateManyWithoutPostInput>
   }
 
-  export type CommunityPostCreateWithoutRepliesInput = {
-    id: string
-    title: string
-    content: string
-    type?: $Enums.CommunityPostType
-    category: string
-    crop: string
-    location?: string | null
-    likes?: number
-    repliesCount?: number
-    status?: $Enums.CommunityPostStatus
-    createdAt?: Date | string
-    updatedAt: Date | string
-    author: UserCreateNestedOneWithoutCommunityPost_CommunityPost_authorToUserInput
-    likesList?: CommunityPostLikeCreateNestedManyWithoutPostInput
+  export type CommunityReplyUpsertWithWhereUniqueWithoutPostInput = {
+    where: CommunityReplyWhereUniqueInput
+    update: XOR<CommunityReplyUpdateWithoutPostInput, CommunityReplyUncheckedUpdateWithoutPostInput>
+    create: XOR<CommunityReplyCreateWithoutPostInput, CommunityReplyUncheckedCreateWithoutPostInput>
   }
 
-  export type CommunityPostUncheckedCreateWithoutRepliesInput = {
-    id: string
-    authorId: string
-    title: string
-    content: string
-    type?: $Enums.CommunityPostType
-    category: string
-    crop: string
-    location?: string | null
-    likes?: number
-    repliesCount?: number
-    status?: $Enums.CommunityPostStatus
-    createdAt?: Date | string
-    updatedAt: Date | string
-    likesList?: CommunityPostLikeUncheckedCreateNestedManyWithoutPostInput
+  export type CommunityReplyUpdateWithWhereUniqueWithoutPostInput = {
+    where: CommunityReplyWhereUniqueInput
+    data: XOR<CommunityReplyUpdateWithoutPostInput, CommunityReplyUncheckedUpdateWithoutPostInput>
   }
 
-  export type CommunityPostCreateOrConnectWithoutRepliesInput = {
-    where: CommunityPostWhereUniqueInput
-    create: XOR<CommunityPostCreateWithoutRepliesInput, CommunityPostUncheckedCreateWithoutRepliesInput>
+  export type CommunityReplyUpdateManyWithWhereWithoutPostInput = {
+    where: CommunityReplyScalarWhereInput
+    data: XOR<CommunityReplyUpdateManyMutationInput, CommunityReplyUncheckedUpdateManyWithoutPostInput>
   }
 
   export type UserCreateWithoutCommunityReply_CommunityReply_authorToUserInput = {
@@ -39311,8 +39336,12 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -39324,10 +39353,6 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommunityReply_CommunityReply_authorToUserInput = {
@@ -39363,8 +39388,12 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -39375,10 +39404,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommunityReply_CommunityReply_authorToUserInput = {
@@ -39386,15 +39411,58 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutCommunityReply_CommunityReply_authorToUserInput, UserUncheckedCreateWithoutCommunityReply_CommunityReply_authorToUserInput>
   }
 
+  export type CommunityPostCreateWithoutRepliesInput = {
+    id: string
+    title: string
+    content: string
+    type?: $Enums.CommunityPostType
+    category: string
+    crop?: string | null
+    location?: string | null
+    likes?: number
+    repliesCount?: number
+    status?: $Enums.CommunityPostStatus
+    createdAt?: Date | string
+    updatedAt: Date | string
+    isPrivateQuestion?: boolean
+    targetExpertId?: string | null
+    author: UserCreateNestedOneWithoutCommunityPost_CommunityPost_authorToUserInput
+    likesList?: CommunityPostLikeCreateNestedManyWithoutPostInput
+  }
+
+  export type CommunityPostUncheckedCreateWithoutRepliesInput = {
+    id: string
+    authorId: string
+    title: string
+    content: string
+    type?: $Enums.CommunityPostType
+    category: string
+    crop?: string | null
+    location?: string | null
+    likes?: number
+    repliesCount?: number
+    status?: $Enums.CommunityPostStatus
+    createdAt?: Date | string
+    updatedAt: Date | string
+    isPrivateQuestion?: boolean
+    targetExpertId?: string | null
+    likesList?: CommunityPostLikeUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type CommunityPostCreateOrConnectWithoutRepliesInput = {
+    where: CommunityPostWhereUniqueInput
+    create: XOR<CommunityPostCreateWithoutRepliesInput, CommunityPostUncheckedCreateWithoutRepliesInput>
+  }
+
   export type CommunityReplyCreateWithoutRepliesInput = {
     id: string
     content: string
     isExpert?: boolean
-    likes?: number
     createdAt?: Date | string
     updatedAt: Date | string
-    post: CommunityPostCreateNestedOneWithoutRepliesInput
+    likes?: number
     author: UserCreateNestedOneWithoutCommunityReply_CommunityReply_authorToUserInput
+    post: CommunityPostCreateNestedOneWithoutRepliesInput
     replyTo?: CommunityReplyCreateNestedOneWithoutRepliesInput
     likesList?: CommunityReplyLikeCreateNestedManyWithoutReplyInput
   }
@@ -39405,10 +39473,10 @@ export namespace Prisma {
     authorId: string
     content: string
     isExpert?: boolean
-    replyToId?: string | null
-    likes?: number
     createdAt?: Date | string
     updatedAt: Date | string
+    likes?: number
+    replyToId?: string | null
     likesList?: CommunityReplyLikeUncheckedCreateNestedManyWithoutReplyInput
   }
 
@@ -39421,11 +39489,11 @@ export namespace Prisma {
     id: string
     content: string
     isExpert?: boolean
-    likes?: number
     createdAt?: Date | string
     updatedAt: Date | string
-    post: CommunityPostCreateNestedOneWithoutRepliesInput
+    likes?: number
     author: UserCreateNestedOneWithoutCommunityReply_CommunityReply_authorToUserInput
+    post: CommunityPostCreateNestedOneWithoutRepliesInput
     replies?: CommunityReplyCreateNestedManyWithoutReplyToInput
     likesList?: CommunityReplyLikeCreateNestedManyWithoutReplyInput
   }
@@ -39436,9 +39504,9 @@ export namespace Prisma {
     authorId: string
     content: string
     isExpert?: boolean
-    likes?: number
     createdAt?: Date | string
     updatedAt: Date | string
+    likes?: number
     replies?: CommunityReplyUncheckedCreateNestedManyWithoutReplyToInput
     likesList?: CommunityReplyLikeUncheckedCreateNestedManyWithoutReplyInput
   }
@@ -39471,51 +39539,6 @@ export namespace Prisma {
   export type CommunityReplyLikeCreateManyReplyInputEnvelope = {
     data: CommunityReplyLikeCreateManyReplyInput | CommunityReplyLikeCreateManyReplyInput[]
     skipDuplicates?: boolean
-  }
-
-  export type CommunityPostUpsertWithoutRepliesInput = {
-    update: XOR<CommunityPostUpdateWithoutRepliesInput, CommunityPostUncheckedUpdateWithoutRepliesInput>
-    create: XOR<CommunityPostCreateWithoutRepliesInput, CommunityPostUncheckedCreateWithoutRepliesInput>
-    where?: CommunityPostWhereInput
-  }
-
-  export type CommunityPostUpdateToOneWithWhereWithoutRepliesInput = {
-    where?: CommunityPostWhereInput
-    data: XOR<CommunityPostUpdateWithoutRepliesInput, CommunityPostUncheckedUpdateWithoutRepliesInput>
-  }
-
-  export type CommunityPostUpdateWithoutRepliesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
-    category?: StringFieldUpdateOperationsInput | string
-    crop?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    likes?: IntFieldUpdateOperationsInput | number
-    repliesCount?: IntFieldUpdateOperationsInput | number
-    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    author?: UserUpdateOneRequiredWithoutCommunityPost_CommunityPost_authorToUserNestedInput
-    likesList?: CommunityPostLikeUpdateManyWithoutPostNestedInput
-  }
-
-  export type CommunityPostUncheckedUpdateWithoutRepliesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    authorId?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
-    category?: StringFieldUpdateOperationsInput | string
-    crop?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    likes?: IntFieldUpdateOperationsInput | number
-    repliesCount?: IntFieldUpdateOperationsInput | number
-    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    likesList?: CommunityPostLikeUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type UserUpsertWithoutCommunityReply_CommunityReply_authorToUserInput = {
@@ -39561,8 +39584,12 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -39574,10 +39601,6 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommunityReply_CommunityReply_authorToUserInput = {
@@ -39613,8 +39636,12 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -39625,10 +39652,55 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type CommunityPostUpsertWithoutRepliesInput = {
+    update: XOR<CommunityPostUpdateWithoutRepliesInput, CommunityPostUncheckedUpdateWithoutRepliesInput>
+    create: XOR<CommunityPostCreateWithoutRepliesInput, CommunityPostUncheckedCreateWithoutRepliesInput>
+    where?: CommunityPostWhereInput
+  }
+
+  export type CommunityPostUpdateToOneWithWhereWithoutRepliesInput = {
+    where?: CommunityPostWhereInput
+    data: XOR<CommunityPostUpdateWithoutRepliesInput, CommunityPostUncheckedUpdateWithoutRepliesInput>
+  }
+
+  export type CommunityPostUpdateWithoutRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
+    category?: StringFieldUpdateOperationsInput | string
+    crop?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    likes?: IntFieldUpdateOperationsInput | number
+    repliesCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPrivateQuestion?: BoolFieldUpdateOperationsInput | boolean
+    targetExpertId?: NullableStringFieldUpdateOperationsInput | string | null
+    author?: UserUpdateOneRequiredWithoutCommunityPost_CommunityPost_authorToUserNestedInput
+    likesList?: CommunityPostLikeUpdateManyWithoutPostNestedInput
+  }
+
+  export type CommunityPostUncheckedUpdateWithoutRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
+    category?: StringFieldUpdateOperationsInput | string
+    crop?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    likes?: IntFieldUpdateOperationsInput | number
+    repliesCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPrivateQuestion?: BoolFieldUpdateOperationsInput | boolean
+    targetExpertId?: NullableStringFieldUpdateOperationsInput | string | null
+    likesList?: CommunityPostLikeUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type CommunityReplyUpsertWithoutRepliesInput = {
@@ -39646,11 +39718,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     isExpert?: BoolFieldUpdateOperationsInput | boolean
-    likes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    post?: CommunityPostUpdateOneRequiredWithoutRepliesNestedInput
+    likes?: IntFieldUpdateOperationsInput | number
     author?: UserUpdateOneRequiredWithoutCommunityReply_CommunityReply_authorToUserNestedInput
+    post?: CommunityPostUpdateOneRequiredWithoutRepliesNestedInput
     replyTo?: CommunityReplyUpdateOneWithoutRepliesNestedInput
     likesList?: CommunityReplyLikeUpdateManyWithoutReplyNestedInput
   }
@@ -39661,10 +39733,10 @@ export namespace Prisma {
     authorId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     isExpert?: BoolFieldUpdateOperationsInput | boolean
-    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
-    likes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    likes?: IntFieldUpdateOperationsInput | number
+    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
     likesList?: CommunityReplyLikeUncheckedUpdateManyWithoutReplyNestedInput
   }
 
@@ -39700,6 +39772,49 @@ export namespace Prisma {
     data: XOR<CommunityReplyLikeUpdateManyMutationInput, CommunityReplyLikeUncheckedUpdateManyWithoutReplyInput>
   }
 
+  export type CommunityPostCreateWithoutLikesListInput = {
+    id: string
+    title: string
+    content: string
+    type?: $Enums.CommunityPostType
+    category: string
+    crop?: string | null
+    location?: string | null
+    likes?: number
+    repliesCount?: number
+    status?: $Enums.CommunityPostStatus
+    createdAt?: Date | string
+    updatedAt: Date | string
+    isPrivateQuestion?: boolean
+    targetExpertId?: string | null
+    author: UserCreateNestedOneWithoutCommunityPost_CommunityPost_authorToUserInput
+    replies?: CommunityReplyCreateNestedManyWithoutPostInput
+  }
+
+  export type CommunityPostUncheckedCreateWithoutLikesListInput = {
+    id: string
+    authorId: string
+    title: string
+    content: string
+    type?: $Enums.CommunityPostType
+    category: string
+    crop?: string | null
+    location?: string | null
+    likes?: number
+    repliesCount?: number
+    status?: $Enums.CommunityPostStatus
+    createdAt?: Date | string
+    updatedAt: Date | string
+    isPrivateQuestion?: boolean
+    targetExpertId?: string | null
+    replies?: CommunityReplyUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type CommunityPostCreateOrConnectWithoutLikesListInput = {
+    where: CommunityPostWhereUniqueInput
+    create: XOR<CommunityPostCreateWithoutLikesListInput, CommunityPostUncheckedCreateWithoutLikesListInput>
+  }
+
   export type UserCreateWithoutCommunityPostLike_userToUserInput = {
     id: string
     phone?: string | null
@@ -39732,8 +39847,12 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -39745,10 +39864,6 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommunityPostLike_userToUserInput = {
@@ -39784,8 +39899,12 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -39796,10 +39915,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommunityPostLike_userToUserInput = {
@@ -39807,43 +39922,53 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutCommunityPostLike_userToUserInput, UserUncheckedCreateWithoutCommunityPostLike_userToUserInput>
   }
 
-  export type CommunityPostCreateWithoutLikesListInput = {
-    id: string
-    title: string
-    content: string
-    type?: $Enums.CommunityPostType
-    category: string
-    crop: string
-    location?: string | null
-    likes?: number
-    repliesCount?: number
-    status?: $Enums.CommunityPostStatus
-    createdAt?: Date | string
-    updatedAt: Date | string
-    author: UserCreateNestedOneWithoutCommunityPost_CommunityPost_authorToUserInput
-    replies?: CommunityReplyCreateNestedManyWithoutPostInput
-  }
-
-  export type CommunityPostUncheckedCreateWithoutLikesListInput = {
-    id: string
-    authorId: string
-    title: string
-    content: string
-    type?: $Enums.CommunityPostType
-    category: string
-    crop: string
-    location?: string | null
-    likes?: number
-    repliesCount?: number
-    status?: $Enums.CommunityPostStatus
-    createdAt?: Date | string
-    updatedAt: Date | string
-    replies?: CommunityReplyUncheckedCreateNestedManyWithoutPostInput
-  }
-
-  export type CommunityPostCreateOrConnectWithoutLikesListInput = {
-    where: CommunityPostWhereUniqueInput
+  export type CommunityPostUpsertWithoutLikesListInput = {
+    update: XOR<CommunityPostUpdateWithoutLikesListInput, CommunityPostUncheckedUpdateWithoutLikesListInput>
     create: XOR<CommunityPostCreateWithoutLikesListInput, CommunityPostUncheckedCreateWithoutLikesListInput>
+    where?: CommunityPostWhereInput
+  }
+
+  export type CommunityPostUpdateToOneWithWhereWithoutLikesListInput = {
+    where?: CommunityPostWhereInput
+    data: XOR<CommunityPostUpdateWithoutLikesListInput, CommunityPostUncheckedUpdateWithoutLikesListInput>
+  }
+
+  export type CommunityPostUpdateWithoutLikesListInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
+    category?: StringFieldUpdateOperationsInput | string
+    crop?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    likes?: IntFieldUpdateOperationsInput | number
+    repliesCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPrivateQuestion?: BoolFieldUpdateOperationsInput | boolean
+    targetExpertId?: NullableStringFieldUpdateOperationsInput | string | null
+    author?: UserUpdateOneRequiredWithoutCommunityPost_CommunityPost_authorToUserNestedInput
+    replies?: CommunityReplyUpdateManyWithoutPostNestedInput
+  }
+
+  export type CommunityPostUncheckedUpdateWithoutLikesListInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
+    category?: StringFieldUpdateOperationsInput | string
+    crop?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    likes?: IntFieldUpdateOperationsInput | number
+    repliesCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPrivateQuestion?: BoolFieldUpdateOperationsInput | boolean
+    targetExpertId?: NullableStringFieldUpdateOperationsInput | string | null
+    replies?: CommunityReplyUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type UserUpsertWithoutCommunityPostLike_userToUserInput = {
@@ -39889,8 +40014,12 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -39902,10 +40031,6 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommunityPostLike_userToUserInput = {
@@ -39941,8 +40066,12 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -39953,55 +40082,37 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type CommunityPostUpsertWithoutLikesListInput = {
-    update: XOR<CommunityPostUpdateWithoutLikesListInput, CommunityPostUncheckedUpdateWithoutLikesListInput>
-    create: XOR<CommunityPostCreateWithoutLikesListInput, CommunityPostUncheckedCreateWithoutLikesListInput>
-    where?: CommunityPostWhereInput
+  export type CommunityReplyCreateWithoutLikesListInput = {
+    id: string
+    content: string
+    isExpert?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+    likes?: number
+    author: UserCreateNestedOneWithoutCommunityReply_CommunityReply_authorToUserInput
+    post: CommunityPostCreateNestedOneWithoutRepliesInput
+    replyTo?: CommunityReplyCreateNestedOneWithoutRepliesInput
+    replies?: CommunityReplyCreateNestedManyWithoutReplyToInput
   }
 
-  export type CommunityPostUpdateToOneWithWhereWithoutLikesListInput = {
-    where?: CommunityPostWhereInput
-    data: XOR<CommunityPostUpdateWithoutLikesListInput, CommunityPostUncheckedUpdateWithoutLikesListInput>
+  export type CommunityReplyUncheckedCreateWithoutLikesListInput = {
+    id: string
+    postId: string
+    authorId: string
+    content: string
+    isExpert?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+    likes?: number
+    replyToId?: string | null
+    replies?: CommunityReplyUncheckedCreateNestedManyWithoutReplyToInput
   }
 
-  export type CommunityPostUpdateWithoutLikesListInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
-    category?: StringFieldUpdateOperationsInput | string
-    crop?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    likes?: IntFieldUpdateOperationsInput | number
-    repliesCount?: IntFieldUpdateOperationsInput | number
-    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    author?: UserUpdateOneRequiredWithoutCommunityPost_CommunityPost_authorToUserNestedInput
-    replies?: CommunityReplyUpdateManyWithoutPostNestedInput
-  }
-
-  export type CommunityPostUncheckedUpdateWithoutLikesListInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    authorId?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
-    category?: StringFieldUpdateOperationsInput | string
-    crop?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    likes?: IntFieldUpdateOperationsInput | number
-    repliesCount?: IntFieldUpdateOperationsInput | number
-    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    replies?: CommunityReplyUncheckedUpdateManyWithoutPostNestedInput
+  export type CommunityReplyCreateOrConnectWithoutLikesListInput = {
+    where: CommunityReplyWhereUniqueInput
+    create: XOR<CommunityReplyCreateWithoutLikesListInput, CommunityReplyUncheckedCreateWithoutLikesListInput>
   }
 
   export type UserCreateWithoutCommunityReplyLike_userToUserInput = {
@@ -40036,8 +40147,12 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
     Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -40049,10 +40164,6 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommunityReplyLike_userToUserInput = {
@@ -40088,8 +40199,12 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
+    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_submittedByToUserInput
     Message_Message_receiverIdToUser?: MessageUncheckedCreateNestedManyWithoutUser_Message_receiverIdToUserInput
@@ -40100,10 +40215,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
-    ExpertProfile?: ExpertProfileUncheckedCreateNestedOneWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommunityReplyLike_userToUserInput = {
@@ -40111,35 +40222,41 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutCommunityReplyLike_userToUserInput, UserUncheckedCreateWithoutCommunityReplyLike_userToUserInput>
   }
 
-  export type CommunityReplyCreateWithoutLikesListInput = {
-    id: string
-    content: string
-    isExpert?: boolean
-    likes?: number
-    createdAt?: Date | string
-    updatedAt: Date | string
-    post: CommunityPostCreateNestedOneWithoutRepliesInput
-    author: UserCreateNestedOneWithoutCommunityReply_CommunityReply_authorToUserInput
-    replyTo?: CommunityReplyCreateNestedOneWithoutRepliesInput
-    replies?: CommunityReplyCreateNestedManyWithoutReplyToInput
-  }
-
-  export type CommunityReplyUncheckedCreateWithoutLikesListInput = {
-    id: string
-    postId: string
-    authorId: string
-    content: string
-    isExpert?: boolean
-    replyToId?: string | null
-    likes?: number
-    createdAt?: Date | string
-    updatedAt: Date | string
-    replies?: CommunityReplyUncheckedCreateNestedManyWithoutReplyToInput
-  }
-
-  export type CommunityReplyCreateOrConnectWithoutLikesListInput = {
-    where: CommunityReplyWhereUniqueInput
+  export type CommunityReplyUpsertWithoutLikesListInput = {
+    update: XOR<CommunityReplyUpdateWithoutLikesListInput, CommunityReplyUncheckedUpdateWithoutLikesListInput>
     create: XOR<CommunityReplyCreateWithoutLikesListInput, CommunityReplyUncheckedCreateWithoutLikesListInput>
+    where?: CommunityReplyWhereInput
+  }
+
+  export type CommunityReplyUpdateToOneWithWhereWithoutLikesListInput = {
+    where?: CommunityReplyWhereInput
+    data: XOR<CommunityReplyUpdateWithoutLikesListInput, CommunityReplyUncheckedUpdateWithoutLikesListInput>
+  }
+
+  export type CommunityReplyUpdateWithoutLikesListInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isExpert?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    likes?: IntFieldUpdateOperationsInput | number
+    author?: UserUpdateOneRequiredWithoutCommunityReply_CommunityReply_authorToUserNestedInput
+    post?: CommunityPostUpdateOneRequiredWithoutRepliesNestedInput
+    replyTo?: CommunityReplyUpdateOneWithoutRepliesNestedInput
+    replies?: CommunityReplyUpdateManyWithoutReplyToNestedInput
+  }
+
+  export type CommunityReplyUncheckedUpdateWithoutLikesListInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isExpert?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    likes?: IntFieldUpdateOperationsInput | number
+    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
+    replies?: CommunityReplyUncheckedUpdateManyWithoutReplyToNestedInput
   }
 
   export type UserUpsertWithoutCommunityReplyLike_userToUserInput = {
@@ -40185,8 +40302,12 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -40198,10 +40319,6 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommunityReplyLike_userToUserInput = {
@@ -40237,8 +40354,12 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -40249,47 +40370,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type CommunityReplyUpsertWithoutLikesListInput = {
-    update: XOR<CommunityReplyUpdateWithoutLikesListInput, CommunityReplyUncheckedUpdateWithoutLikesListInput>
-    create: XOR<CommunityReplyCreateWithoutLikesListInput, CommunityReplyUncheckedCreateWithoutLikesListInput>
-    where?: CommunityReplyWhereInput
-  }
-
-  export type CommunityReplyUpdateToOneWithWhereWithoutLikesListInput = {
-    where?: CommunityReplyWhereInput
-    data: XOR<CommunityReplyUpdateWithoutLikesListInput, CommunityReplyUncheckedUpdateWithoutLikesListInput>
-  }
-
-  export type CommunityReplyUpdateWithoutLikesListInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    isExpert?: BoolFieldUpdateOperationsInput | boolean
-    likes?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    post?: CommunityPostUpdateOneRequiredWithoutRepliesNestedInput
-    author?: UserUpdateOneRequiredWithoutCommunityReply_CommunityReply_authorToUserNestedInput
-    replyTo?: CommunityReplyUpdateOneWithoutRepliesNestedInput
-    replies?: CommunityReplyUpdateManyWithoutReplyToNestedInput
-  }
-
-  export type CommunityReplyUncheckedUpdateWithoutLikesListInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    postId?: StringFieldUpdateOperationsInput | string
-    authorId?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    isExpert?: BoolFieldUpdateOperationsInput | boolean
-    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
-    likes?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    replies?: CommunityReplyUncheckedUpdateManyWithoutReplyToNestedInput
   }
 
   export type UserCreateWithoutExpertProfileInput = {
@@ -40324,6 +40404,10 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
@@ -40337,10 +40421,6 @@ export namespace Prisma {
     Session?: SessionCreateNestedManyWithoutUserInput
     Role: RoleCreateNestedOneWithoutUserInput
     Permission?: PermissionCreateNestedManyWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutExpertProfileInput = {
@@ -40376,6 +40456,10 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedCreateNestedManyWithoutUserInput
     AlertNotification?: AlertNotificationUncheckedCreateNestedManyWithoutUserInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user1IdToUserInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedCreateNestedManyWithoutUser_Conversation_user2IdToUserInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedCreateNestedManyWithoutUser_MarketPrice_reviewedByToUserInput
@@ -40388,10 +40472,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedCreateNestedManyWithoutUser_Review_reviewerIdToUserInput
     Session?: SessionUncheckedCreateNestedManyWithoutUserInput
     Permission?: PermissionUncheckedCreateNestedManyWithoutUserInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedCreateNestedManyWithoutAuthorInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedCreateNestedManyWithoutUserInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutExpertProfileInput = {
@@ -40442,6 +40522,10 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
@@ -40455,10 +40539,6 @@ export namespace Prisma {
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutExpertProfileInput = {
@@ -40494,6 +40574,10 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
@@ -40506,10 +40590,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MessageCreateManyConversation_Message_conversationIdToConversationInput = {
@@ -40713,8 +40793,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -40725,11 +40810,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUpdateManyWithoutUserNestedInput
     Role?: RoleUpdateOneRequiredWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPermissionInput = {
@@ -40765,8 +40845,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -40776,11 +40861,6 @@ export namespace Prisma {
     Review_Review_reviewedIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewedIdToUserNestedInput
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutPermissionInput = {
@@ -41110,8 +41190,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -41122,11 +41207,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUpdateManyWithoutUserNestedInput
     Permission?: PermissionUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoleInput = {
@@ -41161,8 +41241,13 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     AdminActionLog?: AdminActionLogUncheckedUpdateManyWithoutUserNestedInput
     AlertNotification?: AlertNotificationUncheckedUpdateManyWithoutUserNestedInput
+    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
+    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
+    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
     Conversation_Conversation_user1IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user1IdToUserNestedInput
     Conversation_Conversation_user2IdToUser?: ConversationUncheckedUpdateManyWithoutUser_Conversation_user2IdToUserNestedInput
+    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
     MarketPrice_MarketPrice_reviewedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_reviewedByToUserNestedInput
     MarketPrice_MarketPrice_submittedByToUser?: MarketPriceUncheckedUpdateManyWithoutUser_MarketPrice_submittedByToUserNestedInput
     Message_Message_receiverIdToUser?: MessageUncheckedUpdateManyWithoutUser_Message_receiverIdToUserNestedInput
@@ -41173,11 +41258,6 @@ export namespace Prisma {
     Review_Review_reviewerIdToUser?: ReviewUncheckedUpdateManyWithoutUser_Review_reviewerIdToUserNestedInput
     Session?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Permission?: PermissionUncheckedUpdateManyWithoutUserNestedInput
-    ExpertProfile?: ExpertProfileUncheckedUpdateOneWithoutUserNestedInput
-    CommunityPost_CommunityPost_authorToUser?: CommunityPostUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityReply_CommunityReply_authorToUser?: CommunityReplyUncheckedUpdateManyWithoutAuthorNestedInput
-    CommunityPostLike_userToUser?: CommunityPostLikeUncheckedUpdateManyWithoutUserNestedInput
-    CommunityReplyLike_userToUser?: CommunityReplyLikeUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutRoleInput = {
@@ -41256,6 +41336,44 @@ export namespace Prisma {
     sentAt?: Date | string | null
     readAt?: Date | string | null
     dismissedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type CommunityPostCreateManyAuthorInput = {
+    id: string
+    title: string
+    content: string
+    type?: $Enums.CommunityPostType
+    category: string
+    crop?: string | null
+    location?: string | null
+    likes?: number
+    repliesCount?: number
+    status?: $Enums.CommunityPostStatus
+    createdAt?: Date | string
+    updatedAt: Date | string
+    isPrivateQuestion?: boolean
+    targetExpertId?: string | null
+  }
+
+  export type CommunityPostLikeCreateManyUserInput = {
+    postId: string
+    createdAt?: Date | string
+  }
+
+  export type CommunityReplyCreateManyAuthorInput = {
+    id: string
+    postId: string
+    content: string
+    isExpert?: boolean
+    createdAt?: Date | string
+    updatedAt: Date | string
+    likes?: number
+    replyToId?: string | null
+  }
+
+  export type CommunityReplyLikeCreateManyUserInput = {
+    replyId: string
     createdAt?: Date | string
   }
 
@@ -41438,42 +41556,6 @@ export namespace Prisma {
     expiresAt: Date | string
   }
 
-  export type CommunityPostCreateManyAuthorInput = {
-    id: string
-    title: string
-    content: string
-    type?: $Enums.CommunityPostType
-    category: string
-    crop: string
-    location?: string | null
-    likes?: number
-    repliesCount?: number
-    status?: $Enums.CommunityPostStatus
-    createdAt?: Date | string
-    updatedAt: Date | string
-  }
-
-  export type CommunityReplyCreateManyAuthorInput = {
-    id: string
-    postId: string
-    content: string
-    isExpert?: boolean
-    replyToId?: string | null
-    likes?: number
-    createdAt?: Date | string
-    updatedAt: Date | string
-  }
-
-  export type CommunityPostLikeCreateManyUserInput = {
-    postId: string
-    createdAt?: Date | string
-  }
-
-  export type CommunityReplyLikeCreateManyUserInput = {
-    replyId: string
-    createdAt?: Date | string
-  }
-
   export type AdminActionLogUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     action?: StringFieldUpdateOperationsInput | string
@@ -41552,6 +41634,128 @@ export namespace Prisma {
     sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     dismissedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityPostUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
+    category?: StringFieldUpdateOperationsInput | string
+    crop?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    likes?: IntFieldUpdateOperationsInput | number
+    repliesCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPrivateQuestion?: BoolFieldUpdateOperationsInput | boolean
+    targetExpertId?: NullableStringFieldUpdateOperationsInput | string | null
+    likesList?: CommunityPostLikeUpdateManyWithoutPostNestedInput
+    replies?: CommunityReplyUpdateManyWithoutPostNestedInput
+  }
+
+  export type CommunityPostUncheckedUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
+    category?: StringFieldUpdateOperationsInput | string
+    crop?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    likes?: IntFieldUpdateOperationsInput | number
+    repliesCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPrivateQuestion?: BoolFieldUpdateOperationsInput | boolean
+    targetExpertId?: NullableStringFieldUpdateOperationsInput | string | null
+    likesList?: CommunityPostLikeUncheckedUpdateManyWithoutPostNestedInput
+    replies?: CommunityReplyUncheckedUpdateManyWithoutPostNestedInput
+  }
+
+  export type CommunityPostUncheckedUpdateManyWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
+    category?: StringFieldUpdateOperationsInput | string
+    crop?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    likes?: IntFieldUpdateOperationsInput | number
+    repliesCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isPrivateQuestion?: BoolFieldUpdateOperationsInput | boolean
+    targetExpertId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CommunityPostLikeUpdateWithoutUserInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    post?: CommunityPostUpdateOneRequiredWithoutLikesListNestedInput
+  }
+
+  export type CommunityPostLikeUncheckedUpdateWithoutUserInput = {
+    postId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityPostLikeUncheckedUpdateManyWithoutUserInput = {
+    postId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityReplyUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isExpert?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    likes?: IntFieldUpdateOperationsInput | number
+    post?: CommunityPostUpdateOneRequiredWithoutRepliesNestedInput
+    replyTo?: CommunityReplyUpdateOneWithoutRepliesNestedInput
+    replies?: CommunityReplyUpdateManyWithoutReplyToNestedInput
+    likesList?: CommunityReplyLikeUpdateManyWithoutReplyNestedInput
+  }
+
+  export type CommunityReplyUncheckedUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isExpert?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    likes?: IntFieldUpdateOperationsInput | number
+    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
+    replies?: CommunityReplyUncheckedUpdateManyWithoutReplyToNestedInput
+    likesList?: CommunityReplyLikeUncheckedUpdateManyWithoutReplyNestedInput
+  }
+
+  export type CommunityReplyUncheckedUpdateManyWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isExpert?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    likes?: IntFieldUpdateOperationsInput | number
+    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CommunityReplyLikeUpdateWithoutUserInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reply?: CommunityReplyUpdateOneRequiredWithoutLikesListNestedInput
+  }
+
+  export type CommunityReplyLikeUncheckedUpdateWithoutUserInput = {
+    replyId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityReplyLikeUncheckedUpdateManyWithoutUserInput = {
+    replyId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -42132,120 +42336,9 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type CommunityPostUpdateWithoutAuthorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
-    category?: StringFieldUpdateOperationsInput | string
-    crop?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    likes?: IntFieldUpdateOperationsInput | number
-    repliesCount?: IntFieldUpdateOperationsInput | number
-    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    replies?: CommunityReplyUpdateManyWithoutPostNestedInput
-    likesList?: CommunityPostLikeUpdateManyWithoutPostNestedInput
-  }
-
-  export type CommunityPostUncheckedUpdateWithoutAuthorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
-    category?: StringFieldUpdateOperationsInput | string
-    crop?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    likes?: IntFieldUpdateOperationsInput | number
-    repliesCount?: IntFieldUpdateOperationsInput | number
-    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    replies?: CommunityReplyUncheckedUpdateManyWithoutPostNestedInput
-    likesList?: CommunityPostLikeUncheckedUpdateManyWithoutPostNestedInput
-  }
-
-  export type CommunityPostUncheckedUpdateManyWithoutAuthorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    type?: EnumCommunityPostTypeFieldUpdateOperationsInput | $Enums.CommunityPostType
-    category?: StringFieldUpdateOperationsInput | string
-    crop?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
-    likes?: IntFieldUpdateOperationsInput | number
-    repliesCount?: IntFieldUpdateOperationsInput | number
-    status?: EnumCommunityPostStatusFieldUpdateOperationsInput | $Enums.CommunityPostStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type CommunityReplyUpdateWithoutAuthorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    isExpert?: BoolFieldUpdateOperationsInput | boolean
-    likes?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    post?: CommunityPostUpdateOneRequiredWithoutRepliesNestedInput
-    replyTo?: CommunityReplyUpdateOneWithoutRepliesNestedInput
-    replies?: CommunityReplyUpdateManyWithoutReplyToNestedInput
-    likesList?: CommunityReplyLikeUpdateManyWithoutReplyNestedInput
-  }
-
-  export type CommunityReplyUncheckedUpdateWithoutAuthorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    postId?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    isExpert?: BoolFieldUpdateOperationsInput | boolean
-    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
-    likes?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    replies?: CommunityReplyUncheckedUpdateManyWithoutReplyToNestedInput
-    likesList?: CommunityReplyLikeUncheckedUpdateManyWithoutReplyNestedInput
-  }
-
-  export type CommunityReplyUncheckedUpdateManyWithoutAuthorInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    postId?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    isExpert?: BoolFieldUpdateOperationsInput | boolean
-    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
-    likes?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type CommunityPostLikeUpdateWithoutUserInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    post?: CommunityPostUpdateOneRequiredWithoutLikesListNestedInput
-  }
-
-  export type CommunityPostLikeUncheckedUpdateWithoutUserInput = {
-    postId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type CommunityPostLikeUncheckedUpdateManyWithoutUserInput = {
-    postId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type CommunityReplyLikeUpdateWithoutUserInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reply?: CommunityReplyUpdateOneRequiredWithoutLikesListNestedInput
-  }
-
-  export type CommunityReplyLikeUncheckedUpdateWithoutUserInput = {
-    replyId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type CommunityReplyLikeUncheckedUpdateManyWithoutUserInput = {
-    replyId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type CommunityPostLikeCreateManyPostInput = {
+    userId: string
+    createdAt?: Date | string
   }
 
   export type CommunityReplyCreateManyPostInput = {
@@ -42253,52 +42346,10 @@ export namespace Prisma {
     authorId: string
     content: string
     isExpert?: boolean
-    replyToId?: string | null
-    likes?: number
     createdAt?: Date | string
     updatedAt: Date | string
-  }
-
-  export type CommunityPostLikeCreateManyPostInput = {
-    userId: string
-    createdAt?: Date | string
-  }
-
-  export type CommunityReplyUpdateWithoutPostInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    isExpert?: BoolFieldUpdateOperationsInput | boolean
-    likes?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    author?: UserUpdateOneRequiredWithoutCommunityReply_CommunityReply_authorToUserNestedInput
-    replyTo?: CommunityReplyUpdateOneWithoutRepliesNestedInput
-    replies?: CommunityReplyUpdateManyWithoutReplyToNestedInput
-    likesList?: CommunityReplyLikeUpdateManyWithoutReplyNestedInput
-  }
-
-  export type CommunityReplyUncheckedUpdateWithoutPostInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    authorId?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    isExpert?: BoolFieldUpdateOperationsInput | boolean
-    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
-    likes?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    replies?: CommunityReplyUncheckedUpdateManyWithoutReplyToNestedInput
-    likesList?: CommunityReplyLikeUncheckedUpdateManyWithoutReplyNestedInput
-  }
-
-  export type CommunityReplyUncheckedUpdateManyWithoutPostInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    authorId?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    isExpert?: BoolFieldUpdateOperationsInput | boolean
-    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
-    likes?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    likes?: number
+    replyToId?: string | null
   }
 
   export type CommunityPostLikeUpdateWithoutPostInput = {
@@ -42316,15 +42367,52 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CommunityReplyUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isExpert?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    likes?: IntFieldUpdateOperationsInput | number
+    author?: UserUpdateOneRequiredWithoutCommunityReply_CommunityReply_authorToUserNestedInput
+    replyTo?: CommunityReplyUpdateOneWithoutRepliesNestedInput
+    replies?: CommunityReplyUpdateManyWithoutReplyToNestedInput
+    likesList?: CommunityReplyLikeUpdateManyWithoutReplyNestedInput
+  }
+
+  export type CommunityReplyUncheckedUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isExpert?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    likes?: IntFieldUpdateOperationsInput | number
+    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
+    replies?: CommunityReplyUncheckedUpdateManyWithoutReplyToNestedInput
+    likesList?: CommunityReplyLikeUncheckedUpdateManyWithoutReplyNestedInput
+  }
+
+  export type CommunityReplyUncheckedUpdateManyWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    isExpert?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    likes?: IntFieldUpdateOperationsInput | number
+    replyToId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type CommunityReplyCreateManyReplyToInput = {
     id: string
     postId: string
     authorId: string
     content: string
     isExpert?: boolean
-    likes?: number
     createdAt?: Date | string
     updatedAt: Date | string
+    likes?: number
   }
 
   export type CommunityReplyLikeCreateManyReplyInput = {
@@ -42336,11 +42424,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     isExpert?: BoolFieldUpdateOperationsInput | boolean
-    likes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    post?: CommunityPostUpdateOneRequiredWithoutRepliesNestedInput
+    likes?: IntFieldUpdateOperationsInput | number
     author?: UserUpdateOneRequiredWithoutCommunityReply_CommunityReply_authorToUserNestedInput
+    post?: CommunityPostUpdateOneRequiredWithoutRepliesNestedInput
     replies?: CommunityReplyUpdateManyWithoutReplyToNestedInput
     likesList?: CommunityReplyLikeUpdateManyWithoutReplyNestedInput
   }
@@ -42351,9 +42439,9 @@ export namespace Prisma {
     authorId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     isExpert?: BoolFieldUpdateOperationsInput | boolean
-    likes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    likes?: IntFieldUpdateOperationsInput | number
     replies?: CommunityReplyUncheckedUpdateManyWithoutReplyToNestedInput
     likesList?: CommunityReplyLikeUncheckedUpdateManyWithoutReplyNestedInput
   }
@@ -42364,9 +42452,9 @@ export namespace Prisma {
     authorId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     isExpert?: BoolFieldUpdateOperationsInput | boolean
-    likes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    likes?: IntFieldUpdateOperationsInput | number
   }
 
   export type CommunityReplyLikeUpdateWithoutReplyInput = {

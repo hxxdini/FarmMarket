@@ -72,6 +72,15 @@ AIRTEL_MONEY_API_KEY="your-airtel-api-key-here"
    ```bash
    npx prisma generate
    ```
+5. **Set up admin roles and users**:
+   ```bash
+   npm run setup-db
+   ```
+   This will create:
+   - User roles (user, farmer, buyer, expert, admin, superadmin)
+   - Admin user: admin@farmermarket.com / admin123
+   - Superadmin user: superadmin@farmermarket.com / superadmin123
+   - Sample user: user@farmermarket.com / user123
 
 ## Running the Application
 
@@ -133,3 +142,24 @@ AIRTEL_MONEY_API_KEY="your-airtel-api-key-here"
 - Review the browser's Network tab for API failures
 - Check the terminal for server-side errors
 - Ensure all environment variables are properly set
+
+### Admin Access Issues
+
+If you're getting "Access denied. Admin privileges required" when trying to access `/admin`:
+
+1. **Ensure admin roles are created**:
+   ```bash
+   npm run setup-db
+   ```
+
+2. **Check if admin user exists**:
+   - Try logging in with: admin@farmermarket.com / admin123
+   - Or: superadmin@farmermarket.com / superadmin123
+
+3. **Verify database connection**:
+   - Check that migrations ran successfully
+   - Ensure the database contains the Role and User tables
+
+4. **Check user role assignment**:
+   - Verify the user has `roleId` pointing to an admin role
+   - Ensure the Role table has entries with names 'admin' or 'superadmin'

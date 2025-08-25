@@ -291,3 +291,189 @@ export async function GET(
     )
   }
 }
+
+// DELETE /api/admin/users/[id] - Delete a user
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const session = await getServerSession(authOptions)
+    
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    // Check if user is admin
+    const adminUser = await prisma.user.findUnique({
+      where: { email: session.user.email },
+      include: { Role: true }
+    })
+
+    if (adminUser?.Role.name !== 'admin' && adminUser?.Role.name !== 'superadmin') {
+      return NextResponse.json({ error: 'Access denied. Admin privileges required.' }, { status: 403 })
+    }
+
+    const { id } = await params
+
+    // Get the target user
+    const targetUser = await prisma.user.findUnique({
+      where: { id },
+      include: {
+        Role: { select: { name: true } }
+      }
+    })
+
+    if (!targetUser) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 })
+    }
+
+    // Prevent admin from deleting superadmin
+    if (targetUser.Role.name === 'superadmin' && adminUser.Role.name !== 'superadmin') {
+      return NextResponse.json({ error: 'Cannot delete superadmin accounts' }, { status: 403 })
+    }
+
+    // Prevent admin from deleting themselves
+    if (targetUser.id === adminUser.id) {
+      return NextResponse.json({ error: 'Cannot delete your own account' }, { status: 400 })
+    }
+
+    // Check if user has any active listings or important data
+    const userData = await prisma.user.findUnique({
+      where: { id },
+      include: {
+        ProductListing: {
+          where: { status: 'ACTIVE' },
+          select: { id: true }
+        },
+        Review_Review_reviewerIdToUser: {
+          select: { id: true }
+        },
+        Review_Review_reviewedIdToUser: {
+          select: { id: true }
+        },
+        CommunityPost_CommunityPost_authorToUser: {
+          select: { id: true }
+        },
+        CommunityReply_CommunityReply_authorToUser: {
+          select: { id: true }
+        },
+        PriceAlert: {
+          select: { id: true }
+        },
+        MarketPrice_MarketPrice_submittedByToUser: {
+          select: { id: true }
+        }
+      }
+    })
+
+    if (!userData) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 })
+    }
+
+    // Log the deletion attempt
+    await prisma.adminActionLog.create({
+      data: {
+        id: `log_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        adminId: adminUser.id,
+        action: 'USER_DELETE',
+        targetType: 'USER',
+        targetId: id,
+        details: {
+          userId: id,
+          userEmail: targetUser.email,
+          userName: targetUser.name,
+          userRole: targetUser.Role.name,
+          adminEmail: session.user.email,
+          hasActiveListings: userData.ProductListing.length > 0,
+          hasReviews: userData.Review_Review_reviewerIdToUser.length > 0 || userData.Review_Review_reviewedIdToUser.length > 0,
+          hasCommunityPosts: userData.CommunityPost_CommunityPost_authorToUser.length > 0,
+          hasPriceAlerts: userData.PriceAlert.length > 0,
+          hasMarketPrices: userData.MarketPrice_MarketPrice_submittedByToUser.length > 0
+        },
+        timestamp: new Date()
+      }
+    })
+
+    // Delete user and all related data
+    // Note: This will cascade delete related records based on Prisma schema
+    // But we need to manually handle relationships without cascade delete
+    
+    console.log(`Starting deletion process for user ${id}`)
+    
+    // First, handle Session model (no cascade delete)
+    console.log('Deleting user sessions...')
+    const deletedSessions = await prisma.session.deleteMany({
+      where: { userId: id }
+    })
+    console.log(`Deleted ${deletedSessions.count} sessions`)
+    
+    // Handle MarketPrice reviewedBy references (no cascade delete)
+    console.log('Updating market price reviews...')
+    const updatedMarketPrices = await prisma.marketPrice.updateMany({
+      where: { reviewedBy: id },
+      data: { reviewedBy: null }
+    })
+    console.log(`Updated ${updatedMarketPrices.count} market prices`)
+    
+    // Handle Permission relationships (many-to-many, no cascade delete)
+    console.log('Removing user permissions...')
+    await prisma.user.update({
+      where: { id },
+      data: {
+        Permission: {
+          set: [] // Remove all permissions
+        }
+      }
+    })
+    console.log('Permissions removed')
+    
+    // Now delete the user
+    console.log('Deleting user...')
+    await prisma.user.delete({
+      where: { id }
+    })
+    console.log('User deleted successfully')
+
+    return NextResponse.json({
+      message: 'User deleted successfully',
+      deletedUser: {
+        id: targetUser.id,
+        name: targetUser.name,
+        email: targetUser.email,
+        role: targetUser.Role.name
+      }
+    })
+  } catch (error) {
+    console.error('Error deleting user:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    
+    // Handle Prisma constraint errors
+    if (errorMessage.includes('Foreign key constraint failed')) {
+      return NextResponse.json(
+        { error: 'Cannot delete user due to existing references. Please remove all related data first.' },
+        { status: 400 }
+      )
+    }
+    
+    // Handle specific Prisma errors
+    if (errorMessage.includes('Record to delete does not exist')) {
+      return NextResponse.json(
+        { error: 'User not found or already deleted' },
+        { status: 404 }
+      )
+    }
+    
+    if (errorMessage.includes('Unique constraint failed')) {
+      return NextResponse.json(
+        { error: 'Cannot delete user due to unique constraint violation' },
+        { status: 400 }
+      )
+    }
+    
+    return NextResponse.json(
+      { error: 'Failed to delete user', details: errorMessage },
+      { status: 500 }
+    )
+  }
+}
